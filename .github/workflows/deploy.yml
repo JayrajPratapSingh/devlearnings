@@ -49,6 +49,10 @@ jobs:
 
   deploy:
     needs: build
+    # Stays skipped (Actions stays green) until you set the repo variable
+    # DEPLOY_ENABLED = true — do that in step 6 of DEPLOYMENT.md, once the
+    # server exists and the SSH secrets are added.
+    if: vars.DEPLOY_ENABLED == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Lowercase owner

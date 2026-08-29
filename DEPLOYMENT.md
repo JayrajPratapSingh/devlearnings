@@ -198,14 +198,25 @@ Open **http://YOUR_ELASTIC_IP** in a browser. You're live.
 
 ## 6. Wire up auto-deploy (5 min)
 
-In your GitHub repo → **Settings → Secrets and variables → Actions → New
-repository secret**, add:
+In your GitHub repo → **Settings → Secrets and variables → Actions**:
+
+Under **Secrets** → *New repository secret*:
 
 | Secret | Value |
 |---|---|
 | `SSH_HOST` | your Elastic IP |
 | `SSH_USER` | `ec2-user` |
 | `SSH_KEY` | the **entire contents** of `devprep-key.pem` (including the BEGIN/END lines) |
+
+Under **Variables** → *New repository variable*:
+
+| Variable | Value |
+|---|---|
+| `DEPLOY_ENABLED` | `true` |
+
+(Until `DEPLOY_ENABLED=true` exists, the deploy job stays **skipped** — so the
+Actions tab stays green while you're still setting up. The image-build job runs
+regardless, so your GHCR images are always current.)
 
 Now every push to `production`:
 
