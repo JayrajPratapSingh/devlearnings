@@ -1,11 +1,11 @@
 # Deployment
 
 DevPrep IDE, deployed as Docker containers on a single AWS EC2 instance, with
-**push-to-`main` auto-deploy** via GitHub Actions.
+**push-to-`production` auto-deploy** via GitHub Actions.
 
 ```
                           ┌─────────────────── EC2 (t3.micro, Docker) ───────────────────┐
-  git push main           │                                                              │
+  git push production           │                                                              │
       │                   │   caddy  ──/api/*──▶  server (Express)  ──▶  postgres        │
       ▼                   │     │                    ▲                     (volume)       │
   GitHub Actions          │     └──everything else──▶ client (nginx + static React)      │
@@ -85,17 +85,16 @@ remote machine.
 
 ## 2. Push to GitHub
 
+Already done — the repo is **`JayrajPratapSingh/devlearnings`**, branch
+**`production`**. From here on, every deploy is just:
+
 ```bash
-cd "D:/Personal Practices/NextJs/devprep-ide"
-git add -A
-git commit -m "Add Docker deployment setup"
-git remote add origin https://github.com/YOUR-USERNAME/devprep-ide.git
-git push -u origin main
+git add -A && git commit -m "..." && git push
 ```
 
-Pushing triggers `.github/workflows/ci.yml` (typecheck + build) and
-`.github/workflows/deploy.yml`. The **deploy job will fail** for now — it has no
-server to SSH into yet. That's expected; step 6 fixes it.
+Pushing to `production` triggers `.github/workflows/ci.yml` (typecheck + build)
+and `.github/workflows/deploy.yml`. The **deploy job fails until step 6** (no
+server to SSH into yet) — that's expected.
 
 ---
 
@@ -145,8 +144,8 @@ ssh -i ~/Downloads/devprep-key.pem ec2-user@YOUR_ELASTIC_IP
 On the server, run the setup script (installs Docker, adds swap, clones the repo):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/YOUR-USERNAME/devprep-ide/main/deploy/ec2-setup.sh \
-  | bash -s -- https://github.com/YOUR-USERNAME/devprep-ide.git
+curl -fsSL https://raw.githubusercontent.com/JayrajPratapSingh/devlearnings/production/deploy/ec2-setup.sh \
+  | bash -s -- https://github.com/JayrajPratapSingh/devlearnings.git
 ```
 
 Then **log out and back in** (`exit`, then SSH again) so the `docker` group applies.
@@ -208,7 +207,7 @@ repository secret**, add:
 | `SSH_USER` | `ec2-user` |
 | `SSH_KEY` | the **entire contents** of `devprep-key.pem` (including the BEGIN/END lines) |
 
-Now every push to `main`:
+Now every push to `production`:
 
 1. CI typechecks and builds all three workspaces
 2. `deploy.yml` builds the `server` + `client` images and pushes them to GHCR

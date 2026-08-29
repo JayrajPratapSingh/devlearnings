@@ -23,6 +23,6 @@ export interface SeedCategory {
   name: string;
   description: string;
   icon: string;
-  group: 'core' | 'backend' | 'data' | 'practice';
+  group: 'core' | 'backend' | 'data' | 'practice' | 'web-dev';
   topics: SeedTopic[];
 }

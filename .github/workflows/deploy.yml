@@ -1,9 +1,9 @@
 name: Deploy
 
-# Push to main -> build images -> push to GHCR -> pull + restart on the server.
+# Push to production -> build images -> push to GHCR -> pull + restart on the server.
 on:
   push:
-    branches: [main]
+    branches: [production]
   workflow_dispatch: {}
 
 concurrency:
@@ -64,7 +64,7 @@ jobs:
           script: |
             set -e
             cd /opt/devprep
-            git pull --ff-only
+            git pull --ff-only origin production
             OWNER="${{ steps.owner.outputs.value }}"
             SHA="${{ github.sha }}"
             export SERVER_IMAGE="ghcr.io/$OWNER/devprep-server:$SHA"
