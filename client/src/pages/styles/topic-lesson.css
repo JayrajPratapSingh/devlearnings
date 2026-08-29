@@ -1,0 +1,950 @@
+/* Lesson page — long-form reading, so the layout is a single narrow column. */
+
+.lesson-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+  color: #e2e8f0;
+}
+
+.lesson-page.state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  min-height: 60vh;
+  text-align: center;
+}
+
+.spinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid rgba(245, 158, 11, 0.2);
+  border-top-color: #f59e0b;
+  border-radius: 50%;
+  animation: lesson-spin 0.8s linear infinite;
+}
+
+@keyframes lesson-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Header ──────────────────────────────────────────────────── */
+
+.lesson-header {
+  border-left: 4px solid #f59e0b;
+  padding: 0 0 1.5rem 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+.crumbs a {
+  color: #94a3b8;
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: #f59e0b;
+  text-decoration: underline;
+}
+
+.crumb-current {
+  color: #cbd5e1;
+}
+
+.lesson-header h1 {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+  color: #f8fafc;
+}
+
+.lesson-sub {
+  color: #94a3b8;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+}
+
+.lesson-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.pill {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #0f172a;
+  background: #64748b;
+}
+
+.pill.muted {
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.pill[data-difficulty='EASY'] {
+  background: #10b981;
+}
+.pill[data-difficulty='MEDIUM'] {
+  background: #f59e0b;
+}
+.pill[data-difficulty='HARD'] {
+  background: #ef4444;
+  color: #fff;
+}
+
+.lesson-progress {
+  height: 4px;
+  background: rgba(148, 163, 184, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.lesson-progress .bar {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b, #f97316);
+  transition: width 0.3s ease;
+}
+
+/* ── Analogy card — the hook ──────────────────────────────────── */
+
+.analogy-card {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(249, 115, 22, 0.06));
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.analogy-icon {
+  font-size: 1.6rem;
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.analogy-body {
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.analogy-body p {
+  margin: 0;
+}
+
+/* ── Collapsible sections ─────────────────────────────────────── */
+
+.lesson-section {
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 12px;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.4);
+}
+
+.section-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: background 0.2s ease;
+}
+
+.section-head:hover {
+  background: rgba(245, 158, 11, 0.06);
+}
+
+.section-icon {
+  font-size: 1.15rem;
+}
+
+.section-head h2 {
+  flex: 1;
+  font-size: 1.05rem;
+  font-weight: 650;
+  margin: 0;
+  color: #f1f5f9;
+}
+
+.chevron {
+  color: #f59e0b;
+  font-size: 0.85rem;
+  transition: transform 0.2s ease;
+}
+
+.chevron.open {
+  transform: rotate(180deg);
+}
+
+.section-body {
+  padding: 0 1.25rem 1.5rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.1);
+  padding-top: 1.25rem;
+  line-height: 1.7;
+}
+
+/* Markdown output inside a section. */
+.section-body h2,
+.section-body h3 {
+  color: #f1f5f9;
+  margin: 1.5rem 0 0.6rem;
+  font-size: 1rem;
+}
+
+.section-body h2:first-child,
+.section-body h3:first-child {
+  margin-top: 0;
+}
+
+.section-body p {
+  margin: 0 0 0.9rem;
+}
+
+.section-body ul,
+.section-body ol {
+  margin: 0 0 0.9rem;
+  padding-left: 1.4rem;
+}
+
+.section-body li {
+  margin-bottom: 0.4rem;
+}
+
+.section-body code {
+  background: rgba(148, 163, 184, 0.15);
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  color: #fbbf24;
+}
+
+.section-body pre {
+  overflow-x: auto;
+}
+
+.section-body pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.section-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  display: block;
+  overflow-x: auto;
+}
+
+.section-body th,
+.section-body td {
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.section-body th {
+  background: rgba(245, 158, 11, 0.1);
+  color: #fbbf24;
+  font-weight: 650;
+  white-space: nowrap;
+}
+
+/* ── Code + output blocks ─────────────────────────────────────── */
+
+.code-block {
+  background: #0b1220;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0 0 0.75rem;
+  overflow-x: auto;
+}
+
+.code-block code {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.855rem;
+  line-height: 1.65;
+  color: #e2e8f0;
+  white-space: pre;
+  background: none;
+  padding: 0;
+}
+
+.output-block {
+  background: rgba(16, 185, 129, 0.07);
+  border-left: 3px solid #10b981;
+  border-radius: 0 6px 6px 0;
+  padding: 0.65rem 1rem;
+  margin-bottom: 0.75rem;
+  overflow-x: auto;
+}
+
+.output-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #10b981;
+  margin-bottom: 0.35rem;
+}
+
+.output-block pre {
+  margin: 0;
+}
+
+.output-block code {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: #6ee7b7;
+  white-space: pre;
+  background: none;
+  padding: 0;
+}
+
+/* ── Live previews ────────────────────────────────────────────────
+   CSS and HTML lessons render a real result rather than describing it.
+   The frame gets a light background regardless of the app theme, because
+   the demos are authored against a normal white page.                    */
+
+.preview {
+  margin: 0 0 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.preview-label {
+  display: block;
+  padding: 0.4rem 0.75rem;
+  background: rgba(139, 92, 246, 0.12);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #a78bfa;
+}
+
+.preview-frame {
+  display: block;
+  width: 100%;
+  border: 0;
+  background: #fff;
+}
+
+/* Inside a wrong/right pair the frames are narrower, so shrink the chrome. */
+.mistake-col .preview {
+  margin-top: 0.6rem;
+  margin-bottom: 0;
+}
+
+.mistake-col .preview-label {
+  padding: 0.3rem 0.6rem;
+  font-size: 0.62rem;
+}
+
+.mistake-col.wrong .preview-label {
+  background: rgba(239, 68, 68, 0.14);
+  color: #fca5a5;
+}
+
+.mistake-col.right .preview-label {
+  background: rgba(16, 185, 129, 0.14);
+  color: #6ee7b7;
+}
+
+/* ── Worked examples ──────────────────────────────────────────── */
+
+.examples {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.lang-toggle {
+  display: inline-flex;
+  gap: 0.2rem;
+  padding: 0.2rem;
+  margin-bottom: 1.1rem;
+  background: rgba(148, 163, 184, 0.1);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 999px;
+}
+
+.lang-toggle-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.lang-toggle-btn:hover {
+  color: #e2e8f0;
+}
+
+.lang-toggle-btn.active {
+  background: #f59e0b;
+  color: #0f172a;
+}
+
+.example-lang-pill {
+  flex-shrink: 0;
+  margin-left: auto;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fbbf24;
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.example {
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+  padding-top: 1.25rem;
+}
+
+.example:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.example-head {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 0.85rem;
+}
+
+.example-num {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f59e0b;
+  color: #0f172a;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.example-head h3 {
+  margin: 0;
+  font-size: 0.98rem;
+  font-weight: 650;
+  color: #f1f5f9;
+}
+
+.example-explain,
+.mistake-why {
+  color: #94a3b8;
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+
+/* Markdown wraps its output in <p>; the container owns the spacing. */
+.example-explain p,
+.mistake-why p,
+.exercise-task p,
+.hint-body p,
+.qa-a p:last-child {
+  margin: 0;
+}
+
+.example-explain code,
+.mistake-why code,
+.exercise-task code,
+.hint-body code {
+  background: rgba(148, 163, 184, 0.15);
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  color: #fbbf24;
+}
+
+/* ── Common mistakes ──────────────────────────────────────────── */
+
+.mistakes {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.mistake-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.mistake-col {
+  border-radius: 8px;
+  padding: 0.85rem;
+  overflow-x: auto;
+}
+
+.mistake-col.wrong {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.mistake-col.right {
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+}
+
+.mistake-col .tag {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.mistake-col.wrong .tag {
+  color: #f87171;
+}
+
+.mistake-col.right .tag {
+  color: #34d399;
+}
+
+.mistake-col pre {
+  margin: 0;
+}
+
+.mistake-col code {
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  background: none;
+  padding: 0;
+}
+
+
+/* ── Real world ───────────────────────────────────────────────── */
+
+.real-world {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.real-item {
+  background: rgba(59, 130, 246, 0.07);
+  border-left: 3px solid #3b82f6;
+  border-radius: 0 8px 8px 0;
+  padding: 0.85rem 1.1rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.real-item p {
+  margin: 0;
+}
+
+/* ── Interview Q&A ────────────────────────────────────────────── */
+
+.qa-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.qa {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.qa.open {
+  border-color: rgba(139, 92, 246, 0.45);
+}
+
+.qa-q {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: background 0.2s ease;
+}
+
+.qa-q:hover {
+  background: rgba(139, 92, 246, 0.07);
+}
+
+.qa-badge {
+  flex-shrink: 0;
+  padding: 0.15rem 0.5rem;
+  border-radius: 5px;
+  background: rgba(139, 92, 246, 0.2);
+  color: #c4b5fd;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+}
+
+.qa-text {
+  flex: 1;
+  font-size: 0.96rem;
+  font-weight: 550;
+  line-height: 1.5;
+  color: #f1f5f9;
+}
+
+.qa-text p {
+  margin: 0;
+}
+
+.qa-text code,
+.qa-a code {
+  background: rgba(148, 163, 184, 0.15);
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+  font-size: 0.88em;
+  color: #fbbf24;
+}
+
+.qa-a pre code {
+  background: none;
+  padding: 0;
+  color: #e2e8f0;
+}
+
+.qa-a {
+  padding: 0 1rem 1rem 1rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+  padding-top: 0.9rem;
+}
+
+.qa-a p {
+  margin: 0 0 0.85rem;
+  color: #cbd5e1;
+  font-size: 0.94rem;
+  line-height: 1.7;
+}
+
+.qa-a .code-block {
+  margin-bottom: 0;
+}
+
+/* ── Exercises ────────────────────────────────────────────────── */
+
+.exercises {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.exercise {
+  background: rgba(148, 163, 184, 0.06);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+}
+
+.exercise-head {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 0.7rem;
+}
+
+.exercise-num {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.2);
+  color: #fbbf24;
+  font-size: 0.72rem;
+  font-weight: 800;
+}
+
+.exercise-task {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #e2e8f0;
+}
+
+.hint-btn {
+  background: none;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #fbbf24;
+  padding: 0.35rem 0.85rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.hint-btn:hover {
+  background: rgba(245, 158, 11, 0.12);
+}
+
+.hint-body {
+  margin-top: 0.7rem;
+  padding: 0.7rem 0.9rem;
+  background: rgba(245, 158, 11, 0.08);
+  border-left: 3px solid #f59e0b;
+  border-radius: 0 6px 6px 0;
+  font-size: 0.9rem;
+  line-height: 1.65;
+  color: #fde68a;
+}
+
+/* ── Key takeaways ────────────────────────────────────────────── */
+
+.takeaways {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 12px;
+  padding: 1.35rem 1.6rem;
+  margin: 2rem 0 1.5rem;
+}
+
+.takeaways h2 {
+  margin: 0 0 0.9rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #6ee7b7;
+}
+
+.takeaways ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.takeaways li {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #d1fae5;
+}
+
+.takeaways li p {
+  margin: 0;
+  display: inline;
+}
+
+/* ── Practice hand-off ────────────────────────────────────────── */
+
+.practice-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+  border-radius: 12px;
+  padding: 1.6rem 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.cta-text h2 {
+  margin: 0 0 0.3rem;
+  font-size: 1.2rem;
+  font-weight: 750;
+  color: #0f172a;
+}
+
+.cta-text p {
+  margin: 0;
+  color: rgba(15, 23, 42, 0.78);
+  font-size: 0.94rem;
+}
+
+.primary-btn {
+  background: #f59e0b;
+  color: #0f172a;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.primary-btn.large {
+  background: #0f172a;
+  color: #fbbf24;
+  padding: 0.9rem 1.6rem;
+  font-size: 1rem;
+}
+
+/* ── Prev / next ──────────────────────────────────────────────── */
+
+.lesson-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.nav-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 10px;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav-card:hover {
+  border-color: #f59e0b;
+  transform: translateY(-2px);
+}
+
+.nav-card.next {
+  text-align: right;
+}
+
+.nav-dir {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #f59e0b;
+}
+
+.nav-title {
+  font-size: 0.95rem;
+  font-weight: 550;
+  color: #e2e8f0;
+  line-height: 1.4;
+}
+
+/* ── Light theme ──────────────────────────────────────────────── */
+
+:global(.light) .lesson-page {
+  color: #1e293b;
+}
+
+:global(.light) .lesson-header h1,
+:global(.light) .section-head h2,
+:global(.light) .example-head h3,
+:global(.light) .qa-text {
+  color: #0f172a;
+}
+
+:global(.light) .lesson-section {
+  background: #fff;
+  border-color: #e2e8f0;
+}
+
+:global(.light) .nav-title,
+:global(.light) .exercise-task {
+  color: #1e293b;
+}
+
+:global(.light) .lang-toggle {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+:global(.light) .lang-toggle-btn {
+  color: #64748b;
+}
+
+:global(.light) .lang-toggle-btn:hover {
+  color: #1e293b;
+}
+
+:global(.light) .lang-toggle-btn.active {
+  color: #0f172a;
+}
+
+/* ── Small screens ────────────────────────────────────────────── */
+
+@media (max-width: 720px) {
+  .lesson-page {
+    padding: 1.25rem 1rem 3rem;
+  }
+
+  .mistake-pair {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-card.next {
+    text-align: left;
+  }
+
+  .practice-cta {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .primary-btn.large {
+    width: 100%;
+  }
+}

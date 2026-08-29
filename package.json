@@ -1,0 +1,39 @@
+{
+  "name": "devprep-ide",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A personal Full Stack interview preparation IDE — study, practise, run code, track progress.",
+  "workspaces": [
+    "server",
+    "client",
+    "execution-service"
+  ],
+  "scripts": {
+    "setup": "npm install && npm run db:up && npm run db:push && npm run seed",
+    "dev": "concurrently -n api,exec,web -c blue,magenta,green \"npm:dev:api\" \"npm:dev:exec\" \"npm:dev:web\"",
+    "dev:api": "npm --workspace @devprep/server run dev",
+    "dev:exec": "npm --workspace @devprep/execution-service run dev",
+    "dev:web": "npm --workspace @devprep/client run dev",
+    "build": "npm --workspace @devprep/server run build && npm --workspace @devprep/execution-service run build && npm --workspace @devprep/client run build",
+    "typecheck": "npm --workspace @devprep/server run typecheck && npm --workspace @devprep/execution-service run typecheck && npm --workspace @devprep/client run typecheck",
+    "db:local": "npm --workspace @devprep/server run db:local",
+    "db:local:reset": "npm --workspace @devprep/server run db:local:reset",
+    "db:up": "docker compose up -d postgres",
+    "db:down": "docker compose down",
+    "db:push": "npm --workspace @devprep/server run prisma:push",
+    "db:migrate": "npm --workspace @devprep/server run prisma:migrate",
+    "db:studio": "npm --workspace @devprep/server run prisma:studio",
+    "seed": "npm --workspace @devprep/server run seed",
+    "seed:verify": "npm --workspace @devprep/server run verify:seed",
+    "sandbox:build": "npm --workspace @devprep/execution-service run images:build",
+    "sandbox:up": "docker compose up -d execution-service",
+    "e2e": "node scripts/e2e.mjs",
+    "verify:tracks": "npm --workspace @devprep/server run verify:tracks"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

@@ -1,0 +1,59 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: devprep-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-devprep}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-devprep}
+      POSTGRES_DB: ${POSTGRES_DB:-devprep}
+    ports:
+      - '${POSTGRES_PORT:-5433}:5432'
+    volumes:
+      - devprep-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-devprep} -d ${POSTGRES_DB:-devprep}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Builds the two runtime images the sandbox launches per submission.
+  # It exits immediately — its only job is to make the images exist.
+  runner-images:
+    profiles: ['build-images']
+    image: docker:27-cli
+    container_name: devprep-runner-images
+    volumes:
+      - //var/run/docker.sock:/var/run/docker.sock
+      - ./execution-service/runners:/runners:ro
+    command: >
+      sh -c "docker build -t devprep-runner-node:1 /runners/node &&
+             docker build -t devprep-runner-python:1 /runners/python &&
+             echo 'Runner images ready.'"
+
+  execution-service:
+    build:
+      context: ./execution-service
+      dockerfile: Dockerfile
+    container_name: devprep-execution
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      EXECUTION_PORT: 4001
+      SANDBOX_DRIVER: docker
+      EXECUTION_SERVICE_TOKEN: ${EXECUTION_SERVICE_TOKEN:-dev-execution-token}
+      MAX_CONCURRENT_EXECUTIONS: ${MAX_CONCURRENT_EXECUTIONS:-4}
+      MEMORY_LIMIT_MB: ${MEMORY_LIMIT_MB:-256}
+      CPU_LIMIT: ${CPU_LIMIT:-0.5}
+      EXECUTION_TIMEOUT_MS: ${EXECUTION_TIMEOUT_MS:-5000}
+    ports:
+      - '${EXECUTION_PORT:-4001}:4001'
+    volumes:
+      # The service launches sibling containers via the host daemon rather than
+      # nesting Docker inside Docker. Submitted code never runs in THIS container,
+      # and the source file is copied in with `docker cp` — no host path is mounted
+      # into the sandbox, so this socket is the only host resource involved.
+      - //var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  devprep-pgdata:

@@ -1,0 +1,217 @@
+/**
+ * Type pairing, chosen rather than defaulted:
+ *
+ *  Bricolage Grotesque — page titles and the logo only. A grotesque with
+ *    genuinely odd terminals and a slight condensation; it gives the product a
+ *    face without ever being asked to carry body copy.
+ *  Geist — UI and body. Drawn for developer tooling, so it holds up at 13px in
+ *    dense tables where Inter starts to feel generic.
+ *  Geist Mono — code, numbers, keys. Pairs with Geist by construction, which
+ *    matters because half this app is monospace sitting next to prose.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /**
+   * Dark-first: this block is the dark palette, `.light` overrides it.
+   *
+   * The neutrals carry a slight violet-blue bias rather than being pure grey —
+   * a true neutral next to a saturated accent reads as unconsidered, and this
+   * ground is meant to feel like a screen, not paper.
+   *
+   * Two accents, deliberately separated:
+   *   --brand   drives actions and navigation
+   *   --accent  is for data only — charts, live values, visualiser highlights
+   * Keeping them apart stops "a number changed" from competing with "click me".
+   * The difficulty colours are semantic and belong to neither.
+   */
+  :root {
+    --surface: 10 12 17;
+    --surface-raised: 20 23 32;
+    --surface-sunken: 6 8 12;
+    --line: 38 42 56;
+    --content: 232 234 243;
+    --content-muted: 154 160 180;
+    --content-subtle: 110 116 136;
+    --brand: 124 92 255;
+    --brand-soft: 40 32 76;
+    --accent: 34 211 238;
+    --easy: 52 199 143;
+    --medium: 240 180 66;
+    --hard: 248 96 96;
+  }
+
+  :root.light {
+    --surface: 255 255 255;
+    --surface-raised: 250 250 253;
+    --surface-sunken: 243 243 249;
+    --line: 226 226 238;
+    --content: 20 20 32;
+    --content-muted: 92 96 118;
+    --content-subtle: 132 136 158;
+    /* Deepened so it still passes contrast on white — the dark violet would
+       not, and an accent that only works in one theme is a bug. */
+    --brand: 94 58 240;
+    --brand-soft: 236 232 254;
+    /* Cyan-700 rather than cyan-600: the lighter shade only reached 3.7:1 on
+       white, which is fine for a chart stroke but short of AA for a small label,
+       and this token ends up on both. */
+    --accent: 14 116 144;
+    --easy: 12 145 100;
+    --medium: 176 118 10;
+    --hard: 202 46 46;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-surface text-content font-sans antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04';
+  }
+
+  * {
+    @apply border-line;
+  }
+
+  ::selection {
+    @apply bg-brand/30;
+  }
+
+  /* Slim scrollbars — this is an IDE, not a document reader. */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-line;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-content-subtle;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand/70 ring-offset-2 ring-offset-surface;
+  }
+
+  /* Lenis drives scrolling itself; the browser must not also try to smooth it. */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+    /* Reveals must not leave content invisible when motion is off. */
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+}
+
+@layer components {
+  .card {
+    @apply rounded-xl border border-line bg-surface-raised;
+    /* Only transform and border animate — both compositor-friendly. Animating
+       box-shadow or height here would cost a repaint on every hover. */
+    transition:
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Scroll reveal. The class is added by the shared IntersectionObserver. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 520ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+  .reveal.is-revealed {
+    opacity: 1;
+    transform: none;
+    /* Dropped once the animation is done so the layer is released. */
+    will-change: auto;
+  }
+
+  /* Cards that are links get a small lift — the affordance says "clickable". */
+  a.card:hover,
+  .card-interactive:hover {
+    @apply border-content-subtle;
+    transform: translateY(-2px);
+  }
+
+  /* Buttons and rows respond immediately; slow feedback feels broken. */
+  button,
+  a {
+    transition:
+      background-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 160ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  button:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  .kbd {
+    @apply inline-flex h-5 min-w-[20px] items-center justify-center rounded border border-line
+           bg-surface px-1.5 font-mono text-[10px] font-medium text-content-muted;
+  }
+
+  /* Markdown rendered from topic content. */
+  .prose-devprep {
+    @apply text-[15px] leading-7 text-content-muted;
+  }
+  .prose-devprep h1,
+  .prose-devprep h2,
+  .prose-devprep h3 {
+    @apply mb-2 mt-6 font-semibold text-content;
+  }
+  .prose-devprep h1 { @apply text-xl; }
+  .prose-devprep h2 { @apply text-lg; }
+  .prose-devprep h3 { @apply text-base; }
+  .prose-devprep p { @apply my-3; }
+  .prose-devprep ul { @apply my-3 list-disc space-y-1.5 pl-5; }
+  .prose-devprep ol { @apply my-3 list-decimal space-y-1.5 pl-5; }
+  .prose-devprep strong { @apply font-semibold text-content; }
+  .prose-devprep code {
+    @apply rounded bg-surface-sunken px-1.5 py-0.5 font-mono text-[13px] text-brand;
+  }
+  .prose-devprep pre {
+    @apply my-4 overflow-x-auto rounded-lg border border-line bg-surface-sunken p-4;
+  }
+  .prose-devprep pre code {
+    @apply bg-transparent p-0 text-[13px] text-content;
+  }
+  .prose-devprep table {
+    @apply my-4 w-full border-collapse overflow-hidden rounded-lg border border-line text-sm;
+  }
+  .prose-devprep th {
+    @apply border-b border-line bg-surface-sunken px-3 py-2 text-left font-semibold text-content;
+  }
+  .prose-devprep td { @apply border-b border-line px-3 py-2; }
+  .prose-devprep a { @apply text-brand underline underline-offset-2; }
+}

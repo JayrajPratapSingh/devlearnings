@@ -1,0 +1,798 @@
+// DevPrep IDE - Prisma schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum ProblemStatus {
+  NOT_STARTED
+  ATTEMPTED
+  SOLVED
+  NEEDS_REVISION
+}
+
+enum LearningStatus {
+  NEW
+  LEARNING
+  KNOWN
+  NEEDS_REVISION
+}
+
+enum SubmissionStatus {
+  ACCEPTED
+  WRONG_ANSWER
+  RUNTIME_ERROR
+  COMPILE_ERROR
+  TIMEOUT
+  MEMORY_LIMIT
+  INTERNAL_ERROR
+}
+
+enum Language {
+  JAVASCRIPT
+  NODEJS
+  PYTHON
+}
+
+enum BookmarkKind {
+  TOPIC
+  QUESTION
+  PROBLEM
+}
+
+enum MockStatus {
+  IN_PROGRESS
+  COMPLETED
+  ABANDONED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  avatarColor  String   @default("#6366f1")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  /// E.164 (+919876543210). Optional — only needed for SMS password reset.
+  phone         String?  @unique
+  phoneVerified Boolean  @default(false)
+
+  currentStreak Int       @default(0)
+  longestStreak Int       @default(0)
+  lastActiveDay DateTime?
+
+  problemProgress         UserProblemProgress[]
+  topicProgress           UserTopicProgress[]
+  questionProgress        UserQuestionProgress[]
+  submissions             Submission[]
+  notes                   Note[]
+  bookmarks               Bookmark[]
+  mockInterviews          MockInterview[]
+  revisions               Revision[]
+  studySessions           StudySession[]
+  refreshTokens           RefreshToken[]
+  resetCodes              PasswordResetCode[]
+
+  // Course system relations
+  courseProgress          UserCourseProgress[]
+  courseModuleProgress    UserCourseModuleProgress[]
+  courseProblemProgress   UserCourseProblemProgress[]
+  courseSubmissions       CourseSubmission[]
+  badges                  UserBadge[]
+
+  @@index([email])
+  @@index([phone])
+}
+
+enum ResetChannel {
+  EMAIL
+  SMS
+}
+
+/// One-time code for "forgot password".
+model PasswordResetCode {
+  id      String @id @default(cuid())
+  userId  String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// The code is stored hashed — a leaked database must not hand over live codes.
+  codeHash String
+  channel  ResetChannel
+  /// Where it was actually sent, so the UI can echo a masked hint back.
+  sentTo   String
+  /// Wrong guesses. The code dies at the limit rather than allowing brute force.
+  attempts Int      @default(0)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, expiresAt])
+}
+
+model RefreshToken {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  revoked   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model TopicCategory {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  name        String
+  description String
+  icon        String  @default("book")
+  order       Int     @default(0)
+  group       String  @default("core")
+
+  topics Topic[]
+
+  @@index([order])
+}
+
+model Topic {
+  id         String        @id @default(cuid())
+  slug       String        @unique
+  title      String
+  categoryId String
+  category   TopicCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  order      Int           @default(0)
+  difficulty Difficulty    @default(EASY)
+  summary    String
+  /// Markdown explanation (English)
+  content    String
+  /// Hinglish versions — optional, UI falls back to English when null
+  summaryHi  String?
+  contentHi  String?
+  /// "Explain it to a beginner" layer: analogy first, jargon last. The topic
+  /// page opens on this and lets the reader switch up to `content`.
+  simple     String?
+  simpleHi   String?
+  /// Memory hooks: mnemonics, rhymes and one-line hooks for recall under
+  /// pressure. Separate from `simple` because explaining a thing and
+  /// remembering it are different jobs — the second is what fails in an
+  /// interview when you already understood the first.
+  tricks     String?
+  tricksHi   String?
+  /// Illustrative code sample
+  codeExample    String?
+  /// Expected output of the code sample
+  expectedOutput String?
+
+  commonMistakes      String[] @default([])
+  interviewQuestions  String[] @default([])
+  practiceQuestions   String[] @default([])
+  relatedProblemSlugs String[] @default([])
+  tags                String[] @default([])
+  createdAt           DateTime @default(now())
+
+  progress  UserTopicProgress[]
+  notes     Note[]
+  revisions Revision[]
+
+  @@index([categoryId, order])
+  @@index([slug])
+}
+
+model UserTopicProgress {
+  id           String         @id @default(cuid())
+  userId       String
+  topicId      String
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topic        Topic          @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  status       LearningStatus @default(NEW)
+  confidence   Int            @default(0)
+  viewCount    Int            @default(0)
+  completedAt  DateTime?
+  lastViewedAt DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  @@unique([userId, topicId])
+  @@index([userId, status])
+}
+
+model InterviewQuestion {
+  id             String     @id @default(cuid())
+  slug           String     @unique
+  category       String
+  question       String
+  shortAnswer    String
+  detailedAnswer String
+  /// Hinglish versions — optional, UI falls back to English when null
+  shortAnswerHi    String?
+  detailedAnswerHi String?
+  codeExample    String?
+  followUps      String[]   @default([])
+  difficulty     Difficulty @default(EASY)
+  tags           String[]   @default([])
+  createdAt      DateTime   @default(now())
+
+  progress UserQuestionProgress[]
+  notes    Note[]
+
+  @@index([category, difficulty])
+}
+
+model UserQuestionProgress {
+  id         String            @id @default(cuid())
+  userId     String
+  questionId String
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question   InterviewQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  status     LearningStatus    @default(NEW)
+  timesSeen  Int               @default(0)
+  updatedAt  DateTime          @updatedAt
+
+  @@unique([userId, questionId])
+  @@index([userId, status])
+}
+
+model DSAProblem {
+  id                  String     @id @default(cuid())
+  slug                String     @unique
+  title               String
+  category            String
+  difficulty          Difficulty
+  description         String
+  examples            Json
+  constraints         String[]   @default([])
+  hints               String[]   @default([])
+  approach            String
+  timeComplexity      String
+  spaceComplexity     String
+  solutionExplanation String
+  /// Hinglish versions — optional, UI falls back to English when null
+  descriptionHi         String?
+  approachHi            String?
+  solutionExplanationHi String?
+  solutions           Json       @default("{}")
+  starterCode         Json       @default("{}")
+  supportedLanguages  Language[] @default([JAVASCRIPT, NODEJS, PYTHON])
+  order               Int        @default(0)
+  createdAt           DateTime   @default(now())
+
+  testCases   TestCase[]
+  progress    UserProblemProgress[]
+  submissions Submission[]
+  notes       Note[]
+  revisions   Revision[]
+
+  @@index([category, difficulty])
+  @@index([difficulty])
+}
+
+model TestCase {
+  id             String     @id @default(cuid())
+  problemId      String
+  problem        DSAProblem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  input          String
+  expectedOutput String
+  /// hidden test cases are never serialised to the client
+  isHidden       Boolean    @default(false)
+  isSample       Boolean    @default(false)
+  order          Int        @default(0)
+
+  @@index([problemId, isHidden])
+}
+
+model UserProblemProgress {
+  id          String        @id @default(cuid())
+  userId      String
+  problemId   String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem     DSAProblem    @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  status      ProblemStatus @default(NOT_STARTED)
+  attempts    Int           @default(0)
+  solved      Boolean       @default(false)
+  bestTimeMs  Int?
+  lastAttempt DateTime?
+  solvedAt    DateTime?
+  lastCode    Json          @default("{}")
+  updatedAt   DateTime      @updatedAt
+
+  @@unique([userId, problemId])
+  @@index([userId, status])
+}
+
+model Submission {
+  id           String           @id @default(cuid())
+  userId       String
+  problemId    String
+  user         User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem      DSAProblem       @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  language     Language
+  code         String
+  status       SubmissionStatus
+  passed       Int              @default(0)
+  total        Int              @default(0)
+  runtimeMs    Int?
+  memoryKb     Int?
+  errorMessage String?
+  createdAt    DateTime         @default(now())
+
+  @@index([userId, problemId])
+  @@index([userId, createdAt])
+}
+
+model Note {
+  id               String             @id @default(cuid())
+  userId           String
+  user             User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title            String
+  content          String
+  topicId          String?
+  topic            Topic?             @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  problemId        String?
+  problem          DSAProblem?        @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  courseProblemId  String?
+  courseProblem    CourseProblem?     @relation(fields: [courseProblemId], references: [id], onDelete: Cascade)
+  questionId       String?
+  question         InterviewQuestion? @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  tags             String[]           @default([])
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  @@index([userId, updatedAt])
+  @@index([userId, topicId])
+}
+
+model Bookmark {
+  id        String       @id @default(cuid())
+  userId    String
+  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind      BookmarkKind
+  refId     String
+  label     String
+  href      String
+  createdAt DateTime     @default(now())
+
+  @@unique([userId, kind, refId])
+  @@index([userId, kind])
+}
+
+model MockInterview {
+  id          String     @id @default(cuid())
+  userId      String
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title       String
+  durationMin Int        @default(30)
+  status      MockStatus @default(IN_PROGRESS)
+  score       Int?
+  totalScore  Int?
+  startedAt   DateTime   @default(now())
+  finishedAt  DateTime?
+  weakTopics  String[]   @default([])
+
+  questions MockInterviewQuestion[]
+
+  @@index([userId, startedAt])
+}
+
+model MockInterviewQuestion {
+  id          String        @id @default(cuid())
+  interviewId String
+  interview   MockInterview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+  questionId  String
+  category    String
+  prompt      String
+  shortAnswer String
+  order       Int           @default(0)
+  selfScore   Int?
+  answeredAt  DateTime?
+
+  @@index([interviewId, order])
+}
+
+model Revision {
+  id             String      @id @default(cuid())
+  userId         String
+  user           User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topicId        String?
+  topic          Topic?      @relation(fields: [topicId], references: [id], onDelete: Cascade)
+  problemId      String?
+  problem        DSAProblem? @relation(fields: [problemId], references: [id], onDelete: Cascade)
+  questionId     String?
+  reason         String
+  intervalDays   Int         @default(1)
+  easeFactor     Float       @default(2.5)
+  repetitions    Int         @default(0)
+  dueAt          DateTime    @default(now())
+  lastReviewedAt DateTime?
+  createdAt      DateTime    @default(now())
+
+  @@index([userId, dueAt])
+}
+
+model StudySession {
+  id                String   @id @default(cuid())
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  day               DateTime @db.Date
+  minutes           Int      @default(0)
+  problemsSolved    Int      @default(0)
+  topicsRead        Int      @default(0)
+  questionsAnswered Int      @default(0)
+
+  @@unique([userId, day])
+  @@index([userId, day])
+}
+
+// ============================================================================
+// COURSE SYSTEM - Interactive Course Learning
+// ============================================================================
+
+model Course {
+  id              String    @id @default(cuid())
+  slug            String    @unique
+  name            String
+  nameHi          String    // Hinglish version
+  description     String
+  descriptionHi   String?   // Hinglish version
+  icon            String    @default("📚")
+  color           String    @default("#6366f1")
+  level           String    @default("beginner") // beginner, intermediate, advanced
+
+  totalXpReward   Int       @default(0)
+  estimatedHours  Int       @default(50)
+  maxDifficulty   Difficulty @default(HARD)
+  order           Int       @default(0)
+  isPublished     Boolean   @default(true)
+
+  modules         CourseModule[]
+  topics          CourseTopic[]
+  problems        CourseProblem[]
+
+  userProgress    UserCourseProgress[]
+  userModuleProgress UserCourseModuleProgress[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([level, order])
+}
+
+model CourseModule {
+  id              String    @id @default(cuid())
+  courseId        String
+  course          Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  slug            String
+  name            String
+  nameHi          String?   // Hinglish version
+  description     String?
+  descriptionHi   String?
+  order           Int       @default(0)
+
+  topics          CourseTopic[]
+  problems        CourseProblem[]
+  userProgress    UserCourseModuleProgress[]
+
+  createdAt       DateTime  @default(now())
+
+  @@unique([courseId, slug])
+  @@index([courseId, order])
+}
+
+model CourseTopic {
+  id              String    @id @default(cuid())
+  courseId        String
+  course          Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  moduleId        String?
+  module          CourseModule? @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  slug            String
+  title           String
+  titleHi         String?   // Hinglish version
+  description     String
+  descriptionHi   String?
+
+  // Content levels
+  simple          String?   // Beginner-friendly explanation
+  simpleHi        String?
+  content         String    // Detailed explanation
+  contentHi       String?   // Hinglish detailed
+
+  codeExample     String?
+  expectedOutput  String?
+
+  /// Everyday analogy that anchors the concept before any code appears.
+  /// { en, hi }
+  analogy         Json       @default("{}")
+  /// Progressive worked examples.
+  /// [{ title, titleHi, code, output, explain, explainHi }]
+  examples        Json       @default("[]")
+  /// Wrong-vs-right pairs learners actually hit.
+  /// [{ wrong, right, why, whyHi }]
+  mistakes        Json       @default("[]")
+  /// Where this shows up in real code.
+  /// [{ en, hi }]
+  realWorld       Json       @default("[]")
+  /// [{ q, qHi, a, aHi, code }]
+  interviewQA     Json       @default("[]")
+  /// [{ task, taskHi, hint, hintHi }]
+  exercises       Json       @default("[]")
+
+  difficulty      Difficulty @default(EASY)
+  order           Int        @default(0)
+  duration        Int        @default(15) // minutes
+
+  keyTakeaways    String[]   @default([])
+  keyTakeawaysHi  String[]   @default([])
+  relatedTopics   String[]   @default([])
+  tags            String[]   @default([])
+
+  problems        CourseProblem[]
+
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@unique([courseId, slug])
+  @@index([courseId, moduleId, order])
+}
+
+model CourseProblem {
+  id                  String    @id @default(cuid())
+  courseId            String
+  course              Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  moduleId            String?
+  module              CourseModule? @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  topicId             String?
+  topic               CourseTopic? @relation(fields: [topicId], references: [id], onDelete: Cascade)
+
+  slug                String
+  title               String
+  category            String
+  difficulty          Difficulty
+  description         String
+  descriptionHi       String?   // Hinglish version
+
+  examples            Json      @default("[]")
+  constraints         String[]  @default([])
+  hints               String[]  @default([])
+
+  approach            String
+  approachHi          String?
+  timeComplexity      String
+  spaceComplexity     String
+  solutionExplanation String
+  solutionExplanationHi String?
+
+  solutions           Json      @default("{}")
+  starterCode         Json      @default("{}")
+  supportedLanguages  Language[] @default([JAVASCRIPT, NODEJS, PYTHON])
+
+  xpReward            Int       @default(100)
+  testCasesCount      Int       @default(0)
+  order               Int       @default(0)
+
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  testCases           CourseProblemTestCase[]
+  userProgress        UserCourseProblemProgress[]
+  submissions         CourseSubmission[]
+  notes               Note[]
+
+  @@unique([courseId, slug])
+  @@index([courseId, difficulty])
+  @@index([moduleId, order])
+}
+
+model CourseProblemTestCase {
+  id              String    @id @default(cuid())
+  problemId       String
+  problem         CourseProblem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  input           String
+  expectedOutput  String
+  explanation     String?
+
+  isHidden        Boolean   @default(false)
+  isSample        Boolean   @default(false)
+  order           Int       @default(0)
+
+  @@index([problemId, isHidden])
+}
+
+model CourseSubmission {
+  id              String    @id @default(cuid())
+  userId          String
+  problemId       String
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem         CourseProblem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  language        Language
+  code            String
+  status          SubmissionStatus
+
+  passed          Int       @default(0)
+  total           Int       @default(0)
+  runtimeMs       Int?
+  memoryKb        Int?
+  errorMessage    String?
+
+  createdAt       DateTime  @default(now())
+
+  @@index([userId, problemId])
+  @@index([userId, createdAt])
+}
+
+// ============================================================================
+// USER PROGRESS TRACKING
+// ============================================================================
+
+model UserCourseProgress {
+  id              String    @id @default(cuid())
+  userId          String
+  courseId        String
+
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course          Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  totalProblems   Int       @default(0)
+  solvedProblems  Int       @default(0)
+  totalXpEarned   Int       @default(0)
+  timeSpentMin    Int       @default(0)
+
+  longestStreak   Int       @default(0)
+  currentStreak   Int       @default(0)
+  lastActiveDay   DateTime?
+
+  completedAt     DateTime?
+  startedAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  moduleProgress  UserCourseModuleProgress[]
+
+  @@unique([userId, courseId])
+  @@index([userId, updatedAt])
+}
+
+model UserCourseModuleProgress {
+  id              String    @id @default(cuid())
+  userId          String
+  courseId        String
+  moduleId        String
+  courseProgressId String?
+
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course          Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  module          CourseModule @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  courseProgress  UserCourseProgress? @relation(fields: [courseProgressId], references: [id], onDelete: Cascade)
+
+  topicsCompleted Int       @default(0)
+  problemsSolved  Int       @default(0)
+  timeSpentMin    Int       @default(0)
+  xpEarned        Int       @default(0)
+
+  completedAt     DateTime?
+  startedAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([userId, moduleId])
+  @@index([userId, courseId])
+}
+
+model UserCourseProblemProgress {
+  id              String    @id @default(cuid())
+  userId          String
+  problemId       String
+
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  problem         CourseProblem @relation(fields: [problemId], references: [id], onDelete: Cascade)
+
+  status          ProblemStatus @default(NOT_STARTED)
+  attempts        Int       @default(0)
+  solved          Boolean   @default(false)
+  bestTimeMs      Int?
+
+  hintsUsed       Int       @default(0)
+  maxHints        Int       @default(3)
+
+  lastAttempt     DateTime?
+  solvedAt        DateTime?
+  lastCode        Json      @default("{}")
+  updatedAt       DateTime  @updatedAt
+
+  @@unique([userId, problemId])
+  @@index([userId, status])
+}
+
+// ============================================================================
+// GAMIFICATION - Badges & Achievements
+// ============================================================================
+
+model Badge {
+  id              String    @id @default(cuid())
+  slug            String    @unique
+  name            String
+  nameHi          String?
+  description     String
+  descriptionHi   String?
+  icon            String    // Emoji or icon name
+  color           String    @default("#6366f1")
+
+  category        String    @default("achievement") // achievement, challenge, streak, milestone
+  requirementType String    @default("count") // count, streak, combination
+  requirementValue Int      @default(0)
+
+  xpReward        Int       @default(0)
+  order           Int       @default(0)
+  isSecret        Boolean   @default(false)
+
+  users           UserBadge[]
+
+  createdAt       DateTime  @default(now())
+
+  @@index([category, order])
+}
+
+model UserBadge {
+  id              String    @id @default(cuid())
+  userId          String
+  badgeId         String
+
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badge           Badge     @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  earnedAt        DateTime  @default(now())
+
+  @@unique([userId, badgeId])
+  @@index([userId, earnedAt])
+}
+
+// ============================================================================
+// LEADERBOARD & STATISTICS
+// ============================================================================
+
+model CourseLeaderboard {
+  id              String    @id @default(cuid())
+  userId          String
+  courseId        String
+
+  rank            Int       @default(0)
+  xpEarned        Int       @default(0)
+  problemsSolved  Int       @default(0)
+  timeSpentMin    Int       @default(0)
+
+  lastUpdated     DateTime  @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([courseId, rank])
+}
+
+model UserStats {
+  id              String    @id @default(cuid())
+  userId          String    @unique
+
+  totalXp         Int       @default(0)
+  totalProblems   Int       @default(0)
+  totalCourses    Int       @default(0)
+
+  longestCodeStreak Int    @default(0)
+  totalTimeMin    Int       @default(0)
+
+  level           Int       @default(1)
+  nextLevelXp     Int       @default(1000)
+
+  lastUpdated     DateTime  @updatedAt
+
+  @@index([userId])
+}
