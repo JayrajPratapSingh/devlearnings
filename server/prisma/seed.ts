@@ -144,6 +144,10 @@ import { DSA_MODULE_11_PART3 } from './seed-data/course-dsa-module11-part3';
 import { DSA_MODULE_11_PART4 } from './seed-data/course-dsa-module11-part4';
 import { DSA_MODULE_11_PART5 } from './seed-data/course-dsa-module11-part5';
 import { DSA_MODULE_11_PART6 } from './seed-data/course-dsa-module11-part6';
+import { DSA_MODULE_12 } from './seed-data/course-dsa-module12';
+import { DSA_MODULE_12_PART2 } from './seed-data/course-dsa-module12-part2';
+import { DSA_MODULE_12_PART3 } from './seed-data/course-dsa-module12-part3';
+import { DSA_MODULE_12_PART4 } from './seed-data/course-dsa-module12-part4';
 import { NODE_MODULE_1 } from './seed-data/course-node-module1';
 import { NODE_MODULE_1_PART2 } from './seed-data/course-node-module1-part2';
 import { NODE_MODULE_1_PART3 } from './seed-data/course-node-module1-part3';
@@ -2475,6 +2479,10 @@ async function seedDsaCourse(): Promise<{ modules: number; topics: number }> {
     ...[...DSA_MODULE_11, ...DSA_MODULE_11_PART2, ...DSA_MODULE_11_PART3, ...DSA_MODULE_11_PART4, ...DSA_MODULE_11_PART5, ...DSA_MODULE_11_PART6].map((lesson) => ({
       ...lesson,
       moduleIndex: 10,
+    })),
+    ...[...DSA_MODULE_12, ...DSA_MODULE_12_PART2, ...DSA_MODULE_12_PART3, ...DSA_MODULE_12_PART4].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 11,
     })),
   ];
 
