@@ -1,0 +1,30 @@
+# Caddy config for the production stack.
+#
+# SITE_ADDRESS controls how the app is served (set it in .env.production):
+#
+#   SITE_ADDRESS=:80              -> plain HTTP, reachable by raw IP. Use this
+#                                   first, before you own a domain.
+#   SITE_ADDRESS=devprep.you.com  -> Caddy fetches + renews a free HTTPS
+#                                   certificate automatically. Needs DNS
+#                                   pointing here and ports 80+443 open.
+#
+# ACME_EMAIL is only used for the HTTPS case (Let's Encrypt account).
+
+{
+	email {$ACME_EMAIL:admin@example.com}
+}
+
+{$SITE_ADDRESS::80} {
+	encode gzip
+
+	# API + health check -> Express container
+	@api path /api/* /health
+	handle @api {
+		reverse_proxy server:4000
+	}
+
+	# Everything else -> React app (nginx container)
+	handle {
+		reverse_proxy client:80
+	}
+}

@@ -1,0 +1,110 @@
+# Production stack for DevPrep IDE.
+#
+#   Local dry-run (build everything on this machine):
+#     docker compose --env-file .env.production -f docker-compose.prod.yml up --build
+#
+#   On the server (pull prebuilt images pushed by GitHub Actions):
+#     docker compose --env-file .env.production -f docker-compose.prod.yml pull
+#     docker compose --env-file .env.production -f docker-compose.prod.yml up -d
+#
+# Only Caddy publishes ports. Everything else talks over the private compose
+# network by service name (postgres, server, client).
+
+name: devprep
+
+services:
+  # --------------------------------------------------------------------------- #
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
+  # --------------------------------------------------------------------------- #
+  # One-shot: bring the DB schema in line with schema.prisma, then (re)seed
+  # content. Idempotent — safe to run on every deploy. `server` waits for this
+  # to finish successfully before it starts.
+  migrate:
+    image: ${SERVER_IMAGE:-devprep-server:latest}
+    build:
+      context: ./server
+    command: >
+      sh -c "npx prisma db push --skip-generate --accept-data-loss &&
+             node dist/prisma/seed.js"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: 'no'
+
+  # --------------------------------------------------------------------------- #
+  server:
+    image: ${SERVER_IMAGE:-devprep-server:latest}
+    build:
+      context: ./server
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}?schema=public
+      CLIENT_ORIGIN: ${CLIENT_ORIGIN}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      ACCESS_TOKEN_TTL: ${ACCESS_TOKEN_TTL:-15m}
+      REFRESH_TOKEN_TTL_DAYS: ${REFRESH_TOKEN_TTL_DAYS:-30}
+      # Code execution is added later; until then the API just can't reach it.
+      EXECUTION_SERVICE_URL: ${EXECUTION_SERVICE_URL:-http://execution-service:4001}
+      EXECUTION_SERVICE_TOKEN: ${EXECUTION_SERVICE_TOKEN:-unused-for-now}
+      SMS_PROVIDER: ${SMS_PROVIDER:-console}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  # --------------------------------------------------------------------------- #
+  client:
+    image: ${CLIENT_IMAGE:-devprep-client:latest}
+    build:
+      context: ./client
+      args:
+        VITE_API_URL: /api
+    restart: unless-stopped
+    depends_on:
+      - server
+
+  # --------------------------------------------------------------------------- #
+  # Terminates HTTPS (free auto-certificate from Let's Encrypt), serves the
+  # client, and proxies /api/* and /health to the API container.
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+      ACME_EMAIL: ${ACME_EMAIL:-admin@example.com}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - client
+      - server
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:
