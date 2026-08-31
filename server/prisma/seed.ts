@@ -118,6 +118,7 @@ import { DSA_MODULE_5 } from './seed-data/course-dsa-module5';
 import { DSA_MODULE_5_PART2 } from './seed-data/course-dsa-module5-part2';
 import { DSA_MODULE_5_PART3 } from './seed-data/course-dsa-module5-part3';
 import { DSA_MODULE_5_PART4 } from './seed-data/course-dsa-module5-part4';
+import { DSA_MODULE_5_PART5 } from './seed-data/course-dsa-module5-part5';
 import { DSA_MODULE_6 } from './seed-data/course-dsa-module6';
 import { DSA_MODULE_6_PART2 } from './seed-data/course-dsa-module6-part2';
 import { DSA_MODULE_6_PART3 } from './seed-data/course-dsa-module6-part3';
@@ -139,6 +140,8 @@ import { DSA_MODULE_9_PART3 } from './seed-data/course-dsa-module9-part3';
 import { DSA_MODULE_9_PART4 } from './seed-data/course-dsa-module9-part4';
 import { DSA_MODULE_9_PART5 } from './seed-data/course-dsa-module9-part5';
 import { DSA_MODULE_9_PART6 } from './seed-data/course-dsa-module9-part6';
+import { DSA_MODULE_9_PART7 } from './seed-data/course-dsa-module9-part7';
+import { DSA_MODULE_9_PART8 } from './seed-data/course-dsa-module9-part8';
 import { DSA_MODULE_10 } from './seed-data/course-dsa-module10';
 import { DSA_MODULE_10_PART2 } from './seed-data/course-dsa-module10-part2';
 import { DSA_MODULE_10_PART3 } from './seed-data/course-dsa-module10-part3';
@@ -157,6 +160,8 @@ import { DSA_MODULE_12_PART4 } from './seed-data/course-dsa-module12-part4';
 import { DSA_MODULE_13 } from './seed-data/course-dsa-module13';
 import { DSA_MODULE_13_PART2 } from './seed-data/course-dsa-module13-part2';
 import { DSA_MODULE_13_PART3 } from './seed-data/course-dsa-module13-part3';
+import { DSA_MODULE_13_PART4 } from './seed-data/course-dsa-module13-part4';
+import { DSA_MODULE_13_PART5 } from './seed-data/course-dsa-module13-part5';
 import { DSA_MODULE_14 } from './seed-data/course-dsa-module14';
 import { DSA_MODULE_14_PART2 } from './seed-data/course-dsa-module14-part2';
 import { DSA_MODULE_14_PART3 } from './seed-data/course-dsa-module14-part3';
@@ -2417,12 +2422,12 @@ async function seedDsaCourse(): Promise<{ modules: number; topics: number }> {
     },
     {
       slug: 'dsa-module-13-bit-manipulation',
-      name: 'Module 13: Bit Manipulation',
-      nameHi: 'Module 13: Bit Manipulation',
+      name: 'Module 13: Bit Manipulation & Math Essentials',
+      nameHi: 'Module 13: Bit Manipulation Aur Math Ki Buniyaad',
       description:
-        'Binary representation, bitwise operators, and the common bit tricks (checking, setting, clearing, counting bits) that show up across many other patterns.',
+        'Binary representation, bitwise operators, the common bit tricks (checking, setting, clearing, counting bits), and the number-theory essentials that build on them: GCD, the sieve, factorisation, modular arithmetic and binary exponentiation.',
       descriptionHi:
-        'Binary representation, bitwise operators, aur aam bit tricks (bits check karna, set karna, clear karna, ganna) jo kayi doosre patterns mein dikhte hain.',
+        'Binary representation, bitwise operators, aam bit tricks (bits check karna, set karna, clear karna, ganna), aur unpar bani number-theory ki buniyaad: GCD, sieve, factorisation, modular arithmetic aur binary exponentiation.',
       order: 13,
     },
     {
@@ -2465,7 +2470,7 @@ async function seedDsaCourse(): Promise<{ modules: number; topics: number }> {
       ...lesson,
       moduleIndex: 3,
     })),
-    ...[...DSA_MODULE_5, ...DSA_MODULE_5_PART2, ...DSA_MODULE_5_PART3, ...DSA_MODULE_5_PART4].map((lesson) => ({
+    ...[...DSA_MODULE_5, ...DSA_MODULE_5_PART2, ...DSA_MODULE_5_PART3, ...DSA_MODULE_5_PART4, ...DSA_MODULE_5_PART5].map((lesson) => ({
       ...lesson,
       moduleIndex: 4,
     })),
@@ -2481,7 +2486,7 @@ async function seedDsaCourse(): Promise<{ modules: number; topics: number }> {
       ...lesson,
       moduleIndex: 7,
     })),
-    ...[...DSA_MODULE_9, ...DSA_MODULE_9_PART2, ...DSA_MODULE_9_PART3, ...DSA_MODULE_9_PART4, ...DSA_MODULE_9_PART5, ...DSA_MODULE_9_PART6].map((lesson) => ({
+    ...[...DSA_MODULE_9, ...DSA_MODULE_9_PART2, ...DSA_MODULE_9_PART3, ...DSA_MODULE_9_PART4, ...DSA_MODULE_9_PART5, ...DSA_MODULE_9_PART6, ...DSA_MODULE_9_PART7, ...DSA_MODULE_9_PART8].map((lesson) => ({
       ...lesson,
       moduleIndex: 8,
     })),
@@ -2497,7 +2502,7 @@ async function seedDsaCourse(): Promise<{ modules: number; topics: number }> {
       ...lesson,
       moduleIndex: 11,
     })),
-    ...[...DSA_MODULE_13, ...DSA_MODULE_13_PART2, ...DSA_MODULE_13_PART3].map((lesson) => ({
+    ...[...DSA_MODULE_13, ...DSA_MODULE_13_PART2, ...DSA_MODULE_13_PART3, ...DSA_MODULE_13_PART4, ...DSA_MODULE_13_PART5].map((lesson) => ({
       ...lesson,
       moduleIndex: 12,
     })),
