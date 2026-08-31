@@ -102,6 +102,8 @@ import { DSA_MODULE_2_PART2 } from './seed-data/course-dsa-module2-part2';
 import { DSA_MODULE_2_PART3 } from './seed-data/course-dsa-module2-part3';
 import { DSA_MODULE_2_PART4 } from './seed-data/course-dsa-module2-part4';
 import { DSA_MODULE_2_PART5 } from './seed-data/course-dsa-module2-part5';
+import { DSA_MODULE_2_PART6 } from './seed-data/course-dsa-module2-part6';
+import { DSA_MODULE_2_PART7 } from './seed-data/course-dsa-module2-part7';
 import { DSA_MODULE_3 } from './seed-data/course-dsa-module3';
 import { DSA_MODULE_3_PART2 } from './seed-data/course-dsa-module3-part2';
 import { DSA_MODULE_3_PART3 } from './seed-data/course-dsa-module3-part3';
@@ -120,6 +122,7 @@ import { DSA_MODULE_6 } from './seed-data/course-dsa-module6';
 import { DSA_MODULE_6_PART2 } from './seed-data/course-dsa-module6-part2';
 import { DSA_MODULE_6_PART3 } from './seed-data/course-dsa-module6-part3';
 import { DSA_MODULE_6_PART4 } from './seed-data/course-dsa-module6-part4';
+import { DSA_MODULE_6_PART5 } from './seed-data/course-dsa-module6-part5';
 import { DSA_MODULE_7 } from './seed-data/course-dsa-module7';
 import { DSA_MODULE_7_PART2 } from './seed-data/course-dsa-module7-part2';
 import { DSA_MODULE_7_PART3 } from './seed-data/course-dsa-module7-part3';
@@ -2450,7 +2453,7 @@ async function seedDsaCourse(): Promise<{ modules: number; topics: number }> {
       ...lesson,
       moduleIndex: 0,
     })),
-    ...[...DSA_MODULE_2, ...DSA_MODULE_2_PART2, ...DSA_MODULE_2_PART3, ...DSA_MODULE_2_PART4, ...DSA_MODULE_2_PART5].map((lesson) => ({
+    ...[...DSA_MODULE_2, ...DSA_MODULE_2_PART2, ...DSA_MODULE_2_PART3, ...DSA_MODULE_2_PART4, ...DSA_MODULE_2_PART5, ...DSA_MODULE_2_PART6, ...DSA_MODULE_2_PART7].map((lesson) => ({
       ...lesson,
       moduleIndex: 1,
     })),
@@ -2466,7 +2469,7 @@ async function seedDsaCourse(): Promise<{ modules: number; topics: number }> {
       ...lesson,
       moduleIndex: 4,
     })),
-    ...[...DSA_MODULE_6, ...DSA_MODULE_6_PART2, ...DSA_MODULE_6_PART3, ...DSA_MODULE_6_PART4].map((lesson) => ({
+    ...[...DSA_MODULE_6, ...DSA_MODULE_6_PART2, ...DSA_MODULE_6_PART3, ...DSA_MODULE_6_PART4, ...DSA_MODULE_6_PART5].map((lesson) => ({
       ...lesson,
       moduleIndex: 5,
     })),
