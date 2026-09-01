@@ -297,14 +297,18 @@ def make_client(host, *, port=443, verify=True, timeout=30):
     return f"{host}:{port} verify={verify} timeout={timeout}"
 
 print(make_client("api.example.com"))
-print(make_client("api.example.com", port=8080, timeout=5))`,
+print(make_client("api.example.com", port=8080, timeout=5))
+
+try:
+    make_client("api.example.com", 8080)          # port passed positionally
+except TypeError as e:
+    print("positional port rejected:", "positional argument" in str(e))`,
         output: `{'a': 1}
 {'b': 1}
 {'a': 1}
 api.example.com:443 verify=True timeout=30
 api.example.com:8080 verify=True timeout=5
-try:
-    make_client("api.example.com", 8080)   # would raise: TypeError, too many positional args`,
+positional port rejected: True`,
         explain: 'With `into=None` and a fresh `{}` inside, every default-using call starts empty. `make_client(host, *, ...)` forces `port`, `verify`, `timeout` to be named — `make_client("api", 8080)` is a `TypeError`, which stops a caller from silently passing a number to the wrong slot.',
         explainHi: '`into=None` aur andar ek fresh `{}` ke saath, har default-using call empty shuru hoti hai. `make_client(host, *, ...)` `port`, `verify`, `timeout` ko named hone ko majboor karta hai — `make_client("api", 8080)` ek `TypeError` hai, jo ek caller ko chupchaap galat slot mein ek number pass karne se rokta hai.',
       },

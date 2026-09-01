@@ -1581,7 +1581,7 @@ print(total((1, 2, 3)))   # a tuple IS hashable`,
 actual computations: 2
 CacheInfo(hits=2, misses=2, maxsize=None, currsize=2)
 error: True
-25`,
+6`,
         explain: '`slow_square` runs its body only twice — for `4` and `5`; the other two calls are cache hits, shown in `cache_info()` as `hits=2, misses=2`. `total([1,2,3])` raises `TypeError` because a list is unhashable and `lru_cache` needs to hash the arguments to key the cache; the tuple `(1,2,3)` works.',
         explainHi: '`slow_square` apna body sirf do baar chalata hai — `4` aur `5` ke liye; doosri do calls cache hits hain, `cache_info()` mein `hits=2, misses=2` dikhaaye. `total([1,2,3])` `TypeError` deta hai kyunki ek list unhashable hai aur `lru_cache` ko cache key karne ko arguments hash karne chahiye; tuple `(1,2,3)` kaam karta hai.',
       },

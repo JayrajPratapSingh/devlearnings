@@ -401,7 +401,7 @@ done
   open B
   working
   close B (exception: ValueError)
-caught: boom`,
+  caught: boom`,
         explain: '`Resource.__exit__` runs on both paths: after the early `return "done"` (with `exc_type` = `None`) and when `ValueError` is raised (with `exc_type` = `ValueError`). Because `__exit__` returns `False`, the `ValueError` is not suppressed and still reaches the caller\'s `except`. The cleanup print always happens — that is the guarantee `with` provides.',
         explainHi: '`Resource.__exit__` dono paths par chalता hai: jaldi `return "done"` ke baad (`exc_type` = `None` ke saath) aur jab `ValueError` raise hota hai (`exc_type` = `ValueError` ke saath). Kyunki `__exit__` `False` lautaता hai, `ValueError` suppress nahi hota aur phir bhi caller ke `except` tak pahunchता hai. Cleanup print hamesha hota hai.',
       },

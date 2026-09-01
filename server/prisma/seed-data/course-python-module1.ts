@@ -295,8 +295,8 @@ print(area(3, 4));`,
         output: `  File "script.py", line 1
     def area(w, h) {
                    ^
-SyntaxError: invalid syntax`,
-        explain: 'Python stops at the { — it is not valid where a : is expected. Nothing in the file runs. The fix is "def area(w, h):" then an indented "return w * h" on the next line, and no semicolons anywhere.',
+SyntaxError: expected ':'`,
+        explain: 'Python expects a ":" after the parameter list, not a "{", so it stops at the brace and nothing in the file runs. The error message names exactly what was missing. The fix is "def area(w, h):" then an indented "return w * h" on the next line, and no semicolons anywhere.',
         explainHi: 'Python { par ruk jaata hai — jahaan ek : ki ummeed hai wahaan wo valid nahi hai. File ka kuch nahi chalta. Fix hai "def area(w, h):" phir agli line par ek indented "return w * h", aur kahin koi semicolons nahi.',
       },
       {
