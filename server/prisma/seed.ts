@@ -238,6 +238,8 @@ import { NODE_MODULE_7_PART18 } from './seed-data/course-node-module7-part18';
 import { NODE_MODULE_7_PART19 } from './seed-data/course-node-module7-part19';
 import { NODE_MODULE_7_PART20 } from './seed-data/course-node-module7-part20';
 import { NODE_MODULE_7_PART21 } from './seed-data/course-node-module7-part21';
+import { PYTHON_MODULE_1 } from './seed-data/course-python-module1';
+import { PYTHON_MODULE_1_PART2 } from './seed-data/course-python-module1-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -2761,6 +2763,200 @@ async function seedNodeCourse(): Promise<{ modules: number; topics: number }> {
   return { modules: createdModules.length, topics: createdTopics.length };
 }
 
+async function seedPythonCourse(): Promise<{ modules: number; topics: number }> {
+  const courseData = {
+    slug: 'python-complete',
+    name: 'Python Complete Course',
+    nameHi: 'Python Complete Course - Noob Se Pro Tak',
+    description:
+      'Python from your first indented block to production backend patterns, taught for a developer coming from JavaScript/TypeScript. Every lesson starts with the habit that trips you up, shows exactly why it breaks, and builds to the idiomatic Python — dynamic typing, collections, decorators, classes and dunder methods, the import system, exceptions and context managers, generators, typing and testing, and the GIL and async.',
+    descriptionHi:
+      'Python aapke pehle indented block se production backend patterns tak, ek JavaScript/TypeScript se aaye developer ke liye sikhaaya gaya. Har lesson us aadat se shuru hota hai jo aapko phansaati hai, bilkul dikhaata hai ki wo kyun tootti hai, aur idiomatic Python tak banata hai — dynamic typing, collections, decorators, classes aur dunder methods, import system, exceptions aur context managers, generators, typing aur testing, aur GIL aur async.',
+    icon: '🐍',
+    color: '#3776AB',
+    level: 'beginner' as const,
+    totalXpReward: 7000,
+    estimatedHours: 150,
+    maxDifficulty: 'HARD' as const,
+    order: 7,
+    isPublished: true,
+  };
+
+  const course = await prisma.course.upsert({
+    where: { slug: courseData.slug },
+    create: courseData,
+    update: courseData,
+  });
+
+  const modules = [
+    {
+      slug: 'python-module-1-foundations',
+      name: 'Module 1: Python Foundations',
+      nameHi: 'Module 1: Python Ki Buniyaad',
+      description:
+        'Running Python and the REPL, why indentation is the syntax, names that bind to objects, dynamic typing and int precision, strings and f-strings, booleans and truthiness and is-None, control flow, and the __main__ guard — all framed for a JavaScript developer.',
+      descriptionHi:
+        'Python chalaana aur REPL, indentation hi syntax kyun hai, naam jo objects se bandhte hain, dynamic typing aur int precision, strings aur f-strings, booleans aur truthiness aur is-None, control flow, aur __main__ guard — sab ek JavaScript developer ke liye framed.',
+      order: 1,
+    },
+    {
+      slug: 'python-module-2-collections-and-iteration',
+      name: 'Module 2: Collections & Iteration',
+      nameHi: 'Module 2: Collections Aur Iteration',
+      description:
+        'list, tuple, dict and set; mutability, indexing and slicing; the iteration protocol; list/dict/set/generator comprehensions; unpacking, star and double-star, and the collections that Django code leans on.',
+      descriptionHi:
+        'list, tuple, dict aur set; mutability, indexing aur slicing; iteration protocol; list/dict/set/generator comprehensions; unpacking, star aur double-star, aur wo collections jinpar Django code tikta hai.',
+      order: 2,
+    },
+    {
+      slug: 'python-module-3-functions-and-scope',
+      name: 'Module 3: Functions & Scope',
+      nameHi: 'Module 3: Functions Aur Scope',
+      description:
+        'Default arguments and the mutable-default trap, args and kwargs, keyword-only arguments, closures, nonlocal and global, first-class functions and lambdas, and decorators — the pattern Django and DRF use everywhere.',
+      descriptionHi:
+        'Default arguments aur mutable-default trap, args aur kwargs, keyword-only arguments, closures, nonlocal aur global, first-class functions aur lambdas, aur decorators — wo pattern jo Django aur DRF har jagah istemal karte hain.',
+      order: 3,
+    },
+    {
+      slug: 'python-module-4-objects-and-classes',
+      name: 'Module 4: Objects & Classes',
+      nameHi: 'Module 4: Objects Aur Classes',
+      description:
+        'class and __init__ and self, instance vs class attributes, methods/classmethods/staticmethods, properties, the dunder methods, inheritance and the MRO, super(), dataclasses, and __slots__.',
+      descriptionHi:
+        'class aur __init__ aur self, instance vs class attributes, methods/classmethods/staticmethods, properties, dunder methods, inheritance aur MRO, super(), dataclasses, aur __slots__.',
+      order: 4,
+    },
+    {
+      slug: 'python-module-5-modules-packages-imports',
+      name: 'Module 5: Modules, Packages & the Import System',
+      nameHi: 'Module 5: Modules, Packages Aur Import System',
+      description:
+        'Modules and packages and __init__.py, absolute vs relative imports, the import cache, circular imports and how to break them, virtual environments, pip and requirements.txt and pyproject.toml.',
+      descriptionHi:
+        'Modules aur packages aur __init__.py, absolute vs relative imports, import cache, circular imports aur unhe kaise todein, virtual environments, pip aur requirements.txt aur pyproject.toml.',
+      order: 5,
+    },
+    {
+      slug: 'python-module-6-errors-and-exceptions',
+      name: 'Module 6: Errors & Exceptions',
+      nameHi: 'Module 6: Errors Aur Exceptions',
+      description:
+        'try/except/else/finally, the exception hierarchy, custom exceptions, raise-from, context managers and the with statement, contextlib, and EAFP versus LBYL.',
+      descriptionHi:
+        'try/except/else/finally, exception hierarchy, custom exceptions, raise-from, context managers aur with statement, contextlib, aur EAFP versus LBYL.',
+      order: 6,
+    },
+    {
+      slug: 'python-module-7-strings-data-serialization',
+      name: 'Module 7: Strings, Data & Serialization',
+      nameHi: 'Module 7: Strings, Data Aur Serialization',
+      description:
+        'String methods and the re regex module, bytes versus str and text encoding, json, datetime and timezone (timezone-aware datetimes for Django), decimal for money, pathlib, and csv.',
+      descriptionHi:
+        'String methods aur re regex module, bytes versus str aur text encoding, json, datetime aur timezone (Django ke liye timezone-aware datetimes), money ke liye decimal, pathlib, aur csv.',
+      order: 7,
+    },
+    {
+      slug: 'python-module-8-iterators-generators-functional',
+      name: 'Module 8: Iterators, Generators & Functional Tools',
+      nameHi: 'Module 8: Iterators, Generators Aur Functional Tools',
+      description:
+        'The iterator protocol, generators and yield and yield-from, generator expressions and laziness, itertools, and functools (lru_cache, partial, reduce, wraps).',
+      descriptionHi:
+        'Iterator protocol, generators aur yield aur yield-from, generator expressions aur laziness, itertools, aur functools (lru_cache, partial, reduce, wraps).',
+      order: 8,
+    },
+    {
+      slug: 'python-module-9-typing-testing-tooling',
+      name: 'Module 9: Typing, Testing & Tooling',
+      nameHi: 'Module 9: Typing, Testing Aur Tooling',
+      description:
+        'Type hints (Optional, Union, generics, TypedDict, Protocol), mypy, pytest (fixtures, parametrize, mocking), unittest, ruff and black, debugging with pdb, and logging.',
+      descriptionHi:
+        'Type hints (Optional, Union, generics, TypedDict, Protocol), mypy, pytest (fixtures, parametrize, mocking), unittest, ruff aur black, pdb se debugging, aur logging.',
+      order: 9,
+    },
+    {
+      slug: 'python-module-10-concurrency-performance-runtime',
+      name: 'Module 10: Concurrency, Performance & the Runtime',
+      nameHi: 'Module 10: Concurrency, Performance Aur Runtime',
+      description:
+        'The GIL, threading versus multiprocessing versus asyncio, async and await (Django async views and DRF), concurrent.futures, the memory model and garbage collection, and profiling.',
+      descriptionHi:
+        'GIL, threading versus multiprocessing versus asyncio, async aur await (Django async views aur DRF), concurrent.futures, memory model aur garbage collection, aur profiling.',
+      order: 10,
+    },
+  ];
+
+  const createdModules = [];
+  for (const moduleData of modules) {
+    createdModules.push(
+      await prisma.courseModule.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: moduleData.slug } },
+        create: { courseId: course.id, ...moduleData },
+        update: moduleData,
+      }),
+    );
+  }
+
+  const topics = [
+    ...[...PYTHON_MODULE_1, ...PYTHON_MODULE_1_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 0,
+    })),
+  ];
+
+  const json = (v: unknown) => v as Prisma.InputJsonValue;
+  const createdTopics = [];
+
+  for (const lesson of topics) {
+    const fields = {
+      title: lesson.title,
+      titleHi: lesson.titleHi,
+      description: lesson.description,
+      descriptionHi: lesson.descriptionHi,
+      simple: lesson.simple,
+      simpleHi: lesson.simpleHi,
+      content: lesson.content,
+      contentHi: lesson.contentHi,
+      analogy: json(lesson.analogy ?? {}),
+      examples: json(lesson.examples ?? []),
+      mistakes: json(lesson.mistakes ?? []),
+      realWorld: json(lesson.realWorld ?? []),
+      interviewQA: json(lesson.interviewQA ?? []),
+      exercises: json(lesson.exercises ?? []),
+      keyTakeaways: lesson.keyTakeaways ?? [],
+      keyTakeawaysHi: lesson.keyTakeawaysHi ?? [],
+      difficulty: lesson.difficulty,
+      duration: lesson.duration ?? 25,
+      order: lesson.order,
+    };
+
+    const parentModule = createdModules[lesson.moduleIndex];
+    if (!parentModule) throw new Error(`No module at index ${lesson.moduleIndex}`);
+
+    createdTopics.push(
+      await prisma.courseTopic.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: lesson.slug } },
+        create: { courseId: course.id, moduleId: parentModule.id, slug: lesson.slug, ...fields },
+        update: fields,
+      }),
+    );
+  }
+
+  await prisma.courseTopic.deleteMany({
+    where: { courseId: course.id, slug: { notIn: topics.map((t) => t.slug) } },
+  });
+  await prisma.courseModule.deleteMany({
+    where: { courseId: course.id, slug: { notIn: modules.map((m) => m.slug) } },
+  });
+
+  return { modules: createdModules.length, topics: createdTopics.length };
+}
+
 async function main(): Promise<void> {
   console.log('Seeding DevPrep content…\n');
 
@@ -2806,6 +3002,10 @@ async function main(): Promise<void> {
   console.log('\nSeeding Node.js Course…');
   const nodeStats = await seedNodeCourse();
   console.log(`  1 course, ${nodeStats.modules} modules, ${nodeStats.topics} lessons`);
+
+  console.log('\nSeeding Python Course…');
+  const pythonStats = await seedPythonCourse();
+  console.log(`  1 course, ${pythonStats.modules} modules, ${pythonStats.topics} lessons`);
 
   console.log('\nDone. Sign up in the app to start tracking progress.');
 }
