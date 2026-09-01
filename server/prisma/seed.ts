@@ -240,6 +240,8 @@ import { NODE_MODULE_7_PART20 } from './seed-data/course-node-module7-part20';
 import { NODE_MODULE_7_PART21 } from './seed-data/course-node-module7-part21';
 import { PYTHON_MODULE_1 } from './seed-data/course-python-module1';
 import { PYTHON_MODULE_1_PART2 } from './seed-data/course-python-module1-part2';
+import { PYTHON_MODULE_2 } from './seed-data/course-python-module2';
+import { PYTHON_MODULE_2_PART2 } from './seed-data/course-python-module2-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -2906,6 +2908,10 @@ async function seedPythonCourse(): Promise<{ modules: number; topics: number }> 
     ...[...PYTHON_MODULE_1, ...PYTHON_MODULE_1_PART2].map((lesson) => ({
       ...lesson,
       moduleIndex: 0,
+    })),
+    ...[...PYTHON_MODULE_2, ...PYTHON_MODULE_2_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 1,
     })),
   ];
 
