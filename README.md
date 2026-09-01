@@ -8,8 +8,49 @@ Every explanation is written twice — **English and Hinglish** — with a toggl
 
 ---
 
+## Quick start (local)
+
+Prerequisites: **Node 20+**, and either **Docker Desktop** or nothing extra (there is a no-Docker path for both the database and code execution).
+
+```bash
+git clone https://github.com/JayrajPratapSingh/devlearnings.git
+cd devlearnings          # repo root is the devprep-ide monorepo
+cp .env.example .env
+```
+
+Open `.env` and fill in `POSTGRES_PASSWORD`, `DATABASE_URL`, and two **different** random secrets (`JWT_ACCESS_SECRET`, `JWT_REFRESH_SECRET`). Generate a secret with:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+Then, from the repo root:
+
+```bash
+npm install
+
+# start Postgres — pick ONE:
+npm run db:local          # portable Postgres, no Docker (runs in its own terminal)
+#   or
+npm run db:up             # Docker Postgres container
+
+# in another terminal: create the schema and load all content
+npm run db:push
+npm run seed              # idempotent — safe to re-run after editing content
+
+# start everything (frontend + API + execution service)
+npm run dev
+```
+
+Open **http://localhost:5173**, create an account, and start. Code execution needs Docker running; without it, set `SANDBOX_DRIVER=local` in `.env` for a dev-only local runner.
+
+The full walkthrough, including the no-Docker details, is in [Setup](#setup) and [Running it](#running-it) below.
+
+---
+
 ## Contents
 
+- [Quick start (local)](#quick-start-local)
 - [What is in the box](#what-is-in-the-box)
 - [Architecture](#architecture)
 - [Setup](#setup)
@@ -32,6 +73,7 @@ Every explanation is written twice — **English and Hinglish** — with a toggl
 |---|---|
 | **DSA** | 41 problems across all 17 categories, each with description, examples, constraints, progressive hints, approach, complexity, a written explanation, per-language starter code, sample + hidden test cases, and a reference solution that unlocks only after you solve it |
 | **Learning modules** | 184 topics across 21 categories — JavaScript, TypeScript, Generative AI, Three.js & R3F, Firebase, React, Node/Express, Python, FastAPI, Django, SQL, PostgreSQL, MongoDB, REST, WebSockets, Auth, Schema & Data Modelling, Web Security, System Design, Deployment & Operations, and tooling. Every topic has three views — **Simple** (analogy first), **Tricks** (how to remember it) and **Interview** (full depth) — all in English and Hinglish |
+| **Standalone courses** | Long-form, module-by-module courses that go noob → pro: **JavaScript**, **CSS & HTML**, **TypeScript**, **React**, **DSA** (14 modules / 86 lessons), **Node.js**, and **Python** (in progress). Every lesson follows the same shape — a real-life analogy, a broken example, the fix, a deep dive, worked examples with runnable output, common mistakes, real-world use, interview Q&A, exercises, and key takeaways — in English and Hinglish. Data lives in `server/prisma/seed-data/course-*.ts`; every code sample is executed and diffed against its stated output before it ships |
 | **Question bank** | 128 rapid-fire interview questions with short answer, detailed answer, code example and the follow-ups interviewers actually ask |
 | **Code execution** | JavaScript, Node.js and Python, run inside a throwaway Docker container with timeout, memory, CPU, PID and output limits |
 | **Algorithm visualiser** | 9 step-by-step animations — pointers converging, a hash map filling, a DP table being built, flood fill spreading. Play/pause/scrub/speed, with a plain-language reason for every step in EN and Hinglish |
@@ -419,6 +461,8 @@ npm run seed:verify
 It runs every reference solution against every test case in both languages and exits non-zero on any mismatch.
 
 **A topic** goes in the matching `topics-*.ts` file; **a question** in `questions.ts`. The `*Hi` fields are optional everywhere — the UI falls back to English and tells the reader when it does.
+
+**A standalone course lesson** goes in `server/prisma/seed-data/course-<name>-moduleN[-partK].ts`, each file exporting `<NAME>_MODULE_N: CourseLesson[]`. A new course also needs a `seed<Name>Course()` function in `seed.ts` (copy `seedDsaCourse()`, change the `courseData` slug/name/icon/order, the `modules` array, and the `topics` spread blocks) plus a call in `main()`. The `CourseLesson` shape (`analogy`, `simple`/`content`, `examples`, `mistakes`, `realWorld`, `interviewQA`, `exercises`, `keyTakeaways`, all with `*Hi` twins) is defined in `course-js-module1.ts`. Two rules that bite: inside the `simple`/`content` template-literal fields every backtick — including inline-code spans inside ` ``` ` blocks — must be escaped as `` \` ``; and every `examples[].code` sample must be run (`python` / `node`) and its real output pasted into `examples[].output` verbatim.
 
 **An interview track** lives in `client/src/data/tracks.ts`. A track is a curriculum, not user data, so it stays on the client and stores nothing: progress is derived from the problems you have already solved, which means a track can never disagree with the rest of the app about what you have done. Days reference topics, problems and question categories **by slug**, and nothing type-checks those against the database — so after editing, run:
 
