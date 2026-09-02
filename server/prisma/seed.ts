@@ -258,6 +258,8 @@ import { PYTHON_MODULE_9 } from './seed-data/course-python-module9';
 import { PYTHON_MODULE_9_PART2 } from './seed-data/course-python-module9-part2';
 import { PYTHON_MODULE_10 } from './seed-data/course-python-module10';
 import { PYTHON_MODULE_10_PART2 } from './seed-data/course-python-module10-part2';
+import { DJANGO_MODULE_1 } from './seed-data/course-django-module1';
+import { DJANGO_MODULE_1_PART2 } from './seed-data/course-django-module1-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -3011,6 +3013,200 @@ async function seedPythonCourse(): Promise<{ modules: number; topics: number }> 
   return { modules: createdModules.length, topics: createdTopics.length };
 }
 
+async function seedDjangoCourse(): Promise<{ modules: number; topics: number }> {
+  const courseData = {
+    slug: 'django-complete',
+    name: 'Django Complete Course',
+    nameHi: 'Django Complete Course - Noob Se Pro Tak',
+    description:
+      'Django and Django REST Framework from your first project to production: the request lifecycle, the ORM and query optimization, DRF serializers and viewsets, authentication and API security, caching and performance at scale, large-data and background work, the admin and dashboards and observability, and deployment. Taught for a developer coming from Express/Node who has inherited a Django/DRF backend.',
+    descriptionHi:
+      'Django aur Django REST Framework aapke pehle project se production tak: request lifecycle, ORM aur query optimization, DRF serializers aur viewsets, authentication aur API security, scale par caching aur performance, large-data aur background work, admin aur dashboards aur observability, aur deployment. Ek Express/Node se aaye developer ke liye sikhaaya gaya jisne ek Django/DRF backend inherit kiya hai.',
+    icon: '🎸',
+    color: '#0C4B33',
+    level: 'intermediate' as const,
+    totalXpReward: 8000,
+    estimatedHours: 170,
+    maxDifficulty: 'HARD' as const,
+    order: 8,
+    isPublished: true,
+  };
+
+  const course = await prisma.course.upsert({
+    where: { slug: courseData.slug },
+    create: courseData,
+    update: courseData,
+  });
+
+  const modules = [
+    {
+      slug: 'django-module-1-foundations-request-lifecycle',
+      name: 'Module 1: Foundations & the Request Lifecycle',
+      nameHi: 'Module 1: Buniyaad Aur Request Lifecycle',
+      description:
+        'What Django is and "batteries included", project vs app, settings and 12-factor configuration, URLs and routing, the WSGI/ASGI request-response cycle, middleware and its ordering, and management commands and the shell.',
+      descriptionHi:
+        'Django kya hai aur "batteries included", project vs app, settings aur 12-factor configuration, URLs aur routing, WSGI/ASGI request-response cycle, middleware aur iska ordering, aur management commands aur shell.',
+      order: 1,
+    },
+    {
+      slug: 'django-module-2-models-and-the-orm',
+      name: 'Module 2: Models & the ORM',
+      nameHi: 'Module 2: Models Aur ORM',
+      description:
+        'Model definition and field types, Meta options, migrations and how they work, data migrations, model methods and __str__, relationships (ForeignKey, ManyToMany, OneToOne, related_name, on_delete), and model inheritance.',
+      descriptionHi:
+        'Model definition aur field types, Meta options, migrations aur wo kaise kaam karti hain, data migrations, model methods aur __str__, relationships (ForeignKey, ManyToMany, OneToOne, related_name, on_delete), aur model inheritance.',
+      order: 2,
+    },
+    {
+      slug: 'django-module-3-querysets-and-optimization',
+      name: 'Module 3: QuerySets, Query Optimization & the N+1 Problem',
+      nameHi: 'Module 3: QuerySets, Query Optimization Aur N+1 Problem',
+      description:
+        'QuerySet laziness and caching, filtering with Q and F, select_related and prefetch_related, only/defer/values, annotations and aggregations, Prefetch objects, indexes, bulk_create/bulk_update, explain(), and detecting N+1 queries.',
+      descriptionHi:
+        'QuerySet laziness aur caching, Q aur F ke saath filtering, select_related aur prefetch_related, only/defer/values, annotations aur aggregations, Prefetch objects, indexes, bulk_create/bulk_update, explain(), aur N+1 queries detect karna.',
+      order: 3,
+    },
+    {
+      slug: 'django-module-4-views-urls-forms',
+      name: 'Module 4: Views, URLs & Forms',
+      nameHi: 'Module 4: Views, URLs Aur Forms',
+      description:
+        'Function-based vs class-based vs generic views, get_object_or_404, pagination, the messages framework, forms and ModelForms and validation, CSRF protection, and class-based view mixins.',
+      descriptionHi:
+        'Function-based vs class-based vs generic views, get_object_or_404, pagination, messages framework, forms aur ModelForms aur validation, CSRF protection, aur class-based view mixins.',
+      order: 4,
+    },
+    {
+      slug: 'django-module-5-drf-serializers-viewsets',
+      name: 'Module 5: Django REST Framework: Serializers, Views, Routers',
+      nameHi: 'Module 5: Django REST Framework: Serializers, Views, Routers',
+      description:
+        'Serializers vs ModelSerializer, nested serializers, SerializerMethodField, validation, APIView vs generics vs ViewSet, routers, pagination classes, filtering with django-filter, versioning, and content negotiation.',
+      descriptionHi:
+        'Serializers vs ModelSerializer, nested serializers, SerializerMethodField, validation, APIView vs generics vs ViewSet, routers, pagination classes, django-filter ke saath filtering, versioning, aur content negotiation.',
+      order: 5,
+    },
+    {
+      slug: 'django-module-6-auth-permissions-api-security',
+      name: 'Module 6: Authentication, Permissions & API Security',
+      nameHi: 'Module 6: Authentication, Permissions Aur API Security',
+      description:
+        'Session vs token vs JWT auth, custom user models, permissions and object-level permissions, throttling and rate limiting, CORS, the Django security checklist (SECURE_* settings, HTTPS/HSTS, secure cookies), OWASP for APIs, and secrets management.',
+      descriptionHi:
+        'Session vs token vs JWT auth, custom user models, permissions aur object-level permissions, throttling aur rate limiting, CORS, Django security checklist (SECURE_* settings, HTTPS/HSTS, secure cookies), APIs ke liye OWASP, aur secrets management.',
+      order: 6,
+    },
+    {
+      slug: 'django-module-7-caching-and-performance',
+      name: 'Module 7: Caching & Performance at Scale',
+      nameHi: 'Module 7: Scale Par Caching Aur Performance',
+      description:
+        'The cache framework (Redis/Memcached), per-view and low-level caching, template fragment caching, cache invalidation strategies, cached_property, database connection pooling (CONN_MAX_AGE, pgbouncer), HTTP caching (ETags, Cache-Control), and select_for_update.',
+      descriptionHi:
+        'Cache framework (Redis/Memcached), per-view aur low-level caching, template fragment caching, cache invalidation strategies, cached_property, database connection pooling (CONN_MAX_AGE, pgbouncer), HTTP caching (ETags, Cache-Control), aur select_for_update.',
+      order: 7,
+    },
+    {
+      slug: 'django-module-8-large-data-and-background-work',
+      name: 'Module 8: Large Data & Background Work',
+      nameHi: 'Module 8: Large Data Aur Background Work',
+      description:
+        'Streaming responses, iterator() and chunk_size for large querysets, server-side cursors, exporting large CSV, keyset/cursor pagination, database routers and read replicas, Celery (tasks, retries, idempotency, beat, Flower), and transactions (atomic, on_commit, zero-downtime migrations on big tables).',
+      descriptionHi:
+        'Streaming responses, bade querysets ke liye iterator() aur chunk_size, server-side cursors, bada CSV export karna, keyset/cursor pagination, database routers aur read replicas, Celery (tasks, retries, idempotency, beat, Flower), aur transactions (atomic, on_commit, bade tables par zero-downtime migrations).',
+      order: 8,
+    },
+    {
+      slug: 'django-module-9-admin-dashboards-observability',
+      name: 'Module 9: Admin, Dashboards & Observability',
+      nameHi: 'Module 9: Admin, Dashboards Aur Observability',
+      description:
+        'Django admin customization (ModelAdmin, list_display, list_select_related, actions, inlines, permissions), building an internal metrics dashboard with aggregation queries, logging configuration and structured logs, Sentry, health-check endpoints, Prometheus metrics, and profiling with django-silk.',
+      descriptionHi:
+        'Django admin customization (ModelAdmin, list_display, list_select_related, actions, inlines, permissions), aggregation queries ke saath ek internal metrics dashboard banana, logging configuration aur structured logs, Sentry, health-check endpoints, Prometheus metrics, aur django-silk se profiling.',
+      order: 9,
+    },
+    {
+      slug: 'django-module-10-testing-settings-deployment',
+      name: 'Module 10: Testing, Settings & Production Deployment',
+      nameHi: 'Module 10: Testing, Settings Aur Production Deployment',
+      description:
+        'pytest-django and factory_boy, the test database and APIClient, mocking external services and coverage, settings layout and 12-factor, collectstatic and WhiteNoise/S3, Gunicorn/Uvicorn configuration, running behind Nginx, Docker, migrations in CI/CD, zero-downtime deploys, and async views.',
+      descriptionHi:
+        'pytest-django aur factory_boy, test database aur APIClient, external services mocking aur coverage, settings layout aur 12-factor, collectstatic aur WhiteNoise/S3, Gunicorn/Uvicorn configuration, Nginx ke peeche chalana, Docker, CI/CD mein migrations, zero-downtime deploys, aur async views.',
+      order: 10,
+    },
+  ];
+
+  const createdModules = [];
+  for (const moduleData of modules) {
+    createdModules.push(
+      await prisma.courseModule.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: moduleData.slug } },
+        create: { courseId: course.id, ...moduleData },
+        update: moduleData,
+      }),
+    );
+  }
+
+  const topics = [
+    ...[...DJANGO_MODULE_1, ...DJANGO_MODULE_1_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 0,
+    })),
+  ];
+
+  const json = (v: unknown) => v as Prisma.InputJsonValue;
+  const createdTopics = [];
+
+  for (const lesson of topics) {
+    const fields = {
+      title: lesson.title,
+      titleHi: lesson.titleHi,
+      description: lesson.description,
+      descriptionHi: lesson.descriptionHi,
+      simple: lesson.simple,
+      simpleHi: lesson.simpleHi,
+      content: lesson.content,
+      contentHi: lesson.contentHi,
+      analogy: json(lesson.analogy ?? {}),
+      examples: json(lesson.examples ?? []),
+      mistakes: json(lesson.mistakes ?? []),
+      realWorld: json(lesson.realWorld ?? []),
+      interviewQA: json(lesson.interviewQA ?? []),
+      exercises: json(lesson.exercises ?? []),
+      keyTakeaways: lesson.keyTakeaways ?? [],
+      keyTakeawaysHi: lesson.keyTakeawaysHi ?? [],
+      difficulty: lesson.difficulty,
+      duration: lesson.duration ?? 25,
+      order: lesson.order,
+    };
+
+    const parentModule = createdModules[lesson.moduleIndex];
+    if (!parentModule) throw new Error(`No module at index ${lesson.moduleIndex}`);
+
+    createdTopics.push(
+      await prisma.courseTopic.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: lesson.slug } },
+        create: { courseId: course.id, moduleId: parentModule.id, slug: lesson.slug, ...fields },
+        update: fields,
+      }),
+    );
+  }
+
+  await prisma.courseTopic.deleteMany({
+    where: { courseId: course.id, slug: { notIn: topics.map((t) => t.slug) } },
+  });
+  await prisma.courseModule.deleteMany({
+    where: { courseId: course.id, slug: { notIn: modules.map((m) => m.slug) } },
+  });
+
+  return { modules: createdModules.length, topics: createdTopics.length };
+}
+
 async function main(): Promise<void> {
   console.log('Seeding DevPrep content…\n');
 
@@ -3060,6 +3256,10 @@ async function main(): Promise<void> {
   console.log('\nSeeding Python Course…');
   const pythonStats = await seedPythonCourse();
   console.log(`  1 course, ${pythonStats.modules} modules, ${pythonStats.topics} lessons`);
+
+  console.log('\nSeeding Django Course…');
+  const djangoStats = await seedDjangoCourse();
+  console.log(`  1 course, ${djangoStats.modules} modules, ${djangoStats.topics} lessons`);
 
   console.log('\nDone. Sign up in the app to start tracking progress.');
 }
