@@ -270,6 +270,8 @@ import { DJANGO_MODULE_5 } from './seed-data/course-django-module5';
 import { DJANGO_MODULE_5_PART2 } from './seed-data/course-django-module5-part2';
 import { DJANGO_MODULE_6 } from './seed-data/course-django-module6';
 import { DJANGO_MODULE_6_PART2 } from './seed-data/course-django-module6-part2';
+import { DJANGO_MODULE_7 } from './seed-data/course-django-module7';
+import { DJANGO_MODULE_7_PART2 } from './seed-data/course-django-module7-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -3186,6 +3188,10 @@ async function seedDjangoCourse(): Promise<{ modules: number; topics: number }> 
     ...[...DJANGO_MODULE_6, ...DJANGO_MODULE_6_PART2].map((lesson) => ({
       ...lesson,
       moduleIndex: 5,
+    })),
+    ...[...DJANGO_MODULE_7, ...DJANGO_MODULE_7_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 6,
     })),
   ];
 
