@@ -280,6 +280,10 @@ import { DJANGO_MODULE_10 } from './seed-data/course-django-module10';
 import { DJANGO_MODULE_10_PART2 } from './seed-data/course-django-module10-part2';
 import { DJANGO_MODULE_11 } from './seed-data/course-django-module11';
 import { DJANGO_MODULE_11_PART2 } from './seed-data/course-django-module11-part2';
+import { DJANGO_MODULE_12 } from './seed-data/course-django-module12';
+import { DJANGO_MODULE_12_PART2 } from './seed-data/course-django-module12-part2';
+import { DJANGO_MODULE_13 } from './seed-data/course-django-module13';
+import { DJANGO_MODULE_13_PART2 } from './seed-data/course-django-module13-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -3169,6 +3173,26 @@ async function seedDjangoCourse(): Promise<{ modules: number; topics: number }> 
         'Django Template Language (variable resolution, tags, filters, autoescaping aur XSS), render/render_to_string/TemplateResponse, extends/block/block.super ke saath template inheritance aur include ke saath partials, custom template tags aur filters (simple_tag, inclusion_tag, context processors, format_html vs mark_safe), aur templated HTML email (EmailMultiAlternatives, locmem backend aur mail.outbox, ek background task se bhejna).',
       order: 11,
     },
+    {
+      slug: 'django-module-12-realtime-with-channels',
+      name: 'Module 12: Realtime with Channels',
+      nameHi: 'Module 12: Channels Ke Saath Realtime',
+      description:
+        'ASGI vs WSGI, the ASGI application and ProtocolTypeRouter/URLRouter, WebSocket consumers (sync vs async vs JSON, connect/receive/disconnect, the scope, AuthMiddlewareStack, database_sync_to_async), the channel layer and groups (group_add/discard/send, the type->handler dispatch, broadcasting from a view or Celery task, InMemory vs Redis), and testing/deploying/scaling Channels plus choosing between WebSocket, SSE and polling.',
+      descriptionHi:
+        'ASGI vs WSGI, ASGI application aur ProtocolTypeRouter/URLRouter, WebSocket consumers (sync vs async vs JSON, connect/receive/disconnect, scope, AuthMiddlewareStack, database_sync_to_async), channel layer aur groups (group_add/discard/send, type->handler dispatch, ek view ya Celery task se broadcasting, InMemory vs Redis), aur Channels testing/deploying/scaling plus WebSocket, SSE aur polling ke beech chunna.',
+      order: 12,
+    },
+    {
+      slug: 'django-module-13-advanced-orm-and-generic-relations',
+      name: 'Module 13: Advanced ORM Expressions & Generic Relations',
+      nameHi: 'Module 13: Advanced ORM Expressions Aur Generic Relations',
+      description:
+        'Conditional expressions (Case/When/Value, Coalesce, Greatest/Least and the SQLite vs PostgreSQL NULL difference), conditional aggregation with Count/Sum(filter=Q(...)), window functions (RowNumber/Rank/Lag/Lead, running totals, partition_by/order_by/frames), correlated subqueries (Subquery/OuterRef/Exists in annotate/filter/update, subquery vs join vs prefetch), and the contenttypes framework (ContentType, GenericForeignKey, GenericRelation, the N+1 and prefetch, and when concrete FKs are the better design).',
+      descriptionHi:
+        'Conditional expressions (Case/When/Value, Coalesce, Greatest/Least aur SQLite vs PostgreSQL NULL antar), Count/Sum(filter=Q(...)) ke saath conditional aggregation, window functions (RowNumber/Rank/Lag/Lead, running totals, partition_by/order_by/frames), correlated subqueries (annotate/filter/update mein Subquery/OuterRef/Exists, subquery vs join vs prefetch), aur contenttypes framework (ContentType, GenericForeignKey, GenericRelation, N+1 aur prefetch, aur kab concrete FKs behtar design hain).',
+      order: 13,
+    },
   ];
 
   const createdModules = [];
@@ -3226,6 +3250,14 @@ async function seedDjangoCourse(): Promise<{ modules: number; topics: number }> 
     ...[...DJANGO_MODULE_11, ...DJANGO_MODULE_11_PART2].map((lesson) => ({
       ...lesson,
       moduleIndex: 10,
+    })),
+    ...[...DJANGO_MODULE_12, ...DJANGO_MODULE_12_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 11,
+    })),
+    ...[...DJANGO_MODULE_13, ...DJANGO_MODULE_13_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 12,
     })),
   ];
 
