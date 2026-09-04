@@ -291,6 +291,8 @@ import { DJANGO_MODULE_12 } from './seed-data/course-django-module12';
 import { DJANGO_MODULE_12_PART2 } from './seed-data/course-django-module12-part2';
 import { DJANGO_MODULE_13 } from './seed-data/course-django-module13';
 import { DJANGO_MODULE_13_PART2 } from './seed-data/course-django-module13-part2';
+import { SQL_MODULE_1 } from './seed-data/course-sql-module1';
+import { SQL_MODULE_1_PART2 } from './seed-data/course-sql-module1-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -3358,6 +3360,300 @@ async function seedDjangoCourse(): Promise<{ modules: number; topics: number }> 
   return { modules: createdModules.length, topics: createdTopics.length };
 }
 
+async function seedDatabasesCourse(): Promise<{ modules: number; topics: number }> {
+  const courseData = {
+    slug: 'databases-complete',
+    name: 'Databases Complete Course',
+    nameHi: 'Databases Complete Course - Noob Se Pro Tak',
+    description:
+      'Databases from the relational model to production, across multiple systems: SQL and query fundamentals, data modelling and normalization, DDL and constraints, transactions and isolation, indexes and query performance, PostgreSQL power features and operations, MongoDB (documents, modelling, aggregation, sharding), Cloud Firestore and the Realtime Database, Redis and SQLite, and a tour of the wider landscape (columnar, graph, time-series, search) with how to choose. Pro-level examples, verified against real engines.',
+    descriptionHi:
+      'Databases relational model se production tak, kई systems ke aar-paar: SQL aur query fundamentals, data modelling aur normalization, DDL aur constraints, transactions aur isolation, indexes aur query performance, PostgreSQL power features aur operations, MongoDB (documents, modelling, aggregation, sharding), Cloud Firestore aur Realtime Database, Redis aur SQLite, aur wider landscape ka ek tour (columnar, graph, time-series, search) kaise chunna ke saath. Pro-level examples, real engines ke against verified.',
+    icon: '🗄️',
+    color: '#336791',
+    level: 'intermediate' as const,
+    totalXpReward: 10000,
+    estimatedHours: 220,
+    maxDifficulty: 'HARD' as const,
+    order: 11,
+    isPublished: true,
+  };
+
+  const course = await prisma.course.upsert({
+    where: { slug: courseData.slug },
+    create: courseData,
+    update: courseData,
+  });
+
+  const modules = [
+    {
+      slug: 'db-module-1-relational-model-and-select',
+      name: 'Module 1: The Relational Model & SELECT Basics',
+      nameHi: 'Module 1: Relational Model Aur SELECT Basics',
+      description:
+        'Tables, rows, columns and data types; NULL and the schema; a first SELECT with projection, aliases and DISTINCT; filtering with WHERE (operators, AND/OR precedence, IN, BETWEEN); NULL and three-valued logic; ORDER BY, NULLS placement, ties, LIMIT/OFFSET and pagination cost; and the logical query processing order (FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY -> LIMIT).',
+      descriptionHi:
+        'Tables, rows, columns aur data types; NULL aur schema; projection, aliases aur DISTINCT ke saath ek pehla SELECT; WHERE se filtering (operators, AND/OR precedence, IN, BETWEEN); NULL aur three-valued logic; ORDER BY, NULLS placement, ties, LIMIT/OFFSET aur pagination cost; aur logical query processing order.',
+      order: 1,
+    },
+    {
+      slug: 'db-module-2-filtering-expressions-functions',
+      name: 'Module 2: Filtering, Expressions & Functions',
+      nameHi: 'Module 2: Filtering, Expressions Aur Functions',
+      description:
+        'Comparison, logical and arithmetic operators; LIKE / ILIKE / SIMILAR TO and regex; IN / BETWEEN; CASE expressions; COALESCE / NULLIF / GREATEST / LEAST; string, numeric and date/time functions and intervals; CAST and the :: operator; implicit vs explicit type coercion.',
+      descriptionHi:
+        'Comparison, logical aur arithmetic operators; LIKE / ILIKE / SIMILAR TO aur regex; IN / BETWEEN; CASE expressions; COALESCE / NULLIF / GREATEST / LEAST; string, numeric aur date/time functions aur intervals; CAST aur :: operator; implicit vs explicit type coercion.',
+      order: 2,
+    },
+    {
+      slug: 'db-module-3-joins',
+      name: 'Module 3: Joins',
+      nameHi: 'Module 3: Joins',
+      description:
+        'INNER / LEFT / RIGHT / FULL / CROSS joins; USING vs ON; self-joins; multi-table joins; the accidental cross join and fan-out; NATURAL JOIN and why to avoid it; join vs subquery; LATERAL joins.',
+      descriptionHi:
+        'INNER / LEFT / RIGHT / FULL / CROSS joins; USING vs ON; self-joins; multi-table joins; accidental cross join aur fan-out; NATURAL JOIN aur ise kyun avoid karna; join vs subquery; LATERAL joins.',
+      order: 3,
+    },
+    {
+      slug: 'db-module-4-aggregation-and-group-by',
+      name: 'Module 4: Aggregation & GROUP BY',
+      nameHi: 'Module 4: Aggregation Aur GROUP BY',
+      description:
+        'COUNT / SUM / AVG / MIN / MAX; the GROUP BY rules; HAVING vs WHERE; FILTER (WHERE ...); DISTINCT inside aggregates; GROUPING SETS / ROLLUP / CUBE; array_agg / string_agg / json_agg.',
+      descriptionHi:
+        'COUNT / SUM / AVG / MIN / MAX; GROUP BY ke niyam; HAVING vs WHERE; FILTER (WHERE ...); aggregates ke andar DISTINCT; GROUPING SETS / ROLLUP / CUBE; array_agg / string_agg / json_agg.',
+      order: 4,
+    },
+    {
+      slug: 'db-module-5-subqueries-and-ctes',
+      name: 'Module 5: Subqueries & CTEs',
+      nameHi: 'Module 5: Subqueries Aur CTEs',
+      description:
+        'Scalar, row and table subqueries; correlated subqueries; EXISTS / IN / ANY / ALL and NULL safety; WITH (common table expressions) for readability and materialization; WITH RECURSIVE for hierarchies, graphs and series; data-modifying CTEs.',
+      descriptionHi:
+        'Scalar, row aur table subqueries; correlated subqueries; EXISTS / IN / ANY / ALL aur NULL safety; WITH (CTEs) readability aur materialization ke liye; WITH RECURSIVE hierarchies, graphs aur series ke liye; data-modifying CTEs.',
+      order: 5,
+    },
+    {
+      slug: 'db-module-6-window-functions',
+      name: 'Module 6: Window Functions',
+      nameHi: 'Module 6: Window Functions',
+      description:
+        'OVER (PARTITION BY ... ORDER BY ...); ROW_NUMBER / RANK / DENSE_RANK / NTILE; LAG / LEAD / FIRST_VALUE / LAST_VALUE / NTH_VALUE; aggregate windows and running totals; frame clauses (ROWS / RANGE / GROUPS BETWEEN); named windows; top-N-per-group; why you cannot filter on a window and what to do instead.',
+      descriptionHi:
+        'OVER (PARTITION BY ... ORDER BY ...); ROW_NUMBER / RANK / DENSE_RANK / NTILE; LAG / LEAD / FIRST_VALUE / LAST_VALUE / NTH_VALUE; aggregate windows aur running totals; frame clauses (ROWS / RANGE / GROUPS BETWEEN); named windows; top-N-per-group; ek window par filter kyun nahi kar sakte aur iske bजाy kya karna.',
+      order: 6,
+    },
+    {
+      slug: 'db-module-7-data-modeling-and-normalization',
+      name: 'Module 7: Data Modeling & Normalization',
+      nameHi: 'Module 7: Data Modeling Aur Normalization',
+      description:
+        'Entities, attributes and relationships; ER modeling; natural vs surrogate vs composite keys; foreign keys and referential actions; 1NF / 2NF / 3NF / BCNF with worked examples; when and how to denormalize; junction tables for many-to-many; one-to-one and self-referencing; common patterns (audit columns, soft delete, status enums, polymorphic association, and why EAV is a trap).',
+      descriptionHi:
+        'Entities, attributes aur relationships; ER modeling; natural vs surrogate vs composite keys; foreign keys aur referential actions; 1NF / 2NF / 3NF / BCNF worked examples ke saath; kab aur kaise denormalize karna; many-to-many ke liye junction tables; one-to-one aur self-referencing; common patterns (audit columns, soft delete, status enums, polymorphic association, aur EAV ek trap kyun hai).',
+      order: 7,
+    },
+    {
+      slug: 'db-module-8-ddl-constraints-schema-evolution',
+      name: 'Module 8: DDL, Constraints & Schema Evolution',
+      nameHi: 'Module 8: DDL, Constraints Aur Schema Evolution',
+      description:
+        'CREATE TABLE and a column-type deep dive (int sizes, numeric vs float, text vs varchar, timestamptz, uuid, boolean, enum, jsonb, arrays); PRIMARY KEY / UNIQUE / FOREIGN KEY / CHECK / NOT NULL / DEFAULT; generated columns; ALTER TABLE and its lock implications; sequences / IDENTITY / serial; schemas and search_path; DROP / TRUNCATE / CASCADE; migration discipline (versioned, expand-contract).',
+      descriptionHi:
+        'CREATE TABLE aur ek column-type deep dive; PRIMARY KEY / UNIQUE / FOREIGN KEY / CHECK / NOT NULL / DEFAULT; generated columns; ALTER TABLE aur iske lock implications; sequences / IDENTITY / serial; schemas aur search_path; DROP / TRUNCATE / CASCADE; migration discipline (versioned, expand-contract).',
+      order: 8,
+    },
+    {
+      slug: 'db-module-9-transactions-concurrency-isolation',
+      name: 'Module 9: Transactions, Concurrency & Isolation',
+      nameHi: 'Module 9: Transactions, Concurrency Aur Isolation',
+      description:
+        'ACID; BEGIN / COMMIT / ROLLBACK / SAVEPOINT; the four SQL isolation levels and the anomalies they prevent (dirty / non-repeatable / phantom reads, plus write skew); READ COMMITTED vs REPEATABLE READ vs SERIALIZABLE; MVCC in PostgreSQL; explicit locking (FOR UPDATE / FOR SHARE / SKIP LOCKED / NOWAIT); LOCK TABLE; advisory locks; deadlocks and how to avoid them; optimistic vs pessimistic concurrency.',
+      descriptionHi:
+        'ACID; BEGIN / COMMIT / ROLLBACK / SAVEPOINT; chaar SQL isolation levels aur anomalies jo wo rokte hain (dirty / non-repeatable / phantom reads, plus write skew); READ COMMITTED vs REPEATABLE READ vs SERIALIZABLE; PostgreSQL mein MVCC; explicit locking (FOR UPDATE / FOR SHARE / SKIP LOCKED / NOWAIT); LOCK TABLE; advisory locks; deadlocks aur unhe kaise avoid karna; optimistic vs pessimistic concurrency.',
+      order: 9,
+    },
+    {
+      slug: 'db-module-10-indexes-and-query-performance',
+      name: 'Module 10: Indexes & Query Performance',
+      nameHi: 'Module 10: Indexes Aur Query Performance',
+      description:
+        'How a B-tree index works; EXPLAIN and EXPLAIN (ANALYZE, BUFFERS); reading a plan (seq / index / index-only / bitmap heap scan; nested loop / hash / merge join); composite index column order and the leading-prefix rule; partial, expression and covering (INCLUDE) indexes; GIN / GiST / BRIN / hash; index bloat and maintenance cost; statistics and ANALYZE; when NOT to index; the query-tuning workflow.',
+      descriptionHi:
+        'Ek B-tree index kaise kaam karta hai; EXPLAIN aur EXPLAIN (ANALYZE, BUFFERS); ek plan padhna; composite index column order aur leading-prefix rule; partial, expression aur covering (INCLUDE) indexes; GIN / GiST / BRIN / hash; index bloat aur maintenance cost; statistics aur ANALYZE; kab index NAHI karna; query-tuning workflow.',
+      order: 10,
+    },
+    {
+      slug: 'db-module-11-postgresql-power-features',
+      name: 'Module 11: PostgreSQL Power Features',
+      nameHi: 'Module 11: PostgreSQL Power Features',
+      description:
+        'psql meta-commands and scripting; JSONB (operators, jsonb_path_query, GIN indexing, JSONB vs normalized); arrays; INSERT ... ON CONFLICT (upsert); RETURNING; MERGE; full-text search (tsvector / tsquery / ts_rank / GIN); generate_series; DISTINCT ON; materialized views and REFRESH CONCURRENTLY; extensions (pg_stat_statements, pgcrypto, pg_trgm, PostGIS); LISTEN / NOTIFY.',
+      descriptionHi:
+        'psql meta-commands aur scripting; JSONB (operators, jsonb_path_query, GIN indexing, JSONB vs normalized); arrays; INSERT ... ON CONFLICT (upsert); RETURNING; MERGE; full-text search (tsvector / tsquery / ts_rank / GIN); generate_series; DISTINCT ON; materialized views aur REFRESH CONCURRENTLY; extensions; LISTEN / NOTIFY.',
+      order: 11,
+    },
+    {
+      slug: 'db-module-12-postgresql-operations-and-scale',
+      name: 'Module 12: PostgreSQL Operations & Scale',
+      nameHi: 'Module 12: PostgreSQL Operations Aur Scale',
+      description:
+        'Roles, privileges, GRANT and row-level security; the process-per-connection model and pooling (pgbouncer, transaction vs session mode); VACUUM, autovacuum and bloat; WAL and checkpoints; physical vs logical replication; read replicas and routing; failover; partitioning (range / list / hash, partition pruning); backups (pg_dump, pg_basebackup, PITR); monitoring (pg_stat_activity, pg_stat_statements, pg_locks); zero-downtime schema changes; key configuration parameters.',
+      descriptionHi:
+        'Roles, privileges, GRANT aur row-level security; process-per-connection model aur pooling (pgbouncer, transaction vs session mode); VACUUM, autovacuum aur bloat; WAL aur checkpoints; physical vs logical replication; read replicas aur routing; failover; partitioning; backups (pg_dump, pg_basebackup, PITR); monitoring; zero-downtime schema changes; key configuration parameters.',
+      order: 12,
+    },
+    {
+      slug: 'db-module-13-mongodb-fundamentals',
+      name: 'Module 13: MongoDB Fundamentals',
+      nameHi: 'Module 13: MongoDB Fundamentals',
+      description:
+        'The document model and BSON types; databases, collections and documents; _id and ObjectId; CRUD (insertOne / insertMany / find / updateOne / updateMany / replaceOne / deleteOne / findOneAndUpdate); query operators ($eq / $gt / $in / $exists / $type / $regex / $elemMatch); projection; update operators ($set / $unset / $inc / $push / $pull / $addToSet / $rename); array positional operators; cursors and batching; mongosh.',
+      descriptionHi:
+        'Document model aur BSON types; databases, collections aur documents; _id aur ObjectId; CRUD; query operators; projection; update operators; array positional operators; cursors aur batching; mongosh.',
+      order: 13,
+    },
+    {
+      slug: 'db-module-14-mongodb-data-modeling',
+      name: 'Module 14: MongoDB Data Modeling',
+      nameHi: 'Module 14: MongoDB Data Modeling',
+      description:
+        'The embed vs reference decision framework; one-to-few / one-to-many / one-to-squillions; the schema design patterns (attribute, bucket, computed, subset, extended reference, outlier, tree/hierarchy, polymorphic, schema versioning); anti-patterns (massive/unbounded arrays, bloated documents, too many collections); the 16MB limit; time-series collections; keeping denormalized copies in sync.',
+      descriptionHi:
+        'Embed vs reference decision framework; one-to-few / one-to-many / one-to-squillions; schema design patterns; anti-patterns; 16MB limit; time-series collections; denormalized copies ko in sync rakhna.',
+      order: 14,
+    },
+    {
+      slug: 'db-module-15-mongodb-aggregation-and-indexes',
+      name: 'Module 15: MongoDB Aggregation & Indexes',
+      nameHi: 'Module 15: MongoDB Aggregation Aur Indexes',
+      description:
+        'The aggregation pipeline ($match / $project / $group / $sort / $limit / $skip / $unwind / $lookup / $facet / $bucket / $setWindowFields / $merge / $out); accumulators and expression operators; $lookup and its cost; $match placement and pipeline optimization; index types (single / compound / multikey / text / geospatial / hashed / wildcard / partial / TTL); the ESR rule; explain() (queryPlanner / executionStats); covered queries; hint().',
+      descriptionHi:
+        'Aggregation pipeline; accumulators aur expression operators; $lookup aur iski cost; $match placement aur pipeline optimization; index types; ESR rule; explain() (queryPlanner / executionStats); covered queries; hint().',
+      order: 15,
+    },
+    {
+      slug: 'db-module-16-mongodb-operations-and-distribution',
+      name: 'Module 16: MongoDB Operations & Distribution',
+      nameHi: 'Module 16: MongoDB Operations Aur Distribution',
+      description:
+        'Replica sets (primary / secondary / arbiter, elections, the oplog); read preference and read/write concern; causal consistency; sessions and multi-document transactions (and their cost and limits); sharding (shard key selection as the most important decision, chunk balancing, mongos, zone sharding); change streams; Atlas (Search, Triggers, Data Federation); backup and restore; schema validation ($jsonSchema).',
+      descriptionHi:
+        'Replica sets (primary / secondary / arbiter, elections, oplog); read preference aur read/write concern; causal consistency; sessions aur multi-document transactions (aur unki cost aur limits); sharding (shard key selection sabse mahatvapoorn decision ke roop mein, chunk balancing, mongos, zone sharding); change streams; Atlas; backup aur restore; schema validation ($jsonSchema).',
+      order: 16,
+    },
+    {
+      slug: 'db-module-17-cloud-firestore',
+      name: 'Module 17: Cloud Firestore',
+      nameHi: 'Module 17: Cloud Firestore',
+      description:
+        'The Firestore data model (documents, collections, subcollections, no joins); client vs admin SDK; CRUD and real-time listeners (onSnapshot); queries (compound queries, where / orderBy / limit / startAfter, the composite-index requirement, in / array-contains / array-contains-any limits, or()); cursor pagination; offline persistence and latency compensation; transactions and batched writes; FieldValue (serverTimestamp, increment, arrayUnion); security rules as the authorization layer; the pricing model and modelling for cost.',
+      descriptionHi:
+        'Firestore data model (documents, collections, subcollections, no joins); client vs admin SDK; CRUD aur real-time listeners (onSnapshot); queries (compound queries, composite-index requirement, in / array-contains limits, or()); cursor pagination; offline persistence aur latency compensation; transactions aur batched writes; FieldValue; security rules authorization layer ke roop mein; pricing model aur cost ke liye modelling.',
+      order: 17,
+    },
+    {
+      slug: 'db-module-18-realtime-database-and-firebase-modeling',
+      name: 'Module 18: Realtime Database & Firebase Data Modeling',
+      nameHi: 'Module 18: Realtime Database Aur Firebase Data Modeling',
+      description:
+        'The Realtime Database JSON tree (ref / child / push / update / on, shallow queries, .indexOn); RTDB vs Firestore and when to use each; Firebase-style data modeling (flatten the tree, fan-out writes, denormalize aggressively, avoid deep nesting); multi-path atomic updates; RTDB transactions and ServerValue; the presence system pattern; offline behavior; RTDB security rules; when Firebase fits and when it does not (lock-in, query limits, cost at scale, no server-side aggregation).',
+      descriptionHi:
+        'Realtime Database JSON tree (ref / child / push / update / on, shallow queries, .indexOn); RTDB vs Firestore aur kab kaunsa istemal karna; Firebase-style data modeling (tree flatten karo, fan-out writes, aggressively denormalize karo); multi-path atomic updates; RTDB transactions aur ServerValue; presence system pattern; offline behavior; RTDB security rules; Firebase kab fit hota hai aur kab nahi.',
+      order: 18,
+    },
+    {
+      slug: 'db-module-19-redis-sqlite-embedded-stores',
+      name: 'Module 19: Redis, SQLite & Embedded Stores',
+      nameHi: 'Module 19: Redis, SQLite Aur Embedded Stores',
+      description:
+        'Redis: the data model (strings, hashes, lists, sets, sorted sets, streams, bitmaps, HyperLogLog, geo); the single-threaded model; persistence (RDB / AOF); eviction policies and maxmemory; TTL; the core patterns (cache-aside, rate limiting, leaderboards, session store, distributed lock, job queue, pub/sub, Streams as a log); pipelining and MULTI/EXEC/WATCH; Lua; Cluster and Sentinel; primary store vs cache. SQLite: in-process one-file serverless design; WAL mode; the single-writer limit; type affinity; PRAGMAs; when SQLite is the right choice, and how it compares to PostgreSQL.',
+      descriptionHi:
+        'Redis: data model; single-threaded model; persistence (RDB / AOF); eviction policies aur maxmemory; TTL; core patterns (cache-aside, rate limiting, leaderboards, session store, distributed lock, job queue, pub/sub, Streams as a log); pipelining aur MULTI/EXEC/WATCH; Lua; Cluster aur Sentinel; primary store vs cache. SQLite: in-process one-file serverless design; WAL mode; single-writer limit; type affinity; PRAGMAs; SQLite kab sahi choice hai, aur ye PostgreSQL se kaise compare karti hai.',
+      order: 19,
+    },
+    {
+      slug: 'db-module-20-database-landscape-and-choosing',
+      name: 'Module 20: The Database Landscape & Choosing',
+      nameHi: 'Module 20: Database Landscape Aur Choosing',
+      description:
+        'A tour of the paradigms: columnar / OLAP (ClickHouse, DuckDB, BigQuery), graph (Neo4j, property graph, Cypher), time-series (TimescaleDB, InfluxDB), search (Elasticsearch / OpenSearch), wide-column (Cassandra, DynamoDB); CAP and PACELC; consistency models (strong, eventual, causal, read-your-writes); the ACID vs BASE spectrum; choosing a database from access patterns; polyglot persistence and the "PostgreSQL for the core, specialized stores at the edges" pattern; migrating between databases (dual-write, backfill, CDC); managed vs self-hosted.',
+      descriptionHi:
+        'Paradigms ka ek tour: columnar / OLAP (ClickHouse, DuckDB, BigQuery), graph (Neo4j, property graph, Cypher), time-series (TimescaleDB, InfluxDB), search (Elasticsearch / OpenSearch), wide-column (Cassandra, DynamoDB); CAP aur PACELC; consistency models; ACID vs BASE spectrum; access patterns se ek database chunna; polyglot persistence aur "core ke liye PostgreSQL, edges par specialized stores" pattern; databases ke beech migrate karna (dual-write, backfill, CDC); managed vs self-hosted.',
+      order: 20,
+    },
+  ];
+
+  const createdModules = [];
+  for (const moduleData of modules) {
+    createdModules.push(
+      await prisma.courseModule.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: moduleData.slug } },
+        create: { courseId: course.id, ...moduleData },
+        update: moduleData,
+      }),
+    );
+  }
+
+  const topics = [
+    ...[...SQL_MODULE_1, ...SQL_MODULE_1_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 0,
+    })),
+  ];
+
+  const json = (v: unknown) => v as Prisma.InputJsonValue;
+  const createdTopics = [];
+
+  for (const lesson of topics) {
+    const fields = {
+      title: lesson.title,
+      titleHi: lesson.titleHi,
+      description: lesson.description,
+      descriptionHi: lesson.descriptionHi,
+      simple: lesson.simple,
+      simpleHi: lesson.simpleHi,
+      content: lesson.content,
+      contentHi: lesson.contentHi,
+      analogy: json(lesson.analogy ?? {}),
+      examples: json(lesson.examples ?? []),
+      mistakes: json(lesson.mistakes ?? []),
+      realWorld: json(lesson.realWorld ?? []),
+      interviewQA: json(lesson.interviewQA ?? []),
+      exercises: json(lesson.exercises ?? []),
+      keyTakeaways: lesson.keyTakeaways ?? [],
+      keyTakeawaysHi: lesson.keyTakeawaysHi ?? [],
+      difficulty: lesson.difficulty,
+      duration: lesson.duration ?? 25,
+      order: lesson.order,
+    };
+
+    const parentModule = createdModules[lesson.moduleIndex];
+    if (!parentModule) throw new Error(`No module at index ${lesson.moduleIndex}`);
+
+    createdTopics.push(
+      await prisma.courseTopic.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: lesson.slug } },
+        create: { courseId: course.id, moduleId: parentModule.id, slug: lesson.slug, ...fields },
+        update: fields,
+      }),
+    );
+  }
+
+  await prisma.courseTopic.deleteMany({
+    where: { courseId: course.id, slug: { notIn: topics.map((t) => t.slug) } },
+  });
+  await prisma.courseModule.deleteMany({
+    where: { courseId: course.id, slug: { notIn: modules.map((m) => m.slug) } },
+  });
+
+  return { modules: createdModules.length, topics: createdTopics.length };
+}
+
 async function main(): Promise<void> {
   console.log('Seeding DevPrep content…\n');
 
@@ -3411,6 +3707,10 @@ async function main(): Promise<void> {
   console.log('\nSeeding Django Course…');
   const djangoStats = await seedDjangoCourse();
   console.log(`  1 course, ${djangoStats.modules} modules, ${djangoStats.topics} lessons`);
+
+  console.log('\nSeeding Databases Course…');
+  const databasesStats = await seedDatabasesCourse();
+  console.log(`  1 course, ${databasesStats.modules} modules, ${databasesStats.topics} lessons`);
 
   console.log('\nDone. Sign up in the app to start tracking progress.');
 }
