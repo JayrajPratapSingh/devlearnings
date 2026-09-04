@@ -238,6 +238,13 @@ import { NODE_MODULE_7_PART18 } from './seed-data/course-node-module7-part18';
 import { NODE_MODULE_7_PART19 } from './seed-data/course-node-module7-part19';
 import { NODE_MODULE_7_PART20 } from './seed-data/course-node-module7-part20';
 import { NODE_MODULE_7_PART21 } from './seed-data/course-node-module7-part21';
+import { NODE_MODULE_8 } from './seed-data/course-node-module8';
+import { NODE_MODULE_8_PART2 } from './seed-data/course-node-module8-part2';
+import { NODE_MODULE_8_PART3 } from './seed-data/course-node-module8-part3';
+import { NODE_MODULE_9 } from './seed-data/course-node-module9';
+import { NODE_MODULE_9_PART2 } from './seed-data/course-node-module9-part2';
+import { NODE_MODULE_10 } from './seed-data/course-node-module10';
+import { NODE_MODULE_10_PART2 } from './seed-data/course-node-module10-part2';
 import { PYTHON_MODULE_1 } from './seed-data/course-python-module1';
 import { PYTHON_MODULE_1_PART2 } from './seed-data/course-python-module1-part2';
 import { PYTHON_MODULE_2 } from './seed-data/course-python-module2';
@@ -2714,6 +2721,36 @@ async function seedNodeCourse(): Promise<{ modules: number; topics: number }> {
         'Database indexing, Redis se caching, surakshit production migrations, health checks aur graceful shutdown ke saath load balancing, retries aur circuit breakers ke saath idempotency, payment webhooks, secrets management, Server-Sent Events, metrics/observability, concurrency limiting aur load shedding, cache stampede protection, request timeouts, uncaughtException/unhandledRejection ke saath crash safety, VS Code setup ke saath production-ready project structure, module boundaries aur lightweight domain-driven design, monorepo aur large-team CI hygiene, feature flags aur progressive rollout, blue-green aur canary deployment strategies, multi-tenancy patterns, service aur job boundaries ke aar-paar distributed tracing, aur bade codebases ke liye dependency injection — JavaScript aur TypeScript dono mein saath-saath dikhaaye gaye.',
       order: 7,
     },
+    {
+      slug: 'node-module-8-async-javascript-and-primitives',
+      name: 'Module 8: Async JavaScript & Node Primitives',
+      nameHi: 'Module 8: Async JavaScript Aur Node Primitives',
+      description:
+        'The Promise combinators (all / allSettled / race / any), sequential vs parallel await and the await-in-a-loop trap, error propagation and unhandledRejection, util.promisify and async generators; cancellation with AbortController / AbortSignal.timeout / AbortSignal.any and bounding parallelism with a semaphore / p-limit / batching; and the EventEmitter (on / once / off, the special error event, the listener leak, promise and async-iterator bridges) — shown in JavaScript and TypeScript side by side.',
+      descriptionHi:
+        'Promise combinators (all / allSettled / race / any), sequential vs parallel await aur await-in-a-loop trap, error propagation aur unhandledRejection, util.promisify aur async generators; AbortController / AbortSignal.timeout / AbortSignal.any ke saath cancellation aur ek semaphore / p-limit / batching ke saath parallelism bound karna; aur EventEmitter (on / once / off, special error event, listener leak, promise aur async-iterator bridges) — JavaScript aur TypeScript dono mein saath-saath dikhaaye gaye.',
+      order: 8,
+    },
+    {
+      slug: 'node-module-9-data-layer-orms-and-nosql',
+      name: 'Module 9: The Data Layer — ORMs & NoSQL',
+      nameHi: 'Module 9: Data Layer — ORMs Aur NoSQL',
+      description:
+        'The abstraction spectrum from raw driver to query builder (Knex/Kysely) to schema ORM (Prisma/Drizzle) to active-record ORM, what each buys and costs, the ORM N+1 and how to detect and fix it, the raw-SQL escape hatch, and the repository pattern; then MongoDB and Mongoose — documents vs rows, embed vs reference, schemas/validation/middleware, the aggregation pipeline, indexes and COLLSCAN, and transactions — shown in JavaScript and TypeScript side by side.',
+      descriptionHi:
+        'Raw driver se query builder (Knex/Kysely) se schema ORM (Prisma/Drizzle) se active-record ORM tak abstraction spectrum, har ek kya deta aur leta hai, ORM N+1 aur ise detect aur fix karna, raw-SQL escape hatch, aur repository pattern; phir MongoDB aur Mongoose — documents vs rows, embed vs reference, schemas/validation/middleware, aggregation pipeline, indexes aur COLLSCAN, aur transactions — JavaScript aur TypeScript dono mein saath-saath dikhaaye gaye.',
+      order: 9,
+    },
+    {
+      slug: 'node-module-10-hardening-and-test-strategy',
+      name: 'Module 10: Hardening & Test Strategy',
+      nameHi: 'Module 10: Hardening Aur Test Strategy',
+      description:
+        'Security headers (helmet, Content-Security-Policy in depth, HSTS, nosniff, frame-ancestors, Referrer-Policy) and cookie hardening (httpOnly, Secure, SameSite, the __Host- prefix, signed cookies); and test strategy — the pyramid, what to mock (the network boundary and time, not your own code), intercepting HTTP with nock/MSW, test-database isolation, factories over fixtures, fake timers, and coverage as a map not a goal — shown in JavaScript and TypeScript side by side.',
+      descriptionHi:
+        'Security headers (helmet, Content-Security-Policy detail mein, HSTS, nosniff, frame-ancestors, Referrer-Policy) aur cookie hardening (httpOnly, Secure, SameSite, __Host- prefix, signed cookies); aur test strategy — pyramid, kya mock karo (network boundary aur time, apna code nahi), nock/MSW se HTTP intercept karna, test-database isolation, fixtures ke upar factories, fake timers, aur coverage ek map ek goal nahi — JavaScript aur TypeScript dono mein saath-saath dikhaaye gaye.',
+      order: 10,
+    },
   ];
 
   const createdModules = [];
@@ -2755,6 +2792,18 @@ async function seedNodeCourse(): Promise<{ modules: number; topics: number }> {
     ...[...NODE_MODULE_7, ...NODE_MODULE_7_PART2, ...NODE_MODULE_7_PART3, ...NODE_MODULE_7_PART4, ...NODE_MODULE_7_PART5, ...NODE_MODULE_7_PART6, ...NODE_MODULE_7_PART7, ...NODE_MODULE_7_PART8, ...NODE_MODULE_7_PART9, ...NODE_MODULE_7_PART10, ...NODE_MODULE_7_PART11, ...NODE_MODULE_7_PART12, ...NODE_MODULE_7_PART13, ...NODE_MODULE_7_PART14, ...NODE_MODULE_7_PART15, ...NODE_MODULE_7_PART16, ...NODE_MODULE_7_PART17, ...NODE_MODULE_7_PART18, ...NODE_MODULE_7_PART19, ...NODE_MODULE_7_PART20, ...NODE_MODULE_7_PART21].map((lesson) => ({
       ...lesson,
       moduleIndex: 6,
+    })),
+    ...[...NODE_MODULE_8, ...NODE_MODULE_8_PART2, ...NODE_MODULE_8_PART3].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 7,
+    })),
+    ...[...NODE_MODULE_9, ...NODE_MODULE_9_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 8,
+    })),
+    ...[...NODE_MODULE_10, ...NODE_MODULE_10_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 9,
     })),
   ];
 
