@@ -278,6 +278,8 @@ import { DJANGO_MODULE_9 } from './seed-data/course-django-module9';
 import { DJANGO_MODULE_9_PART2 } from './seed-data/course-django-module9-part2';
 import { DJANGO_MODULE_10 } from './seed-data/course-django-module10';
 import { DJANGO_MODULE_10_PART2 } from './seed-data/course-django-module10-part2';
+import { DJANGO_MODULE_11 } from './seed-data/course-django-module11';
+import { DJANGO_MODULE_11_PART2 } from './seed-data/course-django-module11-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -3157,6 +3159,16 @@ async function seedDjangoCourse(): Promise<{ modules: number; topics: number }> 
         'pytest-django aur factory_boy, test database aur APIClient, external services mocking aur coverage, settings layout aur 12-factor, collectstatic aur WhiteNoise/S3, Gunicorn/Uvicorn configuration, Nginx ke peeche chalana, Docker, CI/CD mein migrations, zero-downtime deploys, aur async views.',
       order: 10,
     },
+    {
+      slug: 'django-module-11-templates-rendering-email',
+      name: 'Module 11: Templates, Rendering & Email',
+      nameHi: 'Module 11: Templates, Rendering Aur Email',
+      description:
+        'The Django Template Language (variable resolution, tags, filters, autoescaping and XSS), render/render_to_string/TemplateResponse, template inheritance with extends/block/block.super and partials with include, custom template tags and filters (simple_tag, inclusion_tag, context processors, format_html vs mark_safe), and templated HTML email (EmailMultiAlternatives, the locmem backend and mail.outbox, sending from a background task).',
+      descriptionHi:
+        'Django Template Language (variable resolution, tags, filters, autoescaping aur XSS), render/render_to_string/TemplateResponse, extends/block/block.super ke saath template inheritance aur include ke saath partials, custom template tags aur filters (simple_tag, inclusion_tag, context processors, format_html vs mark_safe), aur templated HTML email (EmailMultiAlternatives, locmem backend aur mail.outbox, ek background task se bhejna).',
+      order: 11,
+    },
   ];
 
   const createdModules = [];
@@ -3210,6 +3222,10 @@ async function seedDjangoCourse(): Promise<{ modules: number; topics: number }> 
     ...[...DJANGO_MODULE_10, ...DJANGO_MODULE_10_PART2].map((lesson) => ({
       ...lesson,
       moduleIndex: 9,
+    })),
+    ...[...DJANGO_MODULE_11, ...DJANGO_MODULE_11_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 10,
     })),
   ];
 
