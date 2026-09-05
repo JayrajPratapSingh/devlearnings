@@ -305,6 +305,8 @@ import { SQL_MODULE_6 } from './seed-data/course-sql-module6';
 import { SQL_MODULE_6_PART2 } from './seed-data/course-sql-module6-part2';
 import { SQL_MODULE_7 } from './seed-data/course-sql-module7';
 import { SQL_MODULE_7_PART2 } from './seed-data/course-sql-module7-part2';
+import { SQL_MODULE_8 } from './seed-data/course-sql-module8';
+import { SQL_MODULE_8_PART2 } from './seed-data/course-sql-module8-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -3639,6 +3641,10 @@ async function seedDatabasesCourse(): Promise<{ modules: number; topics: number 
     ...[...SQL_MODULE_7, ...SQL_MODULE_7_PART2].map((lesson) => ({
       ...lesson,
       moduleIndex: 6,
+    })),
+    ...[...SQL_MODULE_8, ...SQL_MODULE_8_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 7,
     })),
   ];
 
