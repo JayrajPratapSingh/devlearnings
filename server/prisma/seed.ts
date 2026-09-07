@@ -329,6 +329,8 @@ import { FIREBASE_MODULE_18 } from './seed-data/course-firebase-module18';
 import { FIREBASE_MODULE_18_PART2 } from './seed-data/course-firebase-module18-part2';
 import { NOSQL_MODULE_1 } from './seed-data/course-nosql-module1';
 import { NOSQL_MODULE_1_PART2 } from './seed-data/course-nosql-module1-part2';
+import { DB_LANDSCAPE } from './seed-data/course-db-landscape';
+import { DB_LANDSCAPE_PART2 } from './seed-data/course-db-landscape-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -3711,6 +3713,10 @@ async function seedDatabasesCourse(): Promise<{ modules: number; topics: number 
     ...[...NOSQL_MODULE_1, ...NOSQL_MODULE_1_PART2].map((lesson) => ({
       ...lesson,
       moduleIndex: 18,
+    })),
+    ...[...DB_LANDSCAPE, ...DB_LANDSCAPE_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 19,
     })),
   ];
 
