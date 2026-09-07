@@ -926,7 +926,7 @@ LIMIT 50;
 --     range AND created_at is the sort => needs careful index design or a split query
 --  -> the JOIN is replaced by a sync obligation: when a customer's tier or region
 --     changes, fan out to all their orders`,
-        output: `(comparison — no runtime output)`,
+        output: `(comparison - no runtime output)`,
         explain: "The SQL version is one statement: a join, three filters across two tables, a sort, a limit. Firebase has no join, allows a range on only one field, and has no cross-collection query — so the same result requires denormalizing customer fields onto every order, a carefully designed composite index (or a split query), AND a standing obligation to fan out to every order whenever a customer's tier or region changes. The join is replaced by a permanent sync cost.",
         explainHi: 'SQL version ek statement hai: ek join, do tables ke across teen filters, ek sort, ek limit. Firebase mein koi join nahi, sirf ek field par ek range allow karता hai, aur koi cross-collection query nahi — to wahi result customer fields ko har order par denormalize karна, ek carefully designed composite index, AUR jab bhi ek customer ka tier ya region badalता hai har order par fan out karने ka ek standing obligation require karता hai. Join ek permanent sync cost se replace hota hai.',
       },
@@ -960,7 +960,7 @@ onSnapshot(collection(db, "orders"), (snap) => {   // ALL orders, no filter, no 
 //   5. rewrite security rules as API authorization middleware
 //   6. run a dual-write migration with backfill and cutover
 // -> months, not days. Price this on day one, not year three.`,
-        output: `(architecture reality — no runtime output)`,
+        output: `(architecture reality - no runtime output)`,
         explain: 'Migrating between two SQL databases is a driver-and-dialect change measured in days, because they share the relational model, a query language, and a client protocol shape. Firestore shares none of that with any non-Firebase system: leaving means re-modeling the data, rewriting every read and write, building your own real-time layer, replacing Firebase Auth, reimplementing offline, rewriting security rules as middleware, and running a dual-write migration — a multi-month project. This exit cost should be priced on day one.',
         explainHi: 'Do SQL databases ke beech migrate karना dinों mein mापा gaya ek driver-and-dialect change hai, kyunki wo relational model, ek query language, aur ek client protocol shape share karते hain. Firestore kisी bhi non-Firebase system ke saath ismें se кुछ share nahi karта: leave karना matlab data ko re-model karना, har read aur write rewrite karना, apni real-time layer banाना, Firebase Auth replace karना, offline reimplement karना, security rules ko middleware ke roop mein rewrite karना, aur ek dual-write migration chalाना — ek mahinों-lambा project. Ye exit cost day one par price honा chahiye.',
       },

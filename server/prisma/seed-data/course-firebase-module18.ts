@@ -860,7 +860,7 @@ query(collection(fs, "posts"), orderBy("createdAt", "desc"), limit(10));
 // "...also filtered to category == 'tech' and authorId in my follow list"
 //   Firestore: add a composite index, one query.
 //   RTDB: restructure the tree or filter client-side.`,
-        output: `(no runtime output — this contrasts the two query models)`,
+        output: `(no runtime output - this contrasts the two query models)`,
         explain: 'Both databases stream a "recent 10" list live. The RTDB uses push-key ordering (no index, no sort field); Firestore uses an explicit `orderBy("createdAt")` backed by an auto single-field index. The models only diverge on the NEXT requirement — adding `category == "tech"` and `authorId in <follow list>`: Firestore adds a composite index and keeps one query; the RTDB has no compound query, so you restructure the tree or filter on the client.',
         explainHi: 'Dono databases ek "recent 10" list live stream karते hain. RTDB push-key ordering istemal karता hai (koi index nahi, koi sort field nahi); Firestore ek explicit `orderBy("createdAt")` istemal karता hai jo ek auto single-field index se backed hai. Models sirf AGLI requirement par diverge karते hain — `category == "tech"` aur `authorId in <follow list>` add karna: Firestore ek composite index add karता hai aur ek query rakhता hai; RTDB mein koi compound query nahi.',
       },
@@ -894,7 +894,7 @@ onDisconnect(presenceRef).remove();
 await set(presenceRef, { name, cursorPos: 0 });
 
 // this split plays each database to its strength — and is an officially recommended pattern`,
-        output: `(architecture example — no single output)`,
+        output: `(architecture example - no single output)`,
         explain: 'This is a recommended architecture: Firestore holds the durable domain data (the document, its owner, its updatedAt) where rich queries and multi-region matter, and the RTDB holds the ephemeral high-churn presence data (who is currently viewing/editing) where `onDisconnect` cleanup and low latency matter. Each database is used for exactly what it is best at, in one app.',
         explainHi: 'Ye ek recommended architecture hai: Firestore durable domain data rakhता hai (document, iska owner, iska updatedAt) jahaan rich queries aur multi-region matter karте hain, aur RTDB ephemeral high-churn presence data rakhता hai (kaun abhi view/edit kar raha hai) jahaan `onDisconnect` cleanup aur low latency matter karते hain. Har database theek uske liye istemal hota hai jismें ye best hai, ek app mein.',
       },

@@ -207,7 +207,7 @@ batch.delete(db.collection("carts").doc("u1"));
 
 await batch.commit();
 console.log("order placed, user updated, cart cleared — atomically");`,
-        output: `order placed, user updated, cart cleared — atomically`,
+        output: `order placed, user updated, cart cleared - atomically`,
         explain: "A `writeBatch` groups a `set`, an `update`, and a `delete`. `batch.commit()` applies all three atomically in one round trip — the order is created, the user's `orderCount` is incremented, and the cart is deleted, all together or not at all. A batch makes no decisions on current data, so it never reads and never retries.",
         explainHi: 'Ek `writeBatch` ek `set`, ek `update`, aur ek `delete` group karता hai. `batch.commit()` teenो ko ek round trip mein atomically apply karता hai — order create hota hai, user ka `orderCount` increment hota hai, aur cart delete hota hai, sab saath ya bilkul nahi. Ek batch current data par koi decision nahi leता, to ye kabhi padhता nahi aur kabhi retry nahi karता.',
       },
