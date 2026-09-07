@@ -331,6 +331,8 @@ import { NOSQL_MODULE_1 } from './seed-data/course-nosql-module1';
 import { NOSQL_MODULE_1_PART2 } from './seed-data/course-nosql-module1-part2';
 import { DB_LANDSCAPE } from './seed-data/course-db-landscape';
 import { DB_LANDSCAPE_PART2 } from './seed-data/course-db-landscape-part2';
+import { DEVOPS_MODULE_1 } from './seed-data/course-devops-module1';
+import { DEVOPS_MODULE_1_PART2 } from './seed-data/course-devops-module1-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -3768,6 +3770,300 @@ async function seedDatabasesCourse(): Promise<{ modules: number; topics: number 
   return { modules: createdModules.length, topics: createdTopics.length };
 }
 
+async function seedDevOpsCourse(): Promise<{ modules: number; topics: number }> {
+  const courseData = {
+    slug: 'devops-complete',
+    name: 'DevOps Complete Course',
+    nameHi: 'DevOps Complete Course - Noob Se Pro Tak',
+    description:
+      'DevOps from first principles to advanced production practice: the delivery lifecycle and DORA metrics, Linux and networking for operations, trunk-based version control, containers and Docker Compose, Kubernetes (architecture, workloads, scaling and production ops), CI/CD pipelines, deployment strategies and progressive delivery, infrastructure as code with Terraform, cloud fundamentals, observability and a full monitoring stack, reliability engineering and disaster recovery, DevSecOps (supply chain, secrets, runtime hardening), and GitOps / platform engineering / FinOps / choosing your stack. Verified examples where the tooling can run offline; realistic worked examples elsewhere.',
+    descriptionHi:
+      'DevOps first principles se advanced production practice tak: delivery lifecycle aur DORA metrics, operations ke liye Linux aur networking, trunk-based version control, containers aur Docker Compose, Kubernetes (architecture, workloads, scaling aur production ops), CI/CD pipelines, deployment strategies aur progressive delivery, Terraform ke saath infrastructure as code, cloud fundamentals, observability aur ek full monitoring stack, reliability engineering aur disaster recovery, DevSecOps (supply chain, secrets, runtime hardening), aur GitOps / platform engineering / FinOps / apna stack chunna. Jahaan tooling offline chal sakti hai wahaan verified examples; baaki jagah realistic worked examples.',
+    icon: '🔧',
+    color: '#0db7ed',
+    level: 'advanced' as const,
+    totalXpReward: 10000,
+    estimatedHours: 200,
+    maxDifficulty: 'HARD' as const,
+    order: 12,
+    isPublished: true,
+  };
+
+  const course = await prisma.course.upsert({
+    where: { slug: courseData.slug },
+    create: courseData,
+    update: courseData,
+  });
+
+  const modules = [
+    {
+      slug: 'ops-module-1-what-devops-is-and-the-delivery-lifecycle',
+      name: 'Module 1: What DevOps Is & The Delivery Lifecycle',
+      nameHi: 'Module 1: DevOps Kya Hai Aur Delivery Lifecycle',
+      description:
+        'The dev/ops incentive conflict and the wall of confusion; DevOps as removing the wall (shared ownership, "you build it, you run it"); CALMS (Culture, Automation, Lean, Measurement, Sharing); the path from commit to production (pipeline stages, environments, build-once-promote-the-same-artifact, config per environment); nested feedback loops and how to tighten each; blameless postmortems; the four DORA metrics (deployment frequency, lead time, change failure rate, recovery time) and Goodhart\'s Law; toil vs engineering, the toil budget, when to automate; DevOps vs SRE (SLOs and error budgets) vs Platform Engineering; Team Topologies and Conway\'s Law.',
+      descriptionHi:
+        'Dev/ops incentive conflict aur wall of confusion; DevOps as wall hataना (shared ownership, "you build it, you run it"); CALMS; commit se production tak ka path (pipeline stages, environments, build-once-promote-the-same-artifact, config per environment); nested feedback loops; blameless postmortems; chaar DORA metrics aur Goodhart\'s Law; toil vs engineering, toil budget, kab automate kare; DevOps vs SRE (SLOs aur error budgets) vs Platform Engineering; Team Topologies aur Conway\'s Law.',
+      order: 1,
+    },
+    {
+      slug: 'ops-module-2-linux-and-the-command-line-for-operations',
+      name: 'Module 2: Linux & the Command Line for Operations',
+      nameHi: 'Module 2: Operations Ke Liye Linux Aur Command Line',
+      description:
+        'The shell and pipes; processes, signals and exit codes; job control; systemd (units, systemctl, journalctl, timers vs cron); users, groups, sudo, permissions and umask; the filesystem hierarchy; package managers; environment and profiles; the essential inspection tools (top, ps, ss, lsof, df, du); log files; and writing a safe bash script (set -euo pipefail, traps, quoting).',
+      descriptionHi:
+        'Shell aur pipes; processes, signals aur exit codes; job control; systemd (units, systemctl, journalctl, timers vs cron); users, groups, sudo, permissions aur umask; filesystem hierarchy; package managers; environment aur profiles; essential inspection tools (top, ps, ss, lsof, df, du); log files; aur ek safe bash script likhna (set -euo pipefail, traps, quoting).',
+      order: 2,
+    },
+    {
+      slug: 'ops-module-3-networking-for-devops',
+      name: 'Module 3: Networking for DevOps',
+      nameHi: 'Module 3: DevOps Ke Liye Networking',
+      description:
+        'TCP/IP in practice; IP addressing, CIDR, subnets and private ranges; DNS (record types, resolvers, TTL, propagation, split-horizon); HTTP/1.1, 2 and 3; the TLS handshake, certificates and chains, ACME / Let\'s Encrypt; ports, firewalls and security groups; NAT; L4 vs L7 load balancing; reverse proxies (nginx, Caddy, Envoy); the diagnostic tools (curl -v, dig, openssl s_client, nc, traceroute); and the full path a request traverses end to end.',
+      descriptionHi:
+        'TCP/IP practice mein; IP addressing, CIDR, subnets aur private ranges; DNS (record types, resolvers, TTL, propagation, split-horizon); HTTP/1.1, 2 aur 3; TLS handshake, certificates aur chains, ACME / Let\'s Encrypt; ports, firewalls aur security groups; NAT; L4 vs L7 load balancing; reverse proxies (nginx, Caddy, Envoy); diagnostic tools (curl -v, dig, openssl s_client, nc, traceroute); aur ek request end to end jo poora path traverse karti hai.',
+      order: 3,
+    },
+    {
+      slug: 'ops-module-4-version-control-and-trunk-based-delivery',
+      name: 'Module 4: Version Control & Trunk-Based Delivery',
+      nameHi: 'Module 4: Version Control Aur Trunk-Based Delivery',
+      description:
+        'The git object model recap; branching strategies (trunk-based vs GitHub Flow vs GitFlow) and why trunk-based enables continuous delivery; short-lived branches and feature flags; pull request review and protected branches; conventional commits and semantic versioning; tags, releases and changelogs; monorepo vs polyrepo trade-offs; git hooks and pre-commit; and git as the single source of truth that GitOps builds on.',
+      descriptionHi:
+        'Git object model recap; branching strategies (trunk-based vs GitHub Flow vs GitFlow) aur trunk-based continuous delivery kyun enable karta hai; short-lived branches aur feature flags; pull request review aur protected branches; conventional commits aur semantic versioning; tags, releases aur changelogs; monorepo vs polyrepo trade-offs; git hooks aur pre-commit; aur git as single source of truth jispar GitOps banta hai.',
+      order: 4,
+    },
+    {
+      slug: 'ops-module-5-containers-images-layers-and-the-runtime',
+      name: 'Module 5: Containers — Images, Layers & the Runtime',
+      nameHi: 'Module 5: Containers — Images, Layers Aur Runtime',
+      description:
+        'What a container really is (namespaces, cgroups, overlay filesystem — a process, not a VM); image vs container vs registry; the Dockerfile (every instruction, layer caching and ordering, .dockerignore); multi-stage builds; base images (distroless, alpine, slim, scratch); non-root USER; HEALTHCHECK; ENTRYPOINT vs CMD (exec vs shell form); build args vs runtime env; image size and CVE surface; tags vs digests (why "latest" is a trap); the OCI spec; and BuildKit with cache mounts.',
+      descriptionHi:
+        'Ek container actually kya hai (namespaces, cgroups, overlay filesystem — ek process, ek VM nahi); image vs container vs registry; Dockerfile (har instruction, layer caching aur ordering, .dockerignore); multi-stage builds; base images (distroless, alpine, slim, scratch); non-root USER; HEALTHCHECK; ENTRYPOINT vs CMD (exec vs shell form); build args vs runtime env; image size aur CVE surface; tags vs digests (kyun "latest" ek trap hai); OCI spec; aur BuildKit cache mounts ke saath.',
+      order: 5,
+    },
+    {
+      slug: 'ops-module-6-docker-compose-and-single-host-deployment',
+      name: 'Module 6: Docker Compose & Single-Host Deployment',
+      nameHi: 'Module 6: Docker Compose Aur Single-Host Deployment',
+      description:
+        'The compose file (services, networks, volumes, configs, secrets); depends_on with condition service_healthy; env files; profiles; override files for dev vs prod; the lifecycle commands (up, down, logs, exec, ps); restart policies; resource limits; named volumes, bind mounts and backups; a real single-host production stack (app + database + reverse proxy + TLS); and when Compose is genuinely enough versus when you have outgrown it.',
+      descriptionHi:
+        'Compose file (services, networks, volumes, configs, secrets); depends_on with condition service_healthy; env files; profiles; dev vs prod ke liye override files; lifecycle commands (up, down, logs, exec, ps); restart policies; resource limits; named volumes, bind mounts aur backups; ek real single-host production stack (app + database + reverse proxy + TLS); aur kab Compose genuinely enough hai versus kab aap ise outgrow kar chuke ho.',
+      order: 6,
+    },
+    {
+      slug: 'ops-module-7-kubernetes-architecture-pods-and-the-reconciliation-loop',
+      name: 'Module 7: Kubernetes — Architecture, Pods & the Reconciliation Loop',
+      nameHi: 'Module 7: Kubernetes — Architecture, Pods Aur Reconciliation Loop',
+      description:
+        'Why orchestration (self-healing, rollout, bin-packing, service discovery); the control plane (apiserver, etcd, scheduler, controller-manager), kubelet and kube-proxy; the desired-vs-actual reconciliation loop; the object model with metadata, spec and status; Pods (multi-container, init containers, sidecars, lifecycle, restart policy); kubectl essentials (apply, get, describe, logs, exec, port-forward, --dry-run, explain); namespaces; and labels, selectors and annotations.',
+      descriptionHi:
+        'Orchestration kyun (self-healing, rollout, bin-packing, service discovery); control plane (apiserver, etcd, scheduler, controller-manager), kubelet aur kube-proxy; desired-vs-actual reconciliation loop; object model with metadata, spec aur status; Pods (multi-container, init containers, sidecars, lifecycle, restart policy); kubectl essentials (apply, get, describe, logs, exec, port-forward, --dry-run, explain); namespaces; aur labels, selectors aur annotations.',
+      order: 7,
+    },
+    {
+      slug: 'ops-module-8-kubernetes-deployments-services-ingress-and-config',
+      name: 'Module 8: Kubernetes — Deployments, Services, Ingress & Config',
+      nameHi: 'Module 8: Kubernetes — Deployments, Services, Ingress Aur Config',
+      description:
+        'ReplicaSet to Deployment and rollout / rollout undo; Services (ClusterIP, NodePort, LoadBalancer, headless) and how kube-proxy and EndpointSlices route traffic; Ingress, the IngressController and TLS; ConfigMaps and Secrets (and that Secrets are only base64); env vars vs volume mounts; liveness, readiness and startup probes; requests vs limits and the QoS classes; and mapping the twelve-factor app onto Kubernetes.',
+      descriptionHi:
+        'ReplicaSet se Deployment aur rollout / rollout undo; Services (ClusterIP, NodePort, LoadBalancer, headless) aur kube-proxy aur EndpointSlices traffic kaise route karte hain; Ingress, IngressController aur TLS; ConfigMaps aur Secrets (aur Secrets sirf base64 hain); env vars vs volume mounts; liveness, readiness aur startup probes; requests vs limits aur QoS classes; aur twelve-factor app ko Kubernetes par map karna.',
+      order: 8,
+    },
+    {
+      slug: 'ops-module-9-kubernetes-scaling-scheduling-storage-and-production-ops',
+      name: 'Module 9: Kubernetes — Scaling, Scheduling, Storage & Production Ops',
+      nameHi: 'Module 9: Kubernetes — Scaling, Scheduling, Storage Aur Production Ops',
+      description:
+        'HPA (with metrics-server), VPA and the cluster autoscaler; PodDisruptionBudgets; node affinity, taints and tolerations, topologySpreadConstraints; StatefulSets with PV / PVC / StorageClass and volume expansion; Jobs and CronJobs; RBAC (Roles, ClusterRoles, bindings, ServiceAccounts); NetworkPolicy and default-deny; ResourceQuota and LimitRange; Helm (chart structure, values, upgrade / rollback, when it hurts) vs Kustomize (bases and overlays); managed (EKS / GKE / AKS) vs self-managed; and when NOT to use Kubernetes.',
+      descriptionHi:
+        'HPA (metrics-server ke saath), VPA aur cluster autoscaler; PodDisruptionBudgets; node affinity, taints aur tolerations, topologySpreadConstraints; StatefulSets with PV / PVC / StorageClass aur volume expansion; Jobs aur CronJobs; RBAC (Roles, ClusterRoles, bindings, ServiceAccounts); NetworkPolicy aur default-deny; ResourceQuota aur LimitRange; Helm (chart structure, values, upgrade / rollback, kab ye hurts) vs Kustomize (bases aur overlays); managed (EKS / GKE / AKS) vs self-managed; aur kab Kubernetes ISTEMAL NA kare.',
+      order: 9,
+    },
+    {
+      slug: 'ops-module-10-cicd-pipelines',
+      name: 'Module 10: CI/CD Pipelines',
+      nameHi: 'Module 10: CI/CD Pipelines',
+      description:
+        'CI vs CD vs continuous deployment (precise definitions); pipeline anatomy (checkout, build, unit, lint / scan, package, integration, deploy, smoke); GitHub Actions in depth (workflow / job / step, needs, matrix, if, caching, artifacts, environments with protection rules, OIDC to cloud with no long-lived keys, reusable and composite workflows, concurrency groups); hosted vs self-hosted runners; pipeline security (secret scoping, the pull_request_target danger, pinning actions by SHA); keeping CI fast (parallelism, test splitting, caching); a flaky-test policy; and promoting one build artifact across environments.',
+      descriptionHi:
+        'CI vs CD vs continuous deployment (precise definitions); pipeline anatomy (checkout, build, unit, lint / scan, package, integration, deploy, smoke); GitHub Actions in depth (workflow / job / step, needs, matrix, if, caching, artifacts, environments with protection rules, OIDC to cloud bina long-lived keys, reusable aur composite workflows, concurrency groups); hosted vs self-hosted runners; pipeline security (secret scoping, pull_request_target danger, actions ko SHA se pin karna); CI ko fast rakhna (parallelism, test splitting, caching); ek flaky-test policy; aur ek build artifact ko environments ke across promote karna.',
+      order: 10,
+    },
+    {
+      slug: 'ops-module-11-deployment-strategies-and-progressive-delivery',
+      name: 'Module 11: Deployment Strategies & Progressive Delivery',
+      nameHi: 'Module 11: Deployment Strategies Aur Progressive Delivery',
+      description:
+        'Recreate, rolling, blue-green, canary and shadow deployments; feature flags vs deploy-time gating; decoupling deploy from release; the expand / contract (parallel-change) pattern applied to code, config and schema; database migrations in the deployment pipeline (backward-compatible changes, NOT VALID then VALIDATE, backfill jobs); health gates and automated rollback; Argo Rollouts and Flagger; deployment windows and freezes; and why data changes are forward-only.',
+      descriptionHi:
+        'Recreate, rolling, blue-green, canary aur shadow deployments; feature flags vs deploy-time gating; deploy ko release se decouple karna; expand / contract (parallel-change) pattern code, config aur schema par applied; deployment pipeline mein database migrations (backward-compatible changes, NOT VALID phir VALIDATE, backfill jobs); health gates aur automated rollback; Argo Rollouts aur Flagger; deployment windows aur freezes; aur data changes forward-only kyun hain.',
+      order: 11,
+    },
+    {
+      slug: 'ops-module-12-infrastructure-as-code-terraform-and-immutable-infrastructure',
+      name: 'Module 12: Infrastructure as Code — Terraform & Immutable Infrastructure',
+      nameHi: 'Module 12: Infrastructure As Code — Terraform Aur Immutable Infrastructure',
+      description:
+        'Declarative vs imperative and idempotency; Terraform (providers, resources, data sources); state (remote backend, locking, and that state holds secrets); plan / apply / destroy, reading a plan and blast radius; variables, outputs and locals; modules and composition; for_each vs count; depends_on; import; drift; workspaces vs directory-per-environment; CI for Terraform (plan on PR, apply on merge, manual approval); immutable infrastructure and golden images (Packer); cloud-init / user-data; a note on Ansible (push, agentless, idempotent); OpenTofu and Terragrunt; and secrets in IaC (SOPS, cloud secret managers, Vault — never plaintext in state).',
+      descriptionHi:
+        'Declarative vs imperative aur idempotency; Terraform (providers, resources, data sources); state (remote backend, locking, aur state secrets rakhta hai); plan / apply / destroy, ek plan padhna aur blast radius; variables, outputs aur locals; modules aur composition; for_each vs count; depends_on; import; drift; workspaces vs directory-per-environment; Terraform ke liye CI (PR par plan, merge par apply, manual approval); immutable infrastructure aur golden images (Packer); cloud-init / user-data; Ansible par ek note (push, agentless, idempotent); OpenTofu aur Terragrunt; aur IaC mein secrets (SOPS, cloud secret managers, Vault — kabhi state mein plaintext nahi).',
+      order: 12,
+    },
+    {
+      slug: 'ops-module-13-cloud-fundamentals-the-model-compute-and-identity',
+      name: 'Module 13: Cloud Fundamentals — The Model, Compute & Identity',
+      nameHi: 'Module 13: Cloud Fundamentals — Model, Compute Aur Identity',
+      description:
+        'The shared-responsibility model; regions, availability zones and edge; the compute spectrum (bare metal, VM, container, function, PaaS); the universal building blocks; IAM (users vs roles, policies, least privilege, instance / workload roles, OIDC federation, permission boundaries, assume-role); instance types and pricing models (on-demand, spot, reserved, savings plans); autoscaling groups and launch templates; and the anatomy of the bill (compute, egress, storage, managed-service premium). AWS as the worked example.',
+      descriptionHi:
+        'Shared-responsibility model; regions, availability zones aur edge; compute spectrum (bare metal, VM, container, function, PaaS); universal building blocks; IAM (users vs roles, policies, least privilege, instance / workload roles, OIDC federation, permission boundaries, assume-role); instance types aur pricing models (on-demand, spot, reserved, savings plans); autoscaling groups aur launch templates; aur bill ki anatomy (compute, egress, storage, managed-service premium). AWS as worked example.',
+      order: 13,
+    },
+    {
+      slug: 'ops-module-14-cloud-in-practice-networking-managed-services-serverless-and-landing-zones',
+      name: 'Module 14: Cloud in Practice — Networking, Managed Services, Serverless & Landing Zones',
+      nameHi: 'Module 14: Cloud Practice Mein — Networking, Managed Services, Serverless Aur Landing Zones',
+      description:
+        'VPC, subnets (public vs private), route tables, internet and NAT gateways, VPC peering and PrivateLink; security groups vs NACLs; managed databases and caches (what you get and give up); object storage with lifecycle and versioning and static hosting; load balancers, target groups and health checks; DNS (Route 53 / Cloud DNS) with failover routing; CDN and cache invalidation; serverless (functions, cold starts, event sources, step functions, when it fits and doesn\'t); multi-account / multi-project structure with landing zones and organisation policies; and a note on GCP / Azure equivalents and differences.',
+      descriptionHi:
+        'VPC, subnets (public vs private), route tables, internet aur NAT gateways, VPC peering aur PrivateLink; security groups vs NACLs; managed databases aur caches (kya milta hai aur kya de dete ho); object storage with lifecycle aur versioning aur static hosting; load balancers, target groups aur health checks; DNS (Route 53 / Cloud DNS) with failover routing; CDN aur cache invalidation; serverless (functions, cold starts, event sources, step functions, kab fit hai aur nahi); multi-account / multi-project structure with landing zones aur organisation policies; aur GCP / Azure equivalents aur differences par ek note.',
+      order: 14,
+    },
+    {
+      slug: 'ops-module-15-observability-logs-metrics-and-traces',
+      name: 'Module 15: Observability — Logs, Metrics & Traces',
+      nameHi: 'Module 15: Observability — Logs, Metrics Aur Traces',
+      description:
+        'The three pillars and why one is not enough; structured logging (JSON, correlation / trace IDs, levels, PII, sampling) and aggregation; metrics (the four types, pull vs push, exporters, cardinality explosions); the RED method for services and the USE method for resources; distributed tracing (spans, context propagation, sampling); SLIs, SLOs and error budgets and how they drive release decisions; alerting design (symptom not cause, actionable, runbook-linked, alert fatigue); on-call rotations and escalation; the incident lifecycle; blameless postmortems; and runbooks.',
+      descriptionHi:
+        'Teen pillars aur ek kyun enough nahi; structured logging (JSON, correlation / trace IDs, levels, PII, sampling) aur aggregation; metrics (chaar types, pull vs push, exporters, cardinality explosions); services ke liye RED method aur resources ke liye USE method; distributed tracing (spans, context propagation, sampling); SLIs, SLOs aur error budgets aur ye release decisions kaise drive karte hain; alerting design (symptom cause nahi, actionable, runbook-linked, alert fatigue); on-call rotations aur escalation; incident lifecycle; blameless postmortems; aur runbooks.',
+      order: 15,
+    },
+    {
+      slug: 'ops-module-16-the-monitoring-and-alerting-stack-in-practice',
+      name: 'Module 16: The Monitoring & Alerting Stack in Practice',
+      nameHi: 'Module 16: Monitoring Aur Alerting Stack Practice Mein',
+      description:
+        'A full stack wired end to end: Prometheus (scrape config, service discovery, PromQL selectors, rates, aggregation and histogram_quantile, recording rules, alerting rules); Alertmanager (routing tree, grouping, inhibition, silences, receivers); Grafana (data sources, dashboards, variables, the RED dashboard); Loki with promtail (LogQL); the OpenTelemetry Collector (receivers, processors, exporters); Tempo / Jaeger for traces; exemplars linking metrics to traces; and node_exporter, cAdvisor and kube-state-metrics.',
+      descriptionHi:
+        'Ek full stack end to end wired: Prometheus (scrape config, service discovery, PromQL selectors, rates, aggregation aur histogram_quantile, recording rules, alerting rules); Alertmanager (routing tree, grouping, inhibition, silences, receivers); Grafana (data sources, dashboards, variables, RED dashboard); Loki with promtail (LogQL); OpenTelemetry Collector (receivers, processors, exporters); Tempo / Jaeger traces ke liye; exemplars metrics ko traces se linking; aur node_exporter, cAdvisor aur kube-state-metrics.',
+      order: 16,
+    },
+    {
+      slug: 'ops-module-17-reliability-engineering-capacity-and-disaster-recovery',
+      name: 'Module 17: Reliability Engineering, Capacity & Disaster Recovery',
+      nameHi: 'Module 17: Reliability Engineering, Capacity Aur Disaster Recovery',
+      description:
+        'Availability math (the nines, monthly downtime budgets, dependency multiplication); redundancy and failure domains (AZ, region); graceful degradation and fallbacks; the resilience toolkit (timeouts, retries with jitter and backoff, circuit breakers, bulkheads, hedging); idempotency and at-least-once; rate limiting, load shedding and backpressure; health checks done right; load and stress testing (k6, Locust — open vs closed models, ramp, think time); chaos engineering (hypothesis, blast radius, game days); capacity planning, headroom and autoscaling signals; and backups and DR (RPO / RTO, PITR, test your restores, backup is not a replica, multi-region patterns and failover drills).',
+      descriptionHi:
+        'Availability math (nines, monthly downtime budgets, dependency multiplication); redundancy aur failure domains (AZ, region); graceful degradation aur fallbacks; resilience toolkit (timeouts, retries with jitter aur backoff, circuit breakers, bulkheads, hedging); idempotency aur at-least-once; rate limiting, load shedding aur backpressure; health checks sahi tarah; load aur stress testing (k6, Locust — open vs closed models, ramp, think time); chaos engineering (hypothesis, blast radius, game days); capacity planning, headroom aur autoscaling signals; aur backups aur DR (RPO / RTO, PITR, apne restores test karo, backup ek replica nahi hai, multi-region patterns aur failover drills).',
+      order: 17,
+    },
+    {
+      slug: 'ops-module-18-devsecops-the-software-supply-chain-and-pipeline-security',
+      name: 'Module 18: DevSecOps — The Software Supply Chain & Pipeline Security',
+      nameHi: 'Module 18: DevSecOps — Software Supply Chain Aur Pipeline Security',
+      description:
+        'Shift-left and lightweight threat modeling; the software supply chain (transitive dependencies, lockfiles and pinning, SBOM, provenance and SLSA levels, signing with Sigstore / cosign, verifying at deploy, admission control); scanning in CI (SAST, DAST, SCA, secret scanning, IaC scanning — the tools and where each runs, gating vs reporting); container image scanning (Trivy, Grype), minimal base images, dropping capabilities, read-only rootfs, non-root; dependency and base-image update automation (Renovate, Dependabot); and the poisoned-pipeline attack class.',
+      descriptionHi:
+        'Shift-left aur lightweight threat modeling; software supply chain (transitive dependencies, lockfiles aur pinning, SBOM, provenance aur SLSA levels, Sigstore / cosign se signing, deploy par verify karna, admission control); CI mein scanning (SAST, DAST, SCA, secret scanning, IaC scanning — tools aur har ek kahaan chalta hai, gating vs reporting); container image scanning (Trivy, Grype), minimal base images, capabilities drop karna, read-only rootfs, non-root; dependency aur base-image update automation (Renovate, Dependabot); aur poisoned-pipeline attack class.',
+      order: 18,
+    },
+    {
+      slug: 'ops-module-19-devsecops-secrets-identity-and-runtime-hardening',
+      name: 'Module 19: DevSecOps — Secrets, Identity & Runtime Hardening',
+      nameHi: 'Module 19: DevSecOps — Secrets, Identity Aur Runtime Hardening',
+      description:
+        'Secrets management (never in git, images or plaintext env; Vault, cloud secret managers, dynamic and short-lived secrets, rotation, the external-secrets operator, SOPS, sealed-secrets); least privilege everywhere (IAM, Kubernetes RBAC, NetworkPolicy, security groups — the blast-radius mindset); workload identity (IRSA, Workload Identity, SPIFFE); TLS everywhere, mTLS, cert rotation and a note on service mesh; WAF, rate limiting, bot and DDoS protection; audit logging and tamper-evidence; host and node hardening (CIS benchmarks, seccomp / AppArmor, Pod Security Standards); and incident response for a breach (contain, rotate, forensics, disclose).',
+      descriptionHi:
+        'Secrets management (kabhi git, images ya plaintext env mein nahi; Vault, cloud secret managers, dynamic aur short-lived secrets, rotation, external-secrets operator, SOPS, sealed-secrets); least privilege har jagah (IAM, Kubernetes RBAC, NetworkPolicy, security groups — blast-radius mindset); workload identity (IRSA, Workload Identity, SPIFFE); TLS har jagah, mTLS, cert rotation aur service mesh par ek note; WAF, rate limiting, bot aur DDoS protection; audit logging aur tamper-evidence; host aur node hardening (CIS benchmarks, seccomp / AppArmor, Pod Security Standards); aur ek breach ke liye incident response (contain, rotate, forensics, disclose).',
+      order: 19,
+    },
+    {
+      slug: 'ops-module-20-gitops-platform-engineering-finops-and-choosing-your-stack',
+      name: 'Module 20: GitOps, Platform Engineering, FinOps & Choosing Your Stack',
+      nameHi: 'Module 20: GitOps, Platform Engineering, FinOps Aur Apna Stack Chunna',
+      description:
+        'GitOps principles (declarative, versioned, pulled, continuously reconciled); Argo CD and Flux; push vs pull deploy; environments as overlays or directories; drift detection and self-heal; progressive delivery with GitOps; the internal developer platform (Backstage, golden paths, self-service, platform-as-a-product); the DevOps to SRE to Platform Engineering evolution and Team Topologies / Conway\'s Law; FinOps (tag and allocate, right-size, spot vs reserved vs savings plans, the cost of idle and over-provisioning, unit economics, the FinOps loop); build vs buy and the "boring technology" principle; a decision framework (from app shape, team size, scale, compliance and budget to a concrete stack); and the whole-course recap.',
+      descriptionHi:
+        'GitOps principles (declarative, versioned, pulled, continuously reconciled); Argo CD aur Flux; push vs pull deploy; environments as overlays ya directories; drift detection aur self-heal; GitOps ke saath progressive delivery; internal developer platform (Backstage, golden paths, self-service, platform-as-a-product); DevOps se SRE se Platform Engineering evolution aur Team Topologies / Conway\'s Law; FinOps (tag aur allocate, right-size, spot vs reserved vs savings plans, idle aur over-provisioning ki cost, unit economics, FinOps loop); build vs buy aur "boring technology" principle; ek decision framework (app shape, team size, scale, compliance aur budget se ek concrete stack tak); aur poore-course ka recap.',
+      order: 20,
+    },
+  ];
+
+  const createdModules = [];
+  for (const moduleData of modules) {
+    createdModules.push(
+      await prisma.courseModule.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: moduleData.slug } },
+        create: { courseId: course.id, ...moduleData },
+        update: moduleData,
+      }),
+    );
+  }
+
+  const topics = [
+    ...[...DEVOPS_MODULE_1, ...DEVOPS_MODULE_1_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 0,
+    })),
+  ];
+
+  const json = (v: unknown) => v as Prisma.InputJsonValue;
+  const createdTopics = [];
+
+  for (const lesson of topics) {
+    const fields = {
+      title: lesson.title,
+      titleHi: lesson.titleHi,
+      description: lesson.description,
+      descriptionHi: lesson.descriptionHi,
+      simple: lesson.simple,
+      simpleHi: lesson.simpleHi,
+      content: lesson.content,
+      contentHi: lesson.contentHi,
+      analogy: json(lesson.analogy ?? {}),
+      examples: json(lesson.examples ?? []),
+      mistakes: json(lesson.mistakes ?? []),
+      realWorld: json(lesson.realWorld ?? []),
+      interviewQA: json(lesson.interviewQA ?? []),
+      exercises: json(lesson.exercises ?? []),
+      keyTakeaways: lesson.keyTakeaways ?? [],
+      keyTakeawaysHi: lesson.keyTakeawaysHi ?? [],
+      difficulty: lesson.difficulty,
+      duration: lesson.duration ?? 25,
+      order: lesson.order,
+    };
+
+    const parentModule = createdModules[lesson.moduleIndex];
+    if (!parentModule) throw new Error(`No module at index ${lesson.moduleIndex}`);
+
+    createdTopics.push(
+      await prisma.courseTopic.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: lesson.slug } },
+        create: { courseId: course.id, moduleId: parentModule.id, slug: lesson.slug, ...fields },
+        update: fields,
+      }),
+    );
+  }
+
+  await prisma.courseTopic.deleteMany({
+    where: { courseId: course.id, slug: { notIn: topics.map((t) => t.slug) } },
+  });
+  await prisma.courseModule.deleteMany({
+    where: { courseId: course.id, slug: { notIn: modules.map((m) => m.slug) } },
+  });
+
+  return { modules: createdModules.length, topics: createdTopics.length };
+}
+
 async function main(): Promise<void> {
   console.log('Seeding DevPrep content…\n');
 
@@ -3825,6 +4121,10 @@ async function main(): Promise<void> {
   console.log('\nSeeding Databases Course…');
   const databasesStats = await seedDatabasesCourse();
   console.log(`  1 course, ${databasesStats.modules} modules, ${databasesStats.topics} lessons`);
+
+  console.log('\nSeeding DevOps Course…');
+  const devopsStats = await seedDevOpsCourse();
+  console.log(`  1 course, ${devopsStats.modules} modules, ${devopsStats.topics} lessons`);
 
   console.log('\nDone. Sign up in the app to start tracking progress.');
 }
