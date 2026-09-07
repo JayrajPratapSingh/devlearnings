@@ -333,6 +333,8 @@ import { DB_LANDSCAPE } from './seed-data/course-db-landscape';
 import { DB_LANDSCAPE_PART2 } from './seed-data/course-db-landscape-part2';
 import { DEVOPS_MODULE_1 } from './seed-data/course-devops-module1';
 import { DEVOPS_MODULE_1_PART2 } from './seed-data/course-devops-module1-part2';
+import { DEVOPS_MODULE_2 } from './seed-data/course-devops-module2';
+import { DEVOPS_MODULE_2_PART2 } from './seed-data/course-devops-module2-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -4013,6 +4015,10 @@ async function seedDevOpsCourse(): Promise<{ modules: number; topics: number }> 
     ...[...DEVOPS_MODULE_1, ...DEVOPS_MODULE_1_PART2].map((lesson) => ({
       ...lesson,
       moduleIndex: 0,
+    })),
+    ...[...DEVOPS_MODULE_2, ...DEVOPS_MODULE_2_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 1,
     })),
   ];
 
