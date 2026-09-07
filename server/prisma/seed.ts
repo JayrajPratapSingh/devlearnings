@@ -321,6 +321,8 @@ import { MONGO_MODULE_14 } from './seed-data/course-mongo-module14';
 import { MONGO_MODULE_14_PART2 } from './seed-data/course-mongo-module14-part2';
 import { MONGO_MODULE_15 } from './seed-data/course-mongo-module15';
 import { MONGO_MODULE_15_PART2 } from './seed-data/course-mongo-module15-part2';
+import { MONGO_MODULE_16 } from './seed-data/course-mongo-module16';
+import { MONGO_MODULE_16_PART2 } from './seed-data/course-mongo-module16-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -3687,6 +3689,10 @@ async function seedDatabasesCourse(): Promise<{ modules: number; topics: number 
     ...[...MONGO_MODULE_15, ...MONGO_MODULE_15_PART2].map((lesson) => ({
       ...lesson,
       moduleIndex: 14,
+    })),
+    ...[...MONGO_MODULE_16, ...MONGO_MODULE_16_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 15,
     })),
   ];
 
