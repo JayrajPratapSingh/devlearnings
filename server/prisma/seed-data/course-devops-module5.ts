@@ -253,27 +253,24 @@ exec 2>&1
 # run a container that just sleeps, then look at it from BOTH sides
 docker run -d --name demo --rm alpine:3.20 sleep 300 >/dev/null
 
-echo "--- inside the container: it thinks it is PID 1 and alone ---"
-docker exec demo ps -o pid,comm
-docker exec demo sh -c 'echo "hostname: $(hostname)"; echo "root fs: $(ls / | tr "\\n" " ")"'
+echo "--- inside: its main process is PID 1 ---"
+docker exec demo sh -c 'ps -o pid=,comm= | tr -s " " | sed "s/^ //"' | grep sleep
+docker exec demo sh -c 'echo "root fs (from the image): $(ls / | tr "\\n" " ")"'
 
-echo "--- from the host: the SAME process is a normal PID, not 1 ---"
-docker inspect -f 'host PID of the container process: {{.State.Pid}}' demo
-ps -o comm= -p "$(docker inspect -f '{{.State.Pid}}' demo)" 2>/dev/null || echo "(host ps: it is just 'sleep')"
+echo "--- from the host: the SAME program is an ordinary process ---"
+hp=$(docker inspect -f '{{.State.Pid}}' demo)
+[ "$hp" -gt 1 ] && echo "host PID is an ordinary number > 1 (not 1)"
 
-echo "--- its root filesystem is the image, mounted for its mount namespace ---"
-docker exec demo cat /etc/os-release | grep PRETTY_NAME
+echo "--- the OS files come from the image; the kernel is the host's ---"
+docker exec demo grep PRETTY_NAME /etc/os-release
 
 docker stop demo >/dev/null 2>&1 || true`,
-        output: `--- inside the container: it thinks it is PID 1 and alone ---
-PID   COMMAND
-1     sleep
-hostname: <container-id>
-root fs: bin dev etc home lib media mnt opt proc root run sbin srv sys tmp usr var
---- from the host: the SAME process is a normal PID, not 1 ---
-host PID of the container process: 24187
-(host ps: it is just 'sleep')
---- its root filesystem is the image, mounted for its mount namespace ---
+        output: `--- inside: its main process is PID 1 ---
+1 sleep
+root fs (from the image): bin dev etc home lib media mnt opt proc root run sbin srv sys tmp usr var
+--- from the host: the SAME program is an ordinary process ---
+host PID is an ordinary number > 1 (not 1)
+--- the OS files come from the image; the kernel is the host's ---
 PRETTY_NAME="Alpine Linux v3.20"`,
         explain: 'The container runs a single trivial command, and looking at it from inside and outside makes the mechanism visible. Inside, the process list shows only one process, the sleep command, numbered as PID 1 — the PID namespace gives the container its own process-number space starting at one, and hides every process outside it. The hostname is the container id because the UTS namespace gave it its own hostname. The root directory contains a complete Linux userland — bin, etc, usr, var and so on — none of which is the host\'s: the mount namespace has the image\'s layers mounted as this process\'s root filesystem, so its view of the entire filesystem is the image. From the host, the very same running program is an ordinary process with a normal host PID, and if you inspect it with the host\'s process tools it is simply a sleep command among all the others; there is no virtual machine, no second kernel, just one process the kernel has placed in a set of private namespaces and a resource-capped cgroup. Reading the operating-system release file inside the container shows Alpine even if the host is Ubuntu, because that file comes from the image, while the kernel answering every system call is the host\'s.',
         explainHi: 'Container ek single trivial command run karता hai, aur ise andar aur bahar se dekhना mechanism ko visible banаता hai. Andar, process list sirf ek process dikhती hai, sleep command, PID 1 ke roop mein numbered — PID namespace container ko iska apna process-number space deта hai jo ek se shuru hoता hai, aur iske bahar har process chhupाता hai. Hostname container id hai kyunki UTS namespace ne ise apna hostname diya. Root directory ek complete Linux userland contain karती hai — inmें se koi bhi host ka nahi hai: mount namespace ne image ki layers ko is process ki root filesystem ke roop mein mounted kiya. Host se, wahi running program ek ordinary process hai ek normal host PID ke saath. Container ke andar OS release file Alpine dikhती hai chahे host Ubuntu ho, kyunki wo file image se aati hai, jabki har system call ka answer deने wala kernel host ka hai.',
@@ -283,17 +280,18 @@ PRETTY_NAME="Alpine Linux v3.20"`,
         titleHi: 'Ek memory cgroup limit container ko kill karta hai (exit 137)',
         code: `# VERIFY
 exec 2>&1
-# cap the container at 32 MiB, then have it try to allocate ~200 MB
-docker run --rm --memory=32m --memory-swap=32m alpine:3.20 sh -c '
-  echo "limit from inside: $(cat /sys/fs/cgroup/memory.max 2>/dev/null || echo n/a)"
-  # allocate until the kernel OOM-kills us
-  head -c 200000000 /dev/zero | tail -c 1 >/dev/null
-  echo "reached here = NOT killed"
-'
+# cap the container at 32 MiB, then have PID 1 try to allocate ~200 MB
+echo "memory limit seen inside the container:"
+docker run --rm --memory=32m --memory-swap=32m alpine:3.20 cat /sys/fs/cgroup/memory.max
+echo "now allocate ~200MB against that 32MB cap:"
+docker run --rm --memory=32m --memory-swap=32m python:3.12-alpine \\
+  python -c 'x = bytearray(200 * 1024 * 1024)' 2>/dev/null
 echo "container exit code: $?"`,
-        output: `limit from inside: 33554432
+        output: `memory limit seen inside the container:
+33554432
+now allocate ~200MB against that 32MB cap:
 container exit code: 137`,
-        explain: 'The container is started with a memory limit of thirty-two mebibytes, which the runtime enforces by placing the container\'s processes in a cgroup with that cap. Read from inside the container, the cgroup memory-max file reports exactly that number of bytes, because the container sees its own cgroup view. The command then tries to pull two hundred million bytes through memory. Because the cgroup cannot grow past its limit and swap is also capped, the kernel\'s out-of-memory killer selects a process in that cgroup and terminates it with an uncatchable kill signal. The line that would have printed on success never runs. The exit code is one hundred thirty-seven, which is the convention for a process killed by a signal: one hundred twenty-eight plus the signal number, and the kill signal is nine, so one hundred thirty-seven. Seeing exit code one hundred thirty-seven from a container is almost always this: the workload exceeded its memory limit and was killed by the kernel, not a bug in the application\'s own error handling. The fix is either to raise the limit or to reduce the workload\'s memory use.',
+        explain: 'The container is started with a memory limit of thirty-two mebibytes, which the runtime enforces by placing the container\'s processes in a cgroup with that cap. Read from inside the container, the cgroup memory-max file reports exactly that number of bytes, because the container sees its own cgroup view. The command then tries to allocate a two-hundred-megabyte buffer in the main process. Because the cgroup cannot grow past its limit and swap is also capped, the kernel\'s out-of-memory killer selects a process in that cgroup and terminates it with an uncatchable kill signal, and since the process being killed is the container\'s PID 1 the whole container goes down. The exit code is one hundred thirty-seven, which is the convention for a process killed by a signal: one hundred twenty-eight plus the signal number, and the kill signal is nine, so one hundred thirty-seven. Seeing exit code one hundred thirty-seven from a container is almost always this: the workload exceeded its memory limit and was killed by the kernel, not a bug in the application\'s own error handling. The fix is either to raise the limit or to reduce the workload\'s memory use.',
         explainHi: 'Container ek memory limit battis mebibytes ke saath start hoता hai, jise runtime container ke processes ko us cap wale ek cgroup mein rakhकar enforce karता hai. Container ke andar se read kiya, cgroup memory-max file exactly wo bytes ki sankhya report karती hai. Command phir do sौ million bytes memory ke through pull karने ki koshish karता hai. Kyunki cgroup apni limit se aage nahi badh sakта aur swap bhi capped hai, kernel ka out-of-memory killer us cgroup mein ek process select karता hai aur ise ek uncatchable kill signal se terminate karता hai. Exit code ek sौ saड़तीस hai, jo ek signal se killed ek process ki convention hai: ek sौ atthaइस plus signal number, aur kill signal nau hai. Ek container se exit code 137 dekhना lagभag hamesha yahi hai: workload ne apni memory limit exceed ki aur kernel dwara killed hua.',
       },
     ],
@@ -623,32 +621,24 @@ Saari image layers **read-only** hain aur us image se started har container dwar
         code: `# VERIFY
 exec 2>&1
 d=$(mktemp -d); cd "$d"
-cat > Dockerfile <<'EOF'
-FROM alpine:3.20
-RUN echo "hello" > /greeting.txt                       # tiny layer
-RUN dd if=/dev/zero of=/big.bin bs=1M count=20 2>/dev/null   # +20 MB layer
-RUN rm /big.bin                                          # "removes" it — but the 20 MB stays!
-COPY Dockerfile /Dockerfile                              # tiny layer
-EOF
+# 3 layers: base, one that writes a 20MB *incompressible* file, one that deletes it
+printf 'FROM alpine:3.20\\nRUN head -c 20000000 /dev/urandom > /big.bin\\nRUN rm /big.bin\\n' > Dockerfile
 docker build -q -t layers-demo . >/dev/null
 
-echo "--- docker history (top layer first) ---"
-docker history --no-trunc --format '{{.Size}}\\t{{.CreatedBy}}' layers-demo \\
-  | sed -E 's#/bin/sh -c ##; s/ #\\(nop\\) //' | head -6
+h=$(docker history --format '{{.Size}} <= {{.CreatedBy}}' layers-demo)
+echo "$h" | grep -qE '^(19|20|21)MB .*head -c 20000000' \\
+  && echo "the write step produced a ~20MB layer"
+echo "$h" | grep -qE '^[0-9.]+kB .*rm /big\\.bin' \\
+  && echo "the rm step produced a tiny (~4kB) WHITEOUT layer - the 20MB below it stays"
 
-echo "--- the image still contains ~20 MB even though big.bin was rm'd ---"
-docker image inspect layers-demo --format 'total size: {{.Size}} bytes'
+sz=$(docker image inspect layers-demo --format '{{.Size}}')
+[ "$sz" -gt 20000000 ] \\
+  && echo "final image is >20MB: the removed file still ships (base ~8MB + ~20MB dead weight)"
 docker rmi -f layers-demo >/dev/null 2>&1 || true`,
-        output: `--- docker history (top layer first) ---
-1.13kB	COPY Dockerfile /Dockerfile # buildkit
-0B	rm /big.bin
-20.97MB	dd if=/dev/zero of=/big.bin bs=1M count=20 2>/dev/null
-11B	echo "hello" > /greeting.txt
-0B	/bin/sh -c #(nop)  CMD ["/bin/sh"]
-7.8MB	/bin/sh -c #(nop) ADD file:... in /
---- the image still contains ~20 MB even though big.bin was rm'd ---
-total size: ~29 MB bytes`,
-        explain: 'The build has four instructions on top of the base. The history output lists the layers newest first, each with the size it contributed and the command that produced it. The instruction that wrote a twenty-megabyte file shows a twenty-megabyte layer. The next instruction deletes that file, and its layer shows zero bytes — but the file\'s bytes are not gone. The deletion is recorded as a whiteout in the new layer that hides the path in the merged view; the twenty-megabyte layer beneath is immutable and still part of the image, so it is still stored and still transferred on every pull and push. The total image size confirms it: the base is around eight megabytes, and the image is around twenty-nine, the missing twenty being the deleted file that still ships. To actually avoid the cost, the file would have to be created and removed within a single RUN instruction, so that the layer that instruction produces already reflects the file\'s absence, or the work would be done in an earlier stage of a multi-stage build whose output is not carried forward.',
+        output: `the write step produced a ~20MB layer
+the rm step produced a tiny (~4kB) WHITEOUT layer - the 20MB below it stays
+final image is >20MB: the removed file still ships (base ~8MB + ~20MB dead weight)`,
+        explain: 'The build has two instructions on top of the base: one writes a twenty-megabyte file, the next deletes it. The file is filled from a source of random bytes on purpose, because random data does not compress, so the layer it produces genuinely costs twenty megabytes — a file of zeros would compress away and hide the effect. The history output lists the layers newest first, each with the size it contributed and the command that produced it. The write instruction shows a twenty-megabyte layer. The delete instruction shows a layer of only a few kilobytes — but the file\'s bytes are not gone. The deletion is recorded as a whiteout in that small new layer, which hides the path in the merged view; the twenty-megabyte layer beneath is immutable and still part of the image, so it is still stored and still transferred on every pull and push. The total image size confirms it: the base is around eight megabytes, and the image is over twenty more than that, the extra being the deleted file that still ships. To actually avoid the cost, the file would have to be created and removed within a single RUN instruction, so that the layer that instruction produces already reflects the file\'s absence, or the work would be done in an earlier stage of a multi-stage build whose output is not carried forward.',
         explainHi: 'Build mein base ke upar chaar instructions hain. History output layers ko newest first list karта hai, har ek us size ke saath jo isne contribute kiya aur command jisne ise produce kiya. Jis instruction ne ek bees-megabyte file likhी ek bees-megabyte layer dikhता hai. Agla instruction us file ko delete karता hai, aur iski layer zero bytes dikhती hai — par file ke bytes gaye nahi hain. Deletion naye layer mein ek whiteout ke roop mein recorded hai jo merged view mein path ko chhupाता hai; neeche bees-megabyte layer immutable hai aur abhi bhi image ka part hai, to ye abhi bhi stored aur abhi bhi har pull aur push par transferred hai. Total image size ise confirm karता hai. Cost avoid karने ke liye, file ko ek single RUN instruction ke andar created aur removed honा padता, ya kaam ek multi-stage build ke ek earlier stage mein kiya jата.',
       },
       {
@@ -659,30 +649,25 @@ exec 2>&1
 docker run -d --name c1 --rm alpine:3.20 sleep 200 >/dev/null
 docker run -d --name c2 --rm alpine:3.20 sleep 200 >/dev/null
 
-echo "--- both containers see the SAME /etc/hostname source from the image layer ---"
-docker exec c1 sh -c 'cat /etc/os-release | grep -c VERSION_ID'
-docker exec c2 sh -c 'cat /etc/os-release | grep -c VERSION_ID'
+id1=$(docker inspect -f '{{.Image}}' c1); id2=$(docker inspect -f '{{.Image}}' c2)
+[ "$id1" = "$id2" ] && echo "both containers are backed by the SAME read-only image layers"
 
-echo "--- c1 writes a file: it goes into c1's writable layer ONLY ---"
-docker exec c1 sh -c 'echo "only in c1" > /note.txt; cat /note.txt'
-docker exec c2 sh -c 'cat /note.txt 2>&1 || echo "c2: no such file — writable layers are per-container"'
+echo "--- c1 writes a file: it lands in c1's writable layer ONLY ---"
+docker exec c1 sh -c 'echo hi > /note.txt; cat /note.txt'
+docker exec c2 sh -c 'cat /note.txt 2>/dev/null || echo "c2: no such file - writable layers are per-container"'
 
-echo "--- c1 MODIFIES an image file: copied-up into c1's layer, c2 unaffected ---"
-docker exec c1 sh -c 'echo "tampered" >> /etc/os-release; tail -1 /etc/os-release'
-docker exec c2 sh -c 'tail -1 /etc/os-release'   # still the original
+echo "--- c1 MODIFIES an image file: copied-up into c1's layer, c2 untouched ---"
+docker exec c1 sh -c 'echo ID=tampered > /etc/os-release; cat /etc/os-release'
+docker exec c2 sh -c 'grep "^ID=alpine" /etc/os-release'
 
 docker stop c1 c2 >/dev/null 2>&1 || true`,
-        output: `--- both containers see the SAME /etc/os-release source from the image layer ---
-1
-1
---- c1 writes a file: it goes into c1's writable layer ONLY ---
-only in c1
+        output: `both containers are backed by the SAME read-only image layers
+--- c1 writes a file: it lands in c1's writable layer ONLY ---
+hi
 c2: no such file - writable layers are per-container
---- c1 MODIFIES an image file: copied-up into c1's layer, c2 unaffected ---
-tampered
-_id=3.20
---- c2 still sees the original ---
-VERSION_ID=3.20`,
+--- c1 MODIFIES an image file: copied-up into c1's layer, c2 untouched ---
+ID=tampered
+ID=alpine`,
         explain: 'Two containers are started from the same image. Both read the same operating-system file, which lives in a read-only image layer that both containers share; there is one copy of it on disk regardless of how many containers use it. When the first container creates a new file, that file is written into that container\'s own thin writable layer, and the second container, which has a different writable layer, does not see it — writable layers are per-container and isolated. When the first container appends to a file that came from a read-only image layer, the union filesystem copies the file up into the first container\'s writable layer and applies the change there; the original in the shared image layer is untouched, so the second container still reads the unmodified version. When either container is removed, its writable layer and everything in it is discarded, while the shared image layers persist for any other container. This is the mechanism that lets many containers run from one image with almost no per-container disk cost, and it is also why any state a container needs to keep must be placed in a volume rather than written into its filesystem.',
         explainHi: 'Do containers same image se started hain. Dono same operating-system file read karते hain, jo ek read-only image layer mein rehती hai jo dono containers share karते hain; disk par iski ek copy hai chahे kitne bhi containers ise use karें. Jab pehla container ek naya file create karता hai, wo file us container ki apni thin writable layer mein written hoती hai, aur doosरा container, jiski ek alag writable layer hai, ise nahi dekhता. Jab pehla container ek file mein append karта hai jo ek read-only image layer se aayी, union filesystem file ko pehle container ki writable layer mein copy up karता hai aur change wahaan apply karता hai; shared image layer mein original untouched hai. Jab bhi container removed hoता hai, iski writable layer discarded hoती hai.',
       },
@@ -1078,40 +1063,30 @@ Related commands ko ek \`RUN\` mein \`&&\` aur \`\\\` continuations ke saath cha
         code: `# VERIFY
 exec 2>&1
 d=$(mktemp -d); cd "$d"
-mkdir app && cd app
-echo '{"name":"x","version":"1.0.0","dependencies":{}}' > package.json
-echo 'console.log("v1")' > server.js
 cat > Dockerfile <<'EOF'
-# syntax=docker/dockerfile:1
-FROM node:20-slim
+FROM alpine:3.20
 WORKDIR /app
 COPY package.json ./
-RUN echo "== running (fake) install ==" && sleep 1 && mkdir -p node_modules
+RUN echo DEPS-INSTALL-RAN && mkdir -p node_modules
 COPY . .
-CMD ["node","server.js"]
 EOF
+n=$(date +%s%N)                 # nonce so the first build is genuinely cold
+echo "v1-$n" > package.json
+echo a > server.js
 
-echo "--- build 1 (cold) ---"
-docker build -q -t cache-demo . >/dev/null && echo "built"
+# does the dependency-install step actually execute this build?
+# (its marker only prints on the real "#N <secs> DEPS-INSTALL-RAN" line, not the step header)
+ran() { docker build --progress=plain -t cachedemo-$n . 2>&1 | grep -cE '^#[0-9]+ [0-9]+\\.[0-9]+ DEPS-INSTALL-RAN'; }
 
-echo "--- edit ONLY server.js, build 2 ---"
-echo 'console.log("v2")' > server.js
-docker build -t cache-demo . 2>&1 | grep -E 'CACHED|RUN echo|COPY \\. \\.|DONE|FINISHED' | sed -E 's/^#[0-9]+ //'
-
-echo "--- edit package.json, build 3 (install re-runs) ---"
-echo '{"name":"x","version":"1.0.1","dependencies":{}}' > package.json
-docker build -t cache-demo . 2>&1 | grep -E 'CACHED|running \\(fake\\) install' | sed -E 's/^#[0-9]+ //'
-docker rmi -f cache-demo >/dev/null 2>&1 || true`,
-        output: `--- build 1 (cold) ---
-built
---- edit ONLY server.js, build 2 ---
-CACHED [2/5] WORKDIR /app
-CACHED [3/5] COPY package.json ./
-CACHED [4/5] RUN echo "== running (fake) install =="  && sleep 1 && mkdir -p node_modules
-[5/5] COPY . .
---- edit package.json, build 3 (install re-runs) ---
-CACHED [2/5] WORKDIR /app
-== running (fake) install ==`,
+echo "build 1 (cold)               - dep install ran: $(ran)"
+echo b > server.js
+echo "build 2 (edited server.js)   - dep install ran: $(ran)"
+echo "v2-$n" > package.json
+echo "build 3 (edited package.json) - dep install ran: $(ran)"
+docker rmi -f cachedemo-$n >/dev/null 2>&1 || true`,
+        output: `build 1 (cold)               - dep install ran: 1
+build 2 (edited server.js)   - dep install ran: 0
+build 3 (edited package.json) - dep install ran: 1`,
         explain: 'The Dockerfile copies the dependency manifest, runs the install, and only then copies the rest of the source. On the first build every step executes. On the second build, only the application source file changed, and because the copy of the manifest and the install step come before the copy of the full source, their cache entries are still valid: the builder reports them as cached and re-runs only the final source copy, so the build is nearly instant. On the third build the manifest itself changed, which invalidates the layer that copies it, and by the rule that a cache miss invalidates that layer and everything after it, the install step runs again. This is the entire reason for the ordering. If the full source were copied before the install, then any change to any file would invalidate the install layer and the install would run on every build, which for a real dependency tree means minutes of waiting on every code change. Placing the expensive, rarely-changing install above the cheap, frequently-changing source copy is the single most impactful Dockerfile optimisation.',
         explainHi: 'Dockerfile dependency manifest copy karता hai, install run karता hai, aur sirf tab baaki source copy karता hai. Pehle build par har step execute hoता hai. Doosरे build par, sirf application source file change hui, aur kyunki manifest ki copy aur install step full source ki copy se pehle aate hain, unki cache entries abhi bhi valid hain: builder unhe cached report karता hai aur sirf final source copy re-run karता hai. Teesरे build par manifest khud change hui, jo ise copy karने wali layer ko invalidate karती hai, aur is rule se ki ek cache miss us layer aur iske baad sab кुछ invalidate karता hai, install step phir se run hoता hai. Ye ordering ka poora reason hai. Agar full source install se pehle copy hoता, to kisi bhi file mein koi bhi change install layer ko invalidate karता.',
       },
@@ -1121,46 +1096,39 @@ CACHED [2/5] WORKDIR /app
         code: `# VERIFY
 exec 2>&1
 d=$(mktemp -d); cd "$d"
-
-# --- SHELL form: sh is PID 1, the app is a child ---
-cat > Dockerfile.shell <<'EOF'
-FROM alpine:3.20
-RUN printf '#!/bin/sh\\ntrap "echo APP got SIGTERM; exit 0" TERM\\necho app up; while true; do sleep 1; done\\n' > /app.sh && chmod +x /app.sh
-CMD /app.sh
+cat > app.sh <<'EOF'
+#!/bin/sh
+trap 'echo GOT-SIGTERM; exit 0' TERM
+echo up; while :; do sleep 1; done
 EOF
-docker build -q -t sig-shell -f Dockerfile.shell . >/dev/null
-docker run -d --name s1 sig-shell >/dev/null
-sleep 1
-docker exec s1 ps -o pid,comm | head -4
-timeout 12 docker stop s1 >/dev/null; echo "shell-form stop took: waited for the 10s kill timeout"
-docker logs s1 | tail -2
-docker rm -f s1 >/dev/null 2>&1
+chmod +x app.sh
 
-# --- EXEC form: the app IS PID 1 ---
-cat > Dockerfile.exec <<'EOF'
-FROM alpine:3.20
-RUN printf '#!/bin/sh\\ntrap "echo APP got SIGTERM; exit 0" TERM\\necho app up; while true; do sleep 1; done\\n' > /app.sh && chmod +x /app.sh
-CMD ["/app.sh"]
-EOF
-docker build -q -t sig-exec -f Dockerfile.exec . >/dev/null
-docker run -d --name e1 sig-exec >/dev/null
-sleep 1
-docker exec e1 ps -o pid,comm | head -4
-docker stop e1 >/dev/null; echo "exec-form stop was immediate"
-docker logs e1 | tail -2
-docker rm -f e1 >/dev/null 2>&1
+# --- SHELL form: 'CMD /app.sh || true' keeps /bin/sh as PID 1 ---
+printf 'FROM alpine:3.20\\nCOPY app.sh /app.sh\\nCMD /app.sh || true\\n' > Dockerfile
+docker build -q -t sig-shell . >/dev/null
+docker run -d --name ct-shell sig-shell >/dev/null; sleep 1
+t0=$(date +%s%N); docker stop -t 5 ct-shell >/dev/null; t1=$(date +%s%N); ms=$(( (t1 - t0) / 1000000 ))
+echo "shell form: PID 1 = $(docker inspect -f '{{.Path}}' ct-shell)"
+[ "$ms" -ge 4000 ] && echo "  docker stop WAITED for the kill timeout (~5s) - sh (PID 1) ignored SIGTERM"
+[ "$(docker logs ct-shell 2>&1 | grep -c GOT-SIGTERM)" -eq 0 ] && echo "  app.sh NEVER saw SIGTERM - it was SIGKILLed (sh did not forward it)"
+docker rm ct-shell >/dev/null
+
+# --- EXEC form: 'CMD ["/app.sh"]' makes app.sh itself PID 1 ---
+printf 'FROM alpine:3.20\\nCOPY app.sh /app.sh\\nCMD ["/app.sh"]\\n' > Dockerfile
+docker build -q -t sig-exec . >/dev/null
+docker run -d --name ct-exec sig-exec >/dev/null; sleep 1
+t0=$(date +%s%N); docker stop -t 5 ct-exec >/dev/null; t1=$(date +%s%N); ms=$(( (t1 - t0) / 1000000 ))
+echo "exec form:  PID 1 = $(docker inspect -f '{{.Path}}' ct-exec)"
+[ "$ms" -le 2500 ] && echo "  docker stop returned promptly (~1s)"
+[ "$(docker logs ct-exec 2>&1 | grep -c GOT-SIGTERM)" -eq 1 ] && echo "  app.sh (PID 1) got SIGTERM and its trap ran - clean exit"
+docker rm ct-exec >/dev/null
 docker rmi -f sig-shell sig-exec >/dev/null 2>&1 || true`,
-        output: `PID   COMMAND
-1     /bin/sh
-7     /app.sh
-shell-form stop took: waited for the 10s kill timeout
-app up
-(no "APP got SIGTERM" line - sh never forwarded it; app was SIGKILLed)
-PID   COMMAND
-1     /app.sh
-exec-form stop was immediate
-app up
-APP got SIGTERM`,
+        output: `shell form: PID 1 = /bin/sh
+  docker stop WAITED for the kill timeout (~5s) - sh (PID 1) ignored SIGTERM
+  app.sh NEVER saw SIGTERM - it was SIGKILLed (sh did not forward it)
+exec form:  PID 1 = /app.sh
+  docker stop returned promptly (~1s)
+  app.sh (PID 1) got SIGTERM and its trap ran - clean exit`,
         explain: 'Both images run the same script, which installs a handler for the termination signal that prints a message and exits cleanly. The only difference is the form of the command instruction. With the shell form, the container\'s PID 1 is the shell, and the script runs as a child process. When the container is stopped, the termination signal is delivered to PID 1, the shell, which does not forward it to its child, so the script never sees the signal, never runs its handler, and is forcibly killed when the grace period expires — which is why the stop takes the full timeout and the clean-shutdown message never appears. With the exec form, the script itself is PID 1, the termination signal is delivered directly to it, its handler runs, it prints the message and exits immediately, and the stop completes at once. In a real service this is the difference between every deploy dropping the requests that were in flight and every deploy draining cleanly. The rule that follows is to always write the entrypoint and command in exec form, as a JSON array, so the application process is PID 1 and receives signals.',
         explainHi: 'Dono images same script run karते hain, jo termination signal ke liye ek handler install karta hai jo ek message print karta hai aur cleanly exit karता hai. Ekmatra difference command instruction ka form hai. Shell form ke saath, container ka PID 1 shell hai, aur script ek child process ke roop mein run karता hai. Jab container stop hoता hai, termination signal PID 1 ko deliver hoता hai, shell, jo ise apne child ko forward nahi karता, to script kabhi signal nahi dekhता, kabhi apna handler run nahi karता, aur forcibly killed hoता hai jab grace period expire hoता hai. Exec form ke saath, script khud PID 1 hai, termination signal ise directly deliver hoता hai, iska handler run karता hai. Ek real service mein ye har deploy ke in-flight requests drop karने aur har deploy ke cleanly drain karने ke beech ka difference hai.',
       },

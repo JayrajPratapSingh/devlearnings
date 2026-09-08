@@ -234,51 +234,33 @@ Doosri capabilities: **\`COPY --from=<image>\`** (ek arbitrary image se copy kar
         code: `# VERIFY
 exec 2>&1
 d=$(mktemp -d); cd "$d"
-cat > main.go <<'EOF'
-package main
-import "fmt"
-func main() { fmt.Println("hello from a container") }
-EOF
+printf 'package main\\nimport "fmt"\\nfunc main(){ fmt.Println("hello from a container") }\\n' > main.go
 printf 'module hello\\n\\ngo 1.22\\n' > go.mod
 
-echo "=== single-stage: ships the whole Go toolchain ==="
-cat > Dockerfile.big <<'EOF'
-FROM golang:1.22
-WORKDIR /src
-COPY . .
-RUN CGO_ENABLED=0 go build -o /app .
-CMD ["/app"]
-EOF
-docker build -q -t hello:big -f Dockerfile.big . >/dev/null
-docker image inspect hello:big --format 'single-stage: {{.Size}} bytes'
+# single-stage: the final image IS the Go toolchain image + the binary
+printf 'FROM golang:1.22-alpine\\nWORKDIR /src\\nCOPY . .\\nRUN go build -o /app .\\nCMD ["/app"]\\n' > Dockerfile.single
+# multi-stage: build in the toolchain image, copy just the static binary onto scratch
+printf 'FROM golang:1.22-alpine AS build\\nWORKDIR /src\\nCOPY . .\\nRUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /app .\\nFROM scratch\\nCOPY --from=build /app /app\\nCMD ["/app"]\\n' > Dockerfile.multi
 
-echo "=== multi-stage: only the static binary, on scratch ==="
-cat > Dockerfile.small <<'EOF'
-FROM golang:1.22 AS build
-WORKDIR /src
-COPY . .
-RUN CGO_ENABLED=0 go build -ldflags='-s -w' -o /app .
+docker build -q -f Dockerfile.single -t sz-single . >/dev/null
+docker build -q -f Dockerfile.multi  -t sz-multi  . >/dev/null
+s=$(docker image inspect sz-single --format '{{.Size}}')
+m=$(docker image inspect sz-multi  --format '{{.Size}}')
 
-FROM scratch
-COPY --from=build /app /app
-ENTRYPOINT ["/app"]
-EOF
-docker build -q -t hello:small -f Dockerfile.small . >/dev/null
-docker image inspect hello:small --format 'multi-stage:  {{.Size}} bytes'
-
-echo "=== both run identically ==="
-docker run --rm hello:big
-docker run --rm hello:small
-docker rmi -f hello:big hello:small >/dev/null 2>&1 || true`,
-        output: `=== single-stage: ships the whole Go toolchain ===
-single-stage: ~880000000 bytes
-=== multi-stage: only the static binary, on scratch ===
-multi-stage:  ~1900000 bytes
-=== both run identically ===
+echo "single-stage: hundreds of MB (ships the whole Go toolchain + source)"
+echo "multi-stage:  a few MB (only the static binary, on scratch)"
+[ "$m" -lt $(( s / 50 )) ] && echo "measured: the multi-stage image is >50x smaller than the single-stage one"
+echo "both run identically:"
+docker run --rm sz-single
+docker run --rm sz-multi
+docker rmi -f sz-single sz-multi >/dev/null 2>&1 || true`,
+        output: `single-stage: hundreds of MB (ships the whole Go toolchain + source)
+multi-stage:  a few MB (only the static binary, on scratch)
+measured: the multi-stage image is >50x smaller than the single-stage one
+both run identically:
 hello from a container
-hello from a container
-built with the Go toolchain in the build stage; the final scratch image is one file`,
-        explain: 'The same trivial program is built two ways. The single-stage build uses the Go toolchain image as its base and never leaves it, so the final image is that entire image — around eight hundred and eighty megabytes of compiler, standard library source, and tooling — plus the compiled binary. The multi-stage build does the compilation in a first stage that also uses the toolchain image, then starts a second stage from scratch, the empty base, and copies only the finished binary into it. Because the binary is statically linked it needs nothing else at runtime: no libc, no shell, no operating-system files. The final image is that one file, under two megabytes. Both containers run the program and produce identical output, because the runtime needs only the binary; everything the build needed was in the discarded first stage. The size difference is not a marginal optimisation — it is the difference between an image that pulls in seconds and one that takes a minute, between a vulnerability scan with hundreds of findings and one with zero, and between an image an attacker can explore with a shell and one with no shell to find.',
+hello from a container`,
+        explain: 'The same trivial program is built two ways. The single-stage build uses the Go toolchain image as its base and never leaves it, so the final image is that entire image — hundreds of megabytes of compiler, standard library source, and tooling — plus the compiled binary and the copied source. The multi-stage build does the compilation in a first stage that also uses the toolchain image, then starts a second stage from scratch, the empty base, and copies only the finished binary into it. Because the binary is statically linked it needs nothing else at runtime: no libc, no shell, no operating-system files. The final image is that one file, a few megabytes, and the measurement confirms it is more than fifty times smaller. Both containers run the program and produce identical output, because the runtime needs only the binary; everything the build needed was in the discarded first stage. The size difference is not a marginal optimisation — it is the difference between an image that pulls in seconds and one that takes a minute, between a vulnerability scan with hundreds of findings and one with zero, and between an image an attacker can explore with a shell and one with no shell to find.',
         explainHi: 'Wahi trivial program do tarike se built hai. Single-stage build Go toolchain image ko apne base ke roop mein istemal karता hai aur ise kabhi nahi chhoड़ता, to final image wo poori image hai — lagभag आठ sौ assी megabytes ka compiler aur tooling — plus compiled binary. Multi-stage build compilation ek pehle stage mein karता hai jo bhi toolchain image istemal karता hai, phir scratch se ek doosरा stage start karता hai, empty base, aur sirf finished binary ko ismें copy karता hai. Kyunki binary statically linked hai ise runtime par kुछ aur nahi chahिए. Final image wo ek file hai, do megabytes se kम. Dono containers program run karते hain aur identical output produce karते hain. Size difference ek marginal optimisation nahi hai — ye ek image jo seconds mein pull hoती hai aur ek jo ek minute leता hai ke beech ka difference hai.',
       },
       {
@@ -290,36 +272,34 @@ d=$(mktemp -d); cd "$d"
 cat > Dockerfile <<'EOF'
 FROM alpine:3.20
 RUN adduser -D -u 10001 app
-# create a dir the non-root user can write to
-RUN mkdir /data && chown 10001:10001 /data
-USER 10001:10001
-WORKDIR /data
-ENTRYPOINT ["sh","-c"]
+USER app
+WORKDIR /home/app
 EOF
-docker build -q -t nonroot-demo . >/dev/null
+docker build -q -t nonroot . >/dev/null
 
-echo "--- who am I inside the container? ---"
-docker run --rm nonroot-demo 'id'
+echo "--- identity inside the container ---"
+docker run --rm nonroot id
 
-echo "--- can write to the dir I own ---"
-docker run --rm nonroot-demo 'echo ok > /data/f && cat /data/f'
+echo "--- can write to a dir it owns ---"
+docker run --rm nonroot sh -c 'echo ok > f && echo "wrote ./f"'
 
-echo "--- CANNOT write to a root-owned path (this is the point) ---"
-docker run --rm nonroot-demo 'echo nope > /etc/passwd 2>&1 || echo "denied: not root"'
+echo "--- CANNOT write to a root-owned path ---"
+docker run --rm nonroot sh -c 'echo x > /etc/hosts' 2>/dev/null \\
+  && echo "wrote (unexpected)" || echo "denied: /etc/hosts is root-owned"
 
-echo "--- CANNOT bind a privileged port (<1024) ---"
-docker run --rm nonroot-demo 'nc -lp 80 2>&1 || echo "denied: privileged port needs root or CAP_NET_BIND_SERVICE"'
-docker rmi -f nonroot-demo >/dev/null 2>&1 || true`,
-        output: `--- who am I inside the container? ---
+echo "--- CANNOT install packages (apk needs root) ---"
+docker run --rm nonroot apk add --no-cache curl 2>&1 | grep -oE 'ERROR:.*Permission denied' | head -1
+docker rmi -f nonroot >/dev/null 2>&1 || true`,
+        output: `--- identity inside the container ---
 uid=10001(app) gid=10001(app) groups=10001(app)
---- can write to the dir I own ---
-ok
---- CANNOT write to a root-owned path (this is the point) ---
-denied: not root
---- CANNOT bind a privileged port (<1024) ---
-denied: privileged port needs root or CAP_NET_BIND_SERVICE`,
-        explain: 'The image creates a dedicated user with a high numeric id, gives that user ownership of a working directory, and switches to that user for everything that follows. Inside the container the process now runs as that unprivileged user, not as root. It can write to the directory it owns, which is where the application should keep any files it needs to create. It cannot write to files owned by root, such as the system password file, so a compromised process cannot tamper with the container\'s own system files. And it cannot bind to a port below one thousand twenty-four, because that requires a capability that a non-root process does not have by default, which is why applications in containers should listen on a high port and let a proxy or the orchestrator map the privileged port. The reason this matters is that container isolation rests on the host kernel, and a process running as root inside the container is root in the user namespace; if it finds a way out through a kernel bug, it is root on the host. Running as a non-root user removes that escalation path and is required by most orchestrator security policies. The user must be a numeric id, not just a name, so the policy check can verify it is non-zero without resolving names.',
-        explainHi: 'Image ek dedicated user banаता hai ek high numeric id ke saath, us user ko ek working directory ka ownership deता hai, aur uske baad sab кुछ ke liye us user par switch karта hai. Container ke andar process ab us unprivileged user ke roop mein run karता hai, root ke roop mein nahi. Ye us directory mein write kar sakта hai jise ye own karता hai. Ye root ke owned files mein write nahi kar sakта, jaisे system password file, to ek compromised process container ki apni system files se tamper nahi kar sakта. Aur ye ek sौ chौbis se neeche ek port bind nahi kar sakта, kyunki ise ek capability chahिए jo ek non-root process ke paas default se nahi hai. Ye kyun matter karта hai: container isolation host kernel par rests karता hai, aur container ke andar root ke roop mein run karता ek process user namespace mein root hai; agar ye ek kernel bug ke through ek raasta bahar dhoondता hai, ye host par root hai.',
+--- can write to a dir it owns ---
+wrote ./f
+--- CANNOT write to a root-owned path ---
+denied: /etc/hosts is root-owned
+--- CANNOT install packages (apk needs root) ---
+ERROR: Unable to lock database: Permission denied`,
+        explain: 'The image creates a dedicated user with a high numeric id and switches to that user for everything that follows, so inside the container the process runs as that unprivileged user, not as root. It can write to a directory it owns, which is where the application should keep any files it needs to create at runtime. It cannot write to files owned by root, such as the hosts file, so a compromised process cannot tamper with the container\'s own system configuration. It also cannot use the package manager, because installing packages requires writing to root-owned system directories and lock files — which is exactly why the image is built with everything it needs at build time and then runs as a non-privileged user. The reason this matters is that container isolation rests on the host kernel, and a process running as root inside the container is root in its user namespace; if it finds a way out through a kernel bug, it is root on the host. Running as a non-root user removes that escalation path and is required by most orchestrator security policies. The user should be given as a numeric id, not only a name, so a policy check can verify it is non-zero without resolving names inside the image.',
+        explainHi: 'Image ek dedicated user banata hai ek high numeric id ke saath aur uske baad sab kuch ke liye us user par switch karta hai, to container ke andar process us unprivileged user ke roop mein run karta hai, root ke roop mein nahi. Ye ek directory mein write kar sakta hai jise ye own karta hai. Ye root ke owned files mein write nahi kar sakta, jaise hosts file, to ek compromised process container ki apni system configuration se tamper nahi kar sakta. Ye package manager bhi use nahi kar sakta, kyunki packages install karne ke liye root-owned system directories aur lock files mein write karna padta hai (jo image ko build time par sab kuch ke saath banane aur phir ek non-privileged user ke roop mein run karne ka point hai). Ye kyun matter karta hai: container isolation host kernel par rests karta hai, aur container ke andar root ke roop mein run karta ek process apne user namespace mein root hai; agar ye ek kernel bug ke through bahar nikalta hai, ye host par root hai. Non-root user ke roop mein run karna us escalation path ko remove karta hai aur zyadatar orchestrator security policies dwara required hai. User ko ek numeric id ke roop mein dena chahiye, sirf ek naam nahi, taaki ek policy check verify kar sake ki ye non-zero hai bina naam resolve kiye.',
       },
     ],
 
@@ -669,37 +649,27 @@ Kई registries ek repository configure kar sakती hain taki **ek baar ek tag
         code: `# VERIFY
 exec 2>&1
 d=$(mktemp -d); cd "$d"
+mkv() { printf 'FROM alpine:3.20\\nCMD ["echo","I am version %s"]\\n' "$1" > Dockerfile; docker build -q -t app:release . >/dev/null; }
 
-# build "v1" and tag it 'app:release'
-echo 'FROM alpine:3.20' > Dockerfile
-echo 'RUN echo "I am version 1" > /version' >> Dockerfile
-docker build -q -t app:release . >/dev/null
-dig1=$(docker image inspect app:release --format '{{index .RepoDigests 0}}' 2>/dev/null || docker image inspect app:release --format '{{.Id}}')
-echo "app:release now -> $(docker run --rm app:release cat /version)"
-id1=$(docker image inspect app:release --format '{{.Id}}')
+mkv 1
+docker tag app:release app:1.0.0            # pin THIS exact build with an immutable version tag
+d1=$(docker image inspect app:release --format '{{.Id}}')
+echo "app:release  -> $(docker run --rm app:release)"
 
-# someone rebuilds and RE-PUSHES the same tag with different content
-echo 'FROM alpine:3.20' > Dockerfile
-echo 'RUN echo "I am version 2 (SURPRISE)" > /version' >> Dockerfile
-docker build -q -t app:release . >/dev/null
-echo "app:release now -> $(docker run --rm app:release cat /version)"
-id2=$(docker image inspect app:release --format '{{.Id}}')
+mkv 2                                        # someone rebuilds and reuses the 'release' tag
+d2=$(docker image inspect app:release --format '{{.Id}}')
+echo "app:release  -> $(docker run --rm app:release)   (SAME tag, different image now)"
+[ "$d1" != "$d2" ] && echo "the floating tag 'app:release' moved to a new image id"
 
-echo "--- the tag 'app:release' moved: same name, different image ---"
-[ "$id1" != "$id2" ] && echo "id1 != id2  (the tag is mutable — nothing pinned)"
-
-echo "--- pinning by image ID / digest always gets the SAME bytes ---"
-docker run --rm "$id1" cat /version
-docker run --rm "$id2" cat /version
-docker rmi -f app:release "$id1" "$id2" >/dev/null 2>&1 || true`,
-        output: `app:release now -> I am version 1
-app:release now -> I am version 2 (SURPRISE)
---- the tag 'app:release' moved: same name, different image ---
-id1 != id2  (the tag is mutable - nothing pinned)
---- pinning by image ID / digest always gets the SAME bytes ---
-I am version 1
-I am version 2 (SURPRISE)`,
-        explain: 'An image is built and given a tag, and running that tag produces the first version\'s output. The image is then rebuilt with different content and given the exact same tag. Running the tag now produces the second version\'s output, because the tag is only a name that points at a manifest and re-tagging repointed it. Nothing about the tag records that it changed or what it used to point at. The two builds have different image identifiers, and referencing either identifier directly always runs that specific image regardless of where any tag now points. This is the core reason production deployments should not be specified by a plain tag: between the moment a deployment manifest is written and the moment a node pulls the image, or between one node pulling and another node pulling later, the tag can be moved, and the deployment then runs something other than what was reviewed and tested. Deploying by digest, or by a version tag that the pipeline is configured never to overwrite, removes this gap: the reference names an exact image and cannot be silently redirected.',
+echo "--- the pinned tag still resolves to the ORIGINAL bytes ---"
+echo "app:1.0.0    -> $(docker run --rm app:1.0.0)"
+docker rmi -f app:release app:1.0.0 >/dev/null 2>&1 || true`,
+        output: `app:release  -> I am version 1
+app:release  -> I am version 2   (SAME tag, different image now)
+the floating tag 'app:release' moved to a new image id
+--- the pinned tag still resolves to the ORIGINAL bytes ---
+app:1.0.0    -> I am version 1`,
+        explain: 'An image is built and given a tag, and running that tag produces the first version\'s output. The image is then rebuilt with different content and given the exact same tag. Running the tag now produces the second version\'s output, because the tag is only a name that points at a manifest and re-tagging repointed it. Nothing about the floating tag records that it changed or what it used to point at, and on a modern engine the now-untagged first image can even be garbage-collected. But the first build was also given an immutable version tag before the rebuild, and that tag still resolves to the original bytes. This is the core reason production deployments should not be specified by a plain reused tag: between the moment a deployment manifest is written and the moment a node pulls the image, or between one node pulling and another node pulling later, the tag can be moved, and the deployment then runs something other than what was reviewed and tested. Deploying by digest, or by a version tag that the pipeline is configured never to overwrite, removes this gap: the reference names an exact image and cannot be silently redirected.',
         explainHi: 'Ek image built hai aur ek tag di jाती hai, aur us tag ko run karna pehle version ka output produce karता hai. Image phir alag content ke saath rebuild hoती hai aur exact same tag di jाती hai. Tag ko ab run karна doosरे version ka output produce karта hai, kyunki tag sirf ek naam hai jo ek manifest par point karता hai aur re-tagging ne ise repoint kiya. Tag ke baare mein kुछ record nahi karता ki ye badla ya ye kis par point karता tha. Do builds ke alag image identifiers hain, aur kisi bhi identifier ko directly reference karna hamesha wo specific image run karता hai chahे koi tag ab kahin bhi point kare. Ye core reason hai ki production deployments ko ek plain tag se specify nahi honा chahिए: deployment manifest likhे jaने ke moment aur ek node ke image pull karने ke moment ke beech, tag move ho sakта hai.',
       },
       {
@@ -708,37 +678,25 @@ I am version 2 (SURPRISE)`,
         code: `# VERIFY
 exec 2>&1
 d=$(mktemp -d); cd "$d"
-mkdir app && cd app
-cat > Dockerfile <<'EOF'
-FROM alpine:3.20
-RUN apk add --no-cache curl        # a big-ish shared layer
-COPY app.txt /app.txt              # the frequently-changing layer
-EOF
-echo "v1" > app.txt
-docker build -q -t dedup:v1 . >/dev/null
+build() {
+  { echo 'FROM alpine:3.20'
+    echo 'RUN apk add --no-cache curl'
+    echo 'COPY app.txt /app.txt'; } > Dockerfile
+  echo "$1" > app.txt
+  docker build -q -t "dedup:$1" . >/dev/null
+}
+layers() { docker image inspect "dedup:$1" --format '{{range .RootFS.Layers}}{{println .}}{{end}}'; }
 
-echo "--- layer digests of v1 ---"
-docker image inspect dedup:v1 --format '{{range .RootFS.Layers}}{{println .}}{{end}}' | sed -E 's/sha256:(.{12}).*/sha256:\\1.../'
-
-echo "v2 — only app.txt changes" && echo "v2" > app.txt
-docker build -q -t dedup:v2 . >/dev/null
-echo "--- layer digests of v2 (all but the last are IDENTICAL to v1) ---"
-docker image inspect dedup:v2 --format '{{range .RootFS.Layers}}{{println .}}{{end}}' | sed -E 's/sha256:(.{12}).*/sha256:\\1.../'
-
-echo "--- a push of v2 would upload ONLY the changed COPY layer + a new manifest ---"
-echo "(the alpine base + the 'apk add curl' layer already exist in the registry)"
+build v1
+build v2                                    # identical Dockerfile; only app.txt content differs
+echo "v1 has $(layers v1 | grep -c .) layers; v2 has $(layers v2 | grep -c .) layers"
+shared=$(comm -12 <(layers v1 | sort) <(layers v2 | sort) | grep -c .)
+echo "$shared of them are byte-identical (content-addressed) - only the COPY app.txt layer differs"
+echo "-> pushing v2 uploads ONLY that one changed layer; the base + 'apk add curl' layers already exist in the registry"
 docker rmi -f dedup:v1 dedup:v2 >/dev/null 2>&1 || true`,
-        output: `--- layer digests of v1 ---
-sha256:aaaa11112222...
-sha256:bbbb33334444...
-sha256:cccc55556666...
-v2 - only app.txt changes
---- layer digests of v2 (all but the last are IDENTICAL to v1) ---
-sha256:aaaa11112222...
-sha256:bbbb33334444...
-sha256:dddd77778888...
---- a push of v2 would upload ONLY the changed COPY layer + a new manifest ---
-(the alpine base + the 'apk add curl' layer already exist in the registry)`,
+        output: `v1 has 3 layers; v2 has 3 layers
+2 of them are byte-identical (content-addressed) - only the COPY app.txt layer differs
+-> pushing v2 uploads ONLY that one changed layer; the base + 'apk add curl' layers already exist in the registry`,
         explain: 'The image has three layers: the base, a layer that installs a package, and a layer that copies one small file. The layer digests are listed for the first build. Only the small file is then changed and the image rebuilt. The digests of the first two layers are identical to before, because their inputs did not change and they are content-addressed, while the third layer has a new digest because its copied content differs. When this second image is pushed to a registry, the client checks each layer\'s digest against what the registry already holds, finds the first two already present from the first push, and uploads only the third layer plus a new manifest that references the two existing digests and the one new one. A pull works symmetrically: a client that already has the base and package layers from any other image downloads only the changed layer. This content-addressed deduplication is why a registry storing many versions of an image, and many images sharing a base, uses far less space than the sum of the image sizes, and why redeploying after a code change transfers kilobytes rather than the whole image.',
         explainHi: 'Image ke teen layers hain: base, ek layer jo ek package install karता hai, aur ek layer jo ek small file copy karता hai. Layer digests pehle build ke liye listed hain. Phir sirf small file change hoती hai aur image rebuild hoती hai. Pehle do layers ke digests pehle jaisे identical hain, kyunki unke inputs change nahi hue aur wo content-addressed hain, jabki teesरी layer ka ek naya digest hai kyunki iska copied content differ karता hai. Jab ye doosरी image ek registry par push hoती hai, client har layer ke digest ko check karता hai jo registry already rakhता hai, pehle do ko already present paता hai, aur sirf teesरी layer plus ek naya manifest upload karता hai. Ek pull symmetrically kaam karता hai. Ye content-addressed deduplication hai kyunki ek registry jo ek image ke kई versions store karता hai us image sizes ke sum se kahीं kम space istemal karता hai.',
       },
@@ -1064,33 +1022,28 @@ Har important \`docker run\` flag un isolation ya limiting mechanisms mein se ek
         code: `# VERIFY
 exec 2>&1
 d=$(mktemp -d); cd "$d"
-cat > Dockerfile <<'EOF'
-FROM alpine:3.20
-RUN adduser -D -u 10001 app
-USER 10001:10001
-ENTRYPOINT ["sh","-c"]
-EOF
+printf 'FROM alpine:3.20\\nRUN adduser -D -u 10001 app\\n' > Dockerfile
 docker build -q -t hardened . >/dev/null
 
 echo "--- run it locked down ---"
 docker run --rm \\
-  --user 10001:10001 \\
+  --user 10001 \\
   --read-only --tmpfs /tmp \\
   --cap-drop ALL \\
   --security-opt no-new-privileges \\
   --memory 64m --pids-limit 50 \\
-  hardened '
+  hardened sh -c '
     echo "uid: $(id -u)"
-    echo "can write /tmp (tmpfs): $(touch /tmp/x && echo yes)"
-    echo "root fs writable? $(touch /root-probe 2>&1 || echo "no — read-only rootfs")"
-    echo "mem limit: $(cat /sys/fs/cgroup/memory.max)"
+    echo x 2>/dev/null 1>/tmp/probe && echo "tmpfs /tmp: writable"
+    if echo x 2>/dev/null 1>/rootfs-probe; then echo "rootfs: writable"; else echo "rootfs: read-only (--read-only)"; fi
+    echo "mem limit (bytes): $(cat /sys/fs/cgroup/memory.max)"
   '
 docker rmi -f hardened >/dev/null 2>&1 || true`,
         output: `--- run it locked down ---
 uid: 10001
-can write /tmp (tmpfs): yes
-root fs writable? no - read-only rootfs
-mem limit: 67108864`,
+tmpfs /tmp: writable
+rootfs: read-only (--read-only)
+mem limit (bytes): 67108864`,
         explain: 'The container is run with a stack of restrictions that together represent a sensible production baseline. It runs as a specific non-root user id, so the process has no administrative privilege inside the container. Its root filesystem is mounted read-only, so the process cannot create or modify any file except in the places explicitly made writable — here a small in-memory filesystem at the temp directory, which the output confirms is writable while an attempt to write elsewhere in the root filesystem is refused. Every Linux capability is dropped, so even operations that a root process would normally be allowed are blocked. The no-new-privileges option ensures no process can escalate through a setuid binary. A memory limit is set, visible from inside the container as the exact byte count in the cgroup file, and a process-count limit guards against fork bombs. Each of these closes off a class of what a compromised process could do: it cannot persist a payload to disk, cannot use elevated capabilities, cannot escalate, and cannot exhaust host memory or process slots. The application still works because a well-behaved service only needs to write to a scratch directory and a data volume, both of which can be provided explicitly.',
         explainHi: 'Container restrictions ke ek stack ke saath run hoता hai jo saath ek sensible production baseline represent karते hain. Ye ek specific non-root user id ke roop mein run karता hai. Iski root filesystem read-only mounted hai, to process kisi bhi file ko create ya modify nahi kar sakта sivाy un jagahon ke jo explicitly writable banी hain — yahaan temp directory par ek small in-memory filesystem. Har Linux capability dropped hai. no-new-privileges option ensure karता hai koi process ek setuid binary ke through escalate nahi kar sakта. Ek memory limit set hai, container ke andar se cgroup file mein exact byte count ke roop mein visible. In mein se har ek ek class band karता hai ki ek compromised process kya kar sakта tha: ye disk par ek payload persist nahi kar sakta, elevated capabilities use nahi kar sakta, escalate nahi kar sakta, aur host memory exhaust nahi kar sakta.',
       },
@@ -1100,34 +1053,24 @@ mem limit: 67108864`,
         code: `# VERIFY
 exec 2>&1
 d=$(mktemp -d); cd "$d"
-cat > Dockerfile <<'EOF'
-# syntax=docker/dockerfile:1
+cid="m5cache-$(date +%s%N)"      # a fresh cache-mount id so the first build starts empty
+cat > Dockerfile <<DF
 FROM alpine:3.20
-RUN --mount=type=cache,target=/var/cache/apk \\
-    apk add --no-cache curl jq
-# a frequently-changing layer AFTER the deps
-COPY marker.txt /marker.txt
-EOF
-echo "build 1" > marker.txt
-echo "--- build 1: apk downloads curl + jq into the cache mount ---"
-DOCKER_BUILDKIT=1 docker build -q -t cm-demo . >/dev/null && echo "built"
+RUN --mount=type=cache,id=$cid,target=/cache sh -c "cat /cache/note 2>/dev/null > /result || echo NO-PRIOR-CACHE-DATA > /result; echo persisted-value > /cache/note"
+DF
 
-echo "--- change marker.txt AND force the apk layer to rerun (edit its command) ---"
-sed -i 's/curl jq/curl jq git/' Dockerfile
-echo "build 2" > marker.txt
-DOCKER_BUILDKIT=1 docker build -t cm-demo . 2>&1 \\
-  | grep -E 'CACHED|apk add|sha256|DONE' | sed -E 's/^#[0-9]+ //' | head -5
-echo "--- curl + jq came from the cache mount; only 'git' was newly downloaded ---"
-docker rmi -f cm-demo >/dev/null 2>&1 || true`,
-        output: `--- build 1: apk downloads curl + jq into the cache mount ---
-built
---- change marker.txt AND force the apk layer to rerun (edit its command) ---
-[2/3] RUN --mount=type=cache,target=/var/cache/apk apk add --no-cache curl jq git
-  (apk fetches only 'git'; curl and jq are already in /var/cache/apk from build 1)
-[3/3] COPY marker.txt /marker.txt
---- curl + jq came from the cache mount; only 'git' was newly downloaded ---`,
-        explain: 'The install instruction declares a cache mount at the package manager\'s cache directory. On the first build, the package manager downloads the requested packages and, because that directory is the cache mount, the downloaded package files are stored in a persistent cache that lives outside the image layers. On the second build the instruction text is changed to add another package, which invalidates the layer, so the instruction must run again. But the cache mount is reattached, so the package manager finds the previously downloaded packages already present in its cache directory and downloads only the newly added one. Without a cache mount, invalidating this layer would mean re-downloading every package from scratch every time, which for a real dependency set is a significant part of build time. The distinction from ordinary layer caching is important: layer caching skips the instruction entirely when nothing changed, while a cache mount makes the instruction fast even when it does have to run, by preserving the expensive-to-fetch inputs across runs. The same pattern applies to every language\'s package manager, and in continuous integration it is combined with exporting the cache to a registry so that fresh runners also benefit.',
-        explainHi: 'Install instruction package manager ki cache directory par ek cache mount declare karता hai. Pehle build par, package manager requested packages download karता hai aur, kyunki wo directory cache mount hai, downloaded package files ek persistent cache mein stored hote hain jo image layers ke bahar rehта hai. Doosरे build par instruction text ek aur package add karने ke liye changed hai, jo layer ko invalidate karता hai, to instruction phir se run honा chahिए. Par cache mount reattached hai, to package manager previously downloaded packages ko apni cache directory mein already present paता hai aur sirf newly added wale ko download karता hai. Ek cache mount ke bina, is layer ko invalidate karना matlab har baar scratch se har package re-download karना. Ordinary layer caching se distinction important hai: layer caching instruction ko poori tarah skip karता hai jab kुछ nahi badla, jabki ek cache mount instruction ko fast banаता hai chahे ise run honा pade.',
+docker build -q -t cm . >/dev/null
+echo "build 1 (the /cache mount is empty):        $(docker run --rm cm cat /result)"
+
+# change the RUN so the layer is invalidated and MUST re-execute
+sed -i 's#note 2>/dev/null#note  2>/dev/null#' Dockerfile
+docker build -q -t cm . >/dev/null
+echo "build 2 (RUN re-ran, but /cache survived):  $(docker run --rm cm cat /result)"
+docker rmi -f cm >/dev/null 2>&1 || true`,
+        output: `build 1 (the /cache mount is empty):        NO-PRIOR-CACHE-DATA
+build 2 (RUN re-ran, but /cache survived):  persisted-value`,
+        explain: 'The RUN instruction declares a cache mount at a directory, and the script reads whatever is in that directory and writes a fresh value into it. On the first build the mounted cache directory is empty, so the read finds nothing and the result baked into the image says so; the script then writes a value into the cache. The second build changes the instruction text just enough to invalidate the layer, so the instruction must execute again — this is not ordinary layer caching, which would skip it. When it re-executes, BuildKit reattaches the same cache mount, so the directory still contains the value written during the first build, and this time the read finds it. This is what a cache mount is for: it preserves expensive-to-produce state — a package manager\'s download cache, a compiler\'s object cache, a dependency resolver\'s metadata — across the builds where the layer genuinely has to run, so that re-running the instruction is fast even though it is not skipped. Every language\'s package manager and build tool has such a cache directory, and pointing a cache mount at it is the single most effective way to keep rebuilds fast when dependencies or the instruction itself change.',
+        explainHi: 'RUN instruction ek directory par ek cache mount declare karta hai, aur script us directory mein jo bhi hai wo read karta hai aur ismein ek fresh value write karta hai. Pehle build par mounted cache directory empty hai, to read ko kuch nahi milta aur image mein baked result yahi kehta hai; script phir cache mein ek value write karta hai. Doosre build par instruction text ko layer invalidate karne ke liye bas itna change kiya jaata hai ki instruction phir se execute hona chahiye. Jab ye re-execute hota hai, BuildKit wahi cache mount reattach karta hai, to directory mein abhi bhi pehle build ke dauran likhi value hai, aur is baar read use paa leta hai. Yahi ek cache mount ka point hai: ye expensive-to-produce state (ek package manager ka download cache, ek compiler ka object cache) un builds ke across preserve karta hai jahaan layer ko genuinely run hona hai, taaki instruction re-run karna fast hai chahe ye skip na ho. Har language ke package manager aur build tool ki aisi ek cache directory hoti hai, aur us par ek cache mount point karna rebuilds ko fast rakhne ka sabse effective tarika hai.',
       },
     ],
 
