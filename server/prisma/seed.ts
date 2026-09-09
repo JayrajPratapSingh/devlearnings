@@ -361,6 +361,8 @@ import { DEVOPS_MODULE_14 } from './seed-data/course-devops-module14';
 import { DEVOPS_MODULE_14_PART2 } from './seed-data/course-devops-module14-part2';
 import { DEVOPS_MODULE_15 } from './seed-data/course-devops-module15';
 import { DEVOPS_MODULE_15_PART2 } from './seed-data/course-devops-module15-part2';
+import { DEVOPS_MODULE_16 } from './seed-data/course-devops-module16';
+import { DEVOPS_MODULE_16_PART2 } from './seed-data/course-devops-module16-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -4097,6 +4099,10 @@ async function seedDevOpsCourse(): Promise<{ modules: number; topics: number }> 
     ...[...DEVOPS_MODULE_15, ...DEVOPS_MODULE_15_PART2].map((lesson) => ({
       ...lesson,
       moduleIndex: 14,
+    })),
+    ...[...DEVOPS_MODULE_16, ...DEVOPS_MODULE_16_PART2].map((lesson) => ({
+      ...lesson,
+      moduleIndex: 15,
     })),
   ];
 
