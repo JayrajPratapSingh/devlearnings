@@ -117,7 +117,7 @@ offline.
 - [x] M10 Payments with Stripe — 3/3 lessons, commit `559e606`
 - [x] M11 WebSockets & Real-time — 3/3 lessons, commit `c418750`
 - [x] M12 Security Fundamentals — 3/3 lessons, commit `de3f103`
-- [ ] M13 API & Auth Security Hardening
+- [x] M13 API & Auth Security Hardening — 3/3 lessons, commit `f7b1e99`
 - [ ] M14 Server Actions & Data Security
 - [ ] M15 Performance Optimization
 - [ ] M16 Caching & Scaling Large Data
