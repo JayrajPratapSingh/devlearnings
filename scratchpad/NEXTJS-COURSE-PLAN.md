@@ -112,7 +112,7 @@ offline.
 - [x] M5 Forms Done Right — 3/3 lessons, commit `cfe8172`
 - [x] M6 Large Forms & Large Datasets — 3/3 lessons, commit `df288e2`
 - [x] M7 File Uploads & Media — 3/3 lessons, commit `b8f79a8`
-- [ ] M8 Authentication
+- [x] M8 Authentication — 3/3 lessons, commit `f60d011`
 - [ ] M9 Database Integration at Production Scale
 - [ ] M10 Payments with Stripe
 - [ ] M11 WebSockets & Real-time
