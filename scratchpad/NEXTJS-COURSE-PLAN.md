@@ -111,7 +111,7 @@ offline.
 - [x] M4 Data Fetching & Caching — 3/3 lessons, commit `066ad6b`
 - [x] M5 Forms Done Right — 3/3 lessons, commit `cfe8172`
 - [x] M6 Large Forms & Large Datasets — 3/3 lessons, commit `df288e2`
-- [ ] M7 File Uploads & Media
+- [x] M7 File Uploads & Media — 3/3 lessons, commit `b8f79a8`
 - [ ] M8 Authentication
 - [ ] M9 Database Integration at Production Scale
 - [ ] M10 Payments with Stripe
