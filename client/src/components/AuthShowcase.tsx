@@ -453,7 +453,7 @@ export function AuthShowcase() {
           <SplitWords
             key={`${scene.id}-title`}
             text={copy.title}
-            className="block max-w-lg font-display text-[36px] font-semibold leading-[1.08] tracking-[-0.015em] text-content xl:text-[42px]"
+            className="block max-w-lg font-display text-[36px] font-semibold leading-[1.15] tracking-[-0.015em] text-content xl:text-[42px]"
           />
         </div>
         <p

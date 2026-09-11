@@ -153,7 +153,7 @@ export default function CoursesPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
       <div className="mb-6">
-        <h1 className="font-display text-[28px] font-semibold leading-none tracking-[-0.015em] text-content sm:text-[32px]">
+        <h1 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.015em] text-content sm:text-[32px]">
           {t('Learning paths', 'Learning paths')}
         </h1>
         <p className="mt-2 text-sm text-content-muted">

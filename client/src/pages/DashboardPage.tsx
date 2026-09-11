@@ -96,7 +96,7 @@ export function DashboardPage() {
         <ProgressRing percent={data.overall} size={88} label="ready" />
 
         <div className="min-w-[180px] flex-1">
-          <h1 className="font-display text-[28px] font-semibold leading-none tracking-[-0.015em] text-content sm:text-[32px]">
+          <h1 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.015em] text-content sm:text-[32px]">
             {user?.name ? `Hey ${user.name.split(' ')[0]}` : 'Dashboard'}
           </h1>
           <p className="mt-2 text-sm text-content-muted">

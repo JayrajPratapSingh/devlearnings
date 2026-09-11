@@ -159,7 +159,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
             <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand font-mono text-xl font-bold text-surface shadow-[0_0_28px_-6px_rgb(var(--brand)/0.7)]">
               ⌘
             </div>
-            <h1 className="font-display text-[32px] font-semibold leading-none tracking-[-0.02em] text-content">
+            <h1 className="font-display text-[32px] font-semibold leading-[1.15] tracking-[-0.02em] text-content">
               {mode === 'login' ? t('Welcome back', 'Wapas aagaye') : t('New workspace', 'Naya workspace')}
             </h1>
             <p className="mt-2.5 text-sm text-content-muted">
