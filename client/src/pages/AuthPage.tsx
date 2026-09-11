@@ -172,7 +172,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
               </label>
               {mode === 'login' && (
                 <Link to="/forgot-password" className="text-[12px] text-brand hover:underline">
-                  Bhool gaye?
+                  Forgot?
                 </Link>
               )}
             </div>
@@ -194,10 +194,10 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
                   UI explains the ambiguity rather than leaving it confusing. */}
               {mode === 'login' && (
                 <p className="mt-1.5 text-[12px] leading-5 text-content-muted">
-                  Email aur password dono saath check hote hain — ye message tab bhi aata hai jab is
-                  email ka account hi na bana ho.{' '}
+                  Email and password are checked together — this message also appears if no
+                  account exists for this email yet.{' '}
                   <Link to="/register" className="font-medium text-brand hover:underline">
-                    Naya account banayein
+                    Create a new account
                   </Link>
                   .
                 </p>
@@ -236,7 +236,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
           </form>
 
           <p data-in className="mt-5 text-center text-[11px] text-content-subtle">
-            Code isolated Docker sandbox mein chalta hai — kuch bhi tumhare machine par nahi rukta.
+            Code runs in an isolated Docker sandbox — nothing touches your own machine.
           </p>
         </div>
       </div>

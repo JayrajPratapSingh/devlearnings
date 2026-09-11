@@ -34,7 +34,7 @@ export function ForgotPasswordPage() {
   const requestCode = async (e: FormEvent) => {
     e.preventDefault();
     if (identifier.trim().length < 3) {
-      setError('Apna email ya phone number likhein');
+      setError('Enter your email or phone number');
       return;
     }
 
@@ -76,12 +76,12 @@ export function ForgotPasswordPage() {
               ⌘
             </div>
             <h1 className="font-display text-[22px] font-semibold tracking-[-0.01em] text-content">
-              {step === 'done' ? 'Password badal gaya' : 'Password bhool gaye?'}
+              {step === 'done' ? 'Password changed' : 'Forgot your password?'}
             </h1>
             <p className="mt-1.5 text-sm text-content-muted">
-              {step === 'identify' && 'Email ya phone daalein — 6-digit code bhejenge.'}
-              {step === 'verify' && 'Code daalein aur naya password set karein.'}
-              {step === 'done' && 'Ab naye password se sign in karein.'}
+              {step === 'identify' && "Enter your email or phone — we'll send a 6-digit code."}
+              {step === 'verify' && 'Enter the code and set a new password.'}
+              {step === 'done' && 'Sign in with your new password.'}
             </p>
           </div>
 
@@ -115,17 +115,17 @@ export function ForgotPasswordPage() {
             <form onSubmit={requestCode} className="card animate-fade-up space-y-4 p-6" noValidate>
               <div>
                 <label htmlFor="identifier" className="mb-1.5 block text-[13px] font-medium text-content">
-                  Email ya phone
+                  Email or phone
                 </label>
                 <Input
                   id="identifier"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  placeholder="you@example.com ya 9876543210"
+                  placeholder="you@example.com or 9876543210"
                   autoComplete="username"
                 />
                 <p className="mt-1.5 text-xs text-content-subtle">
-                  Phone tabhi chalega jab aapne account mein add kiya ho.
+                  Phone only works if you added it to your account.
                 </p>
               </div>
 
@@ -136,12 +136,12 @@ export function ForgotPasswordPage() {
               )}
 
               <Button type="submit" variant="primary" loading={busy} className="w-full">
-                Code bhejein
+                Send code
               </Button>
 
               <p className="text-center text-[13px] text-content-muted">
                 <Link to="/login" className="font-medium text-brand hover:underline">
-                  Wapas sign in par
+                  Back to sign in
                 </Link>
               </p>
             </form>
@@ -153,13 +153,13 @@ export function ForgotPasswordPage() {
                 <p className="text-[13px] text-content-muted">
                   {sent?.sentToMasked ? (
                     <>
-                      Code bheja gaya{' '}
-                      <span className="font-mono text-content">{sent.sentToMasked}</span> par.
+                      Code sent to{' '}
+                      <span className="font-mono text-content">{sent.sentToMasked}</span>.
                     </>
                   ) : (
-                    'Agar is email/phone ka account hai, to code bhej diya gaya hai.'
+                    'If an account exists for this email/phone, a code has been sent.'
                   )}{' '}
-                  {sent?.expiresInMinutes} minute tak valid.
+                  Valid for {sent?.expiresInMinutes} minutes.
                 </p>
               </div>
 
@@ -193,14 +193,14 @@ export function ForgotPasswordPage() {
 
               <div>
                 <label htmlFor="new-password" className="mb-1.5 block text-[13px] font-medium text-content">
-                  Naya password
+                  New password
                 </label>
                 <Input
                   id="new-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Kam se kam 8 characters"
+                  placeholder="At least 8 characters"
                   autoComplete="new-password"
                 />
               </div>
@@ -218,7 +218,7 @@ export function ForgotPasswordPage() {
                 disabled={code.length !== 6 || password.length < 8}
                 className="w-full"
               >
-                Password reset karein
+                Reset password
               </Button>
 
               <button
@@ -230,7 +230,7 @@ export function ForgotPasswordPage() {
                 }}
                 className="w-full text-center text-[13px] text-content-muted hover:text-content"
               >
-                Doosra email/phone try karein
+                Try a different email/phone
               </button>
             </form>
           )}
@@ -241,8 +241,8 @@ export function ForgotPasswordPage() {
                 ✓
               </div>
               <p className="text-[13px] leading-6 text-content-muted">
-                Password update ho gaya. Saari purani sessions bhi logout kar di gayi hain —
-                agar kisi aur ke paas access tha, ab nahi hai.
+                Password updated. All previous sessions have been signed out too — if anyone
+                else had access, they don't anymore.
               </p>
               <Button variant="primary" className="w-full" onClick={() => navigate('/login')}>
                 Sign in
