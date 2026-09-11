@@ -109,7 +109,7 @@ offline.
 - [x] M2 Routing Deep Dive — 3/3 lessons, commit `76eff62`
 - [x] M3 Rendering Strategies — 3/3 lessons, commit `8cc040c`
 - [x] M4 Data Fetching & Caching — 3/3 lessons, commit `066ad6b`
-- [ ] M5 Forms Done Right
+- [x] M5 Forms Done Right — 3/3 lessons, commit `cfe8172`
 - [ ] M6 Large Forms & Large Datasets
 - [ ] M7 File Uploads & Media
 - [ ] M8 Authentication
