@@ -1,15 +1,19 @@
 /**
- * Type pairing, chosen rather than defaulted:
+ * Type pairing — v2, the bold identity:
  *
- *  Bricolage Grotesque — page titles and the logo only. A grotesque with
- *    genuinely odd terminals and a slight condensation; it gives the product a
- *    face without ever being asked to carry body copy.
- *  Geist — UI and body. Drawn for developer tooling, so it holds up at 13px in
- *    dense tables where Inter starts to feel generic.
- *  Geist Mono — code, numbers, keys. Pairs with Geist by construction, which
- *    matters because half this app is monospace sitting next to prose.
+ *  Unbounded — page titles, the logo, hero moments. A blocky geometric
+ *    display face with slightly rounded, oversized terminals — it reads as
+ *    confident and a little industrial rather than "friendly SaaS," and it
+ *    only ever appears large, so its quirks never fight legibility.
+ *  Manrope — UI and body. A humanist grotesque with real weight contrast
+ *    (400 vs 800 look genuinely different), which is what lets headings and
+ *    labels separate from paragraph text without switching family.
+ *  JetBrains Mono — code, numbers, keys, and now also small technical labels
+ *    (eyebrows, stats, timestamps). This is a coding platform; treating mono
+ *    as a first-class voice rather than a code-block-only utility is the
+ *    point, not a decoration.
  */
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -17,53 +21,54 @@
 
 @layer base {
   /**
-   * Dark-first: this block is the dark palette, `.light` overrides it.
+   * Dark-first — v2, the bold identity: this block is the dark palette,
+   * `.light` overrides it.
    *
-   * The neutrals carry a slight violet-blue bias rather than being pure grey —
-   * a true neutral next to a saturated accent reads as unconsidered, and this
-   * ground is meant to feel like a screen, not paper.
+   * Near-black-and-lime rather than the previous violet SaaS palette: a
+   * single warm-neutral ground (not blue-black — this reads as a terminal,
+   * not a phone screen) with one unmistakable signal colour standing in for
+   * "this ran, this is live, this is yours." It is the colour of a passing
+   * test, deliberately pushed from decoration into the brand itself.
    *
-   * Two accents, deliberately separated:
-   *   --brand   drives actions and navigation
+   * Two accents, still deliberately separated:
+   *   --brand   drives actions and navigation (the lime)
    *   --accent  is for data only — charts, live values, visualiser highlights
    * Keeping them apart stops "a number changed" from competing with "click me".
    * The difficulty colours are semantic and belong to neither.
    */
   :root {
-    --surface: 10 12 17;
-    --surface-raised: 20 23 32;
-    --surface-sunken: 6 8 12;
-    --line: 38 42 56;
-    --content: 232 234 243;
-    --content-muted: 154 160 180;
-    --content-subtle: 110 116 136;
-    --brand: 124 92 255;
-    --brand-soft: 40 32 76;
-    --accent: 34 211 238;
-    --easy: 52 199 143;
-    --medium: 240 180 66;
-    --hard: 248 96 96;
+    --surface: 9 9 10;
+    --surface-raised: 18 18 20;
+    --surface-sunken: 4 4 5;
+    --line: 40 40 42;
+    --content: 243 243 236;
+    --content-muted: 158 158 148;
+    --content-subtle: 108 108 100;
+    --brand: 185 255 59;
+    --brand-soft: 36 43 10;
+    --accent: 92 168 255;
+    --easy: 52 211 153;
+    --medium: 245 166 35;
+    --hard: 242 88 91;
   }
 
   :root.light {
-    --surface: 255 255 255;
-    --surface-raised: 250 250 253;
-    --surface-sunken: 243 243 249;
-    --line: 226 226 238;
-    --content: 20 20 32;
-    --content-muted: 92 96 118;
-    --content-subtle: 132 136 158;
-    /* Deepened so it still passes contrast on white — the dark violet would
-       not, and an accent that only works in one theme is a bug. */
-    --brand: 94 58 240;
-    --brand-soft: 236 232 254;
-    /* Cyan-700 rather than cyan-600: the lighter shade only reached 3.7:1 on
-       white, which is fine for a chart stroke but short of AA for a small label,
-       and this token ends up on both. */
-    --accent: 14 116 144;
-    --easy: 12 145 100;
-    --medium: 176 118 10;
-    --hard: 202 46 46;
+    --surface: 250 250 246;
+    --surface-raised: 255 255 255;
+    --surface-sunken: 241 241 234;
+    --line: 224 224 213;
+    --content: 17 17 15;
+    --content-muted: 90 90 82;
+    --content-subtle: 132 132 121;
+    /* A deep olive, not a pastel lime — the dark theme's lime would sit at
+       ~1.6:1 on white, nowhere near AA. This keeps the same hue family while
+       actually passing contrast for text and focus rings. */
+    --brand: 90 122 10;
+    --brand-soft: 234 245 208;
+    --accent: 22 92 199;
+    --easy: 13 148 105;
+    --medium: 180 83 9;
+    --hard: 220 38 38;
   }
 
   html {

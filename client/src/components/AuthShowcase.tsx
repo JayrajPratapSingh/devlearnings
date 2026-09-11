@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import gsap from 'gsap';
 import { cx } from './ui';
+import { useCursorSpotlight } from '../hooks/useMagnetic';
 
 /**
  * The left half of the auth screen — a looping tour of what the app actually does.
@@ -312,10 +314,35 @@ const COPY: Record<SceneId, { eyebrow: string; title: string; body: string }> = 
   },
 };
 
+/**
+ * Splits text into one <span> per word so GSAP can stagger them in — a small
+ * hand-rolled substitute for the (paid) SplitText plugin. Words, not letters:
+ * word-level stagger already reads as deliberate typography and keeps the
+ * bilingual copy from ever cracking mid-syllable.
+ */
+function SplitWords({ text, className }: { text: string; className?: string }) {
+  const words = text.split(' ');
+  return (
+    <span className={className} style={{ textWrap: 'balance' }}>
+      {words.map((w, i) => (
+        <span key={i} className="inline-block overflow-hidden align-bottom">
+          <span className="split-word inline-block">
+            {w}
+            {i < words.length - 1 ? ' ' : ''}
+          </span>
+        </span>
+      ))}
+    </span>
+  );
+}
+
 export function AuthShowcase() {
   const reduced = useReducedMotion();
   const [index, setIndex] = useState(0);
   const timer = useRef<number>(0);
+  const headlineRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const { containerRef, glowRef } = useCursorSpotlight<HTMLDivElement, HTMLDivElement>();
 
   const scene = SCENES[index] ?? SCENES[0];
 
@@ -329,52 +356,114 @@ export function AuthShowcase() {
     return () => window.clearTimeout(timer.current);
   }, [index, advance, reduced, scene.ms]);
 
+  // Headline + scene panel animate in together on every scene change — a
+  // GSAP timeline rather than a CSS class remount, so the words stagger and
+  // the scene settles with a shared, tunable ease instead of two unrelated
+  // transitions firing at once.
+  //
+  // GSAP's tween progression rides on requestAnimationFrame, which a
+  // background/unfocused tab can starve indefinitely — a tween created there
+  // renders its `fromTo` start state and then simply never advances. Rather
+  // than risk the headline sitting invisible until the tab is focused, an
+  // unfocused document skips straight to the end state.
+  useEffect(() => {
+    const words = headlineRef.current?.querySelectorAll<HTMLElement>('.split-word');
+    const scenePanel = sceneRef.current;
+
+    if (reduced || !document.hasFocus()) {
+      if (words?.length) gsap.set(words, { yPercent: 0, rotate: 0 });
+      if (scenePanel) gsap.set(scenePanel, { opacity: 1, y: 0, scale: 1 });
+      return;
+    }
+
+    const tl = gsap.timeline();
+    if (words?.length) {
+      tl.fromTo(
+        words,
+        { yPercent: 115, rotate: 4 },
+        { yPercent: 0, rotate: 0, duration: 0.7, ease: 'power4.out', stagger: 0.045 },
+        0,
+      );
+    }
+    if (scenePanel) {
+      tl.fromTo(
+        scenePanel,
+        { opacity: 0, y: 18, scale: 0.985 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: 'power3.out' },
+        0.1,
+      );
+    }
+    return () => {
+      tl.kill();
+    };
+  }, [index, reduced]);
+
   const copy = COPY[scene.id];
 
   return (
-    <div className="relative hidden overflow-hidden border-r border-line bg-surface-raised lg:flex lg:w-[52%] lg:flex-col lg:justify-center">
-      {/* Dot grid — quiet texture so the panel is not a flat slab */}
+    <div
+      ref={containerRef}
+      className="relative hidden overflow-hidden border-r border-line bg-surface-sunken lg:flex lg:w-[54%] lg:flex-col lg:justify-center"
+    >
+      {/* Fine grid — a schematic, not decoration. Denser and sharper than a
+          dot-wash so the panel reads as instrument-panel precision. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.3]"
+        className="pointer-events-none absolute inset-0 opacity-[0.35]"
         style={{
-          backgroundImage: 'radial-gradient(rgb(var(--content-subtle)) 1px, transparent 1px)',
-          backgroundSize: '22px 22px',
+          backgroundImage:
+            'linear-gradient(rgb(var(--line)) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--line)) 1px, transparent 1px)',
+          backgroundSize: '32px 32px',
+          maskImage: 'radial-gradient(ellipse 80% 60% at 50% 40%, black 40%, transparent 90%)',
         }}
       />
-      {/* Glow drifts with the scene, so the panel breathes between states */}
+      {/* Cursor-tracked spotlight — the panel responds to the visitor, not
+          just the timer. */}
+      <div
+        ref={glowRef}
+        aria-hidden="true"
+        className="pointer-events-none absolute h-[460px] w-[460px] rounded-full opacity-[0.14] blur-[110px]"
+        style={{ background: 'rgb(var(--brand))', left: -230, top: -230 }}
+      />
+      {/* Ambient scene glow — slower, larger, gives the panel a baseline pulse
+          even when the cursor is elsewhere. */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute h-[420px] w-[420px] rounded-full opacity-[0.18] blur-3xl transition-all duration-[1200ms] ease-out"
+        className="pointer-events-none absolute h-[520px] w-[520px] rounded-full opacity-[0.1] blur-[130px] transition-all duration-[1400ms] ease-out"
         style={{
-          background: 'rgb(var(--brand))',
-          left: index === 0 ? '-14%' : index === 1 ? '38%' : '10%',
-          top: index === 0 ? '18%' : index === 1 ? '46%' : '8%',
+          background: 'rgb(var(--accent))',
+          left: index === 0 ? '-10%' : index === 1 ? '44%' : '18%',
+          top: index === 0 ? '60%' : index === 1 ? '70%' : '55%',
         }}
       />
 
-      <div className="relative z-10 px-12 xl:px-16">
-        <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-brand">
-          {copy.eyebrow}
+      {/* Persistent status strip — the "instrument panel" is always live, even
+          between scene transitions. */}
+      <div className="absolute left-0 right-0 top-0 z-10 flex items-center gap-2 border-b border-line/80 px-8 py-3 font-mono text-[10px] uppercase tracking-[0.14em] text-content-subtle xl:px-10">
+        <span className="h-1.5 w-1.5 rounded-full bg-brand shadow-[0_0_8px_rgb(var(--brand))]" />
+        devprep · sandbox online
+        <span className="ml-auto tabular-nums">{scene.id}.exec</span>
+      </div>
+
+      <div className="relative z-10 px-8 xl:px-10">
+        <p className="mb-3 font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-brand">
+          {String(index + 1).padStart(2, '0')} / {copy.eyebrow}
         </p>
-        <h2
-          key={`${scene.id}-title`}
-          className={cx(
-            'max-w-md text-[27px] font-semibold leading-tight text-content',
-            !reduced && 'animate-fade-up',
-          )}
-          style={{ textWrap: 'balance' }}
-        >
-          {copy.title}
-        </h2>
+        <div ref={headlineRef}>
+          <SplitWords
+            key={`${scene.id}-title`}
+            text={copy.title}
+            className="block max-w-lg font-display text-[36px] font-semibold leading-[1.08] tracking-[-0.015em] text-content xl:text-[42px]"
+          />
+        </div>
         <p
           key={`${scene.id}-body`}
-          className={cx('mt-3 max-w-md text-[14px] leading-6 text-content-muted', !reduced && 'animate-fade-up')}
+          className={cx('mt-4 max-w-md text-[14.5px] leading-6 text-content-muted', !reduced && 'animate-fade-up')}
         >
           {copy.body}
         </p>
 
-        <div className="mt-7 max-w-md" key={scene.id}>
+        <div ref={sceneRef} className="mt-7 max-w-md" key={scene.id}>
           {scene.id === 'solve' && <SolveScene reduced={reduced} />}
           {scene.id === 'revise' && <ReviseScene reduced={reduced} />}
           {scene.id === 'track' && <TrackScene reduced={reduced} />}
@@ -387,10 +476,10 @@ export function AuthShowcase() {
               key={s.id}
               onClick={() => setIndex(i)}
               className={cx(
-                'rounded-lg px-2.5 py-1 text-[11px] font-medium transition-colors',
+                'relative rounded-md px-3 py-1.5 font-mono text-[11px] font-medium uppercase tracking-wide transition-all',
                 i === index
-                  ? 'bg-brand/15 text-brand'
-                  : 'text-content-subtle hover:bg-surface-sunken hover:text-content',
+                  ? 'bg-brand text-surface shadow-[0_0_16px_-2px_rgb(var(--brand)/0.6)]'
+                  : 'text-content-subtle hover:bg-surface-raised hover:text-content',
               )}
               aria-current={i === index}
             >

@@ -29,10 +29,10 @@ export default {
         hard: 'rgb(var(--hard) / <alpha-value>)',
       },
       fontFamily: {
-        // Display is used sparingly — page titles and the logo, nothing else.
-        display: ['Bricolage Grotesque', 'Geist', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        sans: ['Geist', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'sans-serif'],
-        mono: ['Geist Mono', 'ui-monospace', 'SFMono-Regular', 'Consolas', 'monospace'],
+        // Display is used sparingly — page titles, the logo, hero moments.
+        display: ['Unbounded', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Manrope', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'sans-serif'],
+        mono: ['JetBrains Mono', 'ui-monospace', 'SFMono-Regular', 'Consolas', 'monospace'],
       },
       keyframes: {
         'fade-up': {

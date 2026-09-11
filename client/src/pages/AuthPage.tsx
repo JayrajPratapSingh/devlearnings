@@ -1,8 +1,10 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, Navigate, useLocation } from 'react-router-dom';
+import gsap from 'gsap';
 import { useAuth } from '../hooks/useAuth';
 import { Button, Input, Spinner } from '../components/ui';
 import { AuthShowcase, AuthStatStrip } from '../components/AuthShowcase';
+import { useMagnetic } from '../hooks/useMagnetic';
 import { ApiError } from '../services/api';
 
 interface FieldErrors {
@@ -39,6 +41,29 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const magneticRef = useMagnetic<HTMLDivElement>(0.4);
+  const formPanelRef = useRef<HTMLDivElement>(null);
+
+  // One entrance for the whole form panel — logo, heading, fields, footer —
+  // rather than per-field animations, which would read as the form loading
+  // piece by piece instead of arriving as one composed thing.
+  //
+  // Skips straight to the visible end state when the tab lacks focus: GSAP's
+  // rAF-driven tween would otherwise paint its `fromTo` start (opacity 0) and
+  // never advance until focus returns, leaving the form invisible.
+  useEffect(() => {
+    if (!formPanelRef.current) return;
+    const targets = formPanelRef.current.querySelectorAll('[data-in]');
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !document.hasFocus()) {
+      gsap.set(targets, { opacity: 1, y: 0 });
+      return;
+    }
+    gsap.fromTo(
+      targets,
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out', stagger: 0.06, delay: 0.1 },
+    );
+  }, [mode]);
 
   if (loading) {
     return (
@@ -95,27 +120,27 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
     <div className="flex min-h-screen bg-surface">
       <AuthShowcase />
 
-      <div className="flex flex-1 items-center justify-center px-4 py-10">
+      <div ref={formPanelRef} className="flex flex-1 items-center justify-center px-4 py-10">
         <div className="w-full max-w-sm">
-          <div className="mb-8 text-center">
-            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-brand font-mono text-lg font-bold text-white">
+          <div data-in className="mb-9 text-center">
+            <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand font-mono text-xl font-bold text-surface shadow-[0_0_28px_-6px_rgb(var(--brand)/0.7)]">
               ⌘
             </div>
-            <h1 className="font-display text-[22px] font-semibold tracking-[-0.01em] text-content">
-              {mode === 'login' ? 'Welcome back' : 'Create your workspace'}
+            <h1 className="font-display text-[32px] font-semibold leading-none tracking-[-0.02em] text-content">
+              {mode === 'login' ? 'Welcome back' : 'New workspace'}
             </h1>
-            <p className="mt-1.5 text-sm text-content-muted">
+            <p className="mt-2.5 text-sm text-content-muted">
               {mode === 'login'
-                ? 'Pick up where you left off.'
-                : 'Your private Full Stack interview preparation IDE.'}
+                ? 'Pick up exactly where you left off.'
+                : 'Your interview-prep IDE — courses, DSA, and a live sandbox.'}
             </p>
           </div>
 
-          <div className="mb-6">
+          <div data-in className="mb-6">
             <AuthStatStrip />
           </div>
 
-          <form onSubmit={onSubmit} className="card animate-fade-up space-y-4 p-6" noValidate>
+          <form onSubmit={onSubmit} data-in className="card space-y-4 p-6" noValidate>
           {mode === 'register' && (
             <div>
               <label htmlFor="name" className="mb-1.5 block text-[13px] font-medium text-content">
@@ -180,9 +205,16 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
             </div>
           )}
 
-          <Button type="submit" variant="primary" loading={submitting} className="w-full">
-            {mode === 'login' ? 'Sign in' : 'Create account'}
-          </Button>
+          <div ref={magneticRef} className="inline-block w-full">
+            <Button
+              type="submit"
+              variant="primary"
+              loading={submitting}
+              className="w-full shadow-[0_0_24px_-8px_rgb(var(--brand)/0.8)]"
+            >
+              {mode === 'login' ? 'Sign in' : 'Create account'}
+            </Button>
+          </div>
 
             <p className="text-center text-[13px] text-content-muted">
               {mode === 'login' ? (
@@ -203,8 +235,8 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
             </p>
           </form>
 
-          <p className="mt-5 text-center text-[11px] text-content-subtle">
-            Sab kuch aapke apne machine par — koi data bahar nahi jata.
+          <p data-in className="mt-5 text-center text-[11px] text-content-subtle">
+            Code isolated Docker sandbox mein chalta hai — kuch bhi tumhare machine par nahi rukta.
           </p>
         </div>
       </div>
