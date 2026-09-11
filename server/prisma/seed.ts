@@ -371,6 +371,7 @@ import { DEVOPS_MODULE_19 } from './seed-data/course-devops-module19';
 import { DEVOPS_MODULE_19_PART2 } from './seed-data/course-devops-module19-part2';
 import { DEVOPS_MODULE_20 } from './seed-data/course-devops-module20';
 import { DEVOPS_MODULE_20_PART2 } from './seed-data/course-devops-module20-part2';
+import { NEXTJS_MODULE_1 } from './seed-data/course-nextjs-module1';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -4178,6 +4179,302 @@ async function seedDevOpsCourse(): Promise<{ modules: number; topics: number }> 
   return { modules: createdModules.length, topics: createdTopics.length };
 }
 
+async function seedNextJsCourse(): Promise<{ modules: number; topics: number }> {
+  const courseData = {
+    slug: 'nextjs-complete',
+    name: 'Next.js Complete Course',
+    nameHi: 'Next.js Complete Course - Noob Se Pro Tak',
+    description:
+      'Next.js from first principles to a production-grade app: the App Router and the file-system router, rendering strategies and Server vs Client Components, data fetching and caching, forms and Server Actions at scale (including large forms and large datasets), file uploads, authentication, database integration under serverless constraints, payments with Stripe, WebSockets and real-time patterns, a deep security track (XSS/CSRF/headers, API and auth hardening, Server Action data security), performance and caching at scale, edge/middleware/multi-tenancy, testing, observability and deployment, and SEO/accessibility/production launch. Every code example ships in both JavaScript and TypeScript. Verified against a real scaffolded Next.js project where the tooling can run offline; precise, clearly-marked prose where a full external service (a live Stripe/Pusher account) cannot be exercised offline.',
+    descriptionHi:
+      'Next.js first principles se ek production-grade app tak: App Router aur file-system router, rendering strategies aur Server vs Client Components, data fetching aur caching, forms aur Server Actions scale par (large forms aur large datasets samet), file uploads, authentication, serverless constraints ke under database integration, Stripe ke saath payments, WebSockets aur real-time patterns, ek deep security track (XSS/CSRF/headers, API aur auth hardening, Server Action data security), scale par performance aur caching, edge/middleware/multi-tenancy, testing, observability aur deployment, aur SEO/accessibility/production launch. Har code example JavaScript aur TypeScript dono mein aata hai. Ek real scaffolded Next.js project ke against verified jahan tooling offline chal sakti hai; precise, clearly-marked prose jahan ek full external service (ek live Stripe/Pusher account) offline exercise nahi ho sakti.',
+    icon: '▲',
+    color: '#EDEDED',
+    level: 'beginner' as const,
+    totalXpReward: 10000,
+    estimatedHours: 200,
+    maxDifficulty: 'HARD' as const,
+    order: 13,
+    isPublished: true,
+  };
+
+  const course = await prisma.course.upsert({
+    where: { slug: courseData.slug },
+    create: courseData,
+    update: courseData,
+  });
+
+  const modules = [
+    {
+      slug: 'next-module-1-why-nextjs-and-project-setup',
+      name: 'Module 1: Why Next.js & Project Setup',
+      nameHi: 'Module 1: Next.js Kyun Aur Project Setup',
+      description:
+        'What a framework buys you over raw React (routing, bundling, rendering, asset optimization, code splitting, as one system instead of ten library choices); the App Router\'s file-system router — a folder is a URL segment, page.tsx makes it visitable, [slug]/[...slug]/[[...slug]] dynamic segments, (group) route groups that organize without touching the URL; and Server Components as the default — what runs where, why a Server Component ships zero of its own JS to the browser, and the "smallest interactive piece" rule for `\'use client\'`.',
+      descriptionHi:
+        'Ek framework raw React ke upar kya deta hai (routing, bundling, rendering, asset optimization, code splitting, das library choices ki jagah ek system ki tarah); App Router ka file-system router — ek folder ek URL segment hai, page.tsx use visitable banata hai, [slug]/[...slug]/[[...slug]] dynamic segments, (group) route groups jo URL ko chhue bina organize karte hain; aur Server Components as the default — kya kahan chalta hai, ek Server Component apna zero JS browser ko kyun ship karta hai, aur `\'use client\'` ke liye "smallest interactive piece" rule.',
+      order: 1,
+    },
+    {
+      slug: 'next-module-2-routing-deep-dive',
+      name: 'Module 2: Routing Deep Dive',
+      nameHi: 'Module 2: Routing Deep Dive',
+      description:
+        'Nested layouts and how state/UI persists across them; parallel routes (@slot) for rendering more than one page in the same view; intercepting routes for modal-over-page patterns; loading.tsx (automatic Suspense boundaries), error.tsx (automatic error boundaries, and their scope), not-found.tsx; route handlers (app/api) versus Server Actions — when to use which; and linking/navigation with next/link and useRouter.',
+      descriptionHi:
+        'Nested layouts aur unke across state/UI kaise persist karta hai; parallel routes (@slot) ek hi view mein ek se zyada page render karne ke liye; intercepting routes modal-over-page patterns ke liye; loading.tsx (automatic Suspense boundaries), error.tsx (automatic error boundaries, aur unka scope), not-found.tsx; route handlers (app/api) versus Server Actions — kab kaunsa use kare; aur next/link aur useRouter ke saath linking/navigation.',
+      order: 2,
+    },
+    {
+      slug: 'next-module-3-rendering-strategies',
+      name: 'Module 3: Rendering Strategies',
+      nameHi: 'Module 3: Rendering Strategies',
+      description:
+        'Server vs Client Components — the actual decision rule, not just the syntax; SSR, SSG and ISR (generateStaticParams, revalidate) and what each actually costs and buys; streaming with Suspense — sending a page before every piece of data has arrived; CSR\'s place (still real: interactive-only widgets); and picking the right strategy per route based on how often data changes and who is visiting.',
+      descriptionHi:
+        'Server vs Client Components — actual decision rule, sirf syntax nahi; SSR, SSG aur ISR (generateStaticParams, revalidate) aur har ek actually kya cost karta hai aur kya deta hai; Suspense ke saath streaming — ek page bhejna isse pehle ki har data piece aa chuka ho; CSR ki jagah (abhi bhi real: interactive-only widgets); aur har route ke liye sahi strategy chunna is baat par based ki data kitni baar change hota hai aur kaun visit kar raha hai.',
+      order: 3,
+    },
+    {
+      slug: 'next-module-4-data-fetching-and-caching',
+      name: 'Module 4: Data Fetching & Caching',
+      nameHi: 'Module 4: Data Fetching Aur Caching',
+      description:
+        'fetch\'s built-in caching semantics in Next.js (force-cache, no-store, revalidate); revalidatePath and revalidateTag for on-demand invalidation; Server Actions for mutations — the basics before Module 5\'s forms deep dive; request memoization (why the same fetch in two components only runs once per request); and avoiding the sequential-fetch waterfall with parallel data fetching.',
+      descriptionHi:
+        'Next.js mein fetch ka built-in caching semantics (force-cache, no-store, revalidate); on-demand invalidation ke liye revalidatePath aur revalidateTag; mutations ke liye Server Actions — Module 5 ke forms deep dive se pehle basics; request memoization (do components mein wahi fetch ek request mein sirf ek baar kyun chalta hai); aur parallel data fetching se sequential-fetch waterfall avoid karna.',
+      order: 4,
+    },
+    {
+      slug: 'next-module-5-forms-done-right',
+      name: 'Module 5: Forms Done Right',
+      nameHi: 'Module 5: Forms Sahi Tareeke Se',
+      description:
+        'Server Actions as a form\'s action — no client-side fetch/JSON boilerplate; validating with Zod on both the client (fast feedback) and the server (the only check that actually matters, since a client check can always be bypassed); useActionState for pending/error/success UI without extra state plumbing; useFormStatus inside a nested submit button; progressive enhancement (the form works before JavaScript has loaded); and useOptimistic for instant-feeling UI ahead of the server\'s response.',
+      descriptionHi:
+        'Server Actions ek form ke action ki tarah — koi client-side fetch/JSON boilerplate nahi; Zod se validate karna client (fast feedback) aur server (ekmatra check jo actually matter karta hai, kyunki ek client check hamesha bypass ho sakta hai) dono par; useActionState pending/error/success UI ke liye bina extra state plumbing ke; nested submit button ke andar useFormStatus; progressive enhancement (form JavaScript load hone se pehle bhi kaam karta hai); aur useOptimistic instant-feeling UI ke liye server ke response se pehle.',
+      order: 5,
+    },
+    {
+      slug: 'next-module-6-large-forms-and-large-datasets',
+      name: 'Module 6: Large Forms & Large Datasets',
+      nameHi: 'Module 6: Large Forms Aur Large Datasets',
+      description:
+        'Multi-step/wizard forms that preserve state across steps; dynamic field arrays (add/remove repeating groups) without re-render storms; virtualized rendering for lists with thousands of rows (windowing — rendering only what is visible); pagination versus cursor-based infinite scroll and when each is correct; bulk/CSV import at scale (streaming a large file instead of loading it whole); and debounced server-side search so every keystroke does not trigger a query.',
+      descriptionHi:
+        'Multi-step/wizard forms jo steps ke across state preserve karte hain; dynamic field arrays (repeating groups add/remove) bina re-render storms ke; hazaaron rows wali lists ke liye virtualized rendering (windowing — sirf jo visible hai wo render karna); pagination versus cursor-based infinite scroll aur kab kaunsa sahi hai; scale par bulk/CSV import (poori file load karne ke bajaye ek badi file stream karna); aur debounced server-side search taaki har keystroke ek query trigger na kare.',
+      order: 6,
+    },
+    {
+      slug: 'next-module-7-file-uploads-and-media',
+      name: 'Module 7: File Uploads & Media',
+      nameHi: 'Module 7: File Uploads Aur Media',
+      description:
+        'Why you never proxy a large file through your own server (presigned S3/R2 URLs — the browser uploads directly to storage); streaming multipart uploads; next/image\'s automatic responsive sizing, format conversion and lazy loading; layout-shift-free image dimensions; and serving video/large assets through a CDN instead of your app server.',
+      descriptionHi:
+        'Aap ek badi file apne server se kabhi proxy kyun nahi karte (presigned S3/R2 URLs — browser directly storage ko upload karta hai); streaming multipart uploads; next/image ki automatic responsive sizing, format conversion aur lazy loading; layout-shift-free image dimensions; aur video/large assets ko apne app server ke bajaye ek CDN se serve karna.',
+      order: 7,
+    },
+    {
+      slug: 'next-module-8-authentication',
+      name: 'Module 8: Authentication',
+      nameHi: 'Module 8: Authentication',
+      description:
+        'Auth.js (NextAuth) v5 with the App Router; sessions versus JWTs and the real trade-off (revocability versus statelessness); OAuth providers end to end; a credentials provider done safely (password hashing, timing-safe comparison, why generic error messages matter); protecting routes with middleware; and role-based access control checked on both the page and every mutation.',
+      descriptionHi:
+        'App Router ke saath Auth.js (NextAuth) v5; sessions versus JWTs aur asli trade-off (revocability versus statelessness); OAuth providers end to end; ek credentials provider safely (password hashing, timing-safe comparison, generic error messages kyun matter karte hain); middleware se routes protect karna; aur role-based access control jo page aur har mutation dono par check hota hai.',
+      order: 8,
+    },
+    {
+      slug: 'next-module-9-database-integration-at-scale',
+      name: 'Module 9: Database Integration at Production Scale',
+      nameHi: 'Module 9: Production Scale Par Database Integration',
+      description:
+        'Prisma inside Server Components and Server Actions; the serverless connection-pool-exhaustion problem and its fixes (Prisma Accelerate, PgBouncer, a singleton client in dev); edge-runtime-compatible database clients versus Node-runtime-only ones; avoiding the N+1 problem with include/select; and wrapping multi-step mutations in a transaction.',
+      descriptionHi:
+        'Server Components aur Server Actions ke andar Prisma; serverless connection-pool-exhaustion problem aur uske fixes (Prisma Accelerate, PgBouncer, dev mein ek singleton client); edge-runtime-compatible database clients versus sirf Node-runtime wale; include/select se N+1 problem avoid karna; aur multi-step mutations ko ek transaction mein wrap karna.',
+      order: 9,
+    },
+    {
+      slug: 'next-module-10-payments-with-stripe',
+      name: 'Module 10: Payments with Stripe',
+      nameHi: 'Module 10: Stripe Ke Saath Payments',
+      description:
+        'Stripe Checkout Sessions end to end; webhooks and why signature verification against the RAW request body (not the parsed JSON) is non-negotiable; subscriptions and the customer billing portal; idempotency keys so a retried request never double-charges; refunds; the test-mode-to-live-mode checklist; and why you never handle a raw card number yourself (PCI scope).',
+      descriptionHi:
+        'Stripe Checkout Sessions end to end; webhooks aur RAW request body ke against signature verification (parsed JSON nahi) kyun non-negotiable hai; subscriptions aur customer billing portal; idempotency keys taaki ek retried request kabhi double-charge na kare; refunds; test-mode-to-live-mode checklist; aur aap khud kabhi ek raw card number kyun handle nahi karte (PCI scope).',
+      order: 10,
+    },
+    {
+      slug: 'next-module-11-websockets-and-realtime',
+      name: 'Module 11: WebSockets & Real-time',
+      nameHi: 'Module 11: WebSockets Aur Real-time',
+      description:
+        'Why a serverless Next.js function cannot hold a persistent connection, and what that means architecturally; a dedicated real-time layer (a standalone Socket.IO Node server, or a managed service like Pusher/Ably) alongside Next.js; Server-Sent Events as the simpler one-directional alternative; presence and live-cursor patterns; and combining real-time updates with optimistic UI without them fighting each other.',
+      descriptionHi:
+        'Ek serverless Next.js function ek persistent connection kyun hold nahi kar sakta, aur architecturally iska matlab kya hai; ek dedicated real-time layer (ek standalone Socket.IO Node server, ya ek managed service jaise Pusher/Ably) Next.js ke saath; Server-Sent Events ek simpler one-directional alternative ki tarah; presence aur live-cursor patterns; aur real-time updates ko optimistic UI ke saath combine karna bina wo ek dusre se fight kiye.',
+      order: 11,
+    },
+    {
+      slug: 'next-module-12-security-fundamentals',
+      name: 'Module 12: Security Fundamentals',
+      nameHi: 'Module 12: Security Fundamentals',
+      description:
+        'XSS and why dangerouslySetInnerHTML is the one line to fear; CSRF in a Server-Actions-first world (what Next.js already protects against, and what it does not); secure headers and Content-Security-Policy; secrets management — why anything prefixed NEXT_PUBLIC_ is public, full stop; input validation at every trust boundary, including your own client; and dependency/supply-chain audits (npm audit, lockfile review).',
+      descriptionHi:
+        'XSS aur dangerouslySetInnerHTML dar wali ek line kyun hai; ek Server-Actions-first duniya mein CSRF (Next.js already kya protect karta hai, aur kya nahi); secure headers aur Content-Security-Policy; secrets management — NEXT_PUBLIC_ prefix wali koi bhi cheez public kyun hai, full stop; har trust boundary par input validation, apne khud ke client samet; aur dependency/supply-chain audits (npm audit, lockfile review).',
+      order: 12,
+    },
+    {
+      slug: 'next-module-13-api-and-auth-security-hardening',
+      name: 'Module 13: API & Auth Security Hardening',
+      nameHi: 'Module 13: API Aur Auth Security Hardening',
+      description:
+        'Rate limiting and where it actually belongs (edge versus origin); CORS configured correctly instead of copy-pasted wide open; IDOR (insecure direct object reference) — checking ownership, not just authentication; session fixation; the OWASP Top 10 mapped concretely onto Next.js patterns; and bot/abuse protection (Turnstile/hCaptcha) on the endpoints that need it.',
+      descriptionHi:
+        'Rate limiting aur ye actually kahan belong karta hai (edge versus origin); CORS sahi se configure karna copy-paste wide open ke bajaye; IDOR (insecure direct object reference) — ownership check karna, sirf authentication nahi; session fixation; OWASP Top 10 concretely Next.js patterns par mapped; aur bot/abuse protection (Turnstile/hCaptcha) un endpoints par jinhe chahiye.',
+      order: 13,
+    },
+    {
+      slug: 'next-module-14-server-actions-and-data-security',
+      name: 'Module 14: Server Actions & Data Security',
+      nameHi: 'Module 14: Server Actions Aur Data Security',
+      description:
+        'The mistake of assuming a Server Action is automatically authorized just because it is not a public API route; re-checking auth and ownership inside every single mutation, not only in middleware; mass assignment (never spread untrusted input straight into a database update); and Zod-parsing input even when it came from your own client, because "trusted" client code can still be tampered with in the browser.',
+      descriptionHi:
+        'Ye maan lena ki ek Server Action automatically authorized hai sirf isliye kyunki ye ek public API route nahi hai — ye galti; har ek mutation ke andar auth aur ownership recheck karna, sirf middleware mein nahi; mass assignment (untrusted input ko kabhi seedha ek database update mein spread mat karo); aur input ko Zod-parse karna chahe ye aapke apne client se aaya ho, kyunki "trusted" client code browser mein bhi tamper ho sakta hai.',
+      order: 14,
+    },
+    {
+      slug: 'next-module-15-performance-optimization',
+      name: 'Module 15: Performance Optimization',
+      nameHi: 'Module 15: Performance Optimization',
+      description:
+        'Analyzing the production bundle to find what is actually shipping; dynamic imports and code-splitting a heavy component out of the initial load; font optimization (next/font, zero layout shift); and Core Web Vitals (LCP, INP, CLS) — what concretely moves each one, not just the acronyms.',
+      descriptionHi:
+        'Production bundle analyze karna ye dhoondhne ke liye ki actually kya ship ho raha hai; dynamic imports aur ek heavy component ko initial load se code-split karna; font optimization (next/font, zero layout shift); aur Core Web Vitals (LCP, INP, CLS) — har ek ko concretely kya move karta hai, sirf acronyms nahi.',
+      order: 15,
+    },
+    {
+      slug: 'next-module-16-caching-and-scaling-large-data',
+      name: 'Module 16: Caching & Scaling Large Data',
+      nameHi: 'Module 16: Large Data Ke Liye Caching Aur Scaling',
+      description:
+        'unstable_cache and React\'s cache() for expensive, reusable server-side work; adding a Redis layer in front of the database for hot reads; CDN edge caching for content that barely changes; database query optimization (indexes, explain plans) and read replicas; and the N+1 problem revisited at real production scale.',
+      descriptionHi:
+        'Expensive, reusable server-side kaam ke liye unstable_cache aur React ka cache(); hot reads ke liye database ke saamne ek Redis layer add karna; content ke liye CDN edge caching jo shayad hi change hota hai; database query optimization (indexes, explain plans) aur read replicas; aur real production scale par N+1 problem revisited.',
+      order: 16,
+    },
+    {
+      slug: 'next-module-17-edge-middleware-and-multi-tenancy',
+      name: 'Module 17: Edge, Middleware & Multi-tenancy',
+      nameHi: 'Module 17: Edge, Middleware Aur Multi-tenancy',
+      description:
+        'Edge runtime trade-offs (what APIs you lose in exchange for lower latency); middleware patterns — an auth gate, geolocation-based redirects, A/B bucketing; feature flags; and multi-tenant architecture (subdomain-based versus path-based tenancy, and how middleware routes between them).',
+      descriptionHi:
+        'Edge runtime trade-offs (lower latency ke badle mein aap kaunse APIs khote ho); middleware patterns — ek auth gate, geolocation-based redirects, A/B bucketing; feature flags; aur multi-tenant architecture (subdomain-based versus path-based tenancy, aur middleware unke beech kaise route karta hai).',
+      order: 17,
+    },
+    {
+      slug: 'next-module-18-testing',
+      name: 'Module 18: Testing',
+      nameHi: 'Module 18: Testing',
+      description:
+        'Unit testing pure logic with Vitest/Jest; component testing with React Testing Library (testing behavior, not implementation); end-to-end testing real user flows with Playwright; and testing Server Actions and route handlers directly, without a browser.',
+      descriptionHi:
+        'Vitest/Jest se pure logic unit testing; React Testing Library se component testing (behavior test karna, implementation nahi); Playwright se real user flows end-to-end testing; aur Server Actions aur route handlers ko directly test karna, bina browser ke.',
+      order: 18,
+    },
+    {
+      slug: 'next-module-19-observability-errors-and-deployment',
+      name: 'Module 19: Observability, Errors & Deployment',
+      nameHi: 'Module 19: Observability, Errors Aur Deployment',
+      description:
+        'error.tsx boundaries and what they do and do not catch; Sentry (or similar) for production error tracking; structured logging; health-check endpoints; Vercel versus a self-hosted Docker deployment (this course\'s own app is the second one — a live worked example); CI/CD for a Next.js app; environment variable management across dev/staging/production; and preview deployments per pull request.',
+      descriptionHi:
+        'error.tsx boundaries aur ye kya catch karte hain aur kya nahi; production error tracking ke liye Sentry (ya similar); structured logging; health-check endpoints; Vercel versus ek self-hosted Docker deployment (is course ki apni app dusra wala hai — ek live worked example); ek Next.js app ke liye CI/CD; dev/staging/production ke across environment variable management; aur har pull request ke liye preview deployments.',
+      order: 19,
+    },
+    {
+      slug: 'next-module-20-seo-accessibility-and-production-launch',
+      name: 'Module 20: SEO, Accessibility & Production Launch',
+      nameHi: 'Module 20: SEO, Accessibility Aur Production Launch',
+      description:
+        'The Metadata API (static and dynamic per-route metadata); sitemap.xml and robots.txt generation; structured data (JSON-LD) for rich search results; an accessibility pass (semantic HTML, focus management, keyboard navigation, contrast); and the final production-readiness checklist — the capstone review of everything the course covered against one small real app.',
+      descriptionHi:
+        'Metadata API (static aur dynamic per-route metadata); sitemap.xml aur robots.txt generation; rich search results ke liye structured data (JSON-LD); ek accessibility pass (semantic HTML, focus management, keyboard navigation, contrast); aur final production-readiness checklist — poore course ne jo cover kiya uska capstone review ek chhoti real app ke against.',
+      order: 20,
+    },
+  ];
+
+  const createdModules = [];
+  for (const moduleData of modules) {
+    createdModules.push(
+      await prisma.courseModule.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: moduleData.slug } },
+        create: { courseId: course.id, ...moduleData },
+        update: moduleData,
+      }),
+    );
+  }
+
+  const topics = [
+    ...NEXTJS_MODULE_1.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 0,
+    })),
+  ];
+
+  const json = (v: unknown) => v as Prisma.InputJsonValue;
+  const createdTopics = [];
+
+  for (const lesson of topics) {
+    const fields = {
+      title: lesson.title,
+      titleHi: lesson.titleHi,
+      description: lesson.description,
+      descriptionHi: lesson.descriptionHi,
+      simple: lesson.simple,
+      simpleHi: lesson.simpleHi,
+      content: lesson.content,
+      contentHi: lesson.contentHi,
+      codeExample: lesson.codeExample ?? null,
+      expectedOutput: lesson.expectedOutput ?? null,
+      analogy: json(lesson.analogy),
+      examples: json(lesson.examples ?? []),
+      mistakes: json(lesson.mistakes ?? []),
+      realWorld: json(lesson.realWorld ?? []),
+      interviewQA: json(lesson.interviewQA ?? []),
+      exercises: json(lesson.exercises ?? []),
+      keyTakeaways: lesson.keyTakeaways ?? [],
+      keyTakeawaysHi: lesson.keyTakeawaysHi ?? [],
+      difficulty: lesson.difficulty,
+      duration: lesson.duration ?? 25,
+      order: lesson.order,
+    };
+
+    const parentModule = createdModules[lesson.moduleIndex];
+    if (!parentModule) throw new Error(`No module at index ${lesson.moduleIndex}`);
+
+    createdTopics.push(
+      await prisma.courseTopic.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: lesson.slug } },
+        create: { courseId: course.id, moduleId: parentModule.id, slug: lesson.slug, ...fields },
+        update: fields,
+      }),
+    );
+  }
+
+  await prisma.courseTopic.deleteMany({
+    where: { courseId: course.id, slug: { notIn: topics.map((t) => t.slug) } },
+  });
+  await prisma.courseModule.deleteMany({
+    where: { courseId: course.id, slug: { notIn: modules.map((m) => m.slug) } },
+  });
+
+  return { modules: createdModules.length, topics: createdTopics.length };
+}
+
 async function main(): Promise<void> {
   console.log('Seeding DevPrep content…\n');
 
@@ -4239,6 +4536,10 @@ async function main(): Promise<void> {
   console.log('\nSeeding DevOps Course…');
   const devopsStats = await seedDevOpsCourse();
   console.log(`  1 course, ${devopsStats.modules} modules, ${devopsStats.topics} lessons`);
+
+  console.log('\nSeeding Next.js Course…');
+  const nextjsStats = await seedNextJsCourse();
+  console.log(`  1 course, ${nextjsStats.modules} modules, ${nextjsStats.topics} lessons`);
 
   console.log('\nDone. Sign up in the app to start tracking progress.');
 }

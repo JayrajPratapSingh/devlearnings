@@ -6,6 +6,7 @@ import type { ReactNode } from 'react';
 import {
   SiDjango,
   SiJavascript,
+  SiNextdotjs,
   SiNodedotjs,
   SiPython,
   SiReact,
@@ -30,6 +31,7 @@ export const COURSE_ICON: Record<string, ReactNode> = {
   'django-complete': <SiDjango />,
   'databases-complete': <Database />,
   'devops-complete': <InfinityIcon />,
+  'nextjs-complete': <SiNextdotjs />,
 };
 
 export function courseIcon(slug: string): ReactNode {
