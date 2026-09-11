@@ -113,7 +113,7 @@ offline.
 - [x] M6 Large Forms & Large Datasets — 3/3 lessons, commit `df288e2`
 - [x] M7 File Uploads & Media — 3/3 lessons, commit `b8f79a8`
 - [x] M8 Authentication — 3/3 lessons, commit `f60d011`
-- [ ] M9 Database Integration at Production Scale
+- [x] M9 Database Integration at Production Scale — 3/3 lessons, commit `be3615d`
 - [ ] M10 Payments with Stripe
 - [ ] M11 WebSockets & Real-time
 - [ ] M12 Security Fundamentals
