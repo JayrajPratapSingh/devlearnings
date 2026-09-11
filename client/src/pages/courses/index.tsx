@@ -8,21 +8,14 @@
  * than one technology, not emoji.
  */
 
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  SiDjango,
-  SiJavascript,
-  SiNodedotjs,
-  SiPython,
-  SiReact,
-  SiTypescript,
-} from 'react-icons/si';
-import { ArrowUpRight, Database, Infinity as InfinityIcon, Palette, Puzzle } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Button, EmptyState, ErrorState, ProgressBar, cx } from '../../components/ui';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { useStaggerIn } from '../../hooks/useStaggerIn';
 import { usePreferences } from '../../hooks/usePreferences';
+import { courseIcon } from './courseIcons';
 
 interface Course {
   id: string;
@@ -46,25 +39,6 @@ interface Course {
     };
   };
 }
-
-/**
- * Real marks, not emoji. Brand logos where the course teaches one specific
- * technology; a purposeful generic icon where it deliberately spans several
- * (Databases covers Postgres/Mongo/Redis/SQLite — no single logo is honest;
- * DevOps is a discipline, not a product).
- */
-const COURSE_ICON: Record<string, ReactNode> = {
-  'javascript-complete': <SiJavascript />,
-  'css-html-complete': <Palette />,
-  'typescript-complete': <SiTypescript />,
-  'react-complete': <SiReact />,
-  'node-complete': <SiNodedotjs />,
-  'dsa-complete': <Puzzle />,
-  'python-complete': <SiPython />,
-  'django-complete': <SiDjango />,
-  'databases-complete': <Database />,
-  'devops-complete': <InfinityIcon />,
-};
 
 const LEVEL_TONE: Record<string, { en: string; hi: string; cls: string }> = {
   beginner: { en: 'Beginner', hi: 'Shuruaati', cls: 'text-easy bg-easy/10 border-easy/25' },
@@ -229,7 +203,7 @@ export default function CoursesPage() {
             const percent = progress
               ? Math.min(100, Math.round((progress.solvedProblems / Math.max(1, course.stats.problemsCount)) * 100))
               : 0;
-            const icon = COURSE_ICON[course.slug] ?? <Puzzle />;
+            const icon = courseIcon(course.slug);
 
             return (
               <div

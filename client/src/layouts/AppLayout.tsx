@@ -103,13 +103,36 @@ export function AppLayout() {
 
   // The Learn section is derived, not listed. Seed a new category and it
   // appears here without anyone remembering to edit this file.
+  //
+  // Hidden here, not deleted: these categories now have a full dedicated
+  // Course covering the same subject (Courses > CourseModule > CourseTopic),
+  // so listing them again under Learn read as the same content twice. The
+  // TopicCategory/Topic rows and their /topics/:slug pages are untouched —
+  // only unlinked from this nav — so nothing is lost if that turns out to be
+  // wrong for one of them. Extend this set as more courses absorb a category.
+  const SUPERSEDED_BY_A_COURSE = new Set([
+    'javascript',
+    'typescript',
+    'react',
+    'nodejs',
+    'python',
+    'django',
+    'html',
+    'css',
+    'sql',
+    'postgresql',
+    'mongodb',
+    'firebase',
+  ]);
   const { data: categoryData } = useApi(() => endpoints.topics.categories(), []);
   const learnGroup: NavGroup = {
     heading: 'Learn',
-    items: (categoryData?.categories ?? []).map((c) => ({
-      to: `/topics/${c.slug}`,
-      label: c.name,
-    })),
+    items: (categoryData?.categories ?? [])
+      .filter((c) => !SUPERSEDED_BY_A_COURSE.has(c.slug))
+      .map((c) => ({
+        to: `/topics/${c.slug}`,
+        label: c.name,
+      })),
   };
 
   // Refresh the streak/progress chips whenever the route changes, so solving a

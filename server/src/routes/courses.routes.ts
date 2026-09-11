@@ -132,7 +132,14 @@ router.get(
       throw NotFound('Course');
     }
 
-    res.json(course);
+    // Prisma returns the filtered relation as an array (0 or 1 rows, since
+    // `where: { userId }` narrows it to this user) — collapse it to a single
+    // object/null here, matching the list endpoint above and the client's
+    // CourseData type. Sending the raw array left `course.userProgress`
+    // truthy even with zero progress (an empty array is truthy in JS), so
+    // the client read `.solvedProblems`/`.totalProblems` off an array and
+    // got `undefined`, and every percentage on this page rendered as NaN%.
+    res.json({ ...course, userProgress: course.userProgress[0] ?? null });
   })
 );
 
