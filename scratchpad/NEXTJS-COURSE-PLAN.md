@@ -104,9 +104,9 @@ offline.
 
 ## Progress
 
-- [ ] Course shell in seed.ts (`seedNextJsCourse`, Course record)
-- [ ] M1 Why Next.js & Project Setup
-- [ ] M2 Routing Deep Dive
+- [x] Course shell in seed.ts (`seedNextJsCourse`, Course record) — commit `09a7e92`
+- [x] M1 Why Next.js & Project Setup — 6/6 lessons, commit `e236638`
+- [x] M2 Routing Deep Dive — 3/3 lessons, commit pending
 - [ ] M3 Rendering Strategies
 - [ ] M4 Data Fetching & Caching
 - [ ] M5 Forms Done Right
