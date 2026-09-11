@@ -19,7 +19,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const BUTTON_VARIANTS: Record<ButtonVariant, string> = {
-  primary: 'bg-brand text-white hover:bg-brand/90 disabled:hover:bg-brand',
+  // text-surface, not text-white: the brand token is a bright lime in dark
+  // mode now, and white-on-lime fails contrast. `surface` is near-black in
+  // dark mode and near-white in light mode, so it stays correct in both
+  // without a per-theme override.
+  primary: 'bg-brand text-surface hover:bg-brand/90 disabled:hover:bg-brand',
   secondary: 'bg-surface-raised text-content border border-line hover:border-content-subtle',
   ghost: 'text-content-muted hover:bg-surface-raised hover:text-content',
   danger: 'bg-hard/15 text-hard border border-hard/30 hover:bg-hard/25',

@@ -59,7 +59,7 @@ export function BookmarksPage() {
             onClick={() => setKind(f.value)}
             className={cx(
               'rounded-lg px-3 py-1.5 text-[13px] transition-colors',
-              kind === f.value ? 'bg-brand text-white' : 'bg-surface-raised text-content-muted hover:text-content',
+              kind === f.value ? 'bg-brand text-surface' : 'bg-surface-raised text-content-muted hover:text-content',
             )}
           >
             {f.label}

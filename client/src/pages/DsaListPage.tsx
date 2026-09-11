@@ -93,7 +93,7 @@ export function DsaListPage() {
             onClick={() => setCategory('')}
             className={cx(
               'rounded-lg px-2.5 py-1 text-[12px] transition-colors',
-              category === '' ? 'bg-brand text-white' : 'bg-surface-raised text-content-muted hover:text-content',
+              category === '' ? 'bg-brand text-surface' : 'bg-surface-raised text-content-muted hover:text-content',
             )}
           >
             All
@@ -105,7 +105,7 @@ export function DsaListPage() {
               className={cx(
                 'rounded-lg px-2.5 py-1 text-[12px] transition-colors',
                 category === c.category
-                  ? 'bg-brand text-white'
+                  ? 'bg-brand text-surface'
                   : 'bg-surface-raised text-content-muted hover:text-content',
               )}
             >

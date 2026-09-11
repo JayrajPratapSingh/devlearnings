@@ -188,7 +188,7 @@ export function RecallPage() {
               className={cx(
                 'rounded-lg px-3 py-1.5 text-[13px] transition-colors',
                 mode === m.value
-                  ? 'bg-brand text-white'
+                  ? 'bg-brand text-surface'
                   : 'bg-surface-sunken text-content-muted hover:text-content',
               )}
             >

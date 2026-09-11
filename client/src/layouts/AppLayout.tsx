@@ -74,7 +74,7 @@ const NAV: NavGroup[] = [
 function Logo() {
   return (
     <div className="flex items-center gap-2.5">
-      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand font-mono text-sm font-bold text-white">
+      <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand font-mono text-sm font-bold text-surface shadow-[0_0_14px_-4px_rgb(var(--brand)/0.8)]">
         ⌘
       </div>
       <div className="leading-tight">
@@ -263,7 +263,7 @@ export function AppLayout() {
                   onClick={() => setLang(code)}
                   className={cx(
                     'px-2 py-1.5 text-[11px] font-semibold transition-colors',
-                    lang === code ? 'bg-brand text-white' : 'text-content-muted hover:bg-surface-raised',
+                    lang === code ? 'bg-brand text-surface' : 'text-content-muted hover:bg-surface-raised',
                   )}
                   title={code === 'en' ? 'English' : 'Hinglish — Hindi in Roman script'}
                 >

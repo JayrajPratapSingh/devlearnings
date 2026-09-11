@@ -40,7 +40,7 @@ export function VisualiserPage() {
             className={cx(
               'rounded-lg px-3 py-1.5 text-[12px] transition-colors',
               d.id === activeId
-                ? 'bg-brand text-white'
+                ? 'bg-brand text-surface'
                 : 'bg-surface-raised text-content-muted hover:text-content',
             )}
           >

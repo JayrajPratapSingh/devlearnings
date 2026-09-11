@@ -175,7 +175,7 @@ export function VisualiserPlayer({ demo, compact = false }: { demo: AlgorithmDem
               onClick={() => setSpeed(i)}
               className={cx(
                 'px-2 py-1.5 font-mono text-[11px] transition-colors',
-                speed === i ? 'bg-brand text-white' : 'text-content-muted hover:bg-surface-sunken',
+                speed === i ? 'bg-brand text-surface' : 'text-content-muted hover:bg-surface-sunken',
               )}
             >
               {s.label}

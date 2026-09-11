@@ -197,7 +197,7 @@ export function TracksPage() {
                         done
                           ? 'bg-easy/15 text-easy'
                           : isToday
-                            ? 'bg-brand text-white'
+                            ? 'bg-brand text-surface'
                             : 'bg-surface-sunken text-content-subtle',
                       )}
                     >

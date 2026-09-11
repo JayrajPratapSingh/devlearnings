@@ -72,7 +72,7 @@ export function ForgotPasswordPage() {
       <div className="flex flex-1 items-center justify-center px-4 py-10">
         <div className="w-full max-w-sm">
           <div className="mb-8 text-center">
-            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-brand font-mono text-lg font-bold text-white">
+            <div className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-brand font-mono text-lg font-bold text-surface">
               ⌘
             </div>
             <h1 className="font-display text-[22px] font-semibold tracking-[-0.01em] text-content">
@@ -94,7 +94,7 @@ export function ForgotPasswordPage() {
                     className={cx(
                       'flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold',
                       step === s || (s === 'identify' && step === 'verify')
-                        ? 'bg-brand text-white'
+                        ? 'bg-brand text-surface'
                         : 'bg-surface-sunken text-content-subtle',
                     )}
                   >

@@ -328,7 +328,7 @@ export function BlitzPage() {
                 className={cx(
                   'flex-1 rounded-lg px-3 py-2 text-[13px] transition-colors',
                   duration === d.seconds
-                    ? 'bg-brand text-white'
+                    ? 'bg-brand text-surface'
                     : 'bg-surface-sunken text-content-muted hover:text-content',
                 )}
               >

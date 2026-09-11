@@ -321,7 +321,7 @@ export function MockInterviewPage() {
                   }
                   className={cx(
                     'rounded-lg px-2.5 py-1 text-[12px] transition-colors',
-                    active ? 'bg-brand text-white' : 'bg-surface-sunken text-content-muted hover:text-content',
+                    active ? 'bg-brand text-surface' : 'bg-surface-sunken text-content-muted hover:text-content',
                   )}
                 >
                   {c}

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import { useApi } from '../hooks/useApi';
 import { useAuth } from '../hooks/useAuth';
+import { useStaggerIn } from '../hooks/useStaggerIn';
+import { useMagnetic } from '../hooks/useMagnetic';
 import { endpoints } from '../services/endpoints';
 import {
   Button,
@@ -46,6 +48,8 @@ export function DashboardPage() {
   const { data, loading, error, reload } = useApi(() => endpoints.progress.dashboard(), []);
   const { data: dailyData } = useApi(() => endpoints.dsa.daily(), []);
   const daily = dailyData?.daily ?? null;
+  const rootRef = useStaggerIn<HTMLDivElement>([data, daily]);
+  const ctaRef = useMagnetic<HTMLDivElement>(0.25);
 
   // Skeletons mirror the real layout, so nothing jumps when the data lands.
   if (loading) {
@@ -86,16 +90,16 @@ export function DashboardPage() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
+    <div ref={rootRef} className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
       {/* Hero — the ring gives the headline number the weight it deserves */}
-      <div className="card mb-6 flex flex-wrap items-center gap-5 p-5">
+      <div data-in className="card mb-6 flex flex-wrap items-center gap-5 p-5">
         <ProgressRing percent={data.overall} size={88} label="ready" />
 
         <div className="min-w-[180px] flex-1">
-          <h1 className="font-display text-[22px] font-semibold tracking-[-0.01em] text-content">
+          <h1 className="font-display text-[28px] font-semibold leading-none tracking-[-0.015em] text-content sm:text-[32px]">
             {user?.name ? `Hey ${user.name.split(' ')[0]}` : 'Dashboard'}
           </h1>
-          <p className="mt-1 text-sm text-content-muted">
+          <p className="mt-2 text-sm text-content-muted">
             {data.streak > 0
               ? `${data.streak}-day streak. Keep it going.`
               : 'Solve a problem or read a topic to start a streak.'}
@@ -120,17 +124,20 @@ export function DashboardPage() {
           <Link to="/mock-interview">
             <Button size="sm">Mock interview</Button>
           </Link>
-          <Link to="/dsa">
-            <Button size="sm" variant="primary">
-              Start solving
-            </Button>
-          </Link>
+          <div ref={ctaRef} className="inline-block">
+            <Link to="/dsa">
+              <Button size="sm" variant="primary" className="shadow-[0_0_20px_-8px_rgb(var(--brand)/0.8)]">
+                Start solving
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
 
       {/* Daily challenge — the reason to open the app today rather than someday */}
       {daily && (
         <Link
+          data-in
           to={`/dsa/${daily.problem.slug}`}
           className={cx(
             'card mb-6 flex flex-wrap items-center gap-4 p-4 transition-colors',
@@ -181,7 +188,7 @@ export function DashboardPage() {
       )}
 
       {/* Headline numbers */}
-      <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div data-in className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <StatCard
           label="DSA solved"
           value={`${data.dsa.solved}/${data.dsa.total}`}
@@ -212,7 +219,7 @@ export function DashboardPage() {
       <div className="grid gap-6 lg:grid-cols-3">
         <div className="space-y-6 lg:col-span-2">
           {/* Technology progress */}
-          <section>
+          <section data-in>
             <SectionHeading title="Progress by technology" />
             <div className="card divide-y divide-line">
               {data.byCategory.map((cat) => (
@@ -235,7 +242,7 @@ export function DashboardPage() {
           </section>
 
           {/* Activity */}
-          <section>
+          <section data-in>
             <SectionHeading title="Last 28 days" />
             <div className="card p-4">
               <ActivityStrip activity={data.activity} />
@@ -247,7 +254,7 @@ export function DashboardPage() {
           </section>
 
           {/* Recent submissions */}
-          <section>
+          <section data-in>
             <SectionHeading
               title="Recent submissions"
               action={
@@ -298,7 +305,7 @@ export function DashboardPage() {
 
         <div className="space-y-6">
           {/* Today's tasks */}
-          <section>
+          <section data-in>
             <SectionHeading title="Today" />
             <div className="card divide-y divide-line">
               {tasks.length === 0 ? (
@@ -327,7 +334,7 @@ export function DashboardPage() {
           </section>
 
           {/* Weak areas */}
-          <section>
+          <section data-in>
             <SectionHeading title="Weak areas" />
             {data.weakTopics.length === 0 ? (
               <div className="card px-4 py-6 text-center text-sm text-content-muted">
@@ -355,7 +362,7 @@ export function DashboardPage() {
           </section>
 
           {/* Secondary counters */}
-          <section>
+          <section data-in>
             <SectionHeading title="Coverage" />
             <div className="card space-y-3 p-4">
               {[

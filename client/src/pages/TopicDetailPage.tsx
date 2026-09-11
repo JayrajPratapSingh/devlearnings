@@ -159,7 +159,7 @@ export function TopicDetailPage() {
                     className={cx(
                       'px-3 py-1.5 text-[12px] font-medium transition-colors',
                       depth === id
-                        ? 'bg-brand text-white'
+                        ? 'bg-brand text-surface'
                         : 'text-content-muted hover:bg-surface-sunken hover:text-content',
                     )}
                   >

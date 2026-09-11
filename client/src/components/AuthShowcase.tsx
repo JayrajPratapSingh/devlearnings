@@ -164,7 +164,7 @@ function ReviseScene({ reduced }: { reduced: boolean }) {
               key={code}
               className={cx(
                 'px-1.5 py-0.5 text-[10px] font-semibold transition-colors duration-300',
-                lang === code ? 'bg-brand text-white' : 'text-content-subtle',
+                lang === code ? 'bg-brand text-surface' : 'text-content-subtle',
               )}
             >
               {code.toUpperCase()}
