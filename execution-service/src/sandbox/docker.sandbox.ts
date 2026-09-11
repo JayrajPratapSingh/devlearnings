@@ -77,6 +77,16 @@ export class DockerSandbox implements Sandbox {
           '--pids-limit', String(config.PIDS_LIMIT),
           '--read-only',
           '--tmpfs', '/tmp:rw,noexec,nosuid,size=32m',
+          // The source file is `docker cp`'d to /sandbox after `create` but
+          // before `start` — and a tmpfs mount is only actually attached
+          // when the container starts (its mount namespace doesn't exist
+          // yet at `create` time), so anything `cp`'d into a tmpfs path
+          // beforehand is silently gone the moment the container starts.
+          // An anonymous volume is provisioned at `create` time instead, so
+          // the copy lands somewhere real and survives into `start`. It's
+          // still isolated: nothing on the host is mounted in, and the
+          // volume is removed with the container (`docker rm -fv` below).
+          '--volume', '/sandbox',
           '--cap-drop', 'ALL',
           '--security-opt', 'no-new-privileges',
           '--user', '1000:1000',
@@ -168,9 +178,10 @@ export class DockerSandbox implements Sandbox {
         Date.now() - started,
       );
     } finally {
-      // Nothing survives a request: container destroyed, temp files deleted.
+      // Nothing survives a request: container destroyed (with its anonymous
+      // /sandbox volume — `-v`, or it leaks on disk forever), temp files deleted.
       if (containerId) {
-        void this.docker(['rm', '-f', containerId], 10_000).catch(() => undefined);
+        void this.docker(['rm', '-fv', containerId], 10_000).catch(() => undefined);
       }
       if (workspace) {
         await fs.rm(workspace, { recursive: true, force: true }).catch(() => undefined);
