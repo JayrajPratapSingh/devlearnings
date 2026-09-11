@@ -116,7 +116,7 @@ offline.
 - [x] M9 Database Integration at Production Scale — 3/3 lessons, commit `be3615d`
 - [x] M10 Payments with Stripe — 3/3 lessons, commit `559e606`
 - [x] M11 WebSockets & Real-time — 3/3 lessons, commit `c418750`
-- [ ] M12 Security Fundamentals
+- [x] M12 Security Fundamentals — 3/3 lessons, commit `de3f103`
 - [ ] M13 API & Auth Security Hardening
 - [ ] M14 Server Actions & Data Security
 - [ ] M15 Performance Optimization
