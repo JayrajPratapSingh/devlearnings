@@ -372,6 +372,7 @@ import { DEVOPS_MODULE_19_PART2 } from './seed-data/course-devops-module19-part2
 import { DEVOPS_MODULE_20 } from './seed-data/course-devops-module20';
 import { DEVOPS_MODULE_20_PART2 } from './seed-data/course-devops-module20-part2';
 import { NEXTJS_MODULE_1 } from './seed-data/course-nextjs-module1';
+import { NEXTJS_MODULE_1_PART2 } from './seed-data/course-nextjs-module1-part2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -4419,7 +4420,7 @@ async function seedNextJsCourse(): Promise<{ modules: number; topics: number }> 
   }
 
   const topics = [
-    ...NEXTJS_MODULE_1.map((lesson) => ({
+    ...[...NEXTJS_MODULE_1, ...NEXTJS_MODULE_1_PART2].map((lesson) => ({
       ...lesson,
       moduleIndex: 0,
     })),
