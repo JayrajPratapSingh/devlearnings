@@ -108,7 +108,7 @@ offline.
 - [x] M1 Why Next.js & Project Setup — 6/6 lessons, commit `e236638`
 - [x] M2 Routing Deep Dive — 3/3 lessons, commit `76eff62`
 - [x] M3 Rendering Strategies — 3/3 lessons, commit `8cc040c`
-- [ ] M4 Data Fetching & Caching
+- [x] M4 Data Fetching & Caching — 3/3 lessons, commit `066ad6b`
 - [ ] M5 Forms Done Right
 - [ ] M6 Large Forms & Large Datasets
 - [ ] M7 File Uploads & Media
