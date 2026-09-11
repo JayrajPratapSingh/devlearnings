@@ -22,6 +22,7 @@ import { ArrowUpRight, Database, Infinity as InfinityIcon, Palette, Puzzle } fro
 import { Button, EmptyState, ErrorState, ProgressBar, cx } from '../../components/ui';
 import { Skeleton } from '../../components/ui/Skeleton';
 import { useStaggerIn } from '../../hooks/useStaggerIn';
+import { usePreferences } from '../../hooks/usePreferences';
 
 interface Course {
   id: string;
@@ -65,14 +66,20 @@ const COURSE_ICON: Record<string, ReactNode> = {
   'devops-complete': <InfinityIcon />,
 };
 
-const LEVEL_TONE: Record<string, { label: string; cls: string }> = {
-  beginner: { label: 'Beginner', cls: 'text-easy bg-easy/10 border-easy/25' },
-  intermediate: { label: 'Intermediate', cls: 'text-medium bg-medium/10 border-medium/25' },
-  advanced: { label: 'Advanced', cls: 'text-hard bg-hard/10 border-hard/25' },
+const LEVEL_TONE: Record<string, { en: string; hi: string; cls: string }> = {
+  beginner: { en: 'Beginner', hi: 'Shuruaati', cls: 'text-easy bg-easy/10 border-easy/25' },
+  intermediate: { en: 'Intermediate', hi: 'Darmiyana', cls: 'text-medium bg-medium/10 border-medium/25' },
+  advanced: { en: 'Advanced', hi: 'Advanced', cls: 'text-hard bg-hard/10 border-hard/25' },
 };
 
 const FILTERS = ['all', 'beginner', 'intermediate', 'advanced'] as const;
 type FilterLevel = (typeof FILTERS)[number];
+const FILTER_LABEL: Record<FilterLevel, { en: string; hi: string }> = {
+  all: { en: 'All', hi: 'Sab' },
+  beginner: { en: 'Beginner', hi: 'Shuruaati' },
+  intermediate: { en: 'Intermediate', hi: 'Darmiyana' },
+  advanced: { en: 'Advanced', hi: 'Advanced' },
+};
 
 function CourseCardSkeleton() {
   return (
@@ -93,6 +100,7 @@ function CourseCardSkeleton() {
 
 export default function CoursesPage() {
   const navigate = useNavigate();
+  const { t } = usePreferences();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -108,14 +116,20 @@ export default function CoursesPage() {
         const url = new URL('/api/courses', window.location.origin);
         if (filter !== 'all') url.searchParams.set('level', filter);
         const response = await fetch(url);
-        if (!response.ok) throw new Error('Failed to fetch courses');
+        if (!response.ok) throw new Error(t('The course list took a wrong turn.', 'Course list rasta bhatak gayi.'));
         const data = (await response.json()) as Course[];
         if (!cancelled) {
           setCourses(data);
           setError(null);
         }
       } catch (err) {
-        if (!cancelled) setError(err instanceof Error ? err.message : 'Error loading courses');
+        if (!cancelled) {
+          setError(
+            err instanceof Error
+              ? err.message
+              : t('Could not load the courses — probably not your fault.', 'Courses load nahi hue — shayad tumhari galti nahi hai.'),
+          );
+        }
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -140,10 +154,13 @@ export default function CoursesPage() {
     <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
       <div className="mb-6">
         <h1 className="font-display text-[28px] font-semibold leading-none tracking-[-0.015em] text-content sm:text-[32px]">
-          Learning paths
+          {t('Learning paths', 'Learning paths')}
         </h1>
         <p className="mt-2 text-sm text-content-muted">
-          Structured courses, module by module — pick one and keep going where you left off.
+          {t(
+            'Structured courses, module by module — pick one and keep going where you left off.',
+            'Structured courses, module by module — ek chuno aur wahin se aage badho jahan chhoda tha.',
+          )}
         </p>
       </div>
 
@@ -163,7 +180,7 @@ export default function CoursesPage() {
           </svg>
           <input
             type="text"
-            placeholder="Search courses…"
+            placeholder={t('Search courses…', 'Courses dhoondo…')}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="h-9 w-full rounded-lg border border-line bg-surface-raised pl-9 pr-3 text-[13px] text-content placeholder:text-content-subtle focus:border-brand/60 focus:outline-none"
@@ -182,7 +199,7 @@ export default function CoursesPage() {
                   : 'bg-surface-raised text-content-muted hover:text-content',
               )}
             >
-              {level}
+              {t(FILTER_LABEL[level].en, FILTER_LABEL[level].hi)}
             </button>
           ))}
         </div>
@@ -198,8 +215,11 @@ export default function CoursesPage() {
         <ErrorState message={error} onRetry={() => setFilter((f) => f)} />
       ) : filtered.length === 0 ? (
         <EmptyState
-          title="Nothing matches that — yet"
-          description="Every course worth taking is hiding somewhere in here. Try a shorter search, or clear the filter."
+          title={t('Nothing matches that — yet', 'Abhi kuch match nahi hua')}
+          description={t(
+            'Every course worth taking is hiding somewhere in here. Try a shorter search, or clear the filter.',
+            'Har achha course yahin kahin chhupa baitha hai. Search chhota karo, ya filter hata do.',
+          )}
         />
       ) : (
         <div ref={gridRef} className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -240,14 +260,16 @@ export default function CoursesPage() {
                     {icon}
                   </div>
                   <div className="min-w-0 flex-1 pr-5">
-                    <h2 className="truncate text-[15px] font-semibold text-content">{course.name}</h2>
+                    <h2 className="truncate text-[15px] font-semibold text-content">
+                      {t(course.name, course.nameHi)}
+                    </h2>
                     <span
                       className={cx(
                         'mt-1 inline-flex h-5 items-center rounded-md border px-1.5 text-[10px] font-semibold uppercase tracking-wide',
                         level.cls,
                       )}
                     >
-                      {level.label}
+                      {t(level.en, level.hi)}
                     </span>
                   </div>
                 </div>
@@ -257,15 +279,15 @@ export default function CoursesPage() {
                 </p>
 
                 <div className="mt-4 flex items-center gap-4 font-mono text-[11px] text-content-subtle">
-                  <span>{course.stats.modulesCount} modules</span>
-                  <span>{course.stats.topicsCount} topics</span>
+                  <span>{course.stats.modulesCount} {t('modules', 'modules')}</span>
+                  <span>{course.stats.topicsCount} {t('topics', 'topics')}</span>
                   <span>~{course.estimatedHours}h</span>
                 </div>
 
                 {progress && (
                   <div className="mt-3">
                     <div className="mb-1 flex items-center justify-between text-[11px]">
-                      <span className="text-content-muted">Progress</span>
+                      <span className="text-content-muted">{t('Progress', 'Progress')}</span>
                       <span className="font-mono tabular-nums text-content">{percent}%</span>
                     </div>
                     <ProgressBar percent={percent} tone={percent >= 70 ? 'easy' : percent >= 34 ? 'medium' : 'hard'} />
@@ -286,11 +308,11 @@ export default function CoursesPage() {
                         navigate(`/courses/${course.slug}`);
                       }}
                     >
-                      {progress ? 'Continue' : 'Start course'}
+                      {progress ? t('Continue', 'Aage badho') : t('Start course', 'Course shuru karo')}
                     </Button>
                   </div>
                   <div className="absolute inset-0 flex items-center justify-between text-[11px] text-content-subtle transition-opacity duration-150 group-hover:opacity-0">
-                    <span>{course.stats.problemsCount} problems</span>
+                    <span>{course.stats.problemsCount} {t('problems', 'problems')}</span>
                     <span className="font-mono">{course.totalXpReward} XP</span>
                   </div>
                 </div>

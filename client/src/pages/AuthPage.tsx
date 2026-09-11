@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { Link, Navigate, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import { useAuth } from '../hooks/useAuth';
+import { usePreferences } from '../hooks/usePreferences';
 import { Button, Input, Spinner } from '../components/ui';
 import { AuthShowcase, AuthStatStrip } from '../components/AuthShowcase';
 import { useMagnetic } from '../hooks/useMagnetic';
@@ -13,22 +14,49 @@ interface FieldErrors {
   password?: string;
 }
 
-/** Client-side checks mirror the server's Zod rules — UX only, never trusted. */
-function validate(mode: 'login' | 'register', values: { name: string; email: string; password: string }): FieldErrors {
+/**
+ * Client-side checks mirror the server's Zod rules — UX only, never trusted.
+ * Takes `t` (from usePreferences) so validation copy gets the same EN/HI
+ * treatment as everything else on the page, not a second hardcoded language.
+ */
+function validate(
+  mode: 'login' | 'register',
+  values: { name: string; email: string; password: string },
+  t: (en: string, hi?: string | null) => string,
+): FieldErrors {
   const errors: FieldErrors = {};
 
   if (mode === 'register' && values.name.trim().length < 2) {
-    errors.name = 'Name must be at least 2 characters';
+    errors.name = t(
+      "That name's a bit short for a legend — two characters, minimum.",
+      'Itna chhota naam? Kam se kam do letters daal do, legend ban ke dikhao.',
+    );
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-    errors.email = 'Enter a valid email address';
+    errors.email = t(
+      "That doesn't look like an email — more like a typo having an identity crisis.",
+      'Ye email nahi lag raha — lagta hai koi typo confused ho gaya hai.',
+    );
   }
   if (mode === 'register') {
-    if (values.password.length < 8) errors.password = 'Password must be at least 8 characters';
-    else if (!/[a-zA-Z]/.test(values.password)) errors.password = 'Include at least one letter';
-    else if (!/[0-9]/.test(values.password)) errors.password = 'Include at least one number';
+    if (values.password.length < 8) {
+      errors.password = t(
+        '8 characters, minimum — your password should be harder to guess than FizzBuzz.',
+        'Kam se kam 8 characters — password FizzBuzz se to tagda hona chahiye.',
+      );
+    } else if (!/[a-zA-Z]/.test(values.password)) {
+      errors.password = t(
+        'Needs at least one letter — all-digits is a PIN, not a password.',
+        'Ek letter to daalo — sirf numbers PIN hote hain, password nahi.',
+      );
+    } else if (!/[0-9]/.test(values.password)) {
+      errors.password = t(
+        'Needs at least one number — give it something to lean on.',
+        'Ek number bhi daal do — password ko thoda sahara chahiye.',
+      );
+    }
   } else if (!values.password) {
-    errors.password = 'Password is required';
+    errors.password = t("Password's gone missing — can't sign in on vibes alone.", 'Password kahan gaya? Sirf vibes se login nahi hota.');
   }
 
   return errors;
@@ -36,6 +64,7 @@ function validate(mode: 'login' | 'register', values: { name: string; email: str
 
 export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
   const { user, loading, login, register } = useAuth();
+  const { t } = usePreferences();
   const location = useLocation();
   const [values, setValues] = useState({ name: '', email: '', password: '' });
   const [errors, setErrors] = useState<FieldErrors>({});
@@ -81,7 +110,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
     e.preventDefault();
     setFormError(null);
 
-    const found = validate(mode, values);
+    const found = validate(mode, values, t);
     setErrors(found);
     if (Object.keys(found).length > 0) return;
 
@@ -101,7 +130,11 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
         setErrors(serverErrors);
         setFormError(Object.keys(serverErrors).length ? null : err.message);
       } else {
-        setFormError(err instanceof Error ? err.message : 'Something went wrong');
+        setFormError(
+          err instanceof Error
+            ? err.message
+            : t('Something broke, and it was not supposed to.', 'Kuch toot gaya, aur ye plan me nahi tha.'),
+        );
       }
     } finally {
       setSubmitting(false);
@@ -127,12 +160,15 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
               ⌘
             </div>
             <h1 className="font-display text-[32px] font-semibold leading-none tracking-[-0.02em] text-content">
-              {mode === 'login' ? 'Welcome back' : 'New workspace'}
+              {mode === 'login' ? t('Welcome back', 'Wapas aagaye') : t('New workspace', 'Naya workspace')}
             </h1>
             <p className="mt-2.5 text-sm text-content-muted">
               {mode === 'login'
-                ? 'Pick up exactly where you left off.'
-                : 'Your interview-prep IDE — courses, DSA, and a live sandbox.'}
+                ? t('Pick up exactly where you left off.', 'Wahin se shuru karo jahan chhoda tha.')
+                : t(
+                    'Your interview-prep IDE — courses, DSA, and a live sandbox.',
+                    'Tumhara interview-prep IDE — courses, DSA, aur ek live sandbox.',
+                  )}
             </p>
           </div>
 
@@ -144,7 +180,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
           {mode === 'register' && (
             <div>
               <label htmlFor="name" className="mb-1.5 block text-[13px] font-medium text-content">
-                Name
+                {t('Name', 'Naam')}
               </label>
               <Input id="name" autoComplete="name" placeholder="Jay" {...field('name')} />
               {errors.name && <p className="mt-1.5 text-xs text-hard">{errors.name}</p>}
@@ -172,7 +208,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
               </label>
               {mode === 'login' && (
                 <Link to="/forgot-password" className="text-[12px] text-brand hover:underline">
-                  Forgot?
+                  {t('Forgot?', 'Bhool gaye?')}
                 </Link>
               )}
             </div>
@@ -180,7 +216,7 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
               id="password"
               type="password"
               autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-              placeholder={mode === 'register' ? 'At least 8 characters' : '••••••••'}
+              placeholder={mode === 'register' ? t('At least 8 characters', 'Kam se kam 8 characters') : '••••••••'}
               {...field('password')}
             />
             {errors.password && <p className="mt-1.5 text-xs text-hard">{errors.password}</p>}
@@ -194,10 +230,12 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
                   UI explains the ambiguity rather than leaving it confusing. */}
               {mode === 'login' && (
                 <p className="mt-1.5 text-[12px] leading-5 text-content-muted">
-                  Email and password are checked together — this message also appears if no
-                  account exists for this email yet.{' '}
+                  {t(
+                    "Email and password are checked together, on purpose — this exact message shows up even if the account doesn't exist. No spoilers for password guessers.",
+                    'Email aur password saath check hote hain, jaanbujhkar — ye message tab bhi aata hai jab account bana hi nahi. Guess karne walon ko koi spoiler nahi.',
+                  )}{' '}
                   <Link to="/register" className="font-medium text-brand hover:underline">
-                    Create a new account
+                    {t('Create a new account', 'Naya account banao')}
                   </Link>
                   .
                 </p>
@@ -212,23 +250,23 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
               loading={submitting}
               className="w-full shadow-[0_0_24px_-8px_rgb(var(--brand)/0.8)]"
             >
-              {mode === 'login' ? 'Sign in' : 'Create account'}
+              {mode === 'login' ? t('Sign in', 'Sign in karo') : t('Create account', 'Account banao')}
             </Button>
           </div>
 
             <p className="text-center text-[13px] text-content-muted">
               {mode === 'login' ? (
                 <>
-                  New here?{' '}
+                  {t('New here?', 'Pehli baar aaye ho?')}{' '}
                   <Link to="/register" className="font-medium text-brand hover:underline">
-                    Create an account
+                    {t('Create an account', 'Account banao')}
                   </Link>
                 </>
               ) : (
                 <>
-                  Already have an account?{' '}
+                  {t('Already have an account?', 'Pehle se account hai?')}{' '}
                   <Link to="/login" className="font-medium text-brand hover:underline">
-                    Sign in
+                    {t('Sign in', 'Sign in karo')}
                   </Link>
                 </>
               )}
@@ -236,7 +274,10 @@ export function AuthPage({ mode }: { mode: 'login' | 'register' }) {
           </form>
 
           <p data-in className="mt-5 text-center text-[11px] text-content-subtle">
-            Code runs in an isolated Docker sandbox — nothing touches your own machine.
+            {t(
+              'Code runs in an isolated Docker sandbox — nothing touches your own machine.',
+              'Code isolated Docker sandbox mein chalta hai — tumhare machine ko haath tak nahi lagta.',
+            )}
           </p>
         </div>
       </div>

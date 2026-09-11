@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { endpoints } from '../services/endpoints';
 import { AuthShowcase } from '../components/AuthShowcase';
+import { usePreferences } from '../hooks/usePreferences';
 import { Button, Input, cx } from '../components/ui';
 
 type Step = 'identify' | 'verify' | 'done';
@@ -23,6 +24,7 @@ interface SentInfo {
  */
 export function ForgotPasswordPage() {
   const navigate = useNavigate();
+  const { t } = usePreferences();
   const [step, setStep] = useState<Step>('identify');
   const [identifier, setIdentifier] = useState('');
   const [sent, setSent] = useState<SentInfo | null>(null);
@@ -34,7 +36,7 @@ export function ForgotPasswordPage() {
   const requestCode = async (e: FormEvent) => {
     e.preventDefault();
     if (identifier.trim().length < 3) {
-      setError('Enter your email or phone number');
+      setError(t('Give us something to work with — an email or phone.', 'Kuch to do kaam karne ke liye — email ya phone.'));
       return;
     }
 
@@ -45,7 +47,11 @@ export function ForgotPasswordPage() {
       setSent(res);
       setStep('verify');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not send the code');
+      setError(
+        err instanceof Error
+          ? err.message
+          : t('Could not send the code — the server is having a moment.', 'Code nahi bheja gaya — server ka mood off hai.'),
+      );
     } finally {
       setBusy(false);
     }
@@ -59,7 +65,11 @@ export function ForgotPasswordPage() {
       await endpoints.auth.resetPassword(identifier.trim(), code.trim(), password);
       setStep('done');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not reset the password');
+      setError(
+        err instanceof Error
+          ? err.message
+          : t('Could not reset the password — try that code again.', 'Password reset nahi hua — code dobara try karo.'),
+      );
     } finally {
       setBusy(false);
     }
@@ -76,12 +86,13 @@ export function ForgotPasswordPage() {
               ⌘
             </div>
             <h1 className="font-display text-[22px] font-semibold tracking-[-0.01em] text-content">
-              {step === 'done' ? 'Password changed' : 'Forgot your password?'}
+              {step === 'done' ? t('Password changed', 'Password badal gaya') : t('Forgot your password?', 'Password bhool gaye?')}
             </h1>
             <p className="mt-1.5 text-sm text-content-muted">
-              {step === 'identify' && "Enter your email or phone — we'll send a 6-digit code."}
-              {step === 'verify' && 'Enter the code and set a new password.'}
-              {step === 'done' && 'Sign in with your new password.'}
+              {step === 'identify' &&
+                t("Enter your email or phone — we'll send a 6-digit code.", 'Email ya phone daalo — 6-digit code bhej denge.')}
+              {step === 'verify' && t('Enter the code and set a new password.', 'Code daalo aur naya password set karo.')}
+              {step === 'done' && t('Sign in with your new password.', 'Naye password se sign in karo.')}
             </p>
           </div>
 
@@ -115,17 +126,20 @@ export function ForgotPasswordPage() {
             <form onSubmit={requestCode} className="card animate-fade-up space-y-4 p-6" noValidate>
               <div>
                 <label htmlFor="identifier" className="mb-1.5 block text-[13px] font-medium text-content">
-                  Email or phone
+                  {t('Email or phone', 'Email ya phone')}
                 </label>
                 <Input
                   id="identifier"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  placeholder="you@example.com or 9876543210"
+                  placeholder={t('you@example.com or 9876543210', 'you@example.com ya 9876543210')}
                   autoComplete="username"
                 />
                 <p className="mt-1.5 text-xs text-content-subtle">
-                  Phone only works if you added it to your account.
+                  {t(
+                    "Phone only rings a bell if you've already added it to your account.",
+                    'Phone tabhi kaam karega jab account mein pehle se add ho.',
+                  )}
                 </p>
               </div>
 
@@ -136,12 +150,12 @@ export function ForgotPasswordPage() {
               )}
 
               <Button type="submit" variant="primary" loading={busy} className="w-full">
-                Send code
+                {t('Send code', 'Code bhejo')}
               </Button>
 
               <p className="text-center text-[13px] text-content-muted">
                 <Link to="/login" className="font-medium text-brand hover:underline">
-                  Back to sign in
+                  {t('Back to sign in', 'Wapas sign in par')}
                 </Link>
               </p>
             </form>
@@ -153,13 +167,19 @@ export function ForgotPasswordPage() {
                 <p className="text-[13px] text-content-muted">
                   {sent?.sentToMasked ? (
                     <>
-                      Code sent to{' '}
+                      {t('Code sent to', 'Code bhej diya')}{' '}
                       <span className="font-mono text-content">{sent.sentToMasked}</span>.
                     </>
                   ) : (
-                    'If an account exists for this email/phone, a code has been sent.'
+                    t(
+                      "If that account exists, a code is already on its way. If not… well, this message looks the same either way.",
+                      'Agar account hai, to code nikal chuka hai. Nahi hai to bhi yehi message dikhega — hum bata nahi sakte.',
+                    )
                   )}{' '}
-                  Valid for {sent?.expiresInMinutes} minutes.
+                  {t(
+                    `Don't let it ghost you — valid for ${sent?.expiresInMinutes} minutes.`,
+                    `Jaldi karo — ${sent?.expiresInMinutes} minute mein ye ghost ho jayega.`,
+                  )}
                 </p>
               </div>
 
@@ -178,7 +198,7 @@ export function ForgotPasswordPage() {
 
               <div>
                 <label htmlFor="code" className="mb-1.5 block text-[13px] font-medium text-content">
-                  6-digit code
+                  {t('6-digit code', '6-digit code')}
                 </label>
                 <Input
                   id="code"
@@ -193,14 +213,14 @@ export function ForgotPasswordPage() {
 
               <div>
                 <label htmlFor="new-password" className="mb-1.5 block text-[13px] font-medium text-content">
-                  New password
+                  {t('New password', 'Naya password')}
                 </label>
                 <Input
                   id="new-password"
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="At least 8 characters"
+                  placeholder={t('At least 8 characters', 'Kam se kam 8 characters')}
                   autoComplete="new-password"
                 />
               </div>
@@ -218,7 +238,7 @@ export function ForgotPasswordPage() {
                 disabled={code.length !== 6 || password.length < 8}
                 className="w-full"
               >
-                Reset password
+                {t('Reset password', 'Password reset karo')}
               </Button>
 
               <button
@@ -230,7 +250,7 @@ export function ForgotPasswordPage() {
                 }}
                 className="w-full text-center text-[13px] text-content-muted hover:text-content"
               >
-                Try a different email/phone
+                {t('Try a different email/phone', 'Doosra email/phone try karo')}
               </button>
             </form>
           )}
@@ -241,11 +261,13 @@ export function ForgotPasswordPage() {
                 ✓
               </div>
               <p className="text-[13px] leading-6 text-content-muted">
-                Password updated. All previous sessions have been signed out too — if anyone
-                else had access, they don't anymore.
+                {t(
+                  "Password updated. Every old session just got logged out — if someone else was in, they aren't anymore. Awkward for them.",
+                  'Password update ho gaya. Purani saari sessions bahar — agar koi aur andar tha, ab nahi hai. Uske liye thoda awkward.',
+                )}
               </p>
               <Button variant="primary" className="w-full" onClick={() => navigate('/login')}>
-                Sign in
+                {t('Sign in', 'Sign in karo')}
               </Button>
             </div>
           )}

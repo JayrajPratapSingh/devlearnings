@@ -1,6 +1,7 @@
 import { forwardRef } from 'react';
 import type { ButtonHTMLAttributes, InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from 'react';
 import type { Difficulty, LearningStatus, ProblemStatus } from '../../types';
+import { usePreferences } from '../../hooks/usePreferences';
 
 export function cx(...parts: (string | false | null | undefined)[]): string {
   return parts.filter(Boolean).join(' ');
@@ -164,16 +165,19 @@ export function LoadingState({ label = 'Loading' }: { label?: string }) {
 }
 
 export function ErrorState({ message, onRetry }: { message: string; onRetry?: () => void }) {
+  const { t } = usePreferences();
   return (
     <div className="card animate-fade-up flex flex-col items-center gap-3 px-6 py-14 text-center">
       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-hard/10 text-lg text-hard">!</div>
       <div>
-        <p className="font-medium text-content">Something went wrong</p>
+        <p className="font-medium text-content">
+          {t("Well, that didn't go as planned", 'Ye plan ke hisaab se nahi hua')}
+        </p>
         <p className="mt-1 max-w-md text-sm text-content-muted">{message}</p>
       </div>
       {onRetry && (
         <Button size="sm" onClick={onRetry}>
-          Try again
+          {t('Give it another shot', 'Ek aur try karo')}
         </Button>
       )}
     </div>
