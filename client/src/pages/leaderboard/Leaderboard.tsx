@@ -1,21 +1,37 @@
 /**
- * Leaderboard Page
- * Global and course-specific rankings with user achievements
+ * Leaderboard — global and per-course rankings.
+ *
+ * Rewritten for three real bugs, not just the design system:
+ *  1. Auth: read `localStorage.getItem('token')` — the app's token lives in
+ *     memory only (see services/api.ts), so this was always `Bearer null`
+ *     and every request 401'd. Replaced with the shared `api` client, which
+ *     attaches the real token and refreshes it on expiry.
+ *  2. Shape: the server sent raw UserStats/CourseLeaderboard rows (no
+ *     `user`, no `rank` on the global list) while this page's type expected
+ *     `{ rank, user: { name }, xp, problemsSolved, streak, badges }` — every
+ *     entry.user.id access threw. The server route now returns exactly this
+ *     shape (see server/src/routes/courses.routes.ts); kept the type in sync
+ *     rather than defensively working around a contract that should just be
+ *     correct.
+ *  3. Avatar: `user.avatar` (an image URL) never existed anywhere in this
+ *     app's data — accounts only have `avatarColor`, the same initial-letter
+ *     circle AppLayout's account button already uses.
  */
 
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../styles/leaderboard.css';
+import { Flame, Globe, Medal, Trophy } from 'lucide-react';
+import { api, ApiError } from '../../services/api';
+import { usePreferences } from '../../hooks/usePreferences';
+import { useStaggerIn } from '../../hooks/useStaggerIn';
+import { Button, EmptyState, ErrorState, cx } from '../../components/ui';
+import { Skeleton } from '../../components/ui/Skeleton';
 
 interface LeaderboardEntry {
   rank: number;
-  user: {
-    id: string;
-    name: string;
-    avatar?: string;
-  };
+  user: { id: string; name: string; avatarColor: string };
   xp: number;
-  level: number;
+  level?: number;
   problemsSolved: number;
   streak: number;
   badges: number;
@@ -23,225 +39,172 @@ interface LeaderboardEntry {
 
 type LeaderboardType = 'global' | 'course';
 
+const MEDAL_TONE: Record<number, string> = {
+  1: 'text-medium bg-medium/10 border-medium/25',
+  2: 'text-content-muted bg-surface-sunken border-line',
+  3: 'text-hard bg-hard/10 border-hard/25',
+};
+
+function Avatar({ user }: { user: LeaderboardEntry['user'] }) {
+  return (
+    <span
+      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold text-white"
+      style={{ backgroundColor: user.avatarColor }}
+    >
+      {user.name.charAt(0).toUpperCase()}
+    </span>
+  );
+}
+
 export default function Leaderboard() {
   const { courseSlug } = useParams<{ courseSlug?: string }>();
   const navigate = useNavigate();
+  const { t } = usePreferences();
 
-  const [leaderboardType, setLeaderboardType] = useState<LeaderboardType>(
-    courseSlug ? 'course' : 'global'
-  );
+  const [leaderboardType, setLeaderboardType] = useState<LeaderboardType>(courseSlug ? 'course' : 'global');
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [userRank, setUserRank] = useState<LeaderboardEntry | null>(null);
+  const rootRef = useStaggerIn<HTMLDivElement>([entries, loading]);
 
   useEffect(() => {
-    fetchLeaderboard();
-  }, [leaderboardType, courseSlug]);
-
-  const fetchLeaderboard = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem('token');
-
-      let url = '/api/leaderboard/global?limit=50';
-      if (leaderboardType === 'course' && courseSlug) {
-        url = `/api/courses/${courseSlug}/leaderboard?limit=50`;
+    let cancelled = false;
+    const load = async () => {
+      try {
+        setLoading(true);
+        const path =
+          leaderboardType === 'course' && courseSlug
+            ? `/courses/${courseSlug}/leaderboard?limit=50`
+            : '/leaderboard/global?limit=50';
+        const data = await api.get<LeaderboardEntry[]>(path);
+        if (!cancelled) {
+          setEntries(data);
+          setError(null);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(
+            err instanceof ApiError
+              ? err.message
+              : t('Could not load the leaderboard.', 'Leaderboard load nahi hui.'),
+          );
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-
-      const response = await fetch(url, {
-        headers: { 'Authorization': `Bearer ${token}` },
-      });
-
-      if (!response.ok) throw new Error('Failed to fetch leaderboard');
-
-      const data = await response.json();
-      setEntries(data.entries || data);
-      setUserRank(data.userRank || null);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error loading leaderboard');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const getMedalEmoji = (rank: number) => {
-    switch (rank) {
-      case 1:
-        return '🥇';
-      case 2:
-        return '🥈';
-      case 3:
-        return '🥉';
-      default:
-        return `#${rank}`;
-    }
-  };
-
-  const getXpColor = (xp: number) => {
-    if (xp >= 10000) return '#FF6B6B';
-    if (xp >= 5000) return '#FFB84D';
-    if (xp >= 1000) return '#51CF66';
-    return '#868E96';
-  };
+    };
+    void load();
+    return () => {
+      cancelled = true;
+    };
+  }, [leaderboardType, courseSlug, t]);
 
   return (
-    <div className="leaderboard-page">
-      <div className="leaderboard-header">
-        <h1>🏆 Leaderboard</h1>
-        <p>See who's leading the learning challenge</p>
-
-        <div className="leaderboard-tabs">
-          <button
-            className={`tab ${leaderboardType === 'global' ? 'active' : ''}`}
-            onClick={() => setLeaderboardType('global')}
-          >
-            🌍 Global Rankings
-          </button>
-          {courseSlug && (
-            <button
-              className={`tab ${leaderboardType === 'course' ? 'active' : ''}`}
-              onClick={() => setLeaderboardType('course')}
-            >
-              📚 Course Rankings
-            </button>
-          )}
-          {!courseSlug && (
-            <button
-              className="tab"
-              onClick={() => navigate('/courses')}
-            >
-              📚 Browse Courses
-            </button>
-          )}
-        </div>
+    <div ref={rootRef} className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
+      <div data-in className="mb-6">
+        <h1 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.015em] text-content sm:text-[32px]">
+          {t('Leaderboard', 'Leaderboard')}
+        </h1>
+        <p className="mt-2 text-sm text-content-muted">
+          {t("See who's leading the pack.", 'Dekho kaun aage chal raha hai.')}
+        </p>
       </div>
 
-      {userRank && (
-        <div className="your-rank-card">
-          <div className="rank-badge">
-            <span className="medal">#{userRank.rank}</span>
-          </div>
-          <div className="rank-info">
-            <p className="rank-title">Your Current Rank</p>
-            <h3>{userRank.user.name}</h3>
-            <div className="rank-stats">
-              <span>⭐ {userRank.xp} XP</span>
-              <span>🎯 {userRank.problemsSolved} Problems</span>
-              <span>🏆 {userRank.badges} Badges</span>
-            </div>
-          </div>
-        </div>
-      )}
+      <div data-in className="mb-5 flex gap-1.5">
+        <button
+          onClick={() => setLeaderboardType('global')}
+          className={cx(
+            'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] font-medium transition-colors',
+            leaderboardType === 'global' ? 'bg-brand text-surface' : 'bg-surface-raised text-content-muted hover:text-content',
+          )}
+        >
+          <Globe size={14} /> {t('Global', 'Global')}
+        </button>
+        {courseSlug ? (
+          <button
+            onClick={() => setLeaderboardType('course')}
+            className={cx(
+              'inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[13px] font-medium transition-colors',
+              leaderboardType === 'course' ? 'bg-brand text-surface' : 'bg-surface-raised text-content-muted hover:text-content',
+            )}
+          >
+            {t('This course', 'Ye course')}
+          </button>
+        ) : (
+          <Button size="sm" variant="secondary" onClick={() => navigate('/courses')}>
+            {t('Browse courses', 'Courses dekho')}
+          </Button>
+        )}
+      </div>
 
       {loading ? (
-        <div className="loading">
-          <div className="spinner"></div>
+        <div className="card divide-y divide-line">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="flex items-center gap-3 px-4 py-3">
+              <Skeleton className="h-8 w-8 rounded-full" />
+              <Skeleton className="h-4 flex-1" />
+              <Skeleton className="h-4 w-16" />
+            </div>
+          ))}
         </div>
       ) : error ? (
-        <div className="error-message">
-          <p>❌ {error}</p>
-          <button onClick={fetchLeaderboard} className="retry-btn">
-            Retry
-          </button>
-        </div>
-      ) : (
-        <div className="leaderboard-table">
-          <div className="table-header">
-            <div className="col-rank">Rank</div>
-            <div className="col-user">User</div>
-            <div className="col-level">Level</div>
-            <div className="col-xp">XP</div>
-            <div className="col-problems">Problems</div>
-            <div className="col-streak">Streak</div>
-            <div className="col-badges">Badges</div>
-          </div>
-
-          {entries.length === 0 ? (
-            <div className="no-entries">
-              <p>No entries yet. Start solving to climb the leaderboard!</p>
-            </div>
-          ) : (
-            <div className="table-body">
-              {entries.map((entry) => (
-                <div
-                  key={entry.user.id}
-                  className={`table-row ${entry.rank <= 3 ? `top-${entry.rank}` : ''}`}
-                >
-                  <div className="col-rank">
-                    <span className="medal">{getMedalEmoji(entry.rank)}</span>
-                  </div>
-
-                  <div className="col-user">
-                    <div className="user-info">
-                      <div className="avatar">
-                        {entry.user.avatar ? (
-                          <img src={entry.user.avatar} alt={entry.user.name} />
-                        ) : (
-                          <span>{entry.user.name.charAt(0).toUpperCase()}</span>
-                        )}
-                      </div>
-                      <p className="user-name">{entry.user.name}</p>
-                    </div>
-                  </div>
-
-                  <div className="col-level">
-                    <span className="level-badge">L{entry.level}</span>
-                  </div>
-
-                  <div className="col-xp">
-                    <span
-                      className="xp-badge"
-                      style={{ backgroundColor: getXpColor(entry.xp) }}
-                    >
-                      {entry.xp.toLocaleString()} XP
-                    </span>
-                  </div>
-
-                  <div className="col-problems">
-                    <span className="problems-badge">🎯 {entry.problemsSolved}</span>
-                  </div>
-
-                  <div className="col-streak">
-                    {entry.streak > 0 ? (
-                      <span className="streak-badge">🔥 {entry.streak}</span>
-                    ) : (
-                      <span className="streak-badge empty">-</span>
-                    )}
-                  </div>
-
-                  <div className="col-badges">
-                    <span className="badges-badge">🏅 {entry.badges}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+        <ErrorState message={error} onRetry={() => setLeaderboardType((prev) => prev)} />
+      ) : entries.length === 0 ? (
+        <EmptyState
+          title={t('No entries yet', 'Abhi koi entry nahi')}
+          description={t(
+            'Start solving to be the first name on this board.',
+            'Solve karna shuru karo, is board pe pehla naam tum ho sakte ho.',
           )}
+        />
+      ) : (
+        <div data-in className="card divide-y divide-line">
+          {entries.map((entry) => (
+            <div key={entry.user.id} className="flex items-center gap-3 px-4 py-3">
+              <span
+                className={cx(
+                  'flex h-7 w-7 shrink-0 items-center justify-center rounded-md border font-mono text-[11px] font-semibold',
+                  MEDAL_TONE[entry.rank] ?? 'text-content-subtle bg-surface-sunken border-line',
+                )}
+              >
+                {entry.rank <= 3 ? <Medal size={13} /> : entry.rank}
+              </span>
+
+              <Avatar user={entry.user} />
+
+              <span className="min-w-0 flex-1 truncate text-[13.5px] font-medium text-content">
+                {entry.user.name}
+              </span>
+
+              {entry.level !== undefined && (
+                <span className="hidden shrink-0 rounded-md bg-surface-sunken px-1.5 py-0.5 font-mono text-[11px] text-content-subtle sm:inline-block">
+                  L{entry.level}
+                </span>
+              )}
+
+              <span className="shrink-0 font-mono text-[12px] tabular-nums text-content-subtle">
+                {entry.problemsSolved} {t('solved', 'solved')}
+              </span>
+
+              {entry.streak > 0 && (
+                <span className="hidden shrink-0 items-center gap-1 font-mono text-[12px] tabular-nums text-medium sm:flex">
+                  <Flame size={12} /> {entry.streak}
+                </span>
+              )}
+
+              {entry.badges > 0 && (
+                <span className="hidden shrink-0 items-center gap-1 font-mono text-[12px] tabular-nums text-content-subtle sm:flex">
+                  <Trophy size={12} /> {entry.badges}
+                </span>
+              )}
+
+              <span className="shrink-0 font-mono text-[13px] font-semibold tabular-nums text-content">
+                {entry.xp.toLocaleString()} XP
+              </span>
+            </div>
+          ))}
         </div>
       )}
-
-      <div className="leaderboard-info">
-        <h3>📊 How Ranking Works</h3>
-        <div className="info-grid">
-          <div className="info-card">
-            <h4>XP Points</h4>
-            <p>Primary ranking metric. Earn XP by solving problems and completing courses.</p>
-          </div>
-          <div className="info-card">
-            <h4>Level</h4>
-            <p>Increases automatically as you earn XP. Each level requires 1000 XP.</p>
-          </div>
-          <div className="info-card">
-            <h4>Problems Solved</h4>
-            <p>Shows your problem-solving activity. More problems = more experience.</p>
-          </div>
-          <div className="info-card">
-            <h4>Streak</h4>
-            <p>Consecutive days of solving problems. Maintain your streak for bonus rewards.</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

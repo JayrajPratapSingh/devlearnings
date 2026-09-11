@@ -1,14 +1,23 @@
 /**
- * Progress Dashboard
- * Shows user's overall statistics, badges, and course progress
+ * Progress Dashboard ("My Progress") — level, XP, and earned badges.
+ *
+ * Real bug fixed here, not just a redesign: this page read
+ * `localStorage.getItem('token')` for auth, but the app's access token
+ * lives in memory only (see services/api.ts) — nothing ever writes to that
+ * localStorage key, so every request went out as `Bearer null` and 401'd,
+ * surfacing as "Failed to fetch data". Switched to the shared `api` client.
  */
 
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../styles/dashboard.css';
+import { BookOpen, Clock, Flame, Target, Trophy } from 'lucide-react';
+import { api, ApiError } from '../../services/api';
+import { usePreferences } from '../../hooks/usePreferences';
+import { useStaggerIn } from '../../hooks/useStaggerIn';
+import { Button, EmptyState, ErrorState, ProgressBar, SectionHeading } from '../../components/ui';
+import { Skeleton } from '../../components/ui/Skeleton';
 
 interface UserStats {
-  id: string;
   totalXp: number;
   level: number;
   nextLevelXp: number;
@@ -20,218 +29,159 @@ interface UserStats {
 
 interface Badge {
   id: string;
-  badge: {
-    slug: string;
-    name: string;
-    description: string;
-    icon: string;
-    xpReward: number;
-  };
+  badge: { slug: string; name: string; description: string; icon: string; xpReward: number };
   earnedAt: string;
 }
 
 export default function ProgressDashboard() {
   const navigate = useNavigate();
+  const { t } = usePreferences();
   const [stats, setStats] = useState<UserStats | null>(null);
   const [badges, setBadges] = useState<Badge[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const rootRef = useStaggerIn<HTMLDivElement>([stats]);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem('token');
-
-      const [statsRes, badgesRes] = await Promise.all([
-        fetch('/api/user/stats', {
-          headers: { 'Authorization': `Bearer ${token}` },
-        }),
-        fetch('/api/user/badges', {
-          headers: { 'Authorization': `Bearer ${token}` },
-        }),
-      ]);
-
-      if (!statsRes.ok || !badgesRes.ok) throw new Error('Failed to fetch data');
-
       const [statsData, badgesData] = await Promise.all([
-        statsRes.json(),
-        badgesRes.json(),
+        api.get<UserStats>('/user/stats'),
+        api.get<Badge[]>('/user/badges'),
       ]);
-
       setStats(statsData);
       setBadges(badgesData);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error loading dashboard');
+      setError(
+        err instanceof ApiError
+          ? err.message
+          : t('Could not load your progress.', 'Progress load nahi hua.'),
+      );
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    void fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   if (loading) {
     return (
-      <div className="dashboard loading">
-        <div className="spinner"></div>
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
+        <Skeleton className="h-7 w-56" />
+        <div className="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Skeleton key={i} className="h-20 w-full" />
+          ))}
+        </div>
       </div>
     );
   }
 
   if (error || !stats) {
     return (
-      <div className="dashboard error">
-        <h2>Error</h2>
-        <p>{error || 'Failed to load dashboard'}</p>
-        <button onClick={fetchData}>Retry</button>
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
+        <ErrorState message={error ?? t('No progress yet', 'Abhi koi progress nahi')} onRetry={fetchData} />
       </div>
     );
   }
 
   const levelProgress = stats.totalXp % 1000;
-  const levelProgressPercent = (levelProgress / 1000) * 100;
-  const nextLevelXp = stats.nextLevelXp - stats.totalXp;
+  const levelProgressPercent = Math.min(100, Math.round((levelProgress / 1000) * 100));
+  const xpToNextLevel = Math.max(0, stats.nextLevelXp - stats.totalXp);
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-header">
-        <h1>📊 Your Learning Dashboard</h1>
-        <p>Track your progress and celebrate your achievements</p>
+    <div ref={rootRef} className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
+      <div data-in className="mb-6">
+        <h1 className="font-display text-[28px] font-semibold leading-[1.15] tracking-[-0.015em] text-content sm:text-[32px]">
+          {t('My progress', 'Mera progress')}
+        </h1>
+        <p className="mt-2 text-sm text-content-muted">
+          {t('Level, XP, and every badge you have earned so far.', 'Level, XP, aur ab tak ke saare earned badges.')}
+        </p>
       </div>
 
-      <div className="stats-grid">
-        {/* Level Card */}
-        <div className="stat-card level-card">
-          <div className="level-display">
-            <span className="level-number">Level {stats.level}</span>
-          </div>
-          <div className="level-progress">
-            <div className="progress-bar">
-              <div
-                className="progress-fill"
-                style={{ width: `${levelProgressPercent}%` }}
-              ></div>
-            </div>
-            <p className="progress-text">
-              {stats.totalXp} XP • {nextLevelXp} XP to level {stats.level + 1}
-            </p>
-          </div>
+      {/* Level — the headline card, same weight as the Dashboard hero */}
+      <div data-in className="card mb-6 p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <span className="font-display text-[22px] font-semibold text-content">
+            {t('Level', 'Level')} {stats.level}
+          </span>
+          <span className="font-mono text-[13px] text-content-muted">
+            {stats.totalXp.toLocaleString()} XP · {xpToNextLevel.toLocaleString()} {t('to next level', 'agle level tak')}
+          </span>
         </div>
-
-        {/* XP Card */}
-        <div className="stat-card">
-          <div className="stat-icon">⭐</div>
-          <div className="stat-content">
-            <p className="stat-label">Total XP</p>
-            <p className="stat-value">{stats.totalXp.toLocaleString()}</p>
-          </div>
-        </div>
-
-        {/* Problems Solved */}
-        <div className="stat-card">
-          <div className="stat-icon">🎯</div>
-          <div className="stat-content">
-            <p className="stat-label">Problems Solved</p>
-            <p className="stat-value">{stats.totalProblems}</p>
-          </div>
-        </div>
-
-        {/* Courses */}
-        <div className="stat-card">
-          <div className="stat-icon">📚</div>
-          <div className="stat-content">
-            <p className="stat-label">Courses Started</p>
-            <p className="stat-value">{stats.totalCourses}</p>
-          </div>
-        </div>
-
-        {/* Streak */}
-        <div className="stat-card">
-          <div className="stat-icon">🔥</div>
-          <div className="stat-content">
-            <p className="stat-label">Longest Streak</p>
-            <p className="stat-value">{stats.longestCodeStreak} days</p>
-          </div>
-        </div>
-
-        {/* Time */}
-        <div className="stat-card">
-          <div className="stat-icon">⏱️</div>
-          <div className="stat-content">
-            <p className="stat-label">Total Time</p>
-            <p className="stat-value">{Math.floor(stats.totalTimeMin / 60)}h {stats.totalTimeMin % 60}m</p>
-          </div>
+        <div className="mt-3">
+          <ProgressBar percent={levelProgressPercent} />
         </div>
       </div>
 
-      <div className="dashboard-sections">
-        {/* Badges Section */}
-        <section className="badges-section">
-          <h2>🏆 Earned Badges ({badges.length})</h2>
-          {badges.length === 0 ? (
-            <p className="empty-state">
-              Start solving problems to earn badges!
-            </p>
-          ) : (
-            <div className="badges-grid">
-              {badges.map(badge => (
-                <div key={badge.id} className="badge-item">
-                  <div className="badge-icon">{badge.badge.icon}</div>
-                  <div className="badge-info">
-                    <h4>{badge.badge.name}</h4>
-                    <p className="badge-desc">{badge.badge.description}</p>
-                    <p className="badge-xp">+{badge.badge.xpReward} XP</p>
-                    <p className="earned-date">
-                      Earned {new Date(badge.earnedAt).toLocaleDateString()}
-                    </p>
+      {/* Headline numbers */}
+      <div data-in className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <div className="card p-4">
+          <Target size={16} className="text-brand" />
+          <p className="mt-2 font-mono text-xl font-semibold tabular-nums text-content">{stats.totalProblems}</p>
+          <p className="text-[11px] text-content-subtle">{t('Problems solved', 'Problems solve hue')}</p>
+        </div>
+        <div className="card p-4">
+          <BookOpen size={16} className="text-brand" />
+          <p className="mt-2 font-mono text-xl font-semibold tabular-nums text-content">{stats.totalCourses}</p>
+          <p className="text-[11px] text-content-subtle">{t('Courses started', 'Courses shuru hue')}</p>
+        </div>
+        <div className="card p-4">
+          <Flame size={16} className="text-medium" />
+          <p className="mt-2 font-mono text-xl font-semibold tabular-nums text-content">{stats.longestCodeStreak}</p>
+          <p className="text-[11px] text-content-subtle">{t('Longest streak (days)', 'Sabse lambi streak (din)')}</p>
+        </div>
+        <div className="card p-4">
+          <Clock size={16} className="text-brand" />
+          <p className="mt-2 font-mono text-xl font-semibold tabular-nums text-content">
+            {Math.floor(stats.totalTimeMin / 60)}h {stats.totalTimeMin % 60}m
+          </p>
+          <p className="text-[11px] text-content-subtle">{t('Time spent', 'Bitaya gaya time')}</p>
+        </div>
+      </div>
+
+      {/* Badges */}
+      <section data-in>
+        <SectionHeading title={`${t('Earned badges', 'Earned badges')} (${badges.length})`} />
+        {badges.length === 0 ? (
+          <EmptyState
+            title={t('No badges yet', 'Abhi koi badge nahi')}
+            description={t('Solve a few problems and the first one shows up here.', 'Kuch problems solve karo, pehla badge yahin dikhega.')}
+          />
+        ) : (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {badges.map((b) => (
+              <div key={b.id} className="card flex items-start gap-3 p-4">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-medium/10 text-lg text-medium">
+                  <Trophy size={18} />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[13.5px] font-semibold text-content">{b.badge.name}</p>
+                  <p className="mt-0.5 text-[12px] leading-4 text-content-muted">{b.badge.description}</p>
+                  <div className="mt-1.5 flex items-center gap-2 font-mono text-[11px] text-content-subtle">
+                    <span>+{b.badge.xpReward} XP</span>
+                    <span>·</span>
+                    <span>{new Date(b.earnedAt).toLocaleDateString()}</span>
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Quick Actions */}
-        <section className="actions-section">
-          <h2>🚀 Quick Actions</h2>
-          <div className="actions-grid">
-            <button
-              className="action-btn"
-              onClick={() => navigate('/courses')}
-            >
-              <span className="action-icon">📚</span>
-              <div>
-                <p className="action-title">Browse Courses</p>
-                <p className="action-desc">Start a new learning path</p>
               </div>
-              <span className="arrow">→</span>
-            </button>
-            <button
-              className="action-btn"
-              onClick={() => navigate('/leaderboard')}
-            >
-              <span className="action-icon">🏆</span>
-              <div>
-                <p className="action-title">Leaderboard</p>
-                <p className="action-desc">See global rankings</p>
-              </div>
-              <span className="arrow">→</span>
-            </button>
-            <button
-              className="action-btn"
-              onClick={() => navigate('/achievements')}
-            >
-              <span className="action-icon">⭐</span>
-              <div>
-                <p className="action-title">Achievements</p>
-                <p className="action-desc">View all achievements</p>
-              </div>
-              <span className="arrow">→</span>
-            </button>
+            ))}
           </div>
-        </section>
+        )}
+      </section>
+
+      <div data-in className="mt-6 flex flex-wrap gap-2">
+        <Button variant="secondary" onClick={() => navigate('/courses')}>
+          {t('Browse courses', 'Courses dekho')}
+        </Button>
+        <Button variant="secondary" onClick={() => navigate('/leaderboard')}>
+          {t('View leaderboard', 'Leaderboard dekho')}
+        </Button>
       </div>
     </div>
   );

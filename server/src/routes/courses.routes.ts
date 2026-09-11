@@ -521,6 +521,41 @@ router.get(
 // ============================================================================
 
 /**
+ * Both leaderboard rows carry only a `userId` — Prisma has no declared
+ * relation from CourseLeaderboard/UserStats to User (userId is a plain
+ * string column, not a `@relation`), so the name/avatar for the rows this
+ * page just fetched has to come from a second, explicit query rather than
+ * an `include`. Small (`limit` rows), and it's what fixes the frontend's
+ * `entry.user.name` from crashing on an undefined `user`.
+ */
+async function attachUsers<T extends { userId: string }>(
+  rows: T[],
+): Promise<(T & { user: { id: string; name: string; avatarColor: string } })[]> {
+  const users = await prisma.user.findMany({
+    where: { id: { in: rows.map((r) => r.userId) } },
+    select: { id: true, name: true, avatarColor: true },
+  });
+  const byId = new Map(users.map((u) => [u.id, u]));
+  return rows.map((row) => ({
+    ...row,
+    user: byId.get(row.userId) ?? { id: row.userId, name: 'Someone', avatarColor: '#6366f1' },
+  }));
+}
+
+/** Badge count per user, for the rows currently on the page — same reasoning as attachUsers. */
+async function attachBadgeCounts<T extends { userId: string }>(
+  rows: T[],
+): Promise<(T & { badges: number })[]> {
+  const counts = await prisma.userBadge.groupBy({
+    by: ['userId'],
+    where: { userId: { in: rows.map((r) => r.userId) } },
+    _count: { _all: true },
+  });
+  const byId = new Map(counts.map((c) => [c.userId, c._count._all]));
+  return rows.map((row) => ({ ...row, badges: byId.get(row.userId) ?? 0 }));
+}
+
+/**
  * GET /api/courses/:courseSlug/leaderboard
  * Get course leaderboard
  */
@@ -538,14 +573,30 @@ router.get(
       throw NotFound('Course');
     }
 
-    const leaderboard = await prisma.courseLeaderboard.findMany({
+    const rows = await prisma.courseLeaderboard.findMany({
       where: { courseId: course.id },
       orderBy: { rank: 'asc' },
       take: parseInt(limit as string),
       skip: parseInt(offset as string),
     });
 
-    res.json(leaderboard);
+    const withUsers = await attachUsers(rows);
+    const withBadges = await attachBadgeCounts(withUsers);
+
+    // This model doesn't track a per-course streak — 0 is an honest "not
+    // tracked here", not a fabricated value; the global leaderboard is where
+    // a real streak (from UserStats) applies.
+    res.json(
+      withBadges.map((row) => ({
+        rank: row.rank,
+        user: row.user,
+        xp: row.xpEarned,
+        level: undefined,
+        problemsSolved: row.problemsSolved,
+        streak: 0,
+        badges: row.badges,
+      })),
+    );
   })
 );
 
@@ -557,22 +608,35 @@ router.get(
   '/leaderboard/global',
   asyncHandler(async (req: Request, res: Response) => {
     const { limit = '10', offset = '0' } = req.query;
+    const skip = parseInt(offset as string);
 
-    const leaderboard = await prisma.userStats.findMany({
+    const rows = await prisma.userStats.findMany({
       orderBy: { totalXp: 'desc' },
       take: parseInt(limit as string),
-      skip: parseInt(offset as string),
+      skip,
       select: {
-        id: true,
         userId: true,
         totalXp: true,
         level: true,
         totalProblems: true,
-        totalCourses: true,
+        longestCodeStreak: true,
       },
     });
 
-    res.json(leaderboard);
+    const withUsers = await attachUsers(rows);
+    const withBadges = await attachBadgeCounts(withUsers);
+
+    res.json(
+      withBadges.map((row, i) => ({
+        rank: skip + i + 1,
+        user: row.user,
+        xp: row.totalXp,
+        level: row.level,
+        problemsSolved: row.totalProblems,
+        streak: row.longestCodeStreak,
+        badges: row.badges,
+      })),
+    );
   })
 );
 
