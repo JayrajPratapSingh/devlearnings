@@ -114,7 +114,7 @@ offline.
 - [x] M7 File Uploads & Media — 3/3 lessons, commit `b8f79a8`
 - [x] M8 Authentication — 3/3 lessons, commit `f60d011`
 - [x] M9 Database Integration at Production Scale — 3/3 lessons, commit `be3615d`
-- [ ] M10 Payments with Stripe
+- [x] M10 Payments with Stripe — 3/3 lessons, commit `559e606`
 - [ ] M11 WebSockets & Real-time
 - [ ] M12 Security Fundamentals
 - [ ] M13 API & Auth Security Hardening
