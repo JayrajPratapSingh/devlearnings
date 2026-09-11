@@ -382,6 +382,7 @@ import { NEXTJS_MODULE_7 } from './seed-data/course-nextjs-module7';
 import { NEXTJS_MODULE_8 } from './seed-data/course-nextjs-module8';
 import { NEXTJS_MODULE_9 } from './seed-data/course-nextjs-module9';
 import { NEXTJS_MODULE_10 } from './seed-data/course-nextjs-module10';
+import { NEXTJS_MODULE_11 } from './seed-data/course-nextjs-module11';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -4468,6 +4469,10 @@ async function seedNextJsCourse(): Promise<{ modules: number; topics: number }> 
     ...NEXTJS_MODULE_10.map((lesson) => ({
       ...lesson,
       moduleIndex: 9,
+    })),
+    ...NEXTJS_MODULE_11.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 10,
     })),
   ];
 
