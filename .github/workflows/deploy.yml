@@ -21,7 +21,17 @@ jobs:
       packages: write
     strategy:
       matrix:
-        service: [server, client]
+        include:
+          - service: server
+            context: ./server
+          - service: client
+            context: ./client
+          - service: execution-service
+            context: ./execution-service
+          - service: runner-node
+            context: ./execution-service/runners/node
+          - service: runner-python
+            context: ./execution-service/runners/python
     steps:
       - uses: actions/checkout@v4
 
@@ -39,7 +49,7 @@ jobs:
 
       - uses: docker/build-push-action@v6
         with:
-          context: ./${{ matrix.service }}
+          context: ${{ matrix.context }}
           push: true
           tags: |
             ${{ env.REGISTRY }}/${{ steps.owner.outputs.value }}/devprep-${{ matrix.service }}:latest
@@ -73,6 +83,11 @@ jobs:
             SHA="${{ github.sha }}"
             export SERVER_IMAGE="ghcr.io/$OWNER/devprep-server:$SHA"
             export CLIENT_IMAGE="ghcr.io/$OWNER/devprep-client:$SHA"
+            export EXECUTION_IMAGE="ghcr.io/$OWNER/devprep-execution-service:$SHA"
+            export NODE_IMAGE="ghcr.io/$OWNER/devprep-runner-node:$SHA"
+            export PYTHON_IMAGE="ghcr.io/$OWNER/devprep-runner-python:$SHA"
+            docker pull "$NODE_IMAGE"
+            docker pull "$PYTHON_IMAGE"
             docker compose --env-file .env.production -f docker-compose.prod.yml pull
             docker compose --env-file .env.production -f docker-compose.prod.yml up -d --remove-orphans
             docker image prune -f

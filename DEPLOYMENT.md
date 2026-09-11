@@ -4,7 +4,7 @@ DevPrep IDE, deployed as Docker containers on a single AWS EC2 instance, with
 **push-to-`production` auto-deploy** via GitHub Actions.
 
 ```
-                          ┌─────────────────── EC2 (t3.micro, Docker) ───────────────────┐
+                          ┌─────────────────── EC2 (t3.small, Docker) ───────────────────┐
   git push production           │                                                              │
       │                   │   caddy  ──/api/*──▶  server (Express)  ──▶  postgres        │
       ▼                   │     │                    ▲                     (volume)       │
@@ -15,9 +15,8 @@ DevPrep IDE, deployed as Docker containers on a single AWS EC2 instance, with
                           └──────────────────────────────────────────────────────────────┘
 ```
 
-The in-browser **code-execution sandbox is not deployed yet** — it needs the
-Docker socket and is added later (see the last section). Everything else — all
-courses, DSA problems, question bank, progress, mock interviews — works.
+The in-browser **code-execution sandbox** (`execution-service`) runs too — see
+section 9 for what it needs on the box.
 
 ---
 
@@ -290,22 +289,28 @@ No cert renewal to manage — Caddy handles it.
 
 ---
 
-## 9. Adding the code-execution sandbox (later)
+## 9. The code-execution sandbox
 
-The `execution-service` runs untrusted code by starting **sibling Docker
-containers** via the host's Docker socket. To add it:
+`execution-service` runs untrusted code by starting **sibling Docker
+containers** via the host's Docker socket — `deploy.yml` builds it (plus the
+`runner-node` / `runner-python` runtime images) and pushes all three to GHCR
+alongside `server`/`client`; the deploy step `docker pull`s the two runner
+images explicitly (they aren't compose services, just images `docker run`
+reaches for) before `compose pull && up -d`.
 
-1. Build its runner images on the box:
-   `cd /opt/devprep && npm --workspace @devprep/execution-service run images:build`
-   (or add a compose service that does it)
-2. Add an `execution-service` block to `docker-compose.prod.yml` that mounts
-   `/var/run/docker.sock` and set `SANDBOX_DRIVER=docker`
-3. Set `EXECUTION_SERVICE_TOKEN` (same value) for both `server` and
-   `execution-service` in `.env.production`
-4. `t3.micro` (1 GB) is tight for this — consider bumping to `t3.small` (2 GB,
-   ~$17/mo) before enabling it, or cap `MAX_CONCURRENT_EXECUTIONS=1`
+Needs, on the box:
+1. **`EXECUTION_SERVICE_TOKEN`** set in `.env.production` (any random string —
+   shared between `server` and `execution-service` automatically via
+   `docker-compose.prod.yml`)
+2. **At least 2 GB RAM** — `t3.micro` (1 GB) is too tight once sibling
+   containers are spawning; run this on `t3.small` (2 GB, ~$17/mo total) or
+   bigger. `MAX_CONCURRENT_EXECUTIONS` and `MEMORY_LIMIT_MB` in
+   `.env.production` are tuned down (`2` / `200`) for a small box — raise them
+   if you size up further.
 
-This is deliberately deferred so you can get everything else live now.
+`GET /code/health` on the server reports the sandbox's status; `docker compose
+logs execution-service` if code runs fail with "Code execution service is not
+running."
 
 ---
 

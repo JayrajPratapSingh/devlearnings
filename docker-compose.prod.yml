@@ -63,15 +63,40 @@ services:
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
       ACCESS_TOKEN_TTL: ${ACCESS_TOKEN_TTL:-15m}
       REFRESH_TOKEN_TTL_DAYS: ${REFRESH_TOKEN_TTL_DAYS:-30}
-      # Code execution is added later; until then the API just can't reach it.
-      EXECUTION_SERVICE_URL: ${EXECUTION_SERVICE_URL:-http://execution-service:4001}
-      EXECUTION_SERVICE_TOKEN: ${EXECUTION_SERVICE_TOKEN:-unused-for-now}
+      EXECUTION_SERVICE_URL: http://execution-service:4001
+      EXECUTION_SERVICE_TOKEN: ${EXECUTION_SERVICE_TOKEN}
       SMS_PROVIDER: ${SMS_PROVIDER:-console}
     depends_on:
       postgres:
         condition: service_healthy
       migrate:
         condition: service_completed_successfully
+
+  # --------------------------------------------------------------------------- #
+  # Runs submitted code in throwaway sibling containers via the host Docker
+  # daemon — see execution-service/src/sandbox/docker.sandbox.ts for the full
+  # isolation model (no network, read-only rootfs, dropped capabilities, etc.).
+  # Never exposed to the internet: only `server` talks to it, over the private
+  # compose network. Needs the two runner images pulled/tagged before this
+  # starts — see deploy.yml / DEPLOYMENT.md.
+  execution-service:
+    image: ${EXECUTION_IMAGE:-devprep-execution-service:latest}
+    build:
+      context: ./execution-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      EXECUTION_PORT: 4001
+      SANDBOX_DRIVER: docker
+      EXECUTION_SERVICE_TOKEN: ${EXECUTION_SERVICE_TOKEN}
+      MAX_CONCURRENT_EXECUTIONS: ${MAX_CONCURRENT_EXECUTIONS:-2}
+      MEMORY_LIMIT_MB: ${MEMORY_LIMIT_MB:-200}
+      CPU_LIMIT: ${CPU_LIMIT:-0.5}
+      EXECUTION_TIMEOUT_MS: ${EXECUTION_TIMEOUT_MS:-5000}
+      NODE_IMAGE: ${NODE_IMAGE:-devprep-runner-node:1}
+      PYTHON_IMAGE: ${PYTHON_IMAGE:-devprep-runner-python:1}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
   # --------------------------------------------------------------------------- #
   client:
