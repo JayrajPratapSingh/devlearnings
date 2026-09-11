@@ -118,7 +118,7 @@ offline.
 - [x] M11 WebSockets & Real-time — 3/3 lessons, commit `c418750`
 - [x] M12 Security Fundamentals — 3/3 lessons, commit `de3f103`
 - [x] M13 API & Auth Security Hardening — 3/3 lessons, commit `f7b1e99`
-- [ ] M14 Server Actions & Data Security
+- [x] M14 Server Actions & Data Security — 3/3 lessons, commit `7652629`
 - [ ] M15 Performance Optimization
 - [ ] M16 Caching & Scaling Large Data
 - [ ] M17 Edge, Middleware & Multi-tenancy
