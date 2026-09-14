@@ -103,7 +103,7 @@ Stripe/Pusher modules.
 - [x] M1 What Generative AI Actually Is — 3/3 lessons, commit `f7d9ce3`
 - [x] M2 Talking to a Model via API — 3/3 lessons, commit `ffd7edd`
 - [x] M3 Prompt Engineering Fundamentals — 3/3 lessons, commit `b434a06`
-- [ ] M4 Streaming AI UI in a Web App
+- [x] M4 Streaming AI UI in a Web App — 3/3 lessons, commit (pending)
 - [ ] M5 Tool Calling & Function Calling
 - [ ] M6 Structured Outputs at Scale
 - [ ] M7 RAG Part 1
