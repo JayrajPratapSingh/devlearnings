@@ -138,7 +138,7 @@ modules.
 - [x] M14 Designing for Stress & High-Stakes Contexts — 3/3 lessons, commit `5f62f43`
 
 **Part V (Accessibility & Inclusive Cognition) COMPLETE: M13-M14, 6/6 lessons.**
-- [ ] M15 Psychological Safety & High-Performing Teams
+- [x] M15 Psychological Safety & High-Performing Teams — 3/3 lessons, commit `68ea91f`
 - [ ] M16 Cognitive Biases in Code Review & Estimation
 - [ ] M17 Burnout, Flow State & Sustainable Engineering
 - [ ] M18 A/B Testing & Behavioral Data
