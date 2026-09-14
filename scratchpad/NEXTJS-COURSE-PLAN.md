@@ -142,7 +142,7 @@ Jay asked to fill all of them. Added as three more modules, same pattern
 - [x] M22 Background Jobs, Email & Internationalization — 3/3 lessons,
   commit `d482b47`, deployed
 - [x] M23 Partial Prerendering, Turbopack & Standalone Builds — 3/3 lessons,
-  commit (this commit)
+  commit `66aab40`
 
 **GAP-FILL COMPLETE: 3/3 modules, 9/9 lessons seeded, wired, and deployed.**
 **Next.js course now COMPLETE: 23/23 modules, 72/72 lessons.**
