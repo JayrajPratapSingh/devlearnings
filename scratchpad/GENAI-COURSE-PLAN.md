@@ -111,7 +111,7 @@ Stripe/Pusher modules.
 - [x] M9 Agents — 3/3 lessons, commit `77c4ab4`
 - [x] M10 Cost, Latency & Model Selection — 3/3 lessons, commit `9473096`
 - [x] M11 Reliability, Retries & Guardrails — 3/3 lessons, commit `035d675`
-- [x] M12 Security for AI Features — 3/3 lessons, commit (pending)
+- [x] M12 Security for AI Features — 3/3 lessons, commit `ce47536`
 - [ ] M13 Rate Limiting & Abuse Prevention for AI Endpoints
 - [ ] M14 Evaluation & Testing Non-Deterministic Systems
 - [ ] M15 Multi-modal AI
