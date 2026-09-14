@@ -131,7 +131,9 @@ modules.
 **Part III (Motivation & Behavior Design) COMPLETE: M7-M9, 9/9 lessons.**
 - [x] M10 Cognitive Load in Interface Design — 3/3 lessons, commit `fde9280`
 - [x] M11 Error Psychology — 3/3 lessons, commit `6ea7fb6`
-- [ ] M12 Trust & First Impressions
+- [x] M12 Trust & First Impressions — 3/3 lessons, commit `df3b4b2`
+
+**Part IV (UX Psychology in Practice) COMPLETE: M10-M12, 9/9 lessons.**
 - [ ] M13 Cognitive Accessibility
 - [ ] M14 Designing for Stress & High-Stakes Contexts
 - [ ] M15 Psychological Safety & High-Performing Teams
