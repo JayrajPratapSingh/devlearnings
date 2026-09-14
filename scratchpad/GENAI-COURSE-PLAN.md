@@ -113,7 +113,9 @@ Stripe/Pusher modules.
 - [x] M11 Reliability, Retries & Guardrails — 3/3 lessons, commit `035d675`
 - [x] M12 Security for AI Features — 3/3 lessons, commit `ce47536`
 - [x] M13 Rate Limiting & Abuse Prevention for AI Endpoints — 3/3 lessons, commit `888060b`
-- [x] M14 Evaluation & Testing Non-Deterministic Systems — 3/3 lessons, commit (pending)
+- [x] M14 Evaluation & Testing Non-Deterministic Systems — 3/3 lessons, commit `2eb89db`
+
+**Part III (Production Concerns) COMPLETE: M10-M14, 15/15 lessons.**
 - [ ] M15 Multi-modal AI
 - [ ] M16 Fine-tuning vs Prompting vs RAG
 - [ ] M17 Open-Source & Local Models
