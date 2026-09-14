@@ -409,6 +409,7 @@ import { GENAI_MODULE_11 } from './seed-data/course-genai-module11';
 import { GENAI_MODULE_12 } from './seed-data/course-genai-module12';
 import { GENAI_MODULE_13 } from './seed-data/course-genai-module13';
 import { GENAI_MODULE_14 } from './seed-data/course-genai-module14';
+import { PSYCH_MODULE_1 } from './seed-data/course-psychology-module1';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -4978,6 +4979,302 @@ async function seedGenAiCourse(): Promise<{ modules: number; topics: number }> {
   return { modules: createdModules.length, topics: createdTopics.length };
 }
 
+async function seedPsychologyCourse(): Promise<{ modules: number; topics: number }> {
+  const courseData = {
+    slug: 'psychology-for-developers',
+    name: 'Psychology for Developers',
+    nameHi: 'Psychology for Developers - Noob Se Pro Tak',
+    description:
+      'The psychology that actually determines whether a well-built feature gets adopted, a form gets abandoned, a team ships reliably, or a design choice is persuasive versus manipulative — noob to pro, tied directly to concrete engineering and product decisions rather than abstract psychology theory. Covers cognitive foundations (working memory, attention, cognitive load theory, perception, memory systems), the heuristics and cognitive biases that shape both user behavior and developer/team decisions, motivation and behavior design (including the explicit line between ethical engagement and dark patterns), UX psychology in practice (cognitive load in interface design, error psychology, trust and first impressions), cognitive accessibility and designing for stress, the psychology of engineering teams (psychological safety, biases in code review and estimation, burnout and flow state), and applying all of it rigorously via A/B testing and a genuine ethics framework. Every runnable pattern (debounce/throttle, accessible component patterns, A/B-test statistics) ships in both JavaScript and TypeScript; purely conceptual findings are precise, clearly-sourced prose.',
+    descriptionHi:
+      'Wo psychology jo actually determine karti hai ki ek well-built feature adopt hota hai ya nahi, ek form abandon hota hai ya nahi, ek team reliably ship karti hai ya nahi, ya ek design choice persuasive hai versus manipulative — noob to pro, directly concrete engineering aur product decisions se tied abstract psychology theory ke bajaye. Cognitive foundations cover karta hai (working memory, attention, cognitive load theory, perception, memory systems), heuristics aur cognitive biases jo dono user behavior aur developer/team decisions ko shape karte hain, motivation aur behavior design (ethical engagement aur dark patterns ke beech explicit line samet), practically UX psychology (interface design mein cognitive load, error psychology, trust aur first impressions), cognitive accessibility aur stress ke liye design karna, engineering teams ki psychology (psychological safety, code review aur estimation mein biases, burnout aur flow state), aur A/B testing aur ek genuine ethics framework ke through in sab ko rigorously apply karna. Har runnable pattern (debounce/throttle, accessible component patterns, A/B-test statistics) JavaScript aur TypeScript dono mein aata hai; purely conceptual findings precise, clearly-sourced prose hain.',
+    icon: '🧠',
+    color: '#14B8A6',
+    level: 'beginner' as const,
+    totalXpReward: 8000,
+    estimatedHours: 160,
+    maxDifficulty: 'HARD' as const,
+    order: 15,
+    isPublished: true,
+  };
+
+  const course = await prisma.course.upsert({
+    where: { slug: courseData.slug },
+    create: courseData,
+    update: courseData,
+  });
+
+  const modules = [
+    {
+      slug: 'psych-module-1-how-the-mind-processes-information',
+      name: 'Module 1: How the Mind Actually Processes Information',
+      nameHi: 'Module 1: Mind Actually Information Kaise Process Karta Hai',
+      description:
+        "Working memory limits (Miller's 7±2, the modern ~4-item revision) and why they're a hard, physical constraint on any interface or API a person has to hold in their head; attention as a genuinely limited resource that can be spent or wasted; cognitive load theory (intrinsic, extraneous, germane load) as the single most load-bearing concept for UI and API design, since it explains precisely which kind of complexity is worth adding and which is pure waste.",
+      descriptionHi:
+        "Working memory limits (Miller ka 7±2, modern ~4-item revision) aur ye kyun ek hard, physical constraint hain kisi bhi interface ya API pe jise ek insaan ko apne head mein hold karna padta hai; attention ek genuinely limited resource ki tarah jise spend ya waste kiya ja sakta hai; cognitive load theory (intrinsic, extraneous, germane load) UI aur API design ke liye single sabse load-bearing concept ki tarah, kyunki ye precisely explain karta hai ki kis kism ki complexity add karne layak hai aur kaunsi pure waste hai.",
+      order: 1,
+    },
+    {
+      slug: 'psych-module-2-perception-and-visual-processing',
+      name: 'Module 2: Perception & Visual Processing',
+      nameHi: 'Module 2: Perception Aur Visual Processing',
+      description:
+        'Gestalt principles (proximity, similarity, closure, continuity) as the actual mechanism behind "this interface feels organized" rather than a vague design instinct; how eyes genuinely scan a screen (F-pattern and Z-pattern findings from real eye-tracking studies); color perception and why it is inseparable from accessibility, not a separate concern layered on top of it.',
+      descriptionHi:
+        'Gestalt principles (proximity, similarity, closure, continuity) "ye interface organized feel karta hai" ke peeche actual mechanism ki tarah ek vague design instinct ke bajaye; eyes ek screen ko genuinely kaise scan karti hain (real eye-tracking studies se F-pattern aur Z-pattern findings); color perception aur ye accessibility se kyun inseparable hai, ek separate concern nahi jo uske upar layered hai.',
+      order: 2,
+    },
+    {
+      slug: 'psych-module-3-memory-systems-and-learning',
+      name: 'Module 3: Memory Systems & Learning',
+      nameHi: 'Module 3: Memory Systems Aur Learning',
+      description:
+        'Short-term versus long-term memory and why they are architecturally different systems; why recognition (menus, icons) is genuinely easier for the brain than recall (command lines, memorized syntax), and what that means for interface design; the forgetting curve and its direct, practical implications for how onboarding flows and documentation should actually be structured.',
+      descriptionHi:
+        'Short-term versus long-term memory aur ye architecturally alag systems kyun hain; recognition (menus, icons) brain ke liye recall (command lines, memorized syntax) se genuinely aasan kyun hai, aur iska interface design ke liye kya matlab hai; forgetting curve aur iske direct, practical implications is baat ke liye ki onboarding flows aur documentation ko actually kaise structure kiya jaana chahiye.',
+      order: 3,
+    },
+    {
+      slug: 'psych-module-4-heuristics-and-cognitive-biases-user-behavior',
+      name: 'Module 4: Heuristics & Cognitive Biases That Shape User Behavior',
+      nameHi: 'Module 4: Heuristics Aur Cognitive Biases Jo User Behavior Ko Shape Karte Hain',
+      description:
+        'Anchoring (why the first number a visitor sees shapes every judgment after it), loss aversion (why "don\'t lose your progress" motivates more than "gain a reward"), default bias (why a pre-selected option is chosen far more often regardless of its actual merit), and confirmation bias — each demonstrated against a real, concrete product decision it explains.',
+      descriptionHi:
+        'Anchoring (ek visitor jo pehla number dekhta hai wo uske baad har judgment ko kyun shape karta hai), loss aversion ("apni progress mat khoyo" "ek reward paao" se zyada kyun motivate karta hai), default bias (ek pre-selected option kyun kaafi zyada baar choose hota hai uski actual merit se independently), aur confirmation bias — har ek ek real, concrete product decision ke against demonstrate kiya gaya jise ye explain karta hai.',
+      order: 4,
+    },
+    {
+      slug: 'psych-module-5-cognitive-biases-developers-and-teams',
+      name: 'Module 5: Cognitive Biases That Affect Developers & Teams',
+      nameHi: 'Module 5: Cognitive Biases Jo Developers Aur Teams Ko Affect Karte Hain',
+      description:
+        "The sunk cost fallacy in technical-debt and rewrite decisions (why time already spent should never factor into whether to continue); confirmation bias while debugging (why a developer convinced of a cause keeps finding evidence for it); overconfidence in estimation, the planning fallacy specifically, and why it's structural to how humans estimate, not a discipline problem to shame away.",
+      descriptionHi:
+        'Technical-debt aur rewrite decisions mein sunk cost fallacy (time jo already spend ho chuka hai use continue karna hai ya nahi isme kabhi factor nahi karna chahiye); debugging ke dauran confirmation bias (ek developer jo ek cause ka convinced hai uske liye evidence dhundhta rehta hai kyun); estimation mein overconfidence, specifically planning fallacy, aur ye structural kyun hai is baat mein ki insaan kaise estimate karte hain, koi discipline problem nahi jise shame karke hataya jaaye.',
+      order: 5,
+    },
+    {
+      slug: 'psych-module-6-decision-fatigue-and-choice-architecture',
+      name: 'Module 6: Decision Fatigue & Choice Architecture',
+      nameHi: 'Module 6: Decision Fatigue Aur Choice Architecture',
+      description:
+        "Hick's Law (why decision time increases with the number and complexity of choices, measurably, not just intuitively); the paradox of choice (why more options can genuinely reduce satisfaction and completion rates); concrete, implementable patterns for designing forms, settings screens, and menus that respect genuinely limited decision-making capacity rather than fighting it.",
+      descriptionHi:
+        "Hick's Law (decision time choices ki number aur complexity ke saath kyun badhता hai, measurably, sirf intuitively nahi); paradox of choice (zyada options genuinely satisfaction aur completion rates ko kyun kam kar sakte hain); forms, settings screens, aur menus design karne ke liye concrete, implementable patterns jo genuinely limited decision-making capacity ko respect karte hain us se ladne ke bajaye.",
+      order: 6,
+    },
+    {
+      slug: 'psych-module-7-motivation-psychology',
+      name: 'Module 7: Motivation Psychology',
+      nameHi: 'Module 7: Motivation Psychology',
+      description:
+        'Intrinsic versus extrinsic motivation through the lens of Self-Determination Theory (autonomy, competence, relatedness as the three genuine drivers); why naive gamification — points and badges bolted onto a feature with no connection to these three drivers — reliably backfires and can even reduce existing intrinsic motivation.',
+      descriptionHi:
+        'Self-Determination Theory ke lens se intrinsic versus extrinsic motivation (autonomy, competence, relatedness teen genuine drivers ki tarah); naive gamification — points aur badges jo ek feature pe bolt kiye gaye in teen drivers se koi connection ke bina — reliably kyun backfire karti hai aur existing intrinsic motivation ko bhi kam kar sakti hai.',
+      order: 7,
+    },
+    {
+      slug: 'psych-module-8-habit-formation-and-behavior-design',
+      name: 'Module 8: Habit Formation & Behavior Design',
+      nameHi: 'Module 8: Habit Formation Aur Behavior Design',
+      description:
+        'Habit loops (cue, routine, reward) as the actual mechanism behind a recurring behavior, and the Hook Model as its product-design application; the explicit, concrete line between ethical engagement design (helping a user build a habit that genuinely serves them) and manipulative dark-pattern engagement (exploiting the same mechanism against their actual interest).',
+      descriptionHi:
+        'Habit loops (cue, routine, reward) ek recurring behavior ke peeche actual mechanism ki tarah, aur Hook Model uske product-design application ki tarah; ethical engagement design (ek user ko ek habit build karne mein madad karna jo genuinely unhe serve karta hai) aur manipulative dark-pattern engagement (wahi mechanism ko unke actual interest ke against exploit karna) ke beech explicit, concrete line.',
+      order: 8,
+    },
+    {
+      slug: 'psych-module-9-persuasion-principles-and-dark-patterns',
+      name: 'Module 9: Persuasion Principles & Dark Patterns',
+      nameHi: 'Module 9: Persuasion Principles Aur Dark Patterns',
+      description:
+        "Cialdini's principles of influence (reciprocity, social proof, scarcity, authority, commitment, liking) as genuinely real psychological mechanisms; where legitimate persuasive design ends and a dark pattern begins — a concrete, checkable line, not a vague feeling — and the real legal and regulatory risk of crossing it.",
+      descriptionHi:
+        "Cialdini ke influence ke principles (reciprocity, social proof, scarcity, authority, commitment, liking) genuinely real psychological mechanisms ki tarah; legitimate persuasive design kahan khatam hoti hai aur ek dark pattern kahan shuru hota hai — ek concrete, checkable line, ek vague feeling nahi — aur ise cross karne ka real legal aur regulatory risk.",
+      order: 9,
+    },
+    {
+      slug: 'psych-module-10-cognitive-load-in-interface-design',
+      name: 'Module 10: Cognitive Load in Interface Design',
+      nameHi: 'Module 10: Interface Design Mein Cognitive Load',
+      description:
+        "Reducing extraneous cognitive load (Module 1) as the actual, concrete goal of good interface design; progressive disclosure as a direct implementation of respecting working-memory limits; chunking information into groups that align with how memory genuinely organizes information rather than an arbitrary visual grouping.",
+      descriptionHi:
+        "Extraneous cognitive load kam karna (Module 1) achhe interface design ke actual, concrete goal ki tarah; progressive disclosure working-memory limits ko respect karne ka ek direct implementation ki tarah; information ko un groups mein chunk karna jo memory ke information ko genuinely organize karne ke tareeke se align karte hain ek arbitrary visual grouping ke bajaye.",
+      order: 10,
+    },
+    {
+      slug: 'psych-module-11-error-psychology',
+      name: 'Module 11: Error Psychology',
+      nameHi: 'Module 11: Error Psychology',
+      description:
+        "Why users reflexively blame themselves for a bad error message rather than the system that produced it; Norman's distinction between slips (correct intention, wrong execution) and mistakes (wrong intention entirely) and why each needs a genuinely different design response; designing error states that actually help a user recover instead of shaming them for the error.",
+      descriptionHi:
+        "Users ek bad error message ke liye khud ko reflexively kyun blame karte hain us system ko nahi jisne ise produce kiya; Norman ka slips (correct intention, wrong execution) aur mistakes (poori tarah wrong intention) ke beech distinction aur har ek ko genuinely alag design response kyun chahiye; error states design karna jo actually ek user ko recover karne mein madad karte hain error ke liye shame karne ke bajaye.",
+      order: 11,
+    },
+    {
+      slug: 'psych-module-12-trust-and-first-impressions',
+      name: 'Module 12: Trust & First Impressions',
+      nameHi: 'Module 12: Trust Aur First Impressions',
+      description:
+        "The aesthetic-usability effect (why a visually polished interface is perceived as more usable and trustworthy regardless of its actual usability); how a visitor's trust judgment genuinely forms within milliseconds of a page loading; concrete trust signals that measurably matter specifically in checkout, authentication, and payment flows.",
+      descriptionHi:
+        "Aesthetic-usability effect (ek visually polished interface ko kyun zyada usable aur trustworthy perceive kiya jata hai uski actual usability se independently); ek visitor ka trust judgment genuinely ek page load hone ke milliseconds ke andar kaise banta hai; concrete trust signals jo specifically checkout, authentication, aur payment flows mein measurably matter karte hain.",
+      order: 12,
+    },
+    {
+      slug: 'psych-module-13-cognitive-accessibility',
+      name: 'Module 13: Cognitive Accessibility',
+      nameHi: 'Module 13: Cognitive Accessibility',
+      description:
+        'Designing for ADHD (managing distraction and sustained attention), dyslexia (text and layout choices that genuinely help), and anxiety (reducing uncertainty and irreversible-feeling actions) — with concrete, implementable patterns for each, not general awareness alone.',
+      descriptionHi:
+        'ADHD ke liye design karna (distraction manage karna aur sustained attention), dyslexia (text aur layout choices jo genuinely help karte hain), aur anxiety (uncertainty aur irreversible-feeling actions kam karna) — har ek ke liye concrete, implementable patterns ke saath, sirf general awareness nahi.',
+      order: 13,
+    },
+    {
+      slug: 'psych-module-14-designing-for-stress-and-high-stakes',
+      name: 'Module 14: Designing for Stress & High-Stakes Contexts',
+      nameHi: 'Module 14: Stress Aur High-Stakes Contexts Ke Liye Design Karna',
+      description:
+        'How cognition genuinely degrades under acute stress (narrowed attention, reduced working-memory capacity, impaired decision-making) as a real, measurable phenomenon, not just intuition; the concrete interface-design implications for medical, financial, and emergency contexts specifically, where a stressed user is the norm, not the edge case.',
+      descriptionHi:
+        'Acute stress ke under cognition genuinely kaise degrade hota hai (narrowed attention, reduced working-memory capacity, impaired decision-making) ek real, measurable phenomenon ki tarah, sirf intuition nahi; specifically medical, financial, aur emergency contexts ke liye concrete interface-design implications, jahan ek stressed user norm hai, edge case nahi.',
+      order: 14,
+    },
+    {
+      slug: 'psych-module-15-psychological-safety-and-high-performing-teams',
+      name: 'Module 15: Psychological Safety & High-Performing Teams',
+      nameHi: 'Module 15: Psychological Safety Aur High-Performing Teams',
+      description:
+        "Amy Edmondson's psychological-safety research and why it's the single strongest predictor of team performance Google's own internal research (Project Aristotle) independently confirmed; blameless postmortems as a concrete implementation of psychological safety; what actually makes code-review feedback land rather than trigger defensiveness.",
+      descriptionHi:
+        "Amy Edmondson ki psychological-safety research aur ye team performance ka single strongest predictor kyun hai jise Google ki apni internal research (Project Aristotle) ne independently confirm kiya; blameless postmortems psychological safety ke ek concrete implementation ki tarah; kya actually code-review feedback ko land karata hai defensiveness trigger karne ke bajaye.",
+      order: 15,
+    },
+    {
+      slug: 'psych-module-16-cognitive-biases-code-review-and-estimation',
+      name: 'Module 16: Cognitive Biases in Code Review & Estimation',
+      nameHi: 'Module 16: Code Review Aur Estimation Mein Cognitive Biases',
+      description:
+        "The planning fallacy revisited at the team level (why a team's aggregate estimate is still systematically optimistic even after individual awareness of the bias); anchoring on the first story-point estimate mentioned in a planning meeting; groupthink in architecture decisions and concrete structural ways to counteract it.",
+      descriptionHi:
+        "Team level pe planning fallacy revisited (ek team ka aggregate estimate individual bias ki awareness ke baad bhi systematically optimistic kyun rehta hai); ek planning meeting mein mention kiye gaye pehle story-point estimate pe anchoring; architecture decisions mein groupthink aur ise counteract karne ke concrete structural tareeke.",
+      order: 16,
+    },
+    {
+      slug: 'psych-module-17-burnout-flow-state-sustainable-engineering',
+      name: 'Module 17: Burnout, Flow State & Sustainable Engineering',
+      nameHi: 'Module 17: Burnout, Flow State Aur Sustainable Engineering',
+      description:
+        "Csikszentmihalyi's flow state (the specific conditions — clear goals, immediate feedback, a skill/challenge balance — that produce it) and why interruption-heavy engineering environments structurally prevent it; the real, measurable cost of context-switching; designing a team's actual workflow around cognitive sustainability rather than against it.",
+      descriptionHi:
+        "Csikszentmihalyi ka flow state (wo specific conditions — clear goals, immediate feedback, ek skill/challenge balance — jo ise produce karti hain) aur interruption-heavy engineering environments structurally ise kyun prevent karte hain; context-switching ki real, measurable cost; ek team ke actual workflow ko cognitive sustainability ke around design karna uske against nahi.",
+      order: 17,
+    },
+    {
+      slug: 'psych-module-18-ab-testing-and-behavioral-data',
+      name: 'Module 18: A/B Testing & Behavioral Data',
+      nameHi: 'Module 18: A/B Testing Aur Behavioral Data',
+      description:
+        'Actually testing a psychological assumption from earlier modules instead of asserting it based on a general principle; statistical significance pitfalls specific to behavioral experiments (peeking at results early, underpowered sample sizes, multiple-comparisons problems) that make a well-intentioned test genuinely misleading.',
+      descriptionHi:
+        'Earlier modules se ek psychological assumption ko actually test karna ek general principle ke basis pe assert karne ke bajaye; behavioral experiments ke liye specific statistical significance pitfalls (results ko early peek karna, underpowered sample sizes, multiple-comparisons problems) jo ek well-intentioned test ko genuinely misleading banate hain.',
+      order: 18,
+    },
+    {
+      slug: 'psych-module-19-ethics-of-behavioral-design',
+      name: 'Module 19: The Ethics of Behavioral Design',
+      nameHi: 'Module 19: Behavioral Design Ki Ethics',
+      description:
+        "Informed consent as it genuinely applies to behavioral design, not just data collection; the persuasion/manipulation boundary from Module 9 revisited with concrete teeth — a decision framework, not a feeling; the current regulatory landscape around dark patterns (FTC actions, EU regulations) and what it means practically for a real product team.",
+      descriptionHi:
+        "Informed consent jaise ye genuinely behavioral design pe apply hota hai, sirf data collection pe nahi; Module 9 ka persuasion/manipulation boundary concrete teeth ke saath revisited — ek decision framework, ek feeling nahi; dark patterns ke around current regulatory landscape (FTC actions, EU regulations) aur ek real product team ke liye iska practically kya matlab hai.",
+      order: 19,
+    },
+    {
+      slug: 'psych-module-20-capstone-auditing-a-product-through-psychology',
+      name: 'Module 20: Capstone — Auditing a Real Product Through a Psychology Lens',
+      nameHi: 'Module 20: Capstone — Ek Real Product Ko Psychology Lens Se Audit Karna',
+      description:
+        "Assembling every module's contribution into one practical, usable audit checklist — cognitive load, bias-aware decision points, motivation design, error psychology, trust signals, accessibility, team-psychology practices — applied to a small real feature end to end, this course's final synthesis.",
+      descriptionHi:
+        "Har module ke contribution ko ek practical, usable audit checklist mein assemble karna — cognitive load, bias-aware decision points, motivation design, error psychology, trust signals, accessibility, team-psychology practices — ek chhote real feature pe end to end applied, is course ka final synthesis.",
+      order: 20,
+    },
+  ];
+
+  const createdModules = [];
+  for (const mod of modules) {
+    createdModules.push(
+      await prisma.courseModule.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: mod.slug } },
+        create: { courseId: course.id, ...mod },
+        update: mod,
+      }),
+    );
+  }
+
+  const topics: (CourseLesson & { moduleIndex: number })[] = [
+    ...PSYCH_MODULE_1.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 0,
+    })),
+  ];
+
+  const json = (v: unknown) => v as Prisma.InputJsonValue;
+  const createdTopics = [];
+
+  for (const lesson of topics) {
+    const fields = {
+      title: lesson.title,
+      titleHi: lesson.titleHi,
+      description: lesson.description,
+      descriptionHi: lesson.descriptionHi,
+      simple: lesson.simple,
+      simpleHi: lesson.simpleHi,
+      content: lesson.content,
+      contentHi: lesson.contentHi,
+      codeExample: lesson.codeExample ?? null,
+      expectedOutput: lesson.expectedOutput ?? null,
+      analogy: json(lesson.analogy),
+      examples: json(lesson.examples ?? []),
+      mistakes: json(lesson.mistakes ?? []),
+      realWorld: json(lesson.realWorld ?? []),
+      interviewQA: json(lesson.interviewQA ?? []),
+      exercises: json(lesson.exercises ?? []),
+      keyTakeaways: lesson.keyTakeaways ?? [],
+      keyTakeawaysHi: lesson.keyTakeawaysHi ?? [],
+      difficulty: lesson.difficulty,
+      duration: lesson.duration ?? 25,
+      order: lesson.order,
+    };
+
+    const parentModule = createdModules[lesson.moduleIndex];
+    if (!parentModule) throw new Error(`No module at index ${lesson.moduleIndex}`);
+
+    createdTopics.push(
+      await prisma.courseTopic.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: lesson.slug } },
+        create: { courseId: course.id, moduleId: parentModule.id, slug: lesson.slug, ...fields },
+        update: fields,
+      }),
+    );
+  }
+
+  await prisma.courseTopic.deleteMany({
+    where: { courseId: course.id, slug: { notIn: topics.map((t) => t.slug) } },
+  });
+  await prisma.courseModule.deleteMany({
+    where: { courseId: course.id, slug: { notIn: modules.map((m) => m.slug) } },
+  });
+
+  return { modules: createdModules.length, topics: createdTopics.length };
+}
+
 async function main(): Promise<void> {
   console.log('Seeding DevPrep content…\n');
 
@@ -5047,6 +5344,10 @@ async function main(): Promise<void> {
   console.log('\nSeeding Generative AI Course…');
   const genaiStats = await seedGenAiCourse();
   console.log(`  1 course, ${genaiStats.modules} modules, ${genaiStats.topics} lessons`);
+
+  console.log('\nSeeding Psychology for Developers Course…');
+  const psychStats = await seedPsychologyCourse();
+  console.log(`  1 course, ${psychStats.modules} modules, ${psychStats.topics} lessons`);
 
   console.log('\nDone. Sign up in the app to start tracking progress.');
 }
