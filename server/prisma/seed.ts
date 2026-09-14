@@ -396,6 +396,7 @@ import { NEXTJS_MODULE_21 } from './seed-data/course-nextjs-module21';
 import { NEXTJS_MODULE_22 } from './seed-data/course-nextjs-module22';
 import { NEXTJS_MODULE_23 } from './seed-data/course-nextjs-module23';
 import { GENAI_MODULE_1 } from './seed-data/course-genai-module1';
+import { GENAI_MODULE_2 } from './seed-data/course-genai-module2';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -4860,6 +4861,10 @@ async function seedGenAiCourse(): Promise<{ modules: number; topics: number }> {
     ...GENAI_MODULE_1.map((lesson) => ({
       ...lesson,
       moduleIndex: 0,
+    })),
+    ...GENAI_MODULE_2.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 1,
     })),
   ];
 
