@@ -135,7 +135,9 @@ modules.
 
 **Part IV (UX Psychology in Practice) COMPLETE: M10-M12, 9/9 lessons.**
 - [x] M13 Cognitive Accessibility — 3/3 lessons, commit `35f5c1f`
-- [ ] M14 Designing for Stress & High-Stakes Contexts
+- [x] M14 Designing for Stress & High-Stakes Contexts — 3/3 lessons, commit `5f62f43`
+
+**Part V (Accessibility & Inclusive Cognition) COMPLETE: M13-M14, 6/6 lessons.**
 - [ ] M15 Psychological Safety & High-Performing Teams
 - [ ] M16 Cognitive Biases in Code Review & Estimation
 - [ ] M17 Burnout, Flow State & Sustainable Engineering
