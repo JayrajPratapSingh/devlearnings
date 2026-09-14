@@ -137,10 +137,8 @@ was clean — this was a curriculum-completeness check, not a bug-finding one).
 Jay asked to fill all of them. Added as three more modules, same pattern
 (3 lessons each, bilingual, codeJs/codeTs):
 
-- [ ] M21 Client State, Type-Safe APIs & Hydration — client-side state managers
-  (Zustand/Jotai) and when Server Components/Actions genuinely aren't enough;
-  tRPC / type-safe API design for a large TS codebase; debugging hydration
-  mismatches (what actually causes each category, and the fix)
+- [x] M21 Client State, Type-Safe APIs & Hydration — 3/3 lessons, commit `15acf68`,
+  deployed
 - [ ] M22 Background Jobs, Email & Internationalization — background job
   systems (Inngest/BullMQ) for work outside the request/response cycle;
   transactional email done correctly (Resend/SendGrid, templates,
