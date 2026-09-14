@@ -99,8 +99,8 @@ Stripe/Pusher modules.
 
 ## Progress
 
-- [ ] Course shell in seed.ts (`seedGenAiCourse`, Course record)
-- [ ] M1 What Generative AI Actually Is
+- [x] Course shell in seed.ts (`seedGenAiCourse`, Course record) — commit `f7d9ce3`
+- [x] M1 What Generative AI Actually Is — 3/3 lessons, commit `f7d9ce3`
 - [ ] M2 Talking to a Model via API
 - [ ] M3 Prompt Engineering Fundamentals
 - [ ] M4 Streaming AI UI in a Web App
