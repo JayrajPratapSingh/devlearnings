@@ -124,7 +124,7 @@ modules.
 - [x] M6 Decision Fatigue & Choice Architecture — 3/3 lessons, commit `bda3ffc`
 
 **Part II (Decision-Making & Cognitive Biases) COMPLETE: M4-M6, 9/9 lessons.**
-- [ ] M7 Motivation Psychology
+- [x] M7 Motivation Psychology — 3/3 lessons, commit `e02a3f9`
 - [ ] M8 Habit Formation & Behavior Design
 - [ ] M9 Persuasion Principles & Dark Patterns
 - [ ] M10 Cognitive Load in Interface Design
