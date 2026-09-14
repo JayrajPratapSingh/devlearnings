@@ -115,7 +115,7 @@ modules.
 
 - [x] Course shell in seed.ts (`seedPsychologyCourse`, Course record) — commit `51f310d`
 - [x] M1 How the Mind Actually Processes Information — 3/3 lessons, commit `51f310d`
-- [ ] M2 Perception & Visual Processing
+- [x] M2 Perception & Visual Processing — 3/3 lessons, commit `4cb7601`
 - [ ] M3 Memory Systems & Learning
 - [ ] M4 Heuristics & Cognitive Biases That Shape User Behavior
 - [ ] M5 Cognitive Biases That Affect Developers & Teams
