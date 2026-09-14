@@ -119,7 +119,7 @@ offline.
 - [x] M12 Security Fundamentals — 3/3 lessons, commit `de3f103`
 - [x] M13 API & Auth Security Hardening — 3/3 lessons, commit `f7b1e99`
 - [x] M14 Server Actions & Data Security — 3/3 lessons, commit `7652629`
-- [ ] M15 Performance Optimization
+- [x] M15 Performance Optimization — 3/3 lessons, commit `583c57f`
 - [ ] M16 Caching & Scaling Large Data
 - [ ] M17 Edge, Middleware & Multi-tenancy
 - [ ] M18 Testing
