@@ -109,7 +109,7 @@ Stripe/Pusher modules.
 - [x] M7 RAG Part 1 — Embeddings & Chunking — 3/3 lessons, commit `0e377c7`
 - [x] M8 RAG Part 2 — Vector Databases in Production — 3/3 lessons, commit `59010ca`
 - [x] M9 Agents — 3/3 lessons, commit `77c4ab4`
-- [ ] M10 Cost, Latency & Model Selection
+- [x] M10 Cost, Latency & Model Selection — 3/3 lessons, commit (pending)
 - [ ] M11 Reliability, Retries & Guardrails
 - [ ] M12 Security for AI Features
 - [ ] M13 Rate Limiting & Abuse Prevention for AI Endpoints
