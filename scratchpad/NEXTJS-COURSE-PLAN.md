@@ -139,15 +139,13 @@ Jay asked to fill all of them. Added as three more modules, same pattern
 
 - [x] M21 Client State, Type-Safe APIs & Hydration — 3/3 lessons, commit `15acf68`,
   deployed
-- [ ] M22 Background Jobs, Email & Internationalization — background job
-  systems (Inngest/BullMQ) for work outside the request/response cycle;
-  transactional email done correctly (Resend/SendGrid, templates,
-  deliverability); internationalized routing (locale segments, next-intl)
-- [ ] M23 Partial Prerendering, Turbopack & Standalone Builds — PPR (static
-  shell + dynamic content on one route, and why it's not just Suspense
-  streaming); Turbopack's effect on bundle analysis/build perf; `output:
-  "standalone"` for a minimal production Docker image (ties back to this
-  course's own Docker deployment)
+- [x] M22 Background Jobs, Email & Internationalization — 3/3 lessons,
+  commit `d482b47`, deployed
+- [x] M23 Partial Prerendering, Turbopack & Standalone Builds — 3/3 lessons,
+  commit (this commit)
+
+**GAP-FILL COMPLETE: 3/3 modules, 9/9 lessons seeded, wired, and deployed.**
+**Next.js course now COMPLETE: 23/23 modules, 72/72 lessons.**
 
 Course record's `order` (21→23), `totalXpReward` (10000→11500), `estimatedHours`
 (200→230), and top-level `description`/`descriptionHi` updated to mention the
