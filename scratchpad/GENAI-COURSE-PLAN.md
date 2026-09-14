@@ -118,7 +118,9 @@ Stripe/Pusher modules.
 **Part III (Production Concerns) COMPLETE: M10-M14, 15/15 lessons.**
 - [x] M15 Multi-modal AI — 3/3 lessons, commit `9e31a37`
 - [x] M16 Fine-tuning vs Prompting vs RAG — 3/3 lessons, commit `15fbf94`
-- [ ] M17 Open-Source & Local Models
+- [x] M17 Open-Source & Local Models — 3/3 lessons, commit `1dbd1a1`
+
+**Part IV (Advanced Capabilities) COMPLETE: M15-M17, 9/9 lessons.**
 - [ ] M18 Observability for AI Features
 - [ ] M19 Deploying & Scaling AI Features
 - [ ] M20 Responsible AI & Production Launch Checklist
