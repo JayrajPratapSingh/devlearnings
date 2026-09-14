@@ -145,4 +145,8 @@ modules.
 **Part VI (Psychology of Engineering Teams) COMPLETE: M15-M17, 9/9 lessons.**
 - [x] M18 A/B Testing & Behavioral Data — 3/3 lessons, commit `1f4f055`
 - [x] M19 The Ethics of Behavioral Design — 3/3 lessons, commit `c895634`
-- [ ] M20 Capstone — Auditing a Real Product Through a Psychology Lens
+- [x] M20 Capstone — Auditing a Real Product Through a Psychology Lens — 3/3 lessons, commit `af57190`
+
+**Part VII (Applying at Scale) COMPLETE: M18-M20, 9/9 lessons.**
+
+## COURSE COMPLETE: 20/20 modules, 60/60 lessons.
