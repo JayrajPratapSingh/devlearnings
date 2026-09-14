@@ -90,4 +90,5 @@ jobs:
             docker pull "$PYTHON_IMAGE"
             docker compose --env-file .env.production -f docker-compose.prod.yml pull
             docker compose --env-file .env.production -f docker-compose.prod.yml up -d --remove-orphans
-            docker image prune -f
+            docker image prune -af
+            docker builder prune -af
