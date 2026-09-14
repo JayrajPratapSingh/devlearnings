@@ -125,7 +125,7 @@ modules.
 
 **Part II (Decision-Making & Cognitive Biases) COMPLETE: M4-M6, 9/9 lessons.**
 - [x] M7 Motivation Psychology — 3/3 lessons, commit `e02a3f9`
-- [ ] M8 Habit Formation & Behavior Design
+- [x] M8 Habit Formation & Behavior Design — 3/3 lessons, commit `c42ee05`
 - [ ] M9 Persuasion Principles & Dark Patterns
 - [ ] M10 Cognitive Load in Interface Design
 - [ ] M11 Error Psychology
