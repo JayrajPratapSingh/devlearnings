@@ -130,7 +130,7 @@ modules.
 
 **Part III (Motivation & Behavior Design) COMPLETE: M7-M9, 9/9 lessons.**
 - [x] M10 Cognitive Load in Interface Design — 3/3 lessons, commit `fde9280`
-- [ ] M11 Error Psychology
+- [x] M11 Error Psychology — 3/3 lessons, commit `6ea7fb6`
 - [ ] M12 Trust & First Impressions
 - [ ] M13 Cognitive Accessibility
 - [ ] M14 Designing for Stress & High-Stakes Contexts
