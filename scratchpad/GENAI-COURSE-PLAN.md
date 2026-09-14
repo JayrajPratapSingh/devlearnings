@@ -121,6 +121,6 @@ Stripe/Pusher modules.
 - [x] M17 Open-Source & Local Models — 3/3 lessons, commit `1dbd1a1`
 
 **Part IV (Advanced Capabilities) COMPLETE: M15-M17, 9/9 lessons.**
-- [ ] M18 Observability for AI Features
+- [x] M18 Observability for AI Features — 3/3 lessons, commit `76e7168`
 - [ ] M19 Deploying & Scaling AI Features
 - [ ] M20 Responsible AI & Production Launch Checklist
