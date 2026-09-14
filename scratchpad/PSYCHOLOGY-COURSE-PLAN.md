@@ -120,7 +120,7 @@ modules.
 
 **Part I (Cognitive Foundations) COMPLETE: M1-M3, 9/9 lessons.**
 - [x] M4 Heuristics & Cognitive Biases That Shape User Behavior — 3/3 lessons, commit `765ae88`
-- [ ] M5 Cognitive Biases That Affect Developers & Teams
+- [x] M5 Cognitive Biases That Affect Developers & Teams — 3/3 lessons, commit `c042639`
 - [ ] M6 Decision Fatigue & Choice Architecture
 - [ ] M7 Motivation Psychology
 - [ ] M8 Habit Formation & Behavior Design
