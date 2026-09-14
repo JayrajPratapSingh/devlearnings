@@ -106,7 +106,7 @@ Stripe/Pusher modules.
 - [x] M4 Streaming AI UI in a Web App — 3/3 lessons, commit `717c6a7`
 - [x] M5 Tool Calling & Function Calling — 3/3 lessons, commit `dca3dcf`
 - [x] M6 Structured Outputs at Scale — 3/3 lessons, commit `1aecb58`
-- [ ] M7 RAG Part 1
+- [x] M7 RAG Part 1 — Embeddings & Chunking — 3/3 lessons, commit (pending)
 - [ ] M8 RAG Part 2 — Vector Databases in Production
 - [ ] M9 Agents
 - [ ] M10 Cost, Latency & Model Selection
