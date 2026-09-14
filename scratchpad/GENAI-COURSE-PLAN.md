@@ -116,7 +116,7 @@ Stripe/Pusher modules.
 - [x] M14 Evaluation & Testing Non-Deterministic Systems — 3/3 lessons, commit `2eb89db`
 
 **Part III (Production Concerns) COMPLETE: M10-M14, 15/15 lessons.**
-- [ ] M15 Multi-modal AI
+- [x] M15 Multi-modal AI — 3/3 lessons, commit `9e31a37`
 - [ ] M16 Fine-tuning vs Prompting vs RAG
 - [ ] M17 Open-Source & Local Models
 - [ ] M18 Observability for AI Features
