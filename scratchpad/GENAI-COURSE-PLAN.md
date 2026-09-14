@@ -104,7 +104,7 @@ Stripe/Pusher modules.
 - [x] M2 Talking to a Model via API — 3/3 lessons, commit `ffd7edd`
 - [x] M3 Prompt Engineering Fundamentals — 3/3 lessons, commit `b434a06`
 - [x] M4 Streaming AI UI in a Web App — 3/3 lessons, commit `717c6a7`
-- [x] M5 Tool Calling & Function Calling — 3/3 lessons, commit (pending)
+- [x] M5 Tool Calling & Function Calling — 3/3 lessons, commit `dca3dcf`
 - [ ] M6 Structured Outputs at Scale
 - [ ] M7 RAG Part 1
 - [ ] M8 RAG Part 2 — Vector Databases in Production
