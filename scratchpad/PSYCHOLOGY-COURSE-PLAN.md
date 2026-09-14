@@ -134,7 +134,7 @@ modules.
 - [x] M12 Trust & First Impressions — 3/3 lessons, commit `df3b4b2`
 
 **Part IV (UX Psychology in Practice) COMPLETE: M10-M12, 9/9 lessons.**
-- [ ] M13 Cognitive Accessibility
+- [x] M13 Cognitive Accessibility — 3/3 lessons, commit `35f5c1f`
 - [ ] M14 Designing for Stress & High-Stakes Contexts
 - [ ] M15 Psychological Safety & High-Performing Teams
 - [ ] M16 Cognitive Biases in Code Review & Estimation
