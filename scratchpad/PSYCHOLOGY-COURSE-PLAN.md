@@ -140,7 +140,9 @@ modules.
 **Part V (Accessibility & Inclusive Cognition) COMPLETE: M13-M14, 6/6 lessons.**
 - [x] M15 Psychological Safety & High-Performing Teams — 3/3 lessons, commit `68ea91f`
 - [x] M16 Cognitive Biases in Code Review & Estimation — 3/3 lessons, commit `d4b1104`
-- [ ] M17 Burnout, Flow State & Sustainable Engineering
+- [x] M17 Burnout, Flow State & Sustainable Engineering — 3/3 lessons, commit `eef0787`
+
+**Part VI (Psychology of Engineering Teams) COMPLETE: M15-M17, 9/9 lessons.**
 - [ ] M18 A/B Testing & Behavioral Data
 - [ ] M19 The Ethics of Behavioral Design
 - [ ] M20 Capstone — Auditing a Real Product Through a Psychology Lens
