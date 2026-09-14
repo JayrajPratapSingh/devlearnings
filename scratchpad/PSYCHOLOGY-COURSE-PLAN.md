@@ -129,7 +129,7 @@ modules.
 - [x] M9 Persuasion Principles & Dark Patterns — 3/3 lessons, commit `b821c5f`
 
 **Part III (Motivation & Behavior Design) COMPLETE: M7-M9, 9/9 lessons.**
-- [ ] M10 Cognitive Load in Interface Design
+- [x] M10 Cognitive Load in Interface Design — 3/3 lessons, commit `fde9280`
 - [ ] M11 Error Psychology
 - [ ] M12 Trust & First Impressions
 - [ ] M13 Cognitive Accessibility
