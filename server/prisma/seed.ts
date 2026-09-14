@@ -412,6 +412,7 @@ import { GENAI_MODULE_14 } from './seed-data/course-genai-module14';
 import { GENAI_MODULE_15 } from './seed-data/course-genai-module15';
 import { GENAI_MODULE_16 } from './seed-data/course-genai-module16';
 import { GENAI_MODULE_17 } from './seed-data/course-genai-module17';
+import { GENAI_MODULE_18 } from './seed-data/course-genai-module18';
 import { PSYCH_MODULE_1 } from './seed-data/course-psychology-module1';
 import { PSYCH_MODULE_2 } from './seed-data/course-psychology-module2';
 import { PSYCH_MODULE_3 } from './seed-data/course-psychology-module3';
@@ -4944,6 +4945,10 @@ async function seedGenAiCourse(): Promise<{ modules: number; topics: number }> {
     ...GENAI_MODULE_17.map((lesson) => ({
       ...lesson,
       moduleIndex: 16,
+    })),
+    ...GENAI_MODULE_18.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 17,
     })),
   ];
 
