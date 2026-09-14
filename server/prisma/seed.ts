@@ -434,6 +434,7 @@ import { PSYCH_MODULE_16 } from './seed-data/course-psychology-module16';
 import { PSYCH_MODULE_17 } from './seed-data/course-psychology-module17';
 import { PSYCH_MODULE_18 } from './seed-data/course-psychology-module18';
 import { PSYCH_MODULE_19 } from './seed-data/course-psychology-module19';
+import { PSYCH_MODULE_20 } from './seed-data/course-psychology-module20';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -5342,6 +5343,10 @@ async function seedPsychologyCourse(): Promise<{ modules: number; topics: number
     ...PSYCH_MODULE_19.map((lesson) => ({
       ...lesson,
       moduleIndex: 18,
+    })),
+    ...PSYCH_MODULE_20.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 19,
     })),
   ];
 
