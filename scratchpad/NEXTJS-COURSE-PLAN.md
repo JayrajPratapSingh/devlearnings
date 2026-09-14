@@ -121,7 +121,7 @@ offline.
 - [x] M14 Server Actions & Data Security — 3/3 lessons, commit `7652629`
 - [x] M15 Performance Optimization — 3/3 lessons, commit `583c57f`
 - [x] M16 Caching & Scaling Large Data — 3/3 lessons, commit `c56fae9`
-- [ ] M17 Edge, Middleware & Multi-tenancy
+- [x] M17 Edge, Middleware & Multi-tenancy — 3/3 lessons, commit `81f0212`
 - [ ] M18 Testing
 - [ ] M19 Observability, Errors & Deployment
 - [ ] M20 SEO, Accessibility & Production Launch
