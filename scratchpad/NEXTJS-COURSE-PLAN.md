@@ -124,4 +124,7 @@ offline.
 - [x] M17 Edge, Middleware & Multi-tenancy — 3/3 lessons, commit `81f0212`
 - [x] M18 Testing — 3/3 lessons, commit `473657a`
 - [x] M19 Observability, Errors & Deployment — 3/3 lessons, commit `0dc4fc1`
-- [ ] M20 SEO, Accessibility & Production Launch
+- [x] M20 SEO, Accessibility & Production Launch — 3/3 lessons, commit `0a945aa`
+
+**COURSE COMPLETE: 20/20 modules, 63/63 lessons seeded, wired, and deployed to production.**
+(M1 has 6 lessons; M2-M20 have 3 lessons each = 6 + 19*3 = 63 total.)
