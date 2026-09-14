@@ -119,7 +119,7 @@ modules.
 - [x] M3 Memory Systems & Learning — 3/3 lessons, commit `efb1118`
 
 **Part I (Cognitive Foundations) COMPLETE: M1-M3, 9/9 lessons.**
-- [ ] M4 Heuristics & Cognitive Biases That Shape User Behavior
+- [x] M4 Heuristics & Cognitive Biases That Shape User Behavior — 3/3 lessons, commit `765ae88`
 - [ ] M5 Cognitive Biases That Affect Developers & Teams
 - [ ] M6 Decision Fatigue & Choice Architecture
 - [ ] M7 Motivation Psychology
