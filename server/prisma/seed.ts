@@ -395,6 +395,7 @@ import { NEXTJS_MODULE_20 } from './seed-data/course-nextjs-module20';
 import { NEXTJS_MODULE_21 } from './seed-data/course-nextjs-module21';
 import { NEXTJS_MODULE_22 } from './seed-data/course-nextjs-module22';
 import { NEXTJS_MODULE_23 } from './seed-data/course-nextjs-module23';
+import { GENAI_MODULE_1 } from './seed-data/course-genai-module1';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -4616,6 +4617,302 @@ async function seedNextJsCourse(): Promise<{ modules: number; topics: number }> 
   return { modules: createdModules.length, topics: createdTopics.length };
 }
 
+async function seedGenAiCourse(): Promise<{ modules: number; topics: number }> {
+  const courseData = {
+    slug: 'genai-complete',
+    name: 'Generative AI Complete Course',
+    nameHi: 'Generative AI Complete Course - Noob Se Pro Tak',
+    description:
+      'Generative AI from first principles to a production-grade feature: what an LLM actually is and why it hallucinates structurally, talking to a model via the Anthropic/OpenAI Node SDKs, prompt engineering, streaming AI UI with the Vercel AI SDK, tool/function calling and structured outputs, Retrieval-Augmented Generation and vector databases end-to-end, agents and the ReAct loop, cost/latency/model-selection tradeoffs, reliability and guardrails, a dedicated AI security track (prompt injection, jailbreaks, never trusting model output), cost-based rate limiting for AI endpoints, evaluating non-deterministic systems, multi-modal AI, fine-tuning vs prompting vs RAG, open-source/local models, observability, deployment at scale, and responsible AI with a final production launch checklist. Every code example ships in both JavaScript and TypeScript. Verified with real offline-executed code wherever the mechanism itself is testable (embeddings math, chunking, schema validation, rate-limiting logic); precise, clearly-marked prose/code where a live model API key is genuinely required.',
+    descriptionHi:
+      'Generative AI first principles se ek production-grade feature tak: ek LLM actually kya hai aur ye structurally hallucinate kyun karta hai, Anthropic/OpenAI Node SDKs ke through ek model se baat karna, prompt engineering, Vercel AI SDK ke saath streaming AI UI, tool/function calling aur structured outputs, Retrieval-Augmented Generation aur vector databases end-to-end, agents aur ReAct loop, cost/latency/model-selection tradeoffs, reliability aur guardrails, ek dedicated AI security track (prompt injection, jailbreaks, model output ko kabhi trust na karna), AI endpoints ke liye cost-based rate limiting, non-deterministic systems ko evaluate karna, multi-modal AI, fine-tuning vs prompting vs RAG, open-source/local models, observability, scale par deployment, aur ek final production launch checklist ke saath responsible AI. Har code example JavaScript aur TypeScript dono mein aata hai. Jahan mechanism khud testable hai (embeddings math, chunking, schema validation, rate-limiting logic) wahan real offline-executed code se verified; jahan ek live model API key genuinely zaroori hai wahan precise, clearly-marked prose/code.',
+    icon: '✦',
+    color: '#6366F1',
+    level: 'beginner' as const,
+    totalXpReward: 8000,
+    estimatedHours: 170,
+    maxDifficulty: 'HARD' as const,
+    order: 14,
+    isPublished: true,
+  };
+
+  const course = await prisma.course.upsert({
+    where: { slug: courseData.slug },
+    create: courseData,
+    update: courseData,
+  });
+
+  const modules = [
+    {
+      slug: 'genai-module-1-what-generative-ai-actually-is',
+      name: 'Module 1: What Generative AI Actually Is',
+      nameHi: 'Module 1: Generative AI Actually Kya Hai',
+      description:
+        'LLMs as next-token predictors — what that mechanism actually means for what a model can and cannot reliably do; the transformer\'s attention mechanism at a conceptual level ("which prior tokens matter for predicting the next one"); tokenization and why it explains weird model behavior (word-counting, rhyming, math); context windows as a hard structural limit; why hallucination is a structural property of the mechanism, not a bug to patch; and embeddings as the other core primitive underlying everything from search to RAG.',
+      descriptionHi:
+        'LLMs next-token predictors ki tarah — wo mechanism actually iska kya matlab hai ki ek model kya reliably kar sakta hai aur kya nahi; transformer ka attention mechanism ek conceptual level pe ("agle token predict karne ke liye kaunse prior tokens matter karte hain"); tokenization aur ye weird model behavior (word-counting, rhyming, math) ko kyun explain karta hai; context windows ek hard structural limit ki tarah; hallucination mechanism ki ek structural property kyun hai, patch karne wala bug nahi; aur embeddings dusra core primitive jo search se RAG tak sab kuch underlie karta hai.',
+      order: 1,
+    },
+    {
+      slug: 'genai-module-2-talking-to-a-model-via-api',
+      name: 'Module 2: Talking to a Model via API',
+      nameHi: 'Module 2: API Ke Through Ek Model Se Baat Karna',
+      description:
+        'The Anthropic and OpenAI Node SDKs; chat completions as the actual shape of a request (an array of role-tagged messages, not a single string); system/user/assistant roles and what each genuinely controls; streaming vs non-streaming responses; temperature/top_p/max_tokens and what they actually change about generation; token counting and basic cost math before it becomes a production concern (Module 10).',
+      descriptionHi:
+        'Anthropic aur OpenAI Node SDKs; chat completions ek request ki actual shape ki tarah (role-tagged messages ka ek array, ek single string nahi); system/user/assistant roles aur har ek genuinely kya control karta hai; streaming vs non-streaming responses; temperature/top_p/max_tokens aur generation ke baare mein ye actually kya badalte hain; token counting aur basic cost math iske ek production concern (Module 10) banne se pehle.',
+      order: 2,
+    },
+    {
+      slug: 'genai-module-3-prompt-engineering-fundamentals',
+      name: 'Module 3: Prompt Engineering Fundamentals',
+      nameHi: 'Module 3: Prompt Engineering Fundamentals',
+      description:
+        'Zero-shot vs few-shot prompting and when examples genuinely help; chain-of-thought and why asking a model to "think step by step" measurably improves certain tasks; role/system prompting; JSON mode for structured output as a preview of Module 6; reusable prompt templates; and why prompt engineering is applied context design, not superstition or trial-and-error.',
+      descriptionHi:
+        'Zero-shot vs few-shot prompting aur examples genuinely kab help karte hain; chain-of-thought aur ek model ko "step by step socho" bolna measurably certain tasks ko kyun improve karta hai; role/system prompting; structured output ke liye JSON mode, Module 6 ka ek preview; reusable prompt templates; aur prompt engineering applied context design kyun hai, superstition ya trial-and-error nahi.',
+      order: 3,
+    },
+    {
+      slug: 'genai-module-4-streaming-ai-ui-in-a-web-app',
+      name: 'Module 4: Streaming AI UI in a Web App',
+      nameHi: 'Module 4: Ek Web App Mein Streaming AI UI',
+      description:
+        'The Vercel AI SDK\'s useChat/useCompletion hooks; Server-Sent Events as the actual transport mechanism under the streaming abstraction; handling partial/incomplete JSON while a structured response is still streaming in; abort/cancel for a request the visitor no longer wants; and building the optimistic, token-by-token feel of a real chat interface.',
+      descriptionHi:
+        'Vercel AI SDK ke useChat/useCompletion hooks; Server-Sent Events actual transport mechanism ki tarah streaming abstraction ke under; ek structured response abhi bhi stream ho rahi ho tab partial/incomplete JSON handle karna; abort/cancel ek aisi request ke liye jo visitor ko ab nahi chahiye; aur ek real chat interface ka optimistic, token-by-token feel banana.',
+      order: 4,
+    },
+    {
+      slug: 'genai-module-5-tool-calling-and-function-calling',
+      name: 'Module 5: Tool Calling & Function Calling',
+      nameHi: 'Module 5: Tool Calling Aur Function Calling',
+      description:
+        'Defining tool schemas with Zod so a model knows exactly what it can call and with what shape of arguments; the actual request/response loop when a model decides to call a tool; executing the tool and returning its result back into the conversation; multi-turn tool loops (a model calling several tools across several turns to complete a task); and why a tool\'s arguments — produced by the model, not a trusted client — need the same validation discipline as any other untrusted input.',
+      descriptionHi:
+        'Zod se tool schemas define karna taaki ek model ko exactly pata ho ki ye kya call kar sakta hai aur kis shape ke arguments ke saath; jab ek model ek tool call karne ka decide karta hai tab actual request/response loop; tool execute karna aur uska result wapas conversation mein return karna; multi-turn tool loops (ek model ek task complete karne ke liye kai turns ke across kai tools call karta hai); aur ek tool ke arguments — model dwara produce kiye gaye, ek trusted client dwara nahi — ko kisi bhi doosre untrusted input jaisi hi validation discipline kyun chahiye.',
+      order: 5,
+    },
+    {
+      slug: 'genai-module-6-structured-outputs-at-scale',
+      name: 'Module 6: Structured Outputs at Scale',
+      nameHi: 'Module 6: Scale Par Structured Outputs',
+      description:
+        'JSON-schema-constrained generation versus plain JSON mode; tool-calling as a structured-output mechanism versus a dedicated response_format API; parsing a model\'s output reliably (it is still text, produced by a probabilistic process, until proven otherwise); and retry-on-invalid-output strategies for the cases where a schema-constrained model still produces something that fails validation.',
+      descriptionHi:
+        'JSON-schema-constrained generation versus plain JSON mode; structured-output mechanism ki tarah tool-calling versus ek dedicated response_format API; ek model ka output reliably parse karna (ye abhi bhi text hai, ek probabilistic process dwara produce kiya gaya, jab tak proven otherwise); aur retry-on-invalid-output strategies un cases ke liye jahan ek schema-constrained model abhi bhi kuch aisa produce karta hai jo validation fail karta hai.',
+      order: 6,
+    },
+    {
+      slug: 'genai-module-7-rag-part-1-embeddings-and-chunking',
+      name: 'Module 7: RAG Part 1 — Embeddings & Chunking',
+      nameHi: 'Module 7: RAG Part 1 — Embeddings Aur Chunking',
+      description:
+        'Embeddings as a vector representation of meaning, and why "similar meaning → nearby vectors" is the property everything else builds on; chunking strategies (fixed-size vs semantic/structure-aware) and why chunk boundaries genuinely affect retrieval quality; why Retrieval-Augmented Generation exists at all — context window limits, needing fresh/private data a model was never trained on, and grounding answers against hallucination; and cosine similarity as the actual comparison mechanism.',
+      descriptionHi:
+        'Embeddings meaning ke ek vector representation ki tarah, aur "similar meaning → nearby vectors" wo property kyun hai jispe baaki sab kuch build hota hai; chunking strategies (fixed-size vs semantic/structure-aware) aur chunk boundaries genuinely retrieval quality ko kyun affect karte hain; Retrieval-Augmented Generation bilkul exist kyun karta hai — context window limits, fresh/private data ki zaroorat jispe ek model kabhi train nahi hua, aur hallucination ke against answers ko ground karna; aur cosine similarity actual comparison mechanism ki tarah.',
+      order: 7,
+    },
+    {
+      slug: 'genai-module-8-rag-part-2-vector-databases-in-production',
+      name: 'Module 8: RAG Part 2 — Vector Databases in Production',
+      nameHi: 'Module 8: RAG Part 2 — Production Mein Vector Databases',
+      description:
+        'pgvector versus a dedicated vector database (Pinecone) and when each is the right choice; indexing strategies (HNSW/IVF) at a conceptual level — why an index trades a little accuracy for a lot of speed at scale; hybrid search combining keyword and vector search, since neither alone is reliably best; re-ranking a retrieved set before it reaches the model; and assembling a complete RAG pipeline end-to-end.',
+      descriptionHi:
+        'pgvector versus ek dedicated vector database (Pinecone) aur kab kaunsa sahi choice hai; indexing strategies (HNSW/IVF) ek conceptual level pe — ek index scale par thodi accuracy ko bahut zyada speed ke liye kyun trade karta hai; hybrid search jo keyword aur vector search combine karta hai, kyunki akela koi bhi reliably best nahi hai; ek retrieved set ko re-rank karna model tak pahunchne se pehle; aur ek complete RAG pipeline end-to-end assemble karna.',
+      order: 8,
+    },
+    {
+      slug: 'genai-module-9-agents',
+      name: 'Module 9: Agents',
+      nameHi: 'Module 9: Agents',
+      description:
+        'The ReAct loop — reason, act, observe, repeat — as the actual mechanism behind an "agent"; multi-step tool use where the model itself decides how many steps a task needs; agent memory (short-term, within one run, versus long-term, persisted across runs); and the judgment call of when a simple, deterministic chain genuinely beats an agent\'s open-ended loop.',
+      descriptionHi:
+        'ReAct loop — reason, act, observe, repeat — ek "agent" ke peeche actual mechanism ki tarah; multi-step tool use jahan model khud decide karta hai ki ek task ko kitne steps chahiye; agent memory (short-term, ek run ke andar, versus long-term, runs ke across persisted); aur ye judgment call ki kab ek simple, deterministic chain genuinely ek agent ke open-ended loop se better hota hai.',
+      order: 9,
+    },
+    {
+      slug: 'genai-module-10-cost-latency-and-model-selection',
+      name: 'Module 10: Cost, Latency & Model Selection',
+      nameHi: 'Module 10: Cost, Latency Aur Model Selection',
+      description:
+        'Token pricing math and why it needs to be a real part of a feature\'s design, not an afterthought; picking the right model per task (a fast/cheap model for classification, a slow/accurate one for complex reasoning); prompt caching for repeated context; batching non-urgent requests; and streaming as a genuine latency-perception lever, not just a UX nicety.',
+      descriptionHi:
+        'Token pricing math aur ye ek feature ke design ka ek real hissa kyun hona chahiye, ek afterthought nahi; har task ke liye sahi model chunna (classification ke liye ek fast/cheap model, complex reasoning ke liye ek slow/accurate wala); repeated context ke liye prompt caching; non-urgent requests ko batch karna; aur streaming ek genuine latency-perception lever ki tarah, sirf ek UX nicety nahi.',
+      order: 10,
+    },
+    {
+      slug: 'genai-module-11-reliability-retries-and-guardrails',
+      name: 'Module 11: Reliability, Retries & Guardrails',
+      nameHi: 'Module 11: Reliability, Retries Aur Guardrails',
+      description:
+        'Hallucination mitigation techniques (grounding, citations, confidence signals) that reduce but never eliminate the structural risk from Module 1; output validation as a mandatory step, not an optional one; retry and fallback chains across providers/models for genuine resilience; content moderation APIs; and circuit breakers for AI calls, extending the general resilience patterns to this specific, expensive, high-latency dependency.',
+      descriptionHi:
+        'Hallucination mitigation techniques (grounding, citations, confidence signals) jo Module 1 ke structural risk ko kam karte hain par kabhi eliminate nahi karte; output validation ek mandatory step ki tarah, optional nahi; genuine resilience ke liye providers/models ke across retry aur fallback chains; content moderation APIs; aur AI calls ke liye circuit breakers, general resilience patterns ko is specific, expensive, high-latency dependency tak extend karte hue.',
+      order: 11,
+    },
+    {
+      slug: 'genai-module-12-security-for-ai-features',
+      name: 'Module 12: Security for AI Features',
+      nameHi: 'Module 12: AI Features Ke Liye Security',
+      description:
+        'Prompt injection — both direct (a visitor\'s own input) and indirect (malicious instructions hidden inside RAG-retrieved content); jailbreak patterns and why a system prompt alone is not a security boundary; sanitizing untrusted content before it ever reaches a prompt; treating a model\'s output as untrusted data, never safe HTML/SQL/shell, the same trust-boundary discipline this course\'s earlier security modules established; and data exfiltration risks specifically through tool calls.',
+      descriptionHi:
+        'Prompt injection — dono direct (ek visitor ka apna input) aur indirect (RAG-retrieved content ke andar hidden malicious instructions); jailbreak patterns aur ek system prompt akela ek security boundary kyun nahi hai; untrusted content ko sanitize karna isse pehle ki ye kabhi ek prompt tak pahunche; ek model ke output ko untrusted data ki tarah treat karna, kabhi safe HTML/SQL/shell nahi, wahi trust-boundary discipline jo is course ke pehle ke security modules ne establish ki; aur specifically tool calls ke through data exfiltration risks.',
+      order: 12,
+    },
+    {
+      slug: 'genai-module-13-rate-limiting-and-abuse-prevention',
+      name: 'Module 13: Rate Limiting & Abuse Prevention for AI Endpoints',
+      nameHi: 'Module 13: AI Endpoints Ke Liye Rate Limiting Aur Abuse Prevention',
+      description:
+        'Why AI endpoints need cost-based rate limiting (tokens/dollars consumed), not just request-count limiting, since a single request can cost wildly different amounts; detecting abuse patterns specific to AI (prompt-stuffing, automated scraping via chat); per-user/per-tier quotas; and why the rate-limiting math this course\'s earlier security modules covered needs a genuinely different unit of measurement here.',
+      descriptionHi:
+        'AI endpoints ko cost-based rate limiting (tokens/dollars consumed) kyun chahiye, sirf request-count limiting nahi, kyunki ek single request wildly different amounts cost kar sakti hai; AI-specific abuse patterns detect karna (prompt-stuffing, chat ke through automated scraping); per-user/per-tier quotas; aur is course ke pehle ke security modules ne jo rate-limiting math cover ki use yahan genuinely ek alag unit of measurement kyun chahiye.',
+      order: 13,
+    },
+    {
+      slug: 'genai-module-14-evaluation-and-testing-non-deterministic-systems',
+      name: 'Module 14: Evaluation & Testing Non-Deterministic Systems',
+      nameHi: 'Module 14: Non-Deterministic Systems Ko Evaluate Aur Test Karna',
+      description:
+        'How you meaningfully "test" something that can produce a different valid answer every time; eval datasets as the actual unit of testing (a representative set of inputs with acceptable-output criteria, not a single expected string); LLM-as-judge for scoring subjective quality at scale; regression testing prompts across a model or prompt-template change; and the continuing role of human-in-the-loop review.',
+      descriptionHi:
+        'Aap ek aisi cheez ko meaningfully "test" kaise karte ho jo har baar ek alag valid answer produce kar sakti hai; eval datasets actual unit of testing ki tarah (acceptable-output criteria ke saath inputs ka ek representative set, ek single expected string nahi); scale par subjective quality score karne ke liye LLM-as-judge; ek model ya prompt-template change ke across regression testing prompts; aur human-in-the-loop review ka continuing role.',
+      order: 14,
+    },
+    {
+      slug: 'genai-module-15-multi-modal-ai',
+      name: 'Module 15: Multi-modal AI',
+      nameHi: 'Module 15: Multi-modal AI',
+      description:
+        'Vision — sending an image alongside text and having a model reason about its actual content; audio — speech-to-text and text-to-speech as the two directions of voice interfaces; image generation APIs and their genuinely different failure modes from text generation; and combining modalities (an image plus a question, a voice note transcribed then reasoned over) in one real feature.',
+      descriptionHi:
+        'Vision — ek image ko text ke saath bhejna aur ek model se uske actual content ke baare mein reason karwana; audio — speech-to-text aur text-to-speech voice interfaces ki do directions ki tarah; image generation APIs aur text generation se unke genuinely alag failure modes; aur ek real feature mein modalities combine karna (ek image plus ek sawaal, ek voice note transcribed phir reason kiya gaya).',
+      order: 15,
+    },
+    {
+      slug: 'genai-module-16-fine-tuning-vs-prompting-vs-rag',
+      name: 'Module 16: Fine-tuning vs Prompting vs RAG',
+      nameHi: 'Module 16: Fine-tuning vs Prompting vs RAG',
+      description:
+        'The actual decision tree for which lever to pull for a given problem — better prompting, RAG for missing/fresh knowledge, or fine-tuning for a genuinely different output style/format; when fine-tuning helps versus when it wastes money solving a problem prompting or RAG would have solved more cheaply; dataset preparation basics for a fine-tuning job; and the fine-tuning workflow at a conceptual level.',
+      descriptionHi:
+        'Ek given problem ke liye kaunsa lever pull karna hai iske liye actual decision tree — better prompting, missing/fresh knowledge ke liye RAG, ya ek genuinely alag output style/format ke liye fine-tuning; fine-tuning kab help karta hai versus kab ye ek aisi problem solve karne mein paisa waste karta hai jo prompting ya RAG zyada sasty mein solve kar deta; ek fine-tuning job ke liye dataset preparation basics; aur ek conceptual level pe fine-tuning workflow.',
+      order: 16,
+    },
+    {
+      slug: 'genai-module-17-open-source-and-local-models',
+      name: 'Module 17: Open-Source & Local Models',
+      nameHi: 'Module 17: Open-Source Aur Local Models',
+      description:
+        'Running models locally with Ollama; the genuine tradeoffs between open-weight and closed/proprietary models (cost, capability, control, data privacy); self-hosting considerations (hardware, latency, maintenance burden); and when local inference genuinely makes sense for a product versus when it is a needless complication.',
+      descriptionHi:
+        'Ollama ke saath models ko locally chalana; open-weight aur closed/proprietary models ke beech genuine tradeoffs (cost, capability, control, data privacy); self-hosting considerations (hardware, latency, maintenance burden); aur local inference ek product ke liye genuinely kab sense banata hai versus kab ye ek needless complication hai.',
+      order: 17,
+    },
+    {
+      slug: 'genai-module-18-observability-for-ai-features',
+      name: 'Module 18: Observability for AI Features',
+      nameHi: 'Module 18: AI Features Ke Liye Observability',
+      description:
+        'Tracing a request through prompt construction, model call, and tool execution as one connected unit; logging structured AI events (prompt, completion, tokens, cost, latency) rather than opaque text blobs; detecting drift as a model or prompt behavior changes over time; A/B testing prompts and models against real outcomes; and cost dashboards that make Module 10\'s pricing math visible in production.',
+      descriptionHi:
+        'Ek request ko prompt construction, model call, aur tool execution ke through ek connected unit ki tarah trace karna; opaque text blobs ke bajaye structured AI events (prompt, completion, tokens, cost, latency) log karna; jaise-jaise time ke saath ek model ya prompt behavior badalता hai drift detect karna; real outcomes ke against prompts aur models A/B test karna; aur cost dashboards jo Module 10 ke pricing math ko production mein visible banate hain.',
+      order: 18,
+    },
+    {
+      slug: 'genai-module-19-deploying-and-scaling-ai-features',
+      name: 'Module 19: Deploying & Scaling AI Features',
+      nameHi: 'Module 19: AI Features Ko Deploy Aur Scale Karna',
+      description:
+        'Edge versus serverless for AI routes, and what each genuinely costs given a long-running generation; handling timeouts for a generation that runs longer than a platform\'s execution limit; queueing heavy AI workloads (extending Module 22 of the Next.js course\'s background-job pattern to this specific case); and assembling a complete streaming + RAG + tool-calling chat feature end-to-end as this course\'s practical capstone build.',
+      descriptionHi:
+        'AI routes ke liye edge versus serverless, aur ek long-running generation ko dekhते hue har ek genuinely kya cost karta hai; ek generation ke liye timeouts handle karna jo ek platform ki execution limit se lambi chalti hai; heavy AI workloads ko queue karna (Next.js course ke Module 22 ke background-job pattern ko is specific case tak extend karte hue); aur is course ke practical capstone build ki tarah ek complete streaming + RAG + tool-calling chat feature end-to-end assemble karna.',
+      order: 19,
+    },
+    {
+      slug: 'genai-module-20-responsible-ai-and-production-launch-checklist',
+      name: 'Module 20: Responsible AI & Production Launch Checklist',
+      nameHi: 'Module 20: Responsible AI Aur Production Launch Checklist',
+      description:
+        'Bias and fairness considerations inherited from a model\'s training data and how they surface in a real feature; transparency and AI-content disclosure as both an ethical and, increasingly, a legal expectation; user consent for how their data is used in prompts/fine-tuning; copyright and IP considerations for AI-generated content; and the final go-live checklist reviewing a small AI feature against every module\'s contribution — this course\'s capstone.',
+      descriptionHi:
+        'Ek model ke training data se inherited bias aur fairness considerations aur ye ek real feature mein kaise surface hote hain; transparency aur AI-content disclosure ek ethical aur, increasingly, ek legal expectation dono ki tarah; user consent is baat ke liye ki unka data prompts/fine-tuning mein kaise use hota hai; AI-generated content ke liye copyright aur IP considerations; aur final go-live checklist jo ek chhote AI feature ko har module ke contribution ke against review karta hai — is course ka capstone.',
+      order: 20,
+    },
+  ];
+
+  const createdModules = [];
+  for (const mod of modules) {
+    createdModules.push(
+      await prisma.courseModule.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: mod.slug } },
+        create: { courseId: course.id, ...mod },
+        update: mod,
+      }),
+    );
+  }
+
+  const topics: (CourseLesson & { moduleIndex: number })[] = [
+    ...GENAI_MODULE_1.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 0,
+    })),
+  ];
+
+  const json = (v: unknown) => v as Prisma.InputJsonValue;
+  const createdTopics = [];
+
+  for (const lesson of topics) {
+    const fields = {
+      title: lesson.title,
+      titleHi: lesson.titleHi,
+      description: lesson.description,
+      descriptionHi: lesson.descriptionHi,
+      simple: lesson.simple,
+      simpleHi: lesson.simpleHi,
+      content: lesson.content,
+      contentHi: lesson.contentHi,
+      codeExample: lesson.codeExample ?? null,
+      expectedOutput: lesson.expectedOutput ?? null,
+      analogy: json(lesson.analogy),
+      examples: json(lesson.examples ?? []),
+      mistakes: json(lesson.mistakes ?? []),
+      realWorld: json(lesson.realWorld ?? []),
+      interviewQA: json(lesson.interviewQA ?? []),
+      exercises: json(lesson.exercises ?? []),
+      keyTakeaways: lesson.keyTakeaways ?? [],
+      keyTakeawaysHi: lesson.keyTakeawaysHi ?? [],
+      difficulty: lesson.difficulty,
+      duration: lesson.duration ?? 25,
+      order: lesson.order,
+    };
+
+    const parentModule = createdModules[lesson.moduleIndex];
+    if (!parentModule) throw new Error(`No module at index ${lesson.moduleIndex}`);
+
+    createdTopics.push(
+      await prisma.courseTopic.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: lesson.slug } },
+        create: { courseId: course.id, moduleId: parentModule.id, slug: lesson.slug, ...fields },
+        update: fields,
+      }),
+    );
+  }
+
+  await prisma.courseTopic.deleteMany({
+    where: { courseId: course.id, slug: { notIn: topics.map((t) => t.slug) } },
+  });
+  await prisma.courseModule.deleteMany({
+    where: { courseId: course.id, slug: { notIn: modules.map((m) => m.slug) } },
+  });
+
+  return { modules: createdModules.length, topics: createdTopics.length };
+}
+
 async function main(): Promise<void> {
   console.log('Seeding DevPrep content…\n');
 
@@ -4681,6 +4978,10 @@ async function main(): Promise<void> {
   console.log('\nSeeding Next.js Course…');
   const nextjsStats = await seedNextJsCourse();
   console.log(`  1 course, ${nextjsStats.modules} modules, ${nextjsStats.topics} lessons`);
+
+  console.log('\nSeeding Generative AI Course…');
+  const genaiStats = await seedGenAiCourse();
+  console.log(`  1 course, ${genaiStats.modules} modules, ${genaiStats.topics} lessons`);
 
   console.log('\nDone. Sign up in the app to start tracking progress.');
 }

@@ -12,7 +12,7 @@ import {
   SiReact,
   SiTypescript,
 } from 'react-icons/si';
-import { Database, Infinity as InfinityIcon, Palette, Puzzle } from 'lucide-react';
+import { Database, Infinity as InfinityIcon, Palette, Puzzle, Sparkles } from 'lucide-react';
 
 /**
  * Real marks, not emoji. Brand logos where the course teaches one specific
@@ -32,6 +32,7 @@ export const COURSE_ICON: Record<string, ReactNode> = {
   'databases-complete': <Database />,
   'devops-complete': <InfinityIcon />,
   'nextjs-complete': <SiNextdotjs />,
+  'genai-complete': <Sparkles />,
 };
 
 export function courseIcon(slug: string): ReactNode {
