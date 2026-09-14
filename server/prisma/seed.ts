@@ -402,6 +402,7 @@ import { GENAI_MODULE_4 } from './seed-data/course-genai-module4';
 import { GENAI_MODULE_5 } from './seed-data/course-genai-module5';
 import { GENAI_MODULE_6 } from './seed-data/course-genai-module6';
 import { GENAI_MODULE_7 } from './seed-data/course-genai-module7';
+import { GENAI_MODULE_8 } from './seed-data/course-genai-module8';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -4890,6 +4891,10 @@ async function seedGenAiCourse(): Promise<{ modules: number; topics: number }> {
     ...GENAI_MODULE_7.map((lesson) => ({
       ...lesson,
       moduleIndex: 6,
+    })),
+    ...GENAI_MODULE_8.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 7,
     })),
   ];
 
