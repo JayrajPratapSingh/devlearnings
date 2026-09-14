@@ -126,5 +126,32 @@ offline.
 - [x] M19 Observability, Errors & Deployment — 3/3 lessons, commit `0dc4fc1`
 - [x] M20 SEO, Accessibility & Production Launch — 3/3 lessons, commit `0a945aa`
 
-**COURSE COMPLETE: 20/20 modules, 63/63 lessons seeded, wired, and deployed to production.**
+**M1-M20 COMPLETE: 20/20 modules, 63/63 lessons seeded, wired, and deployed to production.**
 (M1 has 6 lessons; M2-M20 have 3 lessons each = 6 + 19*3 = 63 total.)
+
+## Gap-fill extension (2026-09-14)
+
+A content-coverage audit against "noob to pro, production-grade, big project,
+every possible thing" found 8 real gaps not covered by M1-20 (structural audit
+was clean — this was a curriculum-completeness check, not a bug-finding one).
+Jay asked to fill all of them. Added as three more modules, same pattern
+(3 lessons each, bilingual, codeJs/codeTs):
+
+- [ ] M21 Client State, Type-Safe APIs & Hydration — client-side state managers
+  (Zustand/Jotai) and when Server Components/Actions genuinely aren't enough;
+  tRPC / type-safe API design for a large TS codebase; debugging hydration
+  mismatches (what actually causes each category, and the fix)
+- [ ] M22 Background Jobs, Email & Internationalization — background job
+  systems (Inngest/BullMQ) for work outside the request/response cycle;
+  transactional email done correctly (Resend/SendGrid, templates,
+  deliverability); internationalized routing (locale segments, next-intl)
+- [ ] M23 Partial Prerendering, Turbopack & Standalone Builds — PPR (static
+  shell + dynamic content on one route, and why it's not just Suspense
+  streaming); Turbopack's effect on bundle analysis/build perf; `output:
+  "standalone"` for a minimal production Docker image (ties back to this
+  course's own Docker deployment)
+
+Course record's `order` (21→23), `totalXpReward` (10000→11500), `estimatedHours`
+(200→230), and top-level `description`/`descriptionHi` updated to mention the
+new track. Module metadata (name/description, order 21-23) already added to
+`seedNextJsCourse()` in seed.ts — only the lesson content files remain.

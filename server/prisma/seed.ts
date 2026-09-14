@@ -392,6 +392,7 @@ import { NEXTJS_MODULE_17 } from './seed-data/course-nextjs-module17';
 import { NEXTJS_MODULE_18 } from './seed-data/course-nextjs-module18';
 import { NEXTJS_MODULE_19 } from './seed-data/course-nextjs-module19';
 import { NEXTJS_MODULE_20 } from './seed-data/course-nextjs-module20';
+import { NEXTJS_MODULE_21 } from './seed-data/course-nextjs-module21';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -4205,14 +4206,14 @@ async function seedNextJsCourse(): Promise<{ modules: number; topics: number }> 
     name: 'Next.js Complete Course',
     nameHi: 'Next.js Complete Course - Noob Se Pro Tak',
     description:
-      'Next.js from first principles to a production-grade app: the App Router and the file-system router, rendering strategies and Server vs Client Components, data fetching and caching, forms and Server Actions at scale (including large forms and large datasets), file uploads, authentication, database integration under serverless constraints, payments with Stripe, WebSockets and real-time patterns, a deep security track (XSS/CSRF/headers, API and auth hardening, Server Action data security), performance and caching at scale, edge/middleware/multi-tenancy, testing, observability and deployment, and SEO/accessibility/production launch. Every code example ships in both JavaScript and TypeScript. Verified against a real scaffolded Next.js project where the tooling can run offline; precise, clearly-marked prose where a full external service (a live Stripe/Pusher account) cannot be exercised offline.',
+      'Next.js from first principles to a production-grade app: the App Router and the file-system router, rendering strategies and Server vs Client Components, data fetching and caching, forms and Server Actions at scale (including large forms and large datasets), file uploads, authentication, database integration under serverless constraints, payments with Stripe, WebSockets and real-time patterns, a deep security track (XSS/CSRF/headers, API and auth hardening, Server Action data security), performance and caching at scale, edge/middleware/multi-tenancy, testing, observability and deployment, SEO/accessibility/production launch, and a final advanced track covering client-side state management, type-safe APIs, hydration debugging, background jobs, transactional email, internationalization, Partial Prerendering, and Turbopack/standalone Docker builds. Every code example ships in both JavaScript and TypeScript. Verified against a real scaffolded Next.js project where the tooling can run offline; precise, clearly-marked prose where a full external service (a live Stripe/Pusher account) cannot be exercised offline.',
     descriptionHi:
-      'Next.js first principles se ek production-grade app tak: App Router aur file-system router, rendering strategies aur Server vs Client Components, data fetching aur caching, forms aur Server Actions scale par (large forms aur large datasets samet), file uploads, authentication, serverless constraints ke under database integration, Stripe ke saath payments, WebSockets aur real-time patterns, ek deep security track (XSS/CSRF/headers, API aur auth hardening, Server Action data security), scale par performance aur caching, edge/middleware/multi-tenancy, testing, observability aur deployment, aur SEO/accessibility/production launch. Har code example JavaScript aur TypeScript dono mein aata hai. Ek real scaffolded Next.js project ke against verified jahan tooling offline chal sakti hai; precise, clearly-marked prose jahan ek full external service (ek live Stripe/Pusher account) offline exercise nahi ho sakti.',
+      'Next.js first principles se ek production-grade app tak: App Router aur file-system router, rendering strategies aur Server vs Client Components, data fetching aur caching, forms aur Server Actions scale par (large forms aur large datasets samet), file uploads, authentication, serverless constraints ke under database integration, Stripe ke saath payments, WebSockets aur real-time patterns, ek deep security track (XSS/CSRF/headers, API aur auth hardening, Server Action data security), scale par performance aur caching, edge/middleware/multi-tenancy, testing, observability aur deployment, SEO/accessibility/production launch, aur ek final advanced track jo client-side state management, type-safe APIs, hydration debugging, background jobs, transactional email, internationalization, Partial Prerendering, aur Turbopack/standalone Docker builds cover karta hai. Har code example JavaScript aur TypeScript dono mein aata hai. Ek real scaffolded Next.js project ke against verified jahan tooling offline chal sakti hai; precise, clearly-marked prose jahan ek full external service (ek live Stripe/Pusher account) offline exercise nahi ho sakti.',
     icon: '▲',
     color: '#EDEDED',
     level: 'beginner' as const,
-    totalXpReward: 10000,
-    estimatedHours: 200,
+    totalXpReward: 11500,
+    estimatedHours: 230,
     maxDifficulty: 'HARD' as const,
     order: 13,
     isPublished: true,
@@ -4425,6 +4426,36 @@ async function seedNextJsCourse(): Promise<{ modules: number; topics: number }> 
         'Metadata API (static aur dynamic per-route metadata); sitemap.xml aur robots.txt generation; rich search results ke liye structured data (JSON-LD); ek accessibility pass (semantic HTML, focus management, keyboard navigation, contrast); aur final production-readiness checklist — poore course ne jo cover kiya uska capstone review ek chhoti real app ke against.',
       order: 20,
     },
+    {
+      slug: 'next-module-21-client-state-type-safe-apis-and-hydration',
+      name: 'Module 21: Client State, Type-Safe APIs & Hydration',
+      nameHi: 'Module 21: Client State, Type-Safe APIs Aur Hydration',
+      description:
+        'When Server Components and Server Actions genuinely are not enough and a real client-side state manager (Zustand/Jotai) earns its complexity; tRPC and type-safe API design for a large TypeScript codebase; and debugging the specific, common category of hydration-mismatch errors — what actually causes them and how to fix each cause.',
+      descriptionHi:
+        'Jab Server Components aur Server Actions genuinely kaafi nahi hote aur ek real client-side state manager (Zustand/Jotai) apni complexity earn karta hai; ek badi TypeScript codebase ke liye tRPC aur type-safe API design; aur hydration-mismatch errors ki specific, common category debug karna — ye actually kis wajah se hote hain aur har wajah ko kaise fix karna hai.',
+      order: 21,
+    },
+    {
+      slug: 'next-module-22-background-jobs-email-and-i18n',
+      name: 'Module 22: Background Jobs, Email & Internationalization',
+      nameHi: 'Module 22: Background Jobs, Email Aur Internationalization',
+      description:
+        'Why work outside the request/response cycle (report generation, retries, scheduled tasks) needs a genuinely separate background-job system (Inngest/BullMQ), not a slow Server Action; transactional email done correctly (Resend/SendGrid, templates, deliverability basics); and internationalized routing (locale segments, next-intl) for a genuinely multi-language production app.',
+      descriptionHi:
+        'Request/response cycle ke bahar ka kaam (report generation, retries, scheduled tasks) ek genuinely separate background-job system (Inngest/BullMQ) kyun chahta hai, ek slow Server Action nahi; correctly kiya gaya transactional email (Resend/SendGrid, templates, deliverability basics); aur ek genuinely multi-language production app ke liye internationalized routing (locale segments, next-intl).',
+      order: 22,
+    },
+    {
+      slug: 'next-module-23-partial-prerendering-turbopack-and-standalone-builds',
+      name: 'Module 23: Partial Prerendering, Turbopack & Standalone Builds',
+      nameHi: 'Module 23: Partial Prerendering, Turbopack Aur Standalone Builds',
+      description:
+        'Partial Prerendering — combining a static shell with genuinely dynamic, personalized content on the SAME route, and why this is not just Suspense streaming under a new name; Turbopack and what actually changes for bundle analysis and build performance; and output: "standalone" for a genuinely minimal, production-ready Docker image, tying directly back to this course\'s own Docker deployment.',
+      descriptionHi:
+        'Partial Prerendering — ek static shell ko genuinely dynamic, personalized content ke saath WAHI route pe combine karna, aur ye Suspense streaming ka naye naam se same cheez kyun nahi hai; Turbopack aur bundle analysis aur build performance ke liye actually kya badalta hai; aur ek genuinely minimal, production-ready Docker image ke liye output: "standalone", is course ke apne Docker deployment se directly wapas tie karte hue.',
+      order: 23,
+    },
   ];
 
   const createdModules = [];
@@ -4518,6 +4549,10 @@ async function seedNextJsCourse(): Promise<{ modules: number; topics: number }> 
     ...NEXTJS_MODULE_20.map((lesson) => ({
       ...lesson,
       moduleIndex: 19,
+    })),
+    ...NEXTJS_MODULE_21.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 20,
     })),
   ];
 
