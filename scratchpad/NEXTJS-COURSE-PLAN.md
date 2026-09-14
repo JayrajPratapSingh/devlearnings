@@ -123,5 +123,5 @@ offline.
 - [x] M16 Caching & Scaling Large Data — 3/3 lessons, commit `c56fae9`
 - [x] M17 Edge, Middleware & Multi-tenancy — 3/3 lessons, commit `81f0212`
 - [x] M18 Testing — 3/3 lessons, commit `473657a`
-- [ ] M19 Observability, Errors & Deployment
+- [x] M19 Observability, Errors & Deployment — 3/3 lessons, commit `0dc4fc1`
 - [ ] M20 SEO, Accessibility & Production Launch
