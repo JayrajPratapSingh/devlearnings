@@ -123,4 +123,8 @@ Stripe/Pusher modules.
 **Part IV (Advanced Capabilities) COMPLETE: M15-M17, 9/9 lessons.**
 - [x] M18 Observability for AI Features — 3/3 lessons, commit `76e7168`
 - [x] M19 Deploying & Scaling AI Features — 3/3 lessons, commit `e2b4cad`
-- [ ] M20 Responsible AI & Production Launch Checklist
+- [x] M20 Responsible AI & Production Launch Checklist — 3/3 lessons, commit `99a7506`
+
+**Part V (Shipping It) COMPLETE: M18-M20, 9/9 lessons.**
+
+**COURSE COMPLETE: 20/20 modules, 60/60 lessons.**
