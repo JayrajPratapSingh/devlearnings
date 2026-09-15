@@ -192,7 +192,7 @@ every module's verification pass rather than reinstalling.
 - [x] M3 Handling Input, Touch & Lists — 3/3 lessons (Part I complete)
 - [x] M4 React Navigation Fundamentals — 3/3 lessons (Part II begins)
 - [x] M5 Deep Linking & File-Based Routing — 3/3 lessons
-- [ ] M6 Project Architecture for Production Apps
+- [x] M6 Project Architecture for Production Apps — 3/3 lessons (Part II complete)
 - [ ] M7 State Management in React Native
 - [ ] M8 Networking & Data Fetching
 - [ ] M9 Local Storage & Offline-First Data
