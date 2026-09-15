@@ -190,7 +190,7 @@ every module's verification pass rather than reinstalling.
 - [x] M1 What React Native Actually Is — 3/3 lessons
 - [x] M2 Core Components & Real Flexbox Layout — 3/3 lessons
 - [x] M3 Handling Input, Touch & Lists — 3/3 lessons (Part I complete)
-- [ ] M4 React Navigation Fundamentals
+- [x] M4 React Navigation Fundamentals — 3/3 lessons (Part II begins)
 - [ ] M5 Deep Linking & File-Based Routing
 - [ ] M6 Project Architecture for Production Apps
 - [ ] M7 State Management in React Native
