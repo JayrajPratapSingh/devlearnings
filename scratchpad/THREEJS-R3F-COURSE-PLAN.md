@@ -140,7 +140,7 @@ rather than reinstalling.
 - [x] M3 Geometries & BufferGeometry — 3/3 lessons
 - [x] M4 Materials — 3/3 lessons
 - [x] M5 Lighting — 3/3 lessons
-- [ ] M6 Textures & UV Mapping
+- [x] M6 Textures & UV Mapping — 3/3 lessons
 - [ ] M7 Transformations & Object3D Hierarchy
 - [ ] M8 The Animation Loop
 - [ ] M9 Loading Real 3D Models
