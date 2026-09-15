@@ -189,7 +189,7 @@ every module's verification pass rather than reinstalling.
       all 23 module metadata records)
 - [x] M1 What React Native Actually Is — 3/3 lessons
 - [x] M2 Core Components & Real Flexbox Layout — 3/3 lessons
-- [ ] M3 Handling Input, Touch & Lists
+- [x] M3 Handling Input, Touch & Lists — 3/3 lessons (Part I complete)
 - [ ] M4 React Navigation Fundamentals
 - [ ] M5 Deep Linking & File-Based Routing
 - [ ] M6 Project Architecture for Production Apps
