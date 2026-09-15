@@ -139,7 +139,7 @@ rather than reinstalling.
 - [x] M2 Scene, Camera & Renderer Setup — 3/3 lessons
 - [x] M3 Geometries & BufferGeometry — 3/3 lessons
 - [x] M4 Materials — 3/3 lessons
-- [ ] M5 Lighting
+- [x] M5 Lighting — 3/3 lessons
 - [ ] M6 Textures & UV Mapping
 - [ ] M7 Transformations & Object3D Hierarchy
 - [ ] M8 The Animation Loop
