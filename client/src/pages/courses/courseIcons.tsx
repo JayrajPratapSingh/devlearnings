@@ -10,6 +10,7 @@ import {
   SiNodedotjs,
   SiPython,
   SiReact,
+  SiThreedotjs,
   SiTypescript,
 } from 'react-icons/si';
 import { Brain, Database, Infinity as InfinityIcon, Palette, Puzzle, Sparkles } from 'lucide-react';
@@ -34,6 +35,7 @@ export const COURSE_ICON: Record<string, ReactNode> = {
   'nextjs-complete': <SiNextdotjs />,
   'genai-complete': <Sparkles />,
   'psychology-for-developers': <Brain />,
+  'threejs-r3f-complete': <SiThreedotjs />,
 };
 
 export function courseIcon(slug: string): ReactNode {

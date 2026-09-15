@@ -435,6 +435,9 @@ import { PSYCH_MODULE_17 } from './seed-data/course-psychology-module17';
 import { PSYCH_MODULE_18 } from './seed-data/course-psychology-module18';
 import { PSYCH_MODULE_19 } from './seed-data/course-psychology-module19';
 import { PSYCH_MODULE_20 } from './seed-data/course-psychology-module20';
+import { THREEJS_MODULE_1 } from './seed-data/course-threejs-module1';
+import { THREEJS_MODULE_2 } from './seed-data/course-threejs-module2';
+import { THREEJS_MODULE_3 } from './seed-data/course-threejs-module3';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -5400,6 +5403,310 @@ async function seedPsychologyCourse(): Promise<{ modules: number; topics: number
   return { modules: createdModules.length, topics: createdTopics.length };
 }
 
+async function seedThreeJsCourse(): Promise<{ modules: number; topics: number }> {
+  const courseData = {
+    slug: 'threejs-r3f-complete',
+    name: 'Three.js & React Three Fiber',
+    nameHi: 'Three.js & React Three Fiber - Noob Se Pro Tak',
+    description:
+      "3D on the web, noob to pro: what WebGL actually is and the scene/camera/renderer trio every Three.js program is built from, geometries down to raw vertex buffers, materials and physically-based lighting, textures and UV mapping, transformations and the quaternion math that avoids gimbal lock, the animation loop and frame-rate-independent motion, loading real GLTF models, camera controls and raycasting-based interaction, the memory-disposal gotcha that ships in real production bugs, then React Three Fiber from first principles (what a custom renderer/reconciler actually is), its core hooks and event system, the @react-three/drei ecosystem, state and performance patterns inside a 60fps render loop, instancing at scale, physics with React Three Rapier, and post-processing plus a real shipping checklist. Every runnable piece of logic (vector/matrix math, geometry attributes, raycasting) is genuinely executed in Node against the real three package; every TypeScript/TSX example is type-checked against the real, installed three/@react-three/fiber/@react-three/drei type definitions — actual GPU-rendered visual output is described precisely from documented library behavior, since no WebGL context exists in this execution environment.",
+    descriptionHi:
+      'Web pe 3D, noob se pro tak: WebGL actually kya hai aur scene/camera/renderer trio jisse har Three.js program banta hai, geometries raw vertex buffers tak, materials aur physically-based lighting, textures aur UV mapping, transformations aur wo quaternion math jo gimbal lock avoid karti hai, animation loop aur frame-rate-independent motion, real GLTF models load karna, camera controls aur raycasting-based interaction, wo memory-disposal gotcha jo real production bugs mein ship hota hai, phir React Three Fiber first principles se (ek custom renderer/reconciler actually kya hai), uske core hooks aur event system, @react-three/drei ecosystem, ek 60fps render loop ke andar state aur performance patterns, scale pe instancing, React Three Rapier ke saath physics, aur post-processing plus ek real shipping checklist. Logic ka har runnable piece (vector/matrix math, geometry attributes, raycasting) genuinely Node mein real three package ke against execute kiya gaya hai; har TypeScript/TSX example real, installed three/@react-three/fiber/@react-three/drei type definitions ke against type-checked hai — actual GPU-rendered visual output documented library behavior se precisely describe kiya gaya hai, kyunki is execution environment mein koi WebGL context exist nahi karta.',
+    icon: '🧊',
+    color: '#EC4899',
+    level: 'beginner' as const,
+    totalXpReward: 8000,
+    estimatedHours: 150,
+    maxDifficulty: 'HARD' as const,
+    order: 16,
+    isPublished: true,
+  };
+
+  const course = await prisma.course.upsert({
+    where: { slug: courseData.slug },
+    create: courseData,
+    update: courseData,
+  });
+
+  const modules = [
+    {
+      slug: 'r3f-module-1-what-threejs-actually-is',
+      name: 'Module 1: What Three.js Actually Is',
+      nameHi: 'Module 1: Three.js Actually Hai Kya',
+      description:
+        "WebGL as a GPU rendering pipeline the browser exposes directly, not a black box; why a scene graph exists as the actual data structure behind every 3D program; the scene/camera/renderer trio that every single Three.js program is built from, with nothing skipped or assumed.",
+      descriptionHi:
+        "WebGL ek GPU rendering pipeline ki tarah jise browser directly expose karta hai, ek black box nahi; ek scene graph kyun exist karta hai har 3D program ke peeche actual data structure ki tarah; scene/camera/renderer trio jisse har single Three.js program banta hai, kuch bhi skip ya assume kiye bina.",
+      order: 1,
+    },
+    {
+      slug: 'r3f-module-2-scene-camera-renderer-setup',
+      name: 'Module 2: Scene, Camera & Renderer Setup',
+      nameHi: 'Module 2: Scene, Camera Aur Renderer Setup',
+      description:
+        "Perspective versus orthographic camera math (field of view, aspect ratio, near/far clipping planes) and precisely what each does to a rendered frame; correctly sizing the renderer and canvas and handling window resize, a specific, genuinely commonly-botched step in real projects.",
+      descriptionHi:
+        "Perspective versus orthographic camera math (field of view, aspect ratio, near/far clipping planes) aur precisely ye ki har ek ek rendered frame ke saath kya karta hai; renderer aur canvas ko correctly size karna aur window resize handle karna, ek specific, real projects mein genuinely commonly-botched step.",
+      order: 2,
+    },
+    {
+      slug: 'r3f-module-3-geometries-and-buffergeometry',
+      name: 'Module 3: Geometries & BufferGeometry',
+      nameHi: 'Module 3: Geometries Aur BufferGeometry',
+      description:
+        "What a vertex/attribute/index buffer actually is underneath a built-in geometry like BoxGeometry; building a genuinely custom geometry from raw position, normal, and UV arrays by hand, not merely instantiating a preset shape.",
+      descriptionHi:
+        "Ek vertex/attribute/index buffer actually kya hai BoxGeometry jaisi ek built-in geometry ke neeche; raw position, normal, aur UV arrays se haath se ek genuinely custom geometry banana, sirf ek preset shape instantiate karna nahi.",
+      order: 3,
+    },
+    {
+      slug: 'r3f-module-4-materials',
+      name: 'Module 4: Materials',
+      nameHi: 'Module 4: Materials',
+      description:
+        "Basic, Lambert, Phong, Standard, and Physical materials and the genuine, checkable differences in how each responds to light; specifically what physically-based rendering (PBR) buys you over the older Phong lighting model, not just a marketing term.",
+      descriptionHi:
+        "Basic, Lambert, Phong, Standard, aur Physical materials aur genuine, checkable differences is baat mein ki har ek light ko kaise respond karta hai; specifically physically-based rendering (PBR) purane Phong lighting model se kya deta hai, sirf ek marketing term nahi.",
+      order: 4,
+    },
+    {
+      slug: 'r3f-module-5-lighting',
+      name: 'Module 5: Lighting',
+      nameHi: 'Module 5: Lighting',
+      description:
+        "Ambient, directional, point, and spot lights and precisely how each actually illuminates geometry differently; how shadow maps work internally (rendering the scene from the light's own perspective first), and why they carry a genuine, checkable performance cost, not folklore.",
+      descriptionHi:
+        "Ambient, directional, point, aur spot lights aur precisely ye ki har ek geometry ko differently kaise illuminate karta hai; shadow maps internally kaise kaam karte hain (pehle scene ko light ke apne perspective se render karna), aur wo genuine, checkable performance cost kyun carry karte hain, folklore nahi.",
+      order: 5,
+    },
+    {
+      slug: 'r3f-module-6-textures-and-uv-mapping',
+      name: 'Module 6: Textures & UV Mapping',
+      nameHi: 'Module 6: Textures Aur UV Mapping',
+      description:
+        "Texture loading and color-space correctness (a genuinely common source of washed-out or oversaturated renders); wrapping, filtering, and mipmaps and what each concretely controls; environment maps for real-looking reflections on a Physical material.",
+      descriptionHi:
+        "Texture loading aur color-space correctness (washed-out ya oversaturated renders ka ek genuinely common source); wrapping, filtering, aur mipmaps aur har ek concretely kya control karta hai; ek Physical material pe real-looking reflections ke liye environment maps.",
+      order: 6,
+    },
+    {
+      slug: 'r3f-module-7-transformations-and-object3d-hierarchy',
+      name: 'Module 7: Transformations & Object3D Hierarchy',
+      nameHi: 'Module 7: Transformations Aur Object3D Hierarchy',
+      description:
+        "Position, rotation, and scale and the matrix math underneath them; quaternions versus Euler angles and the specific problem — gimbal lock — quaternions exist to solve; how parent-child transforms propagate correctly through matrixWorld.",
+      descriptionHi:
+        "Position, rotation, aur scale aur unke neeche ka matrix math; quaternions versus Euler angles aur wo specific problem — gimbal lock — jise quaternions solve karne ke liye exist karte hain; parent-child transforms matrixWorld ke through correctly kaise propagate hote hain.",
+      order: 7,
+    },
+    {
+      slug: 'r3f-module-8-the-animation-loop',
+      name: 'Module 8: The Animation Loop',
+      nameHi: 'Module 8: The Animation Loop',
+      description:
+        "requestAnimationFrame and why it exists specifically for rendering, distinct from setInterval; Clock and delta time; why frame-rate-independent motion is a genuine correctness requirement on real hardware with variable frame rates, not a nice-to-have polish item.",
+      descriptionHi:
+        "requestAnimationFrame aur ye specifically rendering ke liye kyun exist karta hai, setInterval se distinct; Clock aur delta time; frame-rate-independent motion real hardware pe variable frame rates ke saath ek genuine correctness requirement kyun hai, ek nice-to-have polish item nahi.",
+      order: 8,
+    },
+    {
+      slug: 'r3f-module-9-loading-real-3d-models',
+      name: 'Module 9: Loading Real 3D Models',
+      nameHi: 'Module 9: Real 3D Models Load Karna',
+      description:
+        "The GLTF/GLB format specifically, and why it won over OBJ/FBX for the web; DRACO and KTX2 compression and what each actually compresses; AnimationMixer for playing animations that were baked into a model file by an artist.",
+      descriptionHi:
+        "Specifically GLTF/GLB format, aur ye web ke liye OBJ/FBX se kyun jeeta; DRACO aur KTX2 compression aur har ek actually kya compress karta hai; AnimationMixer un animations ko play karne ke liye jo ek artist ne ek model file mein bake ki thi.",
+      order: 9,
+    },
+    {
+      slug: 'r3f-module-10-camera-controls',
+      name: 'Module 10: Camera Controls',
+      nameHi: 'Module 10: Camera Controls',
+      description:
+        "What OrbitControls actually does internally (positioning the camera on a sphere around a target point using spherical coordinates); when FirstPersonControls or PointerLockControls is the genuinely correct choice instead, and why.",
+      descriptionHi:
+        "OrbitControls internally actually kya karta hai (spherical coordinates use karke camera ko ek target point ke around ek sphere pe position karna); FirstPersonControls ya PointerLockControls kab genuinely correct choice hai iske bajaye, aur kyun.",
+      order: 10,
+    },
+    {
+      slug: 'r3f-module-11-raycasting-and-object-picking',
+      name: 'Module 11: Raycasting & Object Picking',
+      nameHi: 'Module 11: Raycasting Aur Object Picking',
+      description:
+        "The actual mouse-to-3D-ray math behind every 'click on this object' interaction; intersecting meshes with a Raycaster; the specific, common pitfall of raycasting against an object whose world matrix hasn't been updated.",
+      descriptionHi:
+        "Har 'is object pe click karo' interaction ke peeche actual mouse-to-3D-ray math; ek Raycaster ke saath meshes ko intersect karna; ek object ke against raycasting ka specific, common pitfall jiska world matrix update nahi hua.",
+      order: 11,
+    },
+    {
+      slug: 'r3f-module-12-memory-disposal-and-responsive-scenes',
+      name: 'Module 12: Memory, Disposal & Responsive Scenes',
+      nameHi: 'Module 12: Memory, Disposal Aur Responsive Scenes',
+      description:
+        "The dispose() gotcha specifically: Three.js does not automatically garbage-collect GPU memory when a JavaScript object goes out of scope, a real, specific, frequently-shipped production memory leak; correct resize handling and device pixel ratio.",
+      descriptionHi:
+        "Specifically dispose() gotcha: Three.js automatically GPU memory garbage-collect nahi karta jab ek JavaScript object scope se bahar jaata hai, ek real, specific, frequently-shipped production memory leak; correct resize handling aur device pixel ratio.",
+      order: 12,
+    },
+    {
+      slug: 'r3f-module-13-why-react-three-fiber-exists',
+      name: 'Module 13: Why React Three Fiber Exists',
+      nameHi: 'Module 13: React Three Fiber Kyun Exist Karta Hai',
+      description:
+        "What a custom React renderer/reconciler actually is, using React's own reconciliation model rather than the DOM; specifically what declarative JSX buys you over imperative Three.js object construction, stated honestly alongside its real tradeoffs.",
+      descriptionHi:
+        "Ek custom React renderer/reconciler actually kya hai, React ke apne reconciliation model ko use karte hue DOM ke bajaye; specifically declarative JSX imperative Three.js object construction se kya deta hai, honestly stated uske real tradeoffs ke saath.",
+      order: 13,
+    },
+    {
+      slug: 'r3f-module-14-r3f-core-hooks',
+      name: "Module 14: R3F's Core Hooks",
+      nameHi: 'Module 14: R3F Ke Core Hooks',
+      description:
+        "useFrame, useThree, and useLoader, and precisely how R3F's own render loop coexists with React's separate render cycle without the two conflicting — a specific, checkable mechanism, not magic.",
+      descriptionHi:
+        "useFrame, useThree, aur useLoader, aur precisely R3F ka apna render loop React ke separate render cycle ke saath kaise coexist karta hai dono ke conflict kiye bina — ek specific, checkable mechanism, magic nahi.",
+      order: 14,
+    },
+    {
+      slug: 'r3f-module-15-r3f-events-and-interactivity',
+      name: 'Module 15: R3F Events & Interactivity',
+      nameHi: 'Module 15: R3F Events Aur Interactivity',
+      description:
+        "Pointer events as plain JSX props (onClick, onPointerOver, onPointerOut) directly on a mesh; how this genuinely replaces Module 11's manual raycasting setup for the common interactive case, and where manual raycasting is still needed.",
+      descriptionHi:
+        "Pointer events plain JSX props ki tarah (onClick, onPointerOver, onPointerOut) directly ek mesh pe; ye genuinely Module 11 ke manual raycasting setup ko common interactive case ke liye kaise replace karta hai, aur kahan manual raycasting abhi bhi chahiye.",
+      order: 15,
+    },
+    {
+      slug: 'r3f-module-16-drei-essentials',
+      name: 'Module 16: @react-three/drei Essentials',
+      nameHi: 'Module 16: @react-three/drei Essentials',
+      description:
+        "OrbitControls, Environment, Text, useGLTF, Html-in-3D, and camera helpers from drei — precisely what each one actually saves you from writing yourself, not just a features list.",
+      descriptionHi:
+        "Drei se OrbitControls, Environment, Text, useGLTF, Html-in-3D, aur camera helpers — precisely har ek actually tumhe khud likhne se kya bachata hai, sirf ek features list nahi.",
+      order: 16,
+    },
+    {
+      slug: 'r3f-module-17-state-and-performance-patterns',
+      name: 'Module 17: State & Performance Patterns in R3F',
+      nameHi: 'Module 17: R3F Mein State Aur Performance Patterns',
+      description:
+        "Zustand with R3F specifically for state that shouldn't trigger a React re-render inside a 60fps loop; the concrete, checkable rule for when to use a ref versus React state inside useFrame; avoiding common re-render storms in a 3D scene.",
+      descriptionHi:
+        "Specifically Zustand R3F ke saath us state ke liye jise ek 60fps loop ke andar React re-render trigger nahi karna chahiye; useFrame ke andar ref versus React state kab use karna hai iska concrete, checkable rule; ek 3D scene mein common re-render storms avoid karna.",
+      order: 17,
+    },
+    {
+      slug: 'r3f-module-18-instancing-and-scaling-up',
+      name: 'Module 18: Instancing & Scaling Up',
+      nameHi: 'Module 18: Instancing Aur Scaling Up',
+      description:
+        "InstancedMesh for rendering thousands of similar objects in a single draw call instead of thousands; level of detail (LOD) and frustum culling as concrete performance techniques; establishing a genuine draw-call budget for a real scene.",
+      descriptionHi:
+        "InstancedMesh thousands similar objects ko ek single draw call mein render karne ke liye thousands ke bajaye; level of detail (LOD) aur frustum culling concrete performance techniques ki tarah; ek real scene ke liye ek genuine draw-call budget establish karna.",
+      order: 18,
+    },
+    {
+      slug: 'r3f-module-19-physics-with-react-three-rapier',
+      name: 'Module 19: Physics with React Three Rapier',
+      nameHi: 'Module 19: React Three Rapier Ke Saath Physics',
+      description:
+        "Rigid bodies, colliders, and joints via @react-three/rapier; building one real, interactive physics scene end to end where objects genuinely fall, collide, and respond to forces rather than merely looking like they do.",
+      descriptionHi:
+        "@react-three/rapier ke through rigid bodies, colliders, aur joints; ek real, interactive physics scene end to end banana jahan objects genuinely girte hain, collide karte hain, aur forces ko respond karte hain, sirf aisa dikhne ke bajaye ki wo karte hain.",
+      order: 19,
+    },
+    {
+      slug: 'r3f-module-20-post-processing-and-shipping',
+      name: 'Module 20: Post-Processing & Shipping to Production',
+      nameHi: 'Module 20: Post-Processing Aur Production Mein Shipping',
+      description:
+        "@react-three/postprocessing (bloom, depth of field, and what each pass actually costs); Suspense-based loading states for async 3D assets; a real, concrete asset-optimization and deployment checklist for shipping a 3D scene to production, closing the course.",
+      descriptionHi:
+        "@react-three/postprocessing (bloom, depth of field, aur har pass actually kya cost karta hai); async 3D assets ke liye Suspense-based loading states; ek real, concrete asset-optimization aur deployment checklist ek 3D scene ko production mein ship karne ke liye, course ko close karte hue.",
+      order: 20,
+    },
+  ];
+
+  const createdModules = [];
+  for (const mod of modules) {
+    createdModules.push(
+      await prisma.courseModule.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: mod.slug } },
+        create: { courseId: course.id, ...mod },
+        update: mod,
+      }),
+    );
+  }
+
+  const topics: (CourseLesson & { moduleIndex: number })[] = [
+    ...THREEJS_MODULE_1.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 0,
+    })),
+    ...THREEJS_MODULE_2.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 1,
+    })),
+    ...THREEJS_MODULE_3.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 2,
+    })),
+  ];
+
+  const json = (v: unknown) => v as Prisma.InputJsonValue;
+  const createdTopics = [];
+
+  for (const lesson of topics) {
+    const fields = {
+      title: lesson.title,
+      titleHi: lesson.titleHi,
+      description: lesson.description,
+      descriptionHi: lesson.descriptionHi,
+      simple: lesson.simple,
+      simpleHi: lesson.simpleHi,
+      content: lesson.content,
+      contentHi: lesson.contentHi,
+      codeExample: lesson.codeExample ?? null,
+      expectedOutput: lesson.expectedOutput ?? null,
+      analogy: json(lesson.analogy),
+      examples: json(lesson.examples ?? []),
+      mistakes: json(lesson.mistakes ?? []),
+      realWorld: json(lesson.realWorld ?? []),
+      interviewQA: json(lesson.interviewQA ?? []),
+      exercises: json(lesson.exercises ?? []),
+      keyTakeaways: lesson.keyTakeaways ?? [],
+      keyTakeawaysHi: lesson.keyTakeawaysHi ?? [],
+      difficulty: lesson.difficulty,
+      duration: lesson.duration ?? 25,
+      order: lesson.order,
+    };
+
+    const parentModule = createdModules[lesson.moduleIndex];
+    if (!parentModule) throw new Error(`No module at index ${lesson.moduleIndex}`);
+
+    createdTopics.push(
+      await prisma.courseTopic.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: lesson.slug } },
+        create: { courseId: course.id, moduleId: parentModule.id, slug: lesson.slug, ...fields },
+        update: fields,
+      }),
+    );
+  }
+
+  await prisma.courseTopic.deleteMany({
+    where: { courseId: course.id, slug: { notIn: topics.map((t) => t.slug) } },
+  });
+  await prisma.courseModule.deleteMany({
+    where: { courseId: course.id, slug: { notIn: modules.map((m) => m.slug) } },
+  });
+
+  return { modules: createdModules.length, topics: createdTopics.length };
+}
+
 async function main(): Promise<void> {
   console.log('Seeding DevPrep content…\n');
 
@@ -5473,6 +5780,10 @@ async function main(): Promise<void> {
   console.log('\nSeeding Psychology for Developers Course…');
   const psychStats = await seedPsychologyCourse();
   console.log(`  1 course, ${psychStats.modules} modules, ${psychStats.topics} lessons`);
+
+  console.log('\nSeeding Three.js & React Three Fiber Course…');
+  const threejsStats = await seedThreeJsCourse();
+  console.log(`  1 course, ${threejsStats.modules} modules, ${threejsStats.topics} lessons`);
 
   console.log('\nDone. Sign up in the app to start tracking progress.');
 }
