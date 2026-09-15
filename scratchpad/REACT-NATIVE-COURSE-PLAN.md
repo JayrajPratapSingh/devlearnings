@@ -188,7 +188,7 @@ every module's verification pass rather than reinstalling.
 - [x] Course shell in seed.ts (`seedReactNativeCourse`, Course record,
       all 23 module metadata records)
 - [x] M1 What React Native Actually Is — 3/3 lessons
-- [ ] M2 Core Components & Real Flexbox Layout
+- [x] M2 Core Components & Real Flexbox Layout — 3/3 lessons
 - [ ] M3 Handling Input, Touch & Lists
 - [ ] M4 React Navigation Fundamentals
 - [ ] M5 Deep Linking & File-Based Routing
