@@ -160,4 +160,6 @@ vanilla Three.js.
 - [x] M17 State & Performance Patterns in R3F — 3/3 lessons (Part VII begins)
 - [x] M18 Instancing & Scaling Up — 3/3 lessons
 - [x] M19 Physics with React Three Rapier — 3/3 lessons
-- [ ] M20 Post-Processing & Shipping to Production
+- [x] M20 Post-Processing & Shipping to Production — 3/3 lessons
+
+**COURSE COMPLETE: 20/20 modules, 60/60 lessons.**
