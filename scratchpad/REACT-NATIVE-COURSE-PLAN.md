@@ -194,7 +194,7 @@ every module's verification pass rather than reinstalling.
 - [x] M5 Deep Linking & File-Based Routing — 3/3 lessons
 - [x] M6 Project Architecture for Production Apps — 3/3 lessons (Part II complete)
 - [x] M7 State Management in React Native — 3/3 lessons (Part III begins)
-- [ ] M8 Networking & Data Fetching
+- [x] M8 Networking & Data Fetching — 3/3 lessons
 - [ ] M9 Local Storage & Offline-First Data
 - [ ] M10 Permissions & Platform Differences
 - [ ] M11 Camera, Media & File System
