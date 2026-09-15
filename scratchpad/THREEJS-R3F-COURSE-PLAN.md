@@ -146,7 +146,7 @@ rather than reinstalling.
 - [x] M9 Loading Real 3D Models — 3/3 lessons
 - [x] M10 Camera Controls — 3/3 lessons
 - [x] M11 Raycasting & Object Picking — 3/3 lessons
-- [ ] M12 Memory, Disposal & Responsive Scenes
+- [x] M12 Memory, Disposal & Responsive Scenes — 3/3 lessons (Part I-IV, vanilla Three.js, COMPLETE)
 - [ ] M13 Why React Three Fiber Exists
 - [ ] M14 R3F's Core Hooks
 - [ ] M15 R3F Events & Interactivity
