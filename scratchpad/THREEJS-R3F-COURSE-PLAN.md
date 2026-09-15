@@ -154,7 +154,7 @@ vanilla Three.js.
 - [x] M11 Raycasting & Object Picking — 3/3 lessons
 - [x] M12 Memory, Disposal & Responsive Scenes — 3/3 lessons (Part I-IV, vanilla Three.js, COMPLETE)
 - [x] M13 Why React Three Fiber Exists — 3/3 lessons (Part V begins)
-- [ ] M14 R3F's Core Hooks
+- [x] M14 R3F's Core Hooks — 3/3 lessons
 - [ ] M15 R3F Events & Interactivity
 - [ ] M16 @react-three/drei Essentials
 - [ ] M17 State & Performance Patterns in R3F
