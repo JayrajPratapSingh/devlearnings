@@ -141,7 +141,7 @@ rather than reinstalling.
 - [x] M4 Materials — 3/3 lessons
 - [x] M5 Lighting — 3/3 lessons
 - [x] M6 Textures & UV Mapping — 3/3 lessons
-- [ ] M7 Transformations & Object3D Hierarchy
+- [x] M7 Transformations & Object3D Hierarchy — 3/3 lessons
 - [ ] M8 The Animation Loop
 - [ ] M9 Loading Real 3D Models
 - [ ] M10 Camera Controls
