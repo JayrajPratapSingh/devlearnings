@@ -455,6 +455,7 @@ import { THREEJS_MODULE_17 } from './seed-data/course-threejs-module17';
 import { THREEJS_MODULE_18 } from './seed-data/course-threejs-module18';
 import { THREEJS_MODULE_19 } from './seed-data/course-threejs-module19';
 import { THREEJS_MODULE_20 } from './seed-data/course-threejs-module20';
+import { RN_MODULE_1 } from './seed-data/course-react-native-module1';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -5792,6 +5793,332 @@ async function seedThreeJsCourse(): Promise<{ modules: number; topics: number }>
   return { modules: createdModules.length, topics: createdTopics.length };
 }
 
+async function seedReactNativeCourse(): Promise<{ modules: number; topics: number }> {
+  const courseData = {
+    slug: 'react-native-complete',
+    name: 'React Native',
+    nameHi: 'React Native - Noob Se Pro Tak',
+    description:
+      "Mobile apps with React, noob to pro, production grade: what React Native actually is (the JS thread vs. the native UI thread, the old bridge vs. the new JSI/Fabric architecture), real Yoga-engine flexbox layout, navigation and app architecture, state and networking for a mobile connection that genuinely drops, offline-first local storage, the platform APIs a real app needs (camera, location, biometrics, push notifications), Reanimated animations and gesture handling, native modules and when to eject from Expo, performance and testing, crash reporting and mobile security, and finally building, signing, and shipping a real app to the App Store and Play Store with CI/CD. Every runnable piece of logic — real flexbox computed by the actual Yoga engine React Native uses internally, real component rendering and events, real navigation state — is genuinely executed in Node against the real, installed react-native/@react-navigation packages; every TypeScript/TSX example is type-checked against the real, installed type definitions; native-only behavior (camera, biometrics, actual store submission) is described precisely from documented, checkable library behavior, since no iOS Simulator or Android emulator exists in this execution environment.",
+    descriptionHi:
+      'React ke saath mobile apps, noob se pro tak, production grade: React Native actually kya hai (JS thread versus native UI thread, purana bridge versus naya JSI/Fabric architecture), real Yoga-engine flexbox layout, navigation aur app architecture, ek mobile connection ke liye state aur networking jo genuinely drop hota hai, offline-first local storage, ek real app ko chahiye wale platform APIs (camera, location, biometrics, push notifications), Reanimated animations aur gesture handling, native modules aur Expo se kab eject karna hai, performance aur testing, crash reporting aur mobile security, aur finally ek real app ko App Store aur Play Store tak build, sign, aur ship karna CI/CD ke saath. Logic ka har runnable piece — real flexbox jise actual Yoga engine compute karta hai jise React Native internally use karta hai, real component rendering aur events, real navigation state — genuinely Node mein real, installed react-native/@react-navigation packages ke against execute kiya gaya hai; har TypeScript/TSX example real, installed type definitions ke against type-checked hai; native-only behavior (camera, biometrics, actual store submission) documented, checkable library behavior se precisely describe kiya gaya hai, kyunki is execution environment mein koi iOS Simulator ya Android emulator exist nahi karta.',
+    icon: '📱',
+    color: '#F97316',
+    level: 'beginner' as const,
+    totalXpReward: 9000,
+    estimatedHours: 170,
+    maxDifficulty: 'HARD' as const,
+    order: 17,
+    isPublished: true,
+  };
+
+  const course = await prisma.course.upsert({
+    where: { slug: courseData.slug },
+    create: courseData,
+    update: courseData,
+  });
+
+  const modules = [
+    {
+      slug: 'rn-module-1-what-react-native-actually-is',
+      name: 'Module 1: What React Native Actually Is',
+      nameHi: 'Module 1: React Native Actually Hai Kya',
+      description:
+        "The JS thread versus the native/UI thread, the old asynchronous bridge versus the new synchronous JSI/Fabric/TurboModules architecture, Metro bundler, and the Hermes JS engine — what genuinely executes your code and how it actually talks to real native views.",
+      descriptionHi:
+        "JS thread versus native/UI thread, purana asynchronous bridge versus naya synchronous JSI/Fabric/TurboModules architecture, Metro bundler, aur Hermes JS engine — genuinely tumhare code ko kya execute karta hai aur ye actually real native views se kaise baat karta hai.",
+      order: 1,
+    },
+    {
+      slug: 'rn-module-2-core-components-and-real-flexbox-layout',
+      name: 'Module 2: Core Components & Real Flexbox Layout',
+      nameHi: 'Module 2: Core Components Aur Real Flexbox Layout',
+      description:
+        "View, Text, Image, and ScrollView; StyleSheet; and the actual Yoga layout engine that genuinely computes every real flexbox layout in a React Native app — verified directly, not just described.",
+      descriptionHi:
+        "View, Text, Image, aur ScrollView; StyleSheet; aur wo actual Yoga layout engine jo ek React Native app mein har real flexbox layout ko genuinely compute karta hai — directly verified, sirf describe nahi kiya gaya.",
+      order: 2,
+    },
+    {
+      slug: 'rn-module-3-input-touch-and-lists',
+      name: 'Module 3: Handling Input, Touch & Lists',
+      nameHi: 'Module 3: Input, Touch Aur Lists Handle Karna',
+      description:
+        "TextInput, Pressable and TouchableOpacity, keyboard handling, and FlatList's real virtualization model — precisely why it genuinely does not render ten thousand rows at once.",
+      descriptionHi:
+        "TextInput, Pressable aur TouchableOpacity, keyboard handling, aur FlatList ka real virtualization model — precisely ye ki ye genuinely das hazaar rows ko ek saath kyun render nahi karta.",
+      order: 3,
+    },
+    {
+      slug: 'rn-module-4-react-navigation-fundamentals',
+      name: 'Module 4: React Navigation Fundamentals',
+      nameHi: 'Module 4: React Navigation Fundamentals',
+      description:
+        "Stack, Tab, and Drawer navigators; passing and typing real route params; nested navigators; and precisely what navigation state actually is underneath the JSX — verified via real navigation, not assumed from documentation.",
+      descriptionHi:
+        "Stack, Tab, aur Drawer navigators; real route params pass aur type karna; nested navigators; aur precisely ye ki navigation state JSX ke neeche actually kya hai — real navigation se verified, documentation se assume nahi kiya gaya.",
+      order: 4,
+    },
+    {
+      slug: 'rn-module-5-deep-linking-and-file-based-routing',
+      name: 'Module 5: Deep Linking & File-Based Routing',
+      nameHi: 'Module 5: Deep Linking Aur File-Based Routing',
+      description:
+        "Linking config for real myapp:// URLs and universal/app links; Expo Router's file-based routing compared honestly against React Navigation's config-based approach.",
+      descriptionHi:
+        "Real myapp:// URLs aur universal/app links ke liye linking config; Expo Router ka file-based routing React Navigation ke config-based approach ke against honestly compare kiya gaya.",
+      order: 5,
+    },
+    {
+      slug: 'rn-module-6-project-architecture-for-production',
+      name: 'Module 6: Project Architecture for Production Apps',
+      nameHi: 'Module 6: Production Apps Ke Liye Project Architecture',
+      description:
+        "Feature-based folder structure, environment configs for dev/staging/production, and the real decisions a genuine production React Native codebase needs that a tutorial app skips entirely.",
+      descriptionHi:
+        "Feature-based folder structure, dev/staging/production ke liye environment configs, aur wo real decisions jo ek genuine production React Native codebase ko chahiye jise ek tutorial app entirely skip kar deta hai.",
+      order: 6,
+    },
+    {
+      slug: 'rn-module-7-state-management-in-react-native',
+      name: 'Module 7: State Management in React Native',
+      nameHi: 'Module 7: React Native Mein State Management',
+      description:
+        "Context, Zustand with genuinely verified surgical re-renders, and precisely where global state actually belongs in a real mobile app versus where it doesn't.",
+      descriptionHi:
+        "Context, genuinely verified surgical re-renders ke saath Zustand, aur precisely ye ki ek real mobile app mein global state actually kahan belong karta hai versus kahan nahi.",
+      order: 7,
+    },
+    {
+      slug: 'rn-module-8-networking-and-data-fetching',
+      name: 'Module 8: Networking & Data Fetching',
+      nameHi: 'Module 8: Networking Aur Data Fetching',
+      description:
+        "fetch and axios, TanStack Query in React Native, and the real loading/error/offline state machine a genuine mobile network connection actually requires, unlike a stable browser tab.",
+      descriptionHi:
+        "fetch aur axios, React Native mein TanStack Query, aur wo real loading/error/offline state machine jo ek genuine mobile network connection actually chahta hai, ek stable browser tab ke unlike.",
+      order: 8,
+    },
+    {
+      slug: 'rn-module-9-local-storage-and-offline-first-data',
+      name: 'Module 9: Local Storage & Offline-First Data',
+      nameHi: 'Module 9: Local Storage Aur Offline-First Data',
+      description:
+        "AsyncStorage versus MMKV versus SQLite/WatermelonDB, real tradeoffs in speed, size limits, and queryability, and sync strategies for a genuinely offline-capable app.",
+      descriptionHi:
+        "AsyncStorage versus MMKV versus SQLite/WatermelonDB, speed, size limits, aur queryability mein real tradeoffs, aur ek genuinely offline-capable app ke liye sync strategies.",
+      order: 9,
+    },
+    {
+      slug: 'rn-module-10-permissions-and-platform-differences',
+      name: 'Module 10: Permissions & Platform Differences',
+      nameHi: 'Module 10: Permissions Aur Platform Differences',
+      description:
+        "The real permission-request flow on iOS versus Android, Platform.select and Platform.OS, and precisely why the exact same component can genuinely behave differently per platform.",
+      descriptionHi:
+        "iOS versus Android pe real permission-request flow, Platform.select aur Platform.OS, aur precisely ye ki exact same component genuinely per platform differently kyun behave kar sakta hai.",
+      order: 10,
+    },
+    {
+      slug: 'rn-module-11-camera-media-and-file-system',
+      name: 'Module 11: Camera, Media & File System',
+      nameHi: 'Module 11: Camera, Media Aur File System',
+      description:
+        "expo-camera and expo-image-picker, real file system access, and the actual data shapes these real device APIs return to your JavaScript code.",
+      descriptionHi:
+        "expo-camera aur expo-image-picker, real file system access, aur wo actual data shapes jo ye real device APIs tumhare JavaScript code ko return karte hain.",
+      order: 11,
+    },
+    {
+      slug: 'rn-module-12-location-sensors-and-biometric-auth',
+      name: 'Module 12: Location, Sensors & Biometric Auth',
+      nameHi: 'Module 12: Location, Sensors Aur Biometric Auth',
+      description:
+        "Geolocation, accelerometer and gyroscope sensors, and FaceID/TouchID/fingerprint authentication flows — what a real app can and cannot genuinely rely on across devices.",
+      descriptionHi:
+        "Geolocation, accelerometer aur gyroscope sensors, aur FaceID/TouchID/fingerprint authentication flows — ek real app devices ke across genuinely kis pe rely kar sakta hai aur kis pe nahi.",
+      order: 12,
+    },
+    {
+      slug: 'rn-module-13-push-notifications',
+      name: 'Module 13: Push Notifications',
+      nameHi: 'Module 13: Push Notifications',
+      description:
+        "Expo Notifications, the real local-versus-remote distinction, FCM and APNs at a conceptual level, and the permission-handling flow a real notification feature genuinely needs.",
+      descriptionHi:
+        "Expo Notifications, real local-versus-remote distinction, conceptual level pe FCM aur APNs, aur permission-handling flow jo ek real notification feature genuinely chahta hai.",
+      order: 13,
+    },
+    {
+      slug: 'rn-module-14-animations-with-reanimated',
+      name: 'Module 14: Animations with Reanimated',
+      nameHi: 'Module 14: Reanimated Ke Saath Animations',
+      description:
+        "Worklets, shared values, and the real UI-thread-versus-JS-thread performance model that is the entire, specific reason Reanimated exists instead of the older Animated API.",
+      descriptionHi:
+        "Worklets, shared values, aur wo real UI-thread-versus-JS-thread performance model jo Reanimated ke exist karne ki entire, specific reason hai purane Animated API ke bajaye.",
+      order: 14,
+    },
+    {
+      slug: 'rn-module-15-gesture-handling',
+      name: 'Module 15: Gesture Handling',
+      nameHi: 'Module 15: Gesture Handling',
+      description:
+        "react-native-gesture-handler, composing real pan, pinch, and swipe gestures, and precisely how gestures and Reanimated genuinely work together in a real interaction.",
+      descriptionHi:
+        "react-native-gesture-handler, real pan, pinch, aur swipe gestures compose karna, aur precisely ye ki gestures aur Reanimated ek real interaction mein genuinely saath kaise kaam karte hain.",
+      order: 15,
+    },
+    {
+      slug: 'rn-module-16-native-modules-and-the-new-architecture',
+      name: 'Module 16: Native Modules & the New Architecture',
+      nameHi: 'Module 16: Native Modules Aur New Architecture',
+      description:
+        "What a native module actually is under JSI/TurboModules, when a genuine production app actually needs one, and honestly when to eject from Expo's managed workflow.",
+      descriptionHi:
+        "JSI/TurboModules ke neeche ek native module actually kya hai, ek genuine production app ko actually kab ek chahiye, aur honestly Expo ke managed workflow se kab eject karna hai.",
+      order: 16,
+    },
+    {
+      slug: 'rn-module-17-performance-optimization',
+      name: 'Module 17: Performance Optimization',
+      nameHi: 'Module 17: Performance Optimization',
+      description:
+        "FlatList's real virtualization internals, the genuine re-render cost inside a list, Hermes bytecode precompilation, and real bundle-size analysis for a production app.",
+      descriptionHi:
+        "FlatList ke real virtualization internals, ek list ke andar genuine re-render cost, Hermes bytecode precompilation, aur ek production app ke liye real bundle-size analysis.",
+      order: 17,
+    },
+    {
+      slug: 'rn-module-18-testing-react-native-apps',
+      name: 'Module 18: Testing React Native Apps',
+      nameHi: 'Module 18: React Native Apps Test Karna',
+      description:
+        "Jest and React Native Testing Library — this course's own real, verified toolchain — plus E2E testing with Detox and Maestro at a conceptual level.",
+      descriptionHi:
+        "Jest aur React Native Testing Library — is course ka apna real, verified toolchain — plus conceptual level pe Detox aur Maestro ke saath E2E testing.",
+      order: 18,
+    },
+    {
+      slug: 'rn-module-19-error-handling-and-crash-reporting',
+      name: 'Module 19: Error Handling & Crash Reporting',
+      nameHi: 'Module 19: Error Handling Aur Crash Reporting',
+      description:
+        "ErrorBoundary in a real mobile app, Sentry-style crash reporting, and real recovery UX patterns for a crash that genuinely happens on someone else's phone, not your dev machine.",
+      descriptionHi:
+        "Ek real mobile app mein ErrorBoundary, Sentry-style crash reporting, aur ek crash ke liye real recovery UX patterns jo genuinely kisi aur ke phone pe hota hai, tumhari dev machine pe nahi.",
+      order: 19,
+    },
+    {
+      slug: 'rn-module-20-security-in-react-native',
+      name: 'Module 20: Security in React Native',
+      nameHi: 'Module 20: React Native Mein Security',
+      description:
+        "Secure storage via Keychain and Keystore, certificate pinning, jailbreak and root detection, and the specific OWASP Mobile Top 10 concerns that apply to a real, shipped mobile binary.",
+      descriptionHi:
+        "Keychain aur Keystore ke through secure storage, certificate pinning, jailbreak aur root detection, aur specific OWASP Mobile Top 10 concerns jo ek real, shipped mobile binary pe apply hote hain.",
+      order: 20,
+    },
+    {
+      slug: 'rn-module-21-build-and-release-with-eas',
+      name: 'Module 21: Build & Release with EAS',
+      nameHi: 'Module 21: EAS Ke Saath Build Aur Release',
+      description:
+        "app.json and app.config.js, real EAS Build profiles, and code-signing fundamentals for both the App Store and the Play Store.",
+      descriptionHi:
+        "app.json aur app.config.js, real EAS Build profiles, aur App Store aur Play Store dono ke liye code-signing fundamentals.",
+      order: 21,
+    },
+    {
+      slug: 'rn-module-22-app-store-play-store-and-ota-updates',
+      name: 'Module 22: App Store & Play Store Submission + OTA Updates',
+      nameHi: 'Module 22: App Store Aur Play Store Submission + OTA Updates',
+      description:
+        "Real submission requirements and review-guideline gotchas for both stores, plus EAS Update for shipping genuine JS changes to users without a full store review.",
+      descriptionHi:
+        "Dono stores ke liye real submission requirements aur review-guideline gotchas, plus EAS Update genuine JS changes ko users tak ship karne ke liye bina ek full store review ke.",
+      order: 22,
+    },
+    {
+      slug: 'rn-module-23-ci-cd-for-mobile-apps',
+      name: 'Module 23: CI/CD for Mobile Apps',
+      nameHi: 'Module 23: Mobile Apps Ke Liye CI/CD',
+      description:
+        "A genuine pipeline combining GitHub Actions and EAS that automates test, build, and release end to end, closing this course with a real, shippable mobile CI/CD setup.",
+      descriptionHi:
+        "GitHub Actions aur EAS ko combine karta ek genuine pipeline jo test, build, aur release ko end to end automate karta hai, is course ko ek real, shippable mobile CI/CD setup ke saath close karte hue.",
+      order: 23,
+    },
+  ];
+
+  const createdModules = [];
+  for (const mod of modules) {
+    createdModules.push(
+      await prisma.courseModule.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: mod.slug } },
+        create: { courseId: course.id, ...mod },
+        update: mod,
+      }),
+    );
+  }
+
+  const topics: (CourseLesson & { moduleIndex: number })[] = [
+    ...RN_MODULE_1.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 0,
+    })),
+  ];
+
+  const json = (v: unknown) => v as Prisma.InputJsonValue;
+  const createdTopics = [];
+
+  for (const lesson of topics) {
+    const fields = {
+      title: lesson.title,
+      titleHi: lesson.titleHi,
+      description: lesson.description,
+      descriptionHi: lesson.descriptionHi,
+      simple: lesson.simple,
+      simpleHi: lesson.simpleHi,
+      content: lesson.content,
+      contentHi: lesson.contentHi,
+      codeExample: lesson.codeExample ?? null,
+      expectedOutput: lesson.expectedOutput ?? null,
+      analogy: json(lesson.analogy),
+      examples: json(lesson.examples ?? []),
+      mistakes: json(lesson.mistakes ?? []),
+      realWorld: json(lesson.realWorld ?? []),
+      interviewQA: json(lesson.interviewQA ?? []),
+      exercises: json(lesson.exercises ?? []),
+      keyTakeaways: lesson.keyTakeaways ?? [],
+      keyTakeawaysHi: lesson.keyTakeawaysHi ?? [],
+      difficulty: lesson.difficulty,
+      duration: lesson.duration ?? 25,
+      order: lesson.order,
+    };
+
+    const parentModule = createdModules[lesson.moduleIndex];
+    if (!parentModule) throw new Error(`No module at index ${lesson.moduleIndex}`);
+
+    createdTopics.push(
+      await prisma.courseTopic.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: lesson.slug } },
+        create: { courseId: course.id, moduleId: parentModule.id, slug: lesson.slug, ...fields },
+        update: fields,
+      }),
+    );
+  }
+
+  await prisma.courseTopic.deleteMany({
+    where: { courseId: course.id, slug: { notIn: topics.map((t) => t.slug) } },
+  });
+  await prisma.courseModule.deleteMany({
+    where: { courseId: course.id, slug: { notIn: modules.map((m) => m.slug) } },
+  });
+
+  return { modules: createdModules.length, topics: createdTopics.length };
+}
+
 async function main(): Promise<void> {
   console.log('Seeding DevPrep content…\n');
 
@@ -5869,6 +6196,10 @@ async function main(): Promise<void> {
   console.log('\nSeeding Three.js & React Three Fiber Course…');
   const threejsStats = await seedThreeJsCourse();
   console.log(`  1 course, ${threejsStats.modules} modules, ${threejsStats.topics} lessons`);
+
+  console.log('\nSeeding React Native Course…');
+  const reactNativeStats = await seedReactNativeCourse();
+  console.log(`  1 course, ${reactNativeStats.modules} modules, ${reactNativeStats.topics} lessons`);
 
   console.log('\nDone. Sign up in the app to start tracking progress.');
 }
