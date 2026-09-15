@@ -195,7 +195,7 @@ every module's verification pass rather than reinstalling.
 - [x] M6 Project Architecture for Production Apps — 3/3 lessons (Part II complete)
 - [x] M7 State Management in React Native — 3/3 lessons (Part III begins)
 - [x] M8 Networking & Data Fetching — 3/3 lessons
-- [ ] M9 Local Storage & Offline-First Data
+- [x] M9 Local Storage & Offline-First Data — 3/3 lessons (Part III complete)
 - [ ] M10 Permissions & Platform Differences
 - [ ] M11 Camera, Media & File System
 - [ ] M12 Location, Sensors & Biometric Auth
