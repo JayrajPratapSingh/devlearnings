@@ -157,7 +157,7 @@ vanilla Three.js.
 - [x] M14 R3F's Core Hooks — 3/3 lessons
 - [x] M15 R3F Events & Interactivity — 3/3 lessons
 - [x] M16 @react-three/drei Essentials — 3/3 lessons (Part VI complete)
-- [ ] M17 State & Performance Patterns in R3F
+- [x] M17 State & Performance Patterns in R3F — 3/3 lessons (Part VII begins)
 - [ ] M18 Instancing & Scaling Up
 - [ ] M19 Physics with React Three Rapier
 - [ ] M20 Post-Processing & Shipping to Production
