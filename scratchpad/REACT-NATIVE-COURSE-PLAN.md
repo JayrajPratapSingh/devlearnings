@@ -196,7 +196,7 @@ every module's verification pass rather than reinstalling.
 - [x] M7 State Management in React Native — 3/3 lessons (Part III begins)
 - [x] M8 Networking & Data Fetching — 3/3 lessons
 - [x] M9 Local Storage & Offline-First Data — 3/3 lessons (Part III complete)
-- [ ] M10 Permissions & Platform Differences
+- [x] M10 Permissions & Platform Differences — 3/3 lessons (Part IV begins)
 - [ ] M11 Camera, Media & File System
 - [ ] M12 Location, Sensors & Biometric Auth
 - [ ] M13 Push Notifications
