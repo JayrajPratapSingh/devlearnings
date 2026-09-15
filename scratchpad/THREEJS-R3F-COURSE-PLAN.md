@@ -129,7 +129,13 @@ Scratchpad verification project: `threejs-verify/` (npm-initialized, with
 `three`, `@types/three`, `react@18.3.1`, `@types/react@18`, `react-dom@18.3.1`,
 `@types/react-dom@18`, `@react-three/fiber@8`, `@react-three/drei@9`,
 `typescript` installed) — reuse this for every module's verification pass
-rather than reinstalling.
+rather than reinstalling. As of Module 13, also has
+`@react-three/test-renderer@8.2.4` (an official R3F test renderer, version
+picked specifically to match this project's pinned React 18 / R3F 8 setup)
+— this genuinely renders real R3F JSX in Node and exposes each rendered
+node's actual underlying Three.js `instance`, enabling the same real-execution
+verification standard for Part V (React Three Fiber) that Parts I-IV had for
+vanilla Three.js.
 
 ## Progress
 
@@ -147,7 +153,7 @@ rather than reinstalling.
 - [x] M10 Camera Controls — 3/3 lessons
 - [x] M11 Raycasting & Object Picking — 3/3 lessons
 - [x] M12 Memory, Disposal & Responsive Scenes — 3/3 lessons (Part I-IV, vanilla Three.js, COMPLETE)
-- [ ] M13 Why React Three Fiber Exists
+- [x] M13 Why React Three Fiber Exists — 3/3 lessons (Part V begins)
 - [ ] M14 R3F's Core Hooks
 - [ ] M15 R3F Events & Interactivity
 - [ ] M16 @react-three/drei Essentials
