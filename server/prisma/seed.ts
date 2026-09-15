@@ -459,6 +459,7 @@ import { RN_MODULE_1 } from './seed-data/course-react-native-module1';
 import { RN_MODULE_2 } from './seed-data/course-react-native-module2';
 import { RN_MODULE_3 } from './seed-data/course-react-native-module3';
 import { RN_MODULE_4 } from './seed-data/course-react-native-module4';
+import { RN_MODULE_5 } from './seed-data/course-react-native-module5';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -6081,6 +6082,10 @@ async function seedReactNativeCourse(): Promise<{ modules: number; topics: numbe
     ...RN_MODULE_4.map((lesson) => ({
       ...lesson,
       moduleIndex: 3,
+    })),
+    ...RN_MODULE_5.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 4,
     })),
   ];
 
