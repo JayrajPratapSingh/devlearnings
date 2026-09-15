@@ -145,7 +145,7 @@ rather than reinstalling.
 - [x] M8 The Animation Loop — 3/3 lessons
 - [x] M9 Loading Real 3D Models — 3/3 lessons
 - [x] M10 Camera Controls — 3/3 lessons
-- [ ] M11 Raycasting & Object Picking
+- [x] M11 Raycasting & Object Picking — 3/3 lessons
 - [ ] M12 Memory, Disposal & Responsive Scenes
 - [ ] M13 Why React Three Fiber Exists
 - [ ] M14 R3F's Core Hooks
