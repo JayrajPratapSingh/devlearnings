@@ -142,7 +142,7 @@ rather than reinstalling.
 - [x] M5 Lighting — 3/3 lessons
 - [x] M6 Textures & UV Mapping — 3/3 lessons
 - [x] M7 Transformations & Object3D Hierarchy — 3/3 lessons
-- [ ] M8 The Animation Loop
+- [x] M8 The Animation Loop — 3/3 lessons
 - [ ] M9 Loading Real 3D Models
 - [ ] M10 Camera Controls
 - [ ] M11 Raycasting & Object Picking
