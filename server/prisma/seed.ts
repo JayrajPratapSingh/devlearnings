@@ -449,6 +449,7 @@ import { THREEJS_MODULE_11 } from './seed-data/course-threejs-module11';
 import { THREEJS_MODULE_12 } from './seed-data/course-threejs-module12';
 import { THREEJS_MODULE_13 } from './seed-data/course-threejs-module13';
 import { THREEJS_MODULE_14 } from './seed-data/course-threejs-module14';
+import { THREEJS_MODULE_15 } from './seed-data/course-threejs-module15';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -5709,6 +5710,10 @@ async function seedThreeJsCourse(): Promise<{ modules: number; topics: number }>
     ...THREEJS_MODULE_14.map((lesson) => ({
       ...lesson,
       moduleIndex: 13,
+    })),
+    ...THREEJS_MODULE_15.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 14,
     })),
   ];
 
