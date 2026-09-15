@@ -138,7 +138,7 @@ rather than reinstalling.
 - [x] M1 What Three.js Actually Is — 3/3 lessons
 - [x] M2 Scene, Camera & Renderer Setup — 3/3 lessons
 - [x] M3 Geometries & BufferGeometry — 3/3 lessons
-- [ ] M4 Materials
+- [x] M4 Materials — 3/3 lessons
 - [ ] M5 Lighting
 - [ ] M6 Textures & UV Mapping
 - [ ] M7 Transformations & Object3D Hierarchy
