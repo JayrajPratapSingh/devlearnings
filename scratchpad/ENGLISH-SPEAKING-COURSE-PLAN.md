@@ -220,7 +220,43 @@ used does not apply the same way. Verification here means:
       **Part III (Everyday Communication) now COMPLETE — 27/60
       lessons.** Reseeded locally, API-verified, server + real client
       `npm run build` both clean.
-- [ ] M10-M20 — not started
+- [x] M10 Opinions — Agreeing & Disagreeing — 3/3 lessons (I think/in my
+      opinion/I feel like, agreeing beyond a flat "yes", disagreeing
+      politely by attacking the idea not the person). **Part IV
+      begins.**
+- [x] M11 Feelings & Emotions — 3/3 lessons (specific emotion words
+      beyond good/bad, I feel vs. I am plus the bored/boring -ed/-ing
+      trap, empathy — acknowledging a feeling before responding to it).
+- [x] M12 Comparing, Contrasting & Giving Reasons — 3/3 lessons
+      (because/so and their fixed directions, but/although/however
+      across three registers, combining connectors into fluent
+      multi-clause sentences). **Part IV (Expressing Yourself) now
+      COMPLETE — 36/60 lessons.** Reseeded locally, API-verified,
+      server + real client `npm run build` both clean.
+- [ ] M13-M20 — not started
+
+## Pronunciation playback feature (added after M9, mid-M12)
+
+Jay asked, after seeing a mistake example like `wrong: '"dis" instead
+of "this"'`, whether audio could be generated so the difference is
+actually audible, not just implied by respelling. Built
+`client/src/components/SpeakButton.tsx` using the browser's native
+**Web Speech API** (`speechSynthesis` + `SpeechSynthesisUtterance`) —
+zero backend, zero audio files, zero cost. Wired into:
+- Every vocabulary card (word + example sentence get their own 🔊).
+- The Common Mistakes section's wrong/right text, gated behind
+  `isLanguageLesson = !!topic.vocabulary?.length` so it never appears
+  next to a code snippet on a programming course's mistake block —
+  confirmed 0 buttons on a JS course lesson vs. 14 on an English
+  lesson (5 vocab words × 2 + 2 mistakes × 2).
+
+This genuinely demonstrates the target contrast for free: `"dis" and
+"dat" instead of "this" and "that"` read aloud by TTS pronounces "dis"
+exactly as spelled (approximating the real mispronunciation) right next
+to a correctly-pronounced "this" — no need for real contrastive audio
+recording. Verified live: intercepted `speechSynthesis.speak()` calls
+and confirmed the exact text, `en-US` lang, and rate (0.9 vocab / 0.85
+mistakes) reaching the API on click, zero console errors.
 
 ## Bug found and fixed while building M5/M6
 

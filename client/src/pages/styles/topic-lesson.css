@@ -623,6 +623,9 @@
   margin: 0;
   font-size: 1.05rem;
   color: #f8fafc;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .vocab-pronunciation {
@@ -642,6 +645,57 @@
   font-size: 0.85rem;
   color: #64748b;
   font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ── Speak button (Web Speech API playback) ──────────────────────── */
+
+.speak-btn {
+  border: none;
+  background: rgba(245, 158, 11, 0.12);
+  color: #f59e0b;
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.speak-btn:hover {
+  background: rgba(245, 158, 11, 0.25);
+}
+
+.speak-btn:active {
+  transform: scale(0.92);
+}
+
+.speak-btn.speaking {
+  background: #f59e0b;
+  color: #0f172a;
+}
+
+.code-with-speak {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.code-with-speak pre {
+  flex: 1;
+  min-width: 0;
+}
+
+.code-with-speak .speak-btn {
+  margin-top: 0.5rem;
 }
 
 /* ── Interview Q&A ────────────────────────────────────────────── */

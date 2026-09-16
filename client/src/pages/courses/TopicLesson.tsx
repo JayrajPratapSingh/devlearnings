@@ -15,6 +15,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { usePreferences } from '../../hooks/usePreferences';
 import { Markdown } from '../../components/Markdown';
 import { Teleprompter } from '../../components/Teleprompter';
+import { SpeakButton } from '../../components/SpeakButton';
 import '../styles/topic-lesson.css';
 
 interface Example {
@@ -233,6 +234,10 @@ export default function TopicLesson() {
   const takeaways =
     lang === 'hi' && topic.keyTakeawaysHi?.length ? topic.keyTakeawaysHi : topic.keyTakeaways ?? [];
   const analogy = topic.analogy ? t(topic.analogy.en ?? '', topic.analogy.hi) : '';
+  // Vocabulary only exists on language-course lessons (English Speaking) —
+  // mistakes elsewhere are code snippets, where a "listen" button makes no
+  // sense, so gate pronunciation playback on the same signal.
+  const isLanguageLesson = !!topic.vocabulary?.length;
 
   return (
     <div className="lesson-page">
@@ -329,11 +334,17 @@ export default function TopicLesson() {
             {topic.vocabulary.map((v, i) => (
               <article className="vocab-card" key={i}>
                 <header className="vocab-head">
-                  <h3>{t(v.word, v.wordHi)}</h3>
+                  <h3>
+                    {t(v.word, v.wordHi)}
+                    <SpeakButton text={v.word} label={`Listen to "${v.word}"`} />
+                  </h3>
                   <span className="vocab-pronunciation">/{v.pronunciation}/</span>
                 </header>
                 <p className="vocab-meaning">{t(v.meaning, v.meaningHi)}</p>
-                <p className="vocab-example">“{t(v.example, v.exampleHi)}”</p>
+                <p className="vocab-example">
+                  “{t(v.example, v.exampleHi)}”
+                  <SpeakButton text={v.example} label="Listen to the example sentence" />
+                </p>
               </article>
             ))}
           </div>
@@ -433,9 +444,14 @@ export default function TopicLesson() {
                 <div className="mistake-pair">
                   <div className="mistake-col wrong">
                     <span className="tag">❌ {lang === 'hi' ? 'Galat' : 'Wrong'}</span>
-                    <pre>
-                      <code>{m.wrong}</code>
-                    </pre>
+                    <div className="code-with-speak">
+                      <pre>
+                        <code>{m.wrong}</code>
+                      </pre>
+                      {isLanguageLesson && (
+                        <SpeakButton text={m.wrong} label="Listen to the mistake" rate={0.85} />
+                      )}
+                    </div>
                     {m.previewWrong && (
                       <Preview
                         html={m.previewWrong}
@@ -446,9 +462,14 @@ export default function TopicLesson() {
                   </div>
                   <div className="mistake-col right">
                     <span className="tag">✅ {lang === 'hi' ? 'Sahi' : 'Right'}</span>
-                    <pre>
-                      <code>{m.right}</code>
-                    </pre>
+                    <div className="code-with-speak">
+                      <pre>
+                        <code>{m.right}</code>
+                      </pre>
+                      {isLanguageLesson && (
+                        <SpeakButton text={m.right} label="Listen to the correct version" />
+                      )}
+                    </div>
                     {m.previewRight && (
                       <Preview
                         html={m.previewRight}
