@@ -189,7 +189,12 @@ used does not apply the same way. Verification here means:
 - [x] M2 Talking About Yourself — 3/3 lessons (where you're from, job/
       study & the missing article, a full self-introduction). Reseeded
       locally, API-verified, server + client build clean.
-- [ ] M3-M20 — not started
+- [x] M3 Family, Numbers, Time & Daily Routine — 3/3 lessons (family &
+      the possessive 's, numbers/telling time & the teen/ty stress
+      pair, daily routine & simple-present-for-habits vs. continuous-
+      tense overuse). **Part I (Foundations) now COMPLETE.** Reseeded
+      locally, API-verified, server + client build clean.
+- [ ] M4-M20 — not started
 
 ## Local dev environment note (for resuming this course later)
 
