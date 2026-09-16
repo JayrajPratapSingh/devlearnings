@@ -186,7 +186,9 @@ used does not apply the same way. Verification here means:
       and restarting. A brand-new tab (not just a reload of the old one)
       was also needed to clear a stale React Fast Refresh closure before
       clicks behaved correctly.
-- [ ] M2 Talking About Yourself — not started
+- [x] M2 Talking About Yourself — 3/3 lessons (where you're from, job/
+      study & the missing article, a full self-introduction). Reseeded
+      locally, API-verified, server + client build clean.
 - [ ] M3-M20 — not started
 
 ## Local dev environment note (for resuming this course later)
