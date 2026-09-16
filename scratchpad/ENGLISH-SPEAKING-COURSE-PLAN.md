@@ -260,9 +260,29 @@ used does not apply the same way. Verification here means:
       rule). **Part VI (Advanced Fluency) now COMPLETE — 54/60
       lessons.** Reseeded locally, API-verified, server + real client
       `npm run build` both clean.
-- [ ] M19-M20 — not started (Part VII, the FINAL part: Debate/
-      Persuasion/Presenting, then Confident Conversation — the
-      capstone that closes the whole course)
+- [x] M19 Debate, Persuasion & Presenting — 3/3 lessons (claim/reason/
+      evidence/counterpoint structure, presentation openings and
+      closings, handling live pushback by reusing Module 10's
+      disagreement skill under time pressure). **Part VII begins.**
+- [x] M20 Confident Conversation — Capstone — 3/3 lessons (sustaining
+      a real conversation by weaving M4/M9/M10/M17 together, politely
+      interrupting and changing topics — the one genuinely new skill
+      in the capstone, and a closing lesson naming everything the
+      course built module by module). **COURSE COMPLETE: 20/20
+      modules, 60/60 lessons.** Reseeded locally, API-verified (final
+      lesson confirmed at position 60/60), server + real client `npm
+      run build` both clean, capstone lesson live-verified in browser
+      (Teleprompter + 15 speak buttons render correctly, zero new
+      console errors).
+
+## COURSE COMPLETE
+
+All 20 modules / 60 lessons written, seeded, and built successfully.
+Remaining work before calling this fully done: commit + push the final
+two modules, poll EC2 for deployment, update memory files, and — given
+the course's scale — consider a full gap-audit pass (structural +
+spot-check a sample of lessons) the way every other completed course
+in this catalog has received before being marked "nothing left to do."
 
 ## Pronunciation playback feature (added after M9, mid-M12)
 
