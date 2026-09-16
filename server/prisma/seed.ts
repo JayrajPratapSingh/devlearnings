@@ -485,6 +485,8 @@ import { ENGLISH_MODULE_17 } from './seed-data/course-english-module17';
 import { ENGLISH_MODULE_18 } from './seed-data/course-english-module18';
 import { ENGLISH_MODULE_19 } from './seed-data/course-english-module19';
 import { ENGLISH_MODULE_20 } from './seed-data/course-english-module20';
+import { ENGLISH_MODULE_21 } from './seed-data/course-english-module21';
+import { ENGLISH_MODULE_22 } from './seed-data/course-english-module22';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -6405,10 +6407,30 @@ async function seedEnglishSpeakingCourse(): Promise<{ modules: number; topics: n
       name: 'Module 20: Confident Conversation — Capstone',
       nameHi: 'Module 20: Confident Conversation — Capstone',
       description:
-        "The final module: sustained natural conversation combining everything from this course — opinions, stories, questions, idiom — under real conversational pressure, like interruptions and a sudden change of topic.",
+        "The capstone that closes the core fluency journey: sustained natural conversation combining everything from this course — opinions, stories, questions, idiom — under real conversational pressure, like interruptions and a sudden change of topic.",
       descriptionHi:
-        "Final module: sustained natural conversation jo is poore course se sab kuch combine karti hai — opinions, stories, questions, idiom — real conversational pressure ke neeche, jaise interruptions aur achanak topic change.",
+        "Capstone jo core fluency journey ko close karta hai: sustained natural conversation jo is poore course se sab kuch combine karti hai — opinions, stories, questions, idiom — real conversational pressure ke neeche, jaise interruptions aur achanak topic change.",
       order: 20,
+    },
+    {
+      slug: 'eng-module-21-present-perfect-and-used-to',
+      name: 'Module 21: Present Perfect & Used To',
+      nameHi: 'Module 21: Present Perfect Aur Used To',
+      description:
+        "A supplementary grammar-foundations module, added after a post-completion audit: present perfect (have/has + past participle) for life experience and results that matter now, present perfect vs. simple past, and \"used to\" for past habits that have changed. Usable any time — even alongside Part I-II — not a continuation of the Part VII fluency arc.",
+      descriptionHi:
+        "Ek supplementary grammar-foundations module, ek post-completion audit ke baad add kiya gaya: present perfect (have/has + past participle) life experience aur results ke liye jo abhi matter karte hain, present perfect vs. simple past, aur \"used to\" un past habits ke liye jo change ho chuki hain. Kabhi bhi usable — Part I-II ke saath bhi — Part VII fluency arc ka continuation nahi.",
+      order: 21,
+    },
+    {
+      slug: 'eng-module-22-articles-quantifiers-obligation',
+      name: 'Module 22: Articles, Quantifiers & Obligation',
+      nameHi: 'Module 22: Articles, Quantifiers Aur Obligation',
+      description:
+        "A second supplementary grammar-foundations module: the definite article \"the\" (a genuine structural gap for Hindi, which has no articles at all), much/many and the countable/uncountable distinction, and the real differences between must, have to, should, and need to.",
+      descriptionHi:
+        "Ek doosra supplementary grammar-foundations module: definite article \"the\" (Hindi ke liye ek genuine structural gap, jisme bilkul articles nahi hote), much/many aur countable/uncountable distinction, aur must, have to, should, aur need to ke beech real differences.",
+      order: 22,
     },
   ];
 
@@ -6503,6 +6525,14 @@ async function seedEnglishSpeakingCourse(): Promise<{ modules: number; topics: n
     ...ENGLISH_MODULE_20.map((lesson) => ({
       ...lesson,
       moduleIndex: 19,
+    })),
+    ...ENGLISH_MODULE_21.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 20,
+    })),
+    ...ENGLISH_MODULE_22.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 21,
     })),
   ];
 

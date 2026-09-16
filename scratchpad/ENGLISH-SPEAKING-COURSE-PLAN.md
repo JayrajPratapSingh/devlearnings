@@ -275,6 +275,48 @@ used does not apply the same way. Verification here means:
       (Teleprompter + 15 speak buttons render correctly, zero new
       console errors).
 
+## Part VIII: Grammar Foundations (gap-fill, added after a second audit)
+
+Jay asked for a fresh audit specifically looking for anything missing
+that would make the course easier to learn. Found five genuine gaps
+in what a "noob to pro" spoken English course should cover, the most
+severe being an internal inconsistency: **present perfect tense was
+never taught**, despite Module 16's "since" lesson explicitly saying
+"this connects back to the present-perfect structure this course
+builds toward." Also missing: "used to" for past habits, the
+countable/uncountable distinction behind much/many, the definite
+article "the" (a genuine structural blind spot for Hindi, which has
+no articles at all), and the real difference between must/have
+to/should/need to. Prepositions of time (in/on/at) was also flagged
+as a smaller, lower-priority gap but left out of scope per the user's
+choice.
+
+Jay chose to add both gap-fill modules. Rather than renumber the
+entire 20-module sequence (which would ripple through many
+already-shipped lessons' cross-references — M12/M16/M17/M19/M20 all
+explicitly reference earlier modules by number — and every later
+module's grammar-gating assumptions), added as **Module 21 (Present
+Perfect & Used To) and Module 22 (Articles, Quantifiers & Obligation)**,
+following this same codebase's established gap-fill precedent (Django
+added modules 11-13, Node added module 10, both after their core
+course was already "complete"). Framed explicitly as "Part VIII:
+Grammar Foundations" / supplementary reference material usable any
+time, not a continuation of the Part VII fluency arc — Module 20's
+capstone module-list description was lightly adjusted from "The final
+module" to "The capstone that closes the core fluency journey" so the
+module list doesn't read as self-contradictory once M21-22 appear
+below it. Module 20's actual lesson content (its "closing the course"
+framing) was deliberately left untouched — a large rewrite for little
+benefit, since M20 legitimately does close the core 20-module fluency
+journey.
+
+**Course now: 22 modules, 66 lessons.** Reseeded locally, API-verified
+(final lesson confirms position 66/66), server + real client `npm run
+build` both clean, live-verified in browser (Module 22's first lesson
+renders correctly with Teleprompter + 15 speak buttons, correct
+module breadcrumb, zero new console errors). Structural audit
+(`scratchpad/audit-english-course.js`, updated for 22 modules) clean.
+
 ## COURSE COMPLETE + GAP-AUDITED (2026-09-16)
 
 All 20 modules / 60 lessons written, seeded, built, and deployed

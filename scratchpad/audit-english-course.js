@@ -17,7 +17,9 @@ const fields = [
   'keyTakeawaysHi:',
 ];
 
-for (let m = 1; m <= 20; m++) {
+const TOTAL_MODULES = 22;
+
+for (let m = 1; m <= TOTAL_MODULES; m++) {
   const filePath = path.join(baseDir, `course-english-module${m}.ts`);
   const src = fs.readFileSync(filePath, 'utf8');
   const slugMatches = [...src.matchAll(/slug: '([a-z0-9-]+)'/g)].map((x) => x[1]);
@@ -49,12 +51,12 @@ for (let m = 1; m <= 20; m++) {
   }
 }
 
-console.log('Total lessons found across all 20 modules:', totalLessons);
+console.log(`Total lessons found across all ${TOTAL_MODULES} modules:`, totalLessons);
 console.log(issues.length ? issues.join('\n') : 'No structural issues found.');
 
 // Global duplicate slug check across all modules
 const allSlugs = [];
-for (let m = 1; m <= 20; m++) {
+for (let m = 1; m <= TOTAL_MODULES; m++) {
   const filePath = path.join(baseDir, `course-english-module${m}.ts`);
   const src = fs.readFileSync(filePath, 'utf8');
   const slugMatches = [...src.matchAll(/slug: '([a-z0-9-]+)'/g)].map((x) => x[1]);
