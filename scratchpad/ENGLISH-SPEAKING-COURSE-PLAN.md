@@ -199,7 +199,47 @@ used does not apply the same way. Verification here means:
       verbs, telling a short story without drifting back to present
       tense). **Part II (Building Real Sentences) begins.** Reseeded
       locally, API-verified, server + client build clean.
-- [ ] M5-M20 — not started
+- [x] M5 Talking About the Future — 3/3 lessons ("going to" for
+      pre-made plans, "will" for predictions/offers/in-the-moment
+      decisions, present continuous for fixed arrangements).
+- [x] M6 Asking Questions Naturally — 3/3 lessons (yes/no questions
+      and the missing do/does/did, wh-questions and the inversion that
+      still applies underneath them, softer/politer question framings).
+      **Part II (Building Real Sentences) now COMPLETE.** Reseeded
+      locally, API-verified, server + client build clean.
+- [x] M7 Requests, Offers & Suggestions — 3/3 lessons (could/can/would
+      you for requests, shall I/would you like for offers, let's/why
+      don't we/how about for suggestions). **Part III begins.**
+- [x] M8 Describing People, Places & Things — 3/3 lessons (adjective
+      order — a real rule native speakers never consciously learned,
+      there is/there are and the singular/plural agreement trap,
+      comparisons with -er/more and the irregular good/bad set).
+- [x] M9 Small Talk & Social Situations — 3/3 lessons (what small talk
+      actually is and isn't, weather/weekend universal openers, the
+      "share something back" reflex that keeps a conversation alive).
+      **Part III (Everyday Communication) now COMPLETE — 27/60
+      lessons.** Reseeded locally, API-verified, server + real client
+      `npm run build` both clean.
+- [ ] M10-M20 — not started
+
+## Bug found and fixed while building M5/M6
+
+While running the client's real `npm run build` (not just `tsc
+--noEmit`, which missed it) before this push, caught a genuine leftover
+bug in `Teleprompter.tsx`: `handleReset()` still referenced the OLD ref
+name `lastTsRef` from before the rAF→setInterval rewrite (see the
+"Two real findings" entry above) — `tsc --noEmit` alone did not catch
+this even though `tsc -b` (the project's real build, via `npm run
+build`) did. This means the reset button was silently throwing a
+`ReferenceError` on every click since that rewrite, which explains the
+confusing, inconsistent reset-button test results from the original
+verification pass. Fixed (`lastTsRef` → `lastTickRef`) and **specifically
+re-verified the reset button** in a clean browser tab: play → 300ms →
+reset correctly returns `translateY(0px)` with zero console errors.
+**Lesson for this project going forward: `tsc --noEmit` run ad hoc
+against a single file or an isolated invocation is not a reliable
+substitute for the project's own `npm run build` — always run the real
+build command before considering a client change verified.**
 
 ## Local dev environment note (for resuming this course later)
 
