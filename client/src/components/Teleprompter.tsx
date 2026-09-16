@@ -101,7 +101,7 @@ export function Teleprompter({
 
   const handleReset = () => {
     scrollPosRef.current = 0;
-    lastTsRef.current = null;
+    lastTickRef.current = null;
     setPlaying(false);
     setDone(false);
     setProgress(0);
