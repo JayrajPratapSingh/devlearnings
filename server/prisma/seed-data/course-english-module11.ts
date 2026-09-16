@@ -694,8 +694,8 @@ understandable acknowledge karta hai ek outside perspective se, jo
 often exactly wo hai jo chahiye, ek connection overstate kiye bina jo
 tumhare paas actually nahi hai.`,
 
-    readingPassage: `My friend told me she was having a really stressful week at work. I said, "That sounds really hard, I'm sorry you're dealing with that. Do you want to talk about it, or would some advice help?" She said she just wanted to vent, so I listened. Afterward, she said it really helped just to be heard.`,
-    readingPassageHi: `Meri friend ne mujhe bataya ki wo kaam pe ek really stressful week bita rahi thi. Maine kaha, "That sounds really hard, I'm sorry you're dealing with that. Do you want to talk about it, or would some advice help?" Usne kaha wo bas vent karna chahti thi, so maine suna. Uske baad, usne kaha ye really help kiya bas suna jaana.`,
+    readingPassage: `My friend called me yesterday. "I'm having a really stressful week at work," she said. I replied, "That sounds really hard, I'm sorry you're dealing with that. Do you want to talk about it, or would some advice help?" "I just want to vent," she said, so I listened carefully. Afterward, she said, "That really helped — thanks for just listening."`,
+    readingPassageHi: `Meri friend ne mujhe kal call kiya. "I'm having a really stressful week at work," usne kaha. Maine reply kiya, "That sounds really hard, I'm sorry you're dealing with that. Do you want to talk about it, or would some advice help?" "I just want to vent," usne kaha, so maine carefully suna. Uske baad, usne kaha, "That really helped — thanks for just listening."`,
 
     vocabulary: [
       {

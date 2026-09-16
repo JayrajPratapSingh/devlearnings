@@ -275,14 +275,37 @@ used does not apply the same way. Verification here means:
       (Teleprompter + 15 speak buttons render correctly, zero new
       console errors).
 
-## COURSE COMPLETE
+## COURSE COMPLETE + GAP-AUDITED (2026-09-16)
 
-All 20 modules / 60 lessons written, seeded, and built successfully.
-Remaining work before calling this fully done: commit + push the final
-two modules, poll EC2 for deployment, update memory files, and — given
-the course's scale — consider a full gap-audit pass (structural +
-spot-check a sample of lessons) the way every other completed course
-in this catalog has received before being marked "nothing left to do."
+All 20 modules / 60 lessons written, seeded, built, and deployed
+(final commit `6e3419d`, deployed and confirmed live on EC2).
+
+**Structural audit** (`scratchpad/audit-english-course.js`): every
+module has exactly 3 lessons (60 total), every lesson has all
+required bilingual fields (vocabulary, readingPassage×2, examples,
+mistakes, realWorld, interviewQA, exercises, keyTakeaways×2) present
+and non-trivial, every vocabulary word has a pronunciation field, and
+all 60 lesson slugs are globally unique. Clean, no issues.
+
+**Grammar-gating spot-check**: scanned every module's reading
+passages for premature use of "if" (conditionals, taught M16),
+reported-speech tense-shift ("she said she was..."/"he told me he
+had...", taught M17), and relative clauses. Found and fixed one real
+violation: **M11L3's passage used the actual reported-speech tense-
+shift construction** ("My friend told me she was having...", "She
+said she just wanted...") six modules before M17 formally teaches it
+— rewritten to use only direct quotes + simple past narration
+(grammar already covered by M11), reseeded, rebuilt, API-verified.
+Left as an acceptable editorial judgment call: a handful of very
+common fixed collocations using the word "if" appear earlier than
+M16 (M7 "if you want", M13 "if the new deadline works" / "np if you
+want to start without me") — these are idiomatic courtesy phrases a
+learner can use and understand without parsing conditional grammar,
+not the conditional structure itself, so authenticity of register
+(a real email, a real text) was judged to outweigh strict
+letter-of-the-rule gating for these specific fixed phrases.
+
+**Nothing left to do on this course.**
 
 ## Pronunciation playback feature (added after M9, mid-M12)
 
