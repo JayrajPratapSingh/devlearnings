@@ -69,6 +69,17 @@ export interface LessonExercise {
   hintHi: string;
 }
 
+export interface LessonVocabWord {
+  word: string;
+  wordHi: string;
+  meaning: string;
+  meaningHi: string;
+  example: string;
+  exampleHi: string;
+  /** Simple phonetic spelling, e.g. "ih-NEV-uh-tuh-bul" — no IPA. */
+  pronunciation: string;
+}
+
 export interface CourseLesson {
   slug: string;
   title: string;
@@ -86,6 +97,13 @@ export interface CourseLesson {
   /** Optional single snippet; the outline-level topics in modules 2-3 use these. */
   codeExample?: string;
   expectedOutput?: string;
+  /**
+   * Speaking-practice content (English Speaking course only): a passage read
+   * aloud in the teleprompter, and the vocabulary it draws on.
+   */
+  readingPassage?: string;
+  readingPassageHi?: string;
+  vocabulary?: LessonVocabWord[];
   examples: LessonExample[];
   mistakes: LessonMistake[];
   realWorld: { en: string; hi: string }[];

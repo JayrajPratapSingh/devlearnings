@@ -529,6 +529,13 @@ model CourseTopic {
   /// [{ task, taskHi, hint, hintHi }]
   exercises       Json       @default("[]")
 
+  /// Speaking-practice content (English Speaking course): a passage read
+  /// aloud in the teleprompter, and the words it draws on.
+  readingPassage    String?
+  readingPassageHi  String?
+  /// [{ word, wordHi, meaning, meaningHi, example, exampleHi, pronunciation }]
+  vocabulary        Json       @default("[]")
+
   difficulty      Difficulty @default(EASY)
   order           Int        @default(0)
   duration        Int        @default(15) // minutes

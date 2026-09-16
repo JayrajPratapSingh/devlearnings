@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { usePreferences } from '../../hooks/usePreferences';
 import { Markdown } from '../../components/Markdown';
+import { Teleprompter } from '../../components/Teleprompter';
 import '../styles/topic-lesson.css';
 
 interface Example {
@@ -68,6 +69,16 @@ interface Exercise {
   hintHi?: string;
 }
 
+interface VocabWord {
+  word: string;
+  wordHi?: string;
+  meaning: string;
+  meaningHi?: string;
+  example: string;
+  exampleHi?: string;
+  pronunciation: string;
+}
+
 interface Topic {
   id: string;
   slug: string;
@@ -79,6 +90,9 @@ interface Topic {
   simpleHi?: string;
   content?: string;
   contentHi?: string;
+  readingPassage?: string;
+  readingPassageHi?: string;
+  vocabulary?: VocabWord[];
   difficulty: string;
   duration: number;
   analogy?: { en?: string; hi?: string };
@@ -277,6 +291,52 @@ export default function TopicLesson() {
       {(topic.content || topic.contentHi) && (
         <Section id="detail" icon="🔍" title={lang === 'hi' ? 'Thoda Gehrai Mein' : 'Going Deeper'}>
           <Markdown content={t(topic.content ?? '', topic.contentHi)} />
+        </Section>
+      )}
+
+      {/* ── Reading passage & speaking practice ─────────────────── */}
+      {!!(topic.readingPassage || topic.readingPassageHi) && (
+        <Section
+          id="speaking"
+          icon="🗣️"
+          title={lang === 'hi' ? 'Bol Kar Padho' : 'Read It Out Loud'}
+        >
+          <p className="speaking-intro">
+            {lang === 'hi'
+              ? 'Play dabao aur zor se, saaf awaaz mein bolo — jaise text scroll ho, waise bolte jao. Muscle memory isi tarah banti hai.'
+              : 'Press play and read out loud, clearly, keeping pace with the scroll. This is how muscle memory for speaking gets built.'}
+          </p>
+          <Teleprompter
+            text={t(topic.readingPassage ?? '', topic.readingPassageHi) || ''}
+            label={
+              lang === 'hi'
+                ? 'Speed slider se apni comfortable speaking speed set karo.'
+                : 'Use the speed slider to match your own comfortable speaking pace.'
+            }
+            labelReset={lang === 'hi' ? 'Shuru se' : 'Restart'}
+          />
+        </Section>
+      )}
+
+      {/* ── Vocabulary ───────────────────────────────────────────── */}
+      {!!topic.vocabulary?.length && (
+        <Section
+          id="vocabulary"
+          icon="📚"
+          title={`${lang === 'hi' ? 'Naye Shabd' : 'Vocabulary'} (${topic.vocabulary.length})`}
+        >
+          <div className="vocab-grid">
+            {topic.vocabulary.map((v, i) => (
+              <article className="vocab-card" key={i}>
+                <header className="vocab-head">
+                  <h3>{t(v.word, v.wordHi)}</h3>
+                  <span className="vocab-pronunciation">/{v.pronunciation}/</span>
+                </header>
+                <p className="vocab-meaning">{t(v.meaning, v.meaningHi)}</p>
+                <p className="vocab-example">“{t(v.example, v.exampleHi)}”</p>
+              </article>
+            ))}
+          </div>
         </Section>
       )}
 

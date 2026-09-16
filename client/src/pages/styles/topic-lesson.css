@@ -588,6 +588,62 @@
   margin: 0;
 }
 
+/* ── Reading passage & speaking practice ─────────────────────────── */
+
+.speaking-intro {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0 0 1rem;
+}
+
+/* ── Vocabulary ───────────────────────────────────────────────── */
+
+.vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.9rem;
+}
+
+.vocab-card {
+  background: rgba(148, 163, 184, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 10px;
+  padding: 0.9rem 1rem;
+}
+
+.vocab-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.vocab-head h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #f8fafc;
+}
+
+.vocab-pronunciation {
+  font-size: 0.78rem;
+  color: #f59e0b;
+  white-space: nowrap;
+}
+
+.vocab-meaning {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+}
+
+.vocab-example {
+  margin: 0.5rem 0 0;
+  font-size: 0.85rem;
+  color: #64748b;
+  font-style: italic;
+}
+
 /* ── Interview Q&A ────────────────────────────────────────────── */
 
 .qa-list {

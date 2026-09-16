@@ -465,6 +465,7 @@ import { RN_MODULE_7 } from './seed-data/course-react-native-module7';
 import { RN_MODULE_8 } from './seed-data/course-react-native-module8';
 import { RN_MODULE_9 } from './seed-data/course-react-native-module9';
 import { RN_MODULE_10 } from './seed-data/course-react-native-module10';
+import { ENGLISH_MODULE_1 } from './seed-data/course-english-module1';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -6164,6 +6165,303 @@ async function seedReactNativeCourse(): Promise<{ modules: number; topics: numbe
   return { modules: createdModules.length, topics: createdTopics.length };
 }
 
+async function seedEnglishSpeakingCourse(): Promise<{ modules: number; topics: number }> {
+  const courseData = {
+    slug: 'english-speaking-complete',
+    name: 'English Speaking',
+    nameHi: 'English Speaking - Noob Se Pro Tak',
+    description:
+      "Spoken English, noob to pro: pronunciation and rhythm that actually trip up a Hindi speaker, greetings and introductions, present/past/future tenses built for real conversation, asking questions naturally, requests and small talk, opinions and emotions, real-world English for phone calls/shopping/interviews, complex sentences and reported speech, idioms and natural rhythm, and finally confident, sustained conversation under real pressure. Every lesson pairs a reading passage with a real, interactive teleprompter — auto-scrolling text with play/pause and a speed control — so speaking practice is muscle-memory training, not just reading about grammar. Vocabulary and sentence complexity both grow together, module by module, and reading passages never use a structure the learner hasn't met yet.",
+    descriptionHi:
+      "Spoken English, noob se pro tak: pronunciation aur rhythm jo ek Hindi speaker ko actually trip karati hai, greetings aur introductions, present/past/future tenses jo real conversation ke liye bane hain, naturally questions poochna, requests aur small talk, opinions aur emotions, real-world English phone calls/shopping/interviews ke liye, complex sentences aur reported speech, idioms aur natural rhythm, aur finally confident, sustained conversation real pressure ke neeche. Har lesson ek reading passage ko ek real, interactive teleprompter ke saath pair karta hai — auto-scrolling text play/pause aur ek speed control ke saath — taaki speaking practice muscle-memory training ho, sirf grammar ke baare mein padhna nahi. Vocabulary aur sentence complexity dono saath mein badhte hain, module by module, aur reading passages kabhi wo structure use nahi karte jo learner ne abhi tak nahi seekha.",
+    icon: '🎤',
+    color: '#0EA5E9',
+    level: 'beginner' as const,
+    totalXpReward: 8000,
+    estimatedHours: 100,
+    maxDifficulty: 'HARD' as const,
+    order: 18,
+    isPublished: true,
+  };
+
+  const course = await prisma.course.upsert({
+    where: { slug: courseData.slug },
+    create: courseData,
+    update: courseData,
+  });
+
+  const modules = [
+    {
+      slug: 'eng-module-1-sounds-and-meeting-people',
+      name: 'Module 1: How English Sounds & Meeting People',
+      nameHi: 'Module 1: English Kaise Sound Karta Hai Aur Logon Se Milna',
+      description:
+        "The sounds and rhythm that trip up a Hindi speaker specifically, plus greetings and first introductions — the foundation every later module builds on.",
+      descriptionHi:
+        "Wo sounds aur rhythm jo specifically ek Hindi speaker ko trip karate hain, plus greetings aur first introductions — wo foundation jispe har baad wala module banta hai.",
+      order: 1,
+    },
+    {
+      slug: 'eng-module-2-talking-about-yourself',
+      name: 'Module 2: Talking About Yourself',
+      nameHi: 'Module 2: Apne Baare Mein Baat Karna',
+      description:
+        "Name, country, job or study, and the simple present tense sentences that describe you — the facts every conversation about yourself starts with.",
+      descriptionHi:
+        "Naam, country, job ya study, aur simple present tense sentences jo tumhe describe karte hain — wo facts jinse apne baare mein har conversation shuru hoti hai.",
+      order: 2,
+    },
+    {
+      slug: 'eng-module-3-family-numbers-time-routine',
+      name: 'Module 3: Family, Numbers, Time & Daily Routine',
+      nameHi: 'Module 3: Family, Numbers, Time Aur Daily Routine',
+      description:
+        "Simple present tense for habits and routines, telling time, counting, and talking about your family — Part I's closing module.",
+      descriptionHi:
+        "Habits aur routines ke liye simple present tense, time batana, counting, aur apni family ke baare mein baat karna — Part I ka closing module.",
+      order: 3,
+    },
+    {
+      slug: 'eng-module-4-talking-about-the-past',
+      name: 'Module 4: Talking About the Past',
+      nameHi: 'Module 4: Past Ke Baare Mein Baat Karna',
+      description:
+        "Regular and irregular past tense, and telling someone what happened — Part II begins with the tense every story needs.",
+      descriptionHi:
+        "Regular aur irregular past tense, aur kisi ko batana kya hua — Part II shuru hota hai us tense se jo har story ko chahiye.",
+      order: 4,
+    },
+    {
+      slug: 'eng-module-5-talking-about-the-future',
+      name: 'Module 5: Talking About the Future',
+      nameHi: 'Module 5: Future Ke Baare Mein Baat Karna',
+      description:
+        "Going to vs. will, and the real difference between plans and predictions in natural spoken English.",
+      descriptionHi:
+        "Going to vs. will, aur natural spoken English mein plans aur predictions ke beech ka real farak.",
+      order: 5,
+    },
+    {
+      slug: 'eng-module-6-asking-questions-naturally',
+      name: 'Module 6: Asking Questions Naturally',
+      nameHi: 'Module 6: Naturally Questions Poochna',
+      description:
+        "Wh-questions, yes/no questions, and the natural rhythm of asking something out loud without freezing over word order — closes Part II.",
+      descriptionHi:
+        "Wh-questions, yes/no questions, aur zor se kuch poochne ka natural rhythm bina word order pe freeze hue — Part II close karta hai.",
+      order: 6,
+    },
+    {
+      slug: 'eng-module-7-requests-offers-suggestions',
+      name: 'Module 7: Requests, Offers & Suggestions',
+      nameHi: 'Module 7: Requests, Offers Aur Suggestions',
+      description:
+        "Could/can/would you, let's, and why don't we — the everyday phrases that get things done politely. Part III begins.",
+      descriptionHi:
+        "Could/can/would you, let's, aur why don't we — wo everyday phrases jo cheezein politely karwa dete hain. Part III shuru hota hai.",
+      order: 7,
+    },
+    {
+      slug: 'eng-module-8-describing-people-places-things',
+      name: 'Module 8: Describing People, Places & Things',
+      nameHi: 'Module 8: Logon, Jagah Aur Cheezon Ko Describe Karna',
+      description:
+        "Adjectives, comparisons, and there is/are — painting a clear picture with words instead of just naming things.",
+      descriptionHi:
+        "Adjectives, comparisons, aur there is/are — sirf cheezon ke naam lene ke bajaye words se ek clear picture banana.",
+      order: 8,
+    },
+    {
+      slug: 'eng-module-9-small-talk-and-social-situations',
+      name: 'Module 9: Small Talk & Social Situations',
+      nameHi: 'Module 9: Small Talk Aur Social Situations',
+      description:
+        "Weather, weekend plans, and the structure of casual chat — closing Part III with the everyday conversations that fill the gaps between the real topics.",
+      descriptionHi:
+        "Weather, weekend plans, aur casual chat ka structure — Part III ko close karta hai un everyday conversations ke saath jo real topics ke beech ke gaps bharti hain.",
+      order: 9,
+    },
+    {
+      slug: 'eng-module-10-opinions-agreeing-disagreeing',
+      name: 'Module 10: Opinions — Agreeing & Disagreeing',
+      nameHi: 'Module 10: Opinions — Agree Aur Disagree Karna',
+      description:
+        "I think, in my opinion, and how to disagree politely without sounding rude or backing down completely. Part IV begins.",
+      descriptionHi:
+        "I think, in my opinion, aur politely disagree kaise karein bina rude sound kiye ya poori tarah back down kiye. Part IV shuru hota hai.",
+      order: 10,
+    },
+    {
+      slug: 'eng-module-11-feelings-and-emotions',
+      name: 'Module 11: Feelings & Emotions',
+      nameHi: 'Module 11: Feelings Aur Emotions',
+      description:
+        "Naming emotions precisely — the real vocabulary between just \"good\" and \"bad\" that makes you sound genuinely expressive.",
+      descriptionHi:
+        "Emotions ko precisely naam dena — wo real vocabulary sirf \"good\" aur \"bad\" ke beech mein jo tumhe genuinely expressive sound karati hai.",
+      order: 11,
+    },
+    {
+      slug: 'eng-module-12-comparing-contrasting-giving-reasons',
+      name: 'Module 12: Comparing, Contrasting & Giving Reasons',
+      nameHi: 'Module 12: Compare, Contrast Aur Reasons Dena',
+      description:
+        "Because/so, more...than, and on the other hand — connecting ideas the way a fluent speaker actually does, closing Part IV.",
+      descriptionHi:
+        "Because/so, more...than, aur on the other hand — ideas ko connect karna jaise ek fluent speaker actually karta hai, Part IV close karta hai.",
+      order: 12,
+    },
+    {
+      slug: 'eng-module-13-phone-calls-emails-messages',
+      name: 'Module 13: Phone Calls, Emails & Messages',
+      nameHi: 'Module 13: Phone Calls, Emails Aur Messages',
+      description:
+        "Spoken phone phrases versus written register — Part V begins with the real-world English that connects you to other people remotely.",
+      descriptionHi:
+        "Spoken phone phrases versus written register — Part V shuru hota hai real-world English se jo tumhe doosre logon se remotely connect karti hai.",
+      order: 13,
+    },
+    {
+      slug: 'eng-module-14-shopping-travel-directions',
+      name: 'Module 14: Shopping, Travel & Directions',
+      nameHi: 'Module 14: Shopping, Travel Aur Directions',
+      description:
+        "Transactional English — asking for and giving directions, bargaining politely, and navigating a new place with confidence.",
+      descriptionHi:
+        "Transactional English — directions poochna aur dena, politely bargain karna, aur ek nayi jagah confidence ke saath navigate karna.",
+      order: 14,
+    },
+    {
+      slug: 'eng-module-15-job-interviews-professional-english',
+      name: 'Module 15: Job Interviews & Professional English',
+      nameHi: 'Module 15: Job Interviews Aur Professional English',
+      description:
+        "Self-presentation, professional register, and the common interview questions every candidate genuinely gets asked — closing Part V.",
+      descriptionHi:
+        "Self-presentation, professional register, aur common interview questions jo har candidate ko genuinely poochhe jaate hain — Part V close karta hai.",
+      order: 15,
+    },
+    {
+      slug: 'eng-module-16-complex-sentences',
+      name: 'Module 16: Complex Sentences',
+      nameHi: 'Module 16: Complex Sentences',
+      description:
+        "Because, although, if, and since — joining ideas the way a fluent speaker does instead of a string of short, disconnected sentences. Part VI begins.",
+      descriptionHi:
+        "Because, although, if, aur since — ideas ko jodna jaise ek fluent speaker karta hai, chhote, disconnected sentences ki ek string ke bajaye. Part VI shuru hota hai.",
+      order: 16,
+    },
+    {
+      slug: 'eng-module-17-reported-speech-and-storytelling',
+      name: 'Module 17: Reported Speech & Storytelling',
+      nameHi: 'Module 17: Reported Speech Aur Storytelling',
+      description:
+        "She said that..., and narrating a real event with dialogue — turning simple facts into a story someone wants to keep listening to.",
+      descriptionHi:
+        "She said that..., aur ek real event ko dialogue ke saath narrate karna — simple facts ko ek story mein badalna jise koi sunte rehna chahega.",
+      order: 17,
+    },
+    {
+      slug: 'eng-module-18-idioms-phrasal-verbs-and-rhythm',
+      name: 'Module 18: Idioms, Phrasal Verbs & Natural Rhythm',
+      nameHi: 'Module 18: Idioms, Phrasal Verbs Aur Natural Rhythm',
+      description:
+        "Sounding like a native speaker rather than a textbook — the idioms and phrasal verbs that show up in real, everyday conversation, closing Part VI.",
+      descriptionHi:
+        "Ek native speaker jaisa sound karna, textbook jaisa nahi — wo idioms aur phrasal verbs jo real, everyday conversation mein aate hain, Part VI close karta hai.",
+      order: 18,
+    },
+    {
+      slug: 'eng-module-19-debate-persuasion-presenting',
+      name: 'Module 19: Debate, Persuasion & Presenting',
+      nameHi: 'Module 19: Debate, Persuasion Aur Presenting',
+      description:
+        "Structuring an argument, and the openings and closings that make a presentation land — Part VII, mastery, begins.",
+      descriptionHi:
+        "Ek argument structure karna, aur wo openings aur closings jo ek presentation ko land karati hain — Part VII, mastery, shuru hota hai.",
+      order: 19,
+    },
+    {
+      slug: 'eng-module-20-confident-conversation-capstone',
+      name: 'Module 20: Confident Conversation — Capstone',
+      nameHi: 'Module 20: Confident Conversation — Capstone',
+      description:
+        "The final module: sustained natural conversation combining everything from this course — opinions, stories, questions, idiom — under real conversational pressure, like interruptions and a sudden change of topic.",
+      descriptionHi:
+        "Final module: sustained natural conversation jo is poore course se sab kuch combine karti hai — opinions, stories, questions, idiom — real conversational pressure ke neeche, jaise interruptions aur achanak topic change.",
+      order: 20,
+    },
+  ];
+
+  const createdModules = [];
+  for (const mod of modules) {
+    createdModules.push(
+      await prisma.courseModule.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: mod.slug } },
+        create: { courseId: course.id, ...mod },
+        update: mod,
+      }),
+    );
+  }
+
+  const topics: (CourseLesson & { moduleIndex: number })[] = [
+    ...ENGLISH_MODULE_1.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 0,
+    })),
+  ];
+
+  const json = (v: unknown) => v as Prisma.InputJsonValue;
+  const createdTopics = [];
+
+  for (const lesson of topics) {
+    const fields = {
+      title: lesson.title,
+      titleHi: lesson.titleHi,
+      description: lesson.description,
+      descriptionHi: lesson.descriptionHi,
+      simple: lesson.simple,
+      simpleHi: lesson.simpleHi,
+      content: lesson.content,
+      contentHi: lesson.contentHi,
+      readingPassage: lesson.readingPassage ?? null,
+      readingPassageHi: lesson.readingPassageHi ?? null,
+      vocabulary: json(lesson.vocabulary ?? []),
+      analogy: json(lesson.analogy ?? {}),
+      examples: json(lesson.examples ?? []),
+      mistakes: json(lesson.mistakes ?? []),
+      realWorld: json(lesson.realWorld ?? []),
+      interviewQA: json(lesson.interviewQA ?? []),
+      exercises: json(lesson.exercises ?? []),
+      keyTakeaways: lesson.keyTakeaways ?? [],
+      keyTakeawaysHi: lesson.keyTakeawaysHi ?? [],
+      difficulty: lesson.difficulty,
+      duration: lesson.duration ?? 20,
+      order: lesson.order,
+    };
+
+    const parentModule = createdModules[lesson.moduleIndex];
+    if (!parentModule) throw new Error(`No module at index ${lesson.moduleIndex}`);
+
+    createdTopics.push(
+      await prisma.courseTopic.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: lesson.slug } },
+        create: { courseId: course.id, moduleId: parentModule.id, slug: lesson.slug, ...fields },
+        update: fields,
+      }),
+    );
+  }
+
+  await prisma.courseTopic.deleteMany({
+    where: { courseId: course.id, slug: { notIn: topics.map((t) => t.slug) } },
+  });
+  await prisma.courseModule.deleteMany({
+    where: { courseId: course.id, slug: { notIn: modules.map((m) => m.slug) } },
+  });
+
+  return { modules: createdModules.length, topics: createdTopics.length };
+}
+
 async function main(): Promise<void> {
   console.log('Seeding DevPrep content…\n');
 
@@ -6245,6 +6543,10 @@ async function main(): Promise<void> {
   console.log('\nSeeding React Native Course…');
   const reactNativeStats = await seedReactNativeCourse();
   console.log(`  1 course, ${reactNativeStats.modules} modules, ${reactNativeStats.topics} lessons`);
+
+  console.log('\nSeeding English Speaking course…');
+  const englishStats = await seedEnglishSpeakingCourse();
+  console.log(`  1 course, ${englishStats.modules} modules, ${englishStats.topics} lessons`);
 
   console.log('\nDone. Sign up in the app to start tracking progress.');
 }
