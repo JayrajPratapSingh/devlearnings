@@ -233,7 +233,23 @@ used does not apply the same way. Verification here means:
       multi-clause sentences). **Part IV (Expressing Yourself) now
       COMPLETE — 36/60 lessons.** Reseeded locally, API-verified,
       server + real client `npm run build` both clean.
-- [ ] M13-M20 — not started
+- [x] M13 Phone Calls, Emails & Messages — 3/3 lessons (phone-specific
+      phrases like "speaking"/"you're breaking up", email's written
+      register and structure, texting's relaxed register and where
+      abbreviations don't belong). **Part V begins.**
+- [x] M14 Shopping, Travel & Directions — 3/3 lessons ("just browsing"
+      and shop vocabulary, directions and the prepositions that carry
+      the real meaning, airport/hotel/taxi travel phrases).
+- [x] M15 Job Interviews & Professional English — 3/3 lessons ("tell me
+      about yourself" via present-past-future, the STAR method for
+      behavioral questions, professional register — precise verbs vs.
+      vague ones, kept honest). **Part V (Real-World English) now
+      COMPLETE — 45/60 lessons, 3/4 of the whole course.** Reseeded
+      locally, API-verified, server + real client `npm run build` both
+      clean.
+- [ ] M16-M20 — not started (Part VI: Complex Sentences, Reported
+      Speech & Storytelling, Idioms & Natural Rhythm; Part VII:
+      Debate/Persuasion/Presenting, Confident Conversation capstone)
 
 ## Pronunciation playback feature (added after M9, mid-M12)
 
