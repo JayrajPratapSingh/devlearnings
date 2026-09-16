@@ -480,6 +480,9 @@ import { ENGLISH_MODULE_12 } from './seed-data/course-english-module12';
 import { ENGLISH_MODULE_13 } from './seed-data/course-english-module13';
 import { ENGLISH_MODULE_14 } from './seed-data/course-english-module14';
 import { ENGLISH_MODULE_15 } from './seed-data/course-english-module15';
+import { ENGLISH_MODULE_16 } from './seed-data/course-english-module16';
+import { ENGLISH_MODULE_17 } from './seed-data/course-english-module17';
+import { ENGLISH_MODULE_18 } from './seed-data/course-english-module18';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -6478,6 +6481,18 @@ async function seedEnglishSpeakingCourse(): Promise<{ modules: number; topics: n
     ...ENGLISH_MODULE_15.map((lesson) => ({
       ...lesson,
       moduleIndex: 14,
+    })),
+    ...ENGLISH_MODULE_16.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 15,
+    })),
+    ...ENGLISH_MODULE_17.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 16,
+    })),
+    ...ENGLISH_MODULE_18.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 17,
     })),
   ];
 

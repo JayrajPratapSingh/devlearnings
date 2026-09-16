@@ -247,9 +247,22 @@ used does not apply the same way. Verification here means:
       COMPLETE — 45/60 lessons, 3/4 of the whole course.** Reseeded
       locally, API-verified, server + real client `npm run build` both
       clean.
-- [ ] M16-M20 — not started (Part VI: Complex Sentences, Reported
-      Speech & Storytelling, Idioms & Natural Rhythm; Part VII:
-      Debate/Persuasion/Presenting, Confident Conversation capstone)
+- [x] M16 Complex Sentences — 3/3 lessons (if — real vs. unreal
+      conditionals with the "were" exception, since's two unrelated
+      jobs, relative clauses who/which/that). **Part VI begins.**
+- [x] M17 Reported Speech & Storytelling — 3/3 lessons (the tense-shift
+      rule and why it happens, reporting questions/requests by reusing
+      Module 6's embedded-question skill, narrating a full story with
+      dialogue by combining M3+M4+this module).
+- [x] M18 Idioms, Phrasal Verbs & Natural Rhythm — 3/3 lessons (phrasal
+      verbs as new-meaning compounds, fixed-form idioms, gonna/wanna/
+      gotta as the concrete evidence of Module 1's stress-timed rhythm
+      rule). **Part VI (Advanced Fluency) now COMPLETE — 54/60
+      lessons.** Reseeded locally, API-verified, server + real client
+      `npm run build` both clean.
+- [ ] M19-M20 — not started (Part VII, the FINAL part: Debate/
+      Persuasion/Presenting, then Confident Conversation — the
+      capstone that closes the whole course)
 
 ## Pronunciation playback feature (added after M9, mid-M12)
 
