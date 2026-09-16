@@ -194,7 +194,12 @@ used does not apply the same way. Verification here means:
       pair, daily routine & simple-present-for-habits vs. continuous-
       tense overuse). **Part I (Foundations) now COMPLETE.** Reseeded
       locally, API-verified, server + client build clean.
-- [ ] M4-M20 — not started
+- [x] M4 Talking About the Past — 3/3 lessons (regular past tense &
+      its three "-ed" sounds, irregular past tense's ten most frequent
+      verbs, telling a short story without drifting back to present
+      tense). **Part II (Building Real Sentences) begins.** Reseeded
+      locally, API-verified, server + client build clean.
+- [ ] M5-M20 — not started
 
 ## Local dev environment note (for resuming this course later)
 
