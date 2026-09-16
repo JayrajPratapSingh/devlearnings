@@ -595,6 +595,10 @@
   font-size: 0.95rem;
   line-height: 1.6;
   margin: 0 0 1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 /* ── Vocabulary ───────────────────────────────────────────────── */

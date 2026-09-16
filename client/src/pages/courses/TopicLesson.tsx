@@ -310,6 +310,13 @@ export default function TopicLesson() {
             {lang === 'hi'
               ? 'Play dabao aur zor se, saaf awaaz mein bolo — jaise text scroll ho, waise bolte jao. Muscle memory isi tarah banti hai.'
               : 'Press play and read out loud, clearly, keeping pace with the scroll. This is how muscle memory for speaking gets built.'}
+            {topic.readingPassage && (
+              <SpeakButton
+                text={topic.readingPassage}
+                label="Hear this passage read aloud first"
+                rate={0.95}
+              />
+            )}
           </p>
           <Teleprompter
             text={t(topic.readingPassage ?? '', topic.readingPassageHi) || ''}
@@ -396,6 +403,9 @@ export default function TopicLesson() {
                       <h3>{t(ex.title, ex.titleHi)}</h3>
                       {isPaired && (
                         <span className="example-lang-pill">{codeLang === 'ts' ? '.tsx' : '.jsx'}</span>
+                      )}
+                      {isLanguageLesson && shownCode && (
+                        <SpeakButton text={shownCode} label="Listen to this example" rate={0.95} />
                       )}
                     </header>
 
