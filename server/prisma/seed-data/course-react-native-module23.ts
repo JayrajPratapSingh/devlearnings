@@ -660,6 +660,43 @@ hai.`,
       {
         title: 'A complete, real CI/CD pipeline combining this course\'s own validated test job with EAS build/submit automation, every piece traced to a specific earlier module',
         titleHi: 'Ek complete, real CI/CD pipeline jo is course ke apne validated test job ko EAS build/submit automation ke saath combine karta hai, har piece ek specific earlier module tak traced',
+        previewHeight: 380,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">The full path this course actually built, module by module: a validated test gate, a real EAS build using the code-signing identities from Module 21, then submission into both stores\' real review queues (Module 22).</p>' +
+          '<svg viewBox="0 0 780 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs><marker id="pipe-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>' +
+          '<rect x="15" y="115" width="130" height="80" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="2"/>' +
+          '<text x="80" y="140" fill="#f1f5f9" font-size="11.5" font-weight="700" text-anchor="middle">test</text>' +
+          '<text x="80" y="157" fill="#cbd5e1" font-size="9" text-anchor="middle">jest --ci</text>' +
+          '<text x="80" y="171" fill="#cbd5e1" font-size="9" text-anchor="middle">actionlint-valid YAML</text>' +
+          '<text x="80" y="185" fill="#cbd5e1" font-size="9" text-anchor="middle">(Lesson 1)</text>' +
+          '<line x1="145" y1="155" x2="183" y2="155" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#pipe-arrow)"/>' +
+          '<text x="164" y="147" fill="#64748b" font-size="8.5" text-anchor="middle">needs: test</text>' +
+          '<rect x="185" y="115" width="140" height="80" rx="6" fill="#1d4ed8" fill-opacity="0.28" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="255" y="140" fill="#eff6ff" font-size="11.5" font-weight="700" text-anchor="middle">build</text>' +
+          '<text x="255" y="157" fill="#bfdbfe" font-size="9" text-anchor="middle" font-family="monospace">eas build --profile</text>' +
+          '<text x="255" y="171" fill="#bfdbfe" font-size="9" text-anchor="middle" font-family="monospace">production</text>' +
+          '<text x="255" y="185" fill="#bfdbfe" font-size="9" text-anchor="middle">signed (Module 21)</text>' +
+          '<line x1="325" y1="155" x2="363" y2="155" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#pipe-arrow)"/>' +
+          '<text x="344" y="147" fill="#64748b" font-size="8.5" text-anchor="middle">needs: build</text>' +
+          '<rect x="365" y="115" width="140" height="80" rx="6" fill="#b45309" fill-opacity="0.26" stroke="#f59e0b" stroke-width="2"/>' +
+          '<text x="435" y="140" fill="#fffbeb" font-size="11.5" font-weight="700" text-anchor="middle">submit</text>' +
+          '<text x="435" y="157" fill="#fde68a" font-size="9" text-anchor="middle" font-family="monospace">eas submit --latest</text>' +
+          '<text x="435" y="171" fill="#fde68a" font-size="9" text-anchor="middle">EXPO_TOKEN secret,</text>' +
+          '<text x="435" y="185" fill="#fde68a" font-size="9" text-anchor="middle">never hardcoded</text>' +
+          '<line x1="505" y1="140" x2="543" y2="75" stroke="#93c5fd" stroke-width="1.8" marker-end="url(#pipe-arrow)"/>' +
+          '<line x1="505" y1="170" x2="543" y2="245" stroke="#86efac" stroke-width="1.8" marker-end="url(#pipe-arrow)"/>' +
+          '<rect x="545" y="40" width="220" height="75" rx="6" fill="#1e3a8a" fill-opacity="0.3" stroke="#93c5fd" stroke-width="2"/>' +
+          '<text x="655" y="65" fill="#eff6ff" font-size="11.5" font-weight="700" text-anchor="middle">App Store review</text>' +
+          '<text x="655" y="82" fill="#bfdbfe" font-size="9" text-anchor="middle">real human + automated review</text>' +
+          '<text x="655" y="97" fill="#bfdbfe" font-size="9" text-anchor="middle">(Module 22 L1)</text>' +
+          '<rect x="545" y="210" width="220" height="75" rx="6" fill="#14532d" fill-opacity="0.3" stroke="#86efac" stroke-width="2"/>' +
+          '<text x="655" y="235" fill="#f0fdf4" font-size="11.5" font-weight="700" text-anchor="middle">Play Store review</text>' +
+          '<text x="655" y="252" fill="#bbf7d0" font-size="9" text-anchor="middle">automated + Data Safety check</text>' +
+          '<text x="655" y="267" fill="#bbf7d0" font-size="9" text-anchor="middle">(Module 22 L2)</text>' +
+          '<text x="390" y="315" fill="#64748b" font-size="10.5" text-anchor="middle">CI only automates TRIGGERING the request &mdash; it does not skip the real review either store performs</text>' +
+          '</svg></div>',
         codeJs: `// mobile-ci.yml -- genuinely actionlint-validated in Lesson 1,
 // extended here with build/submit stages grounded in Modules 21-22
 const workflowYaml = \`

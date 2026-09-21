@@ -227,6 +227,37 @@ interchangeable hain.`,
       {
         title: 'A documented App Store submission checklist, each item traced to a real requirement or a previously confirmed course finding',
         titleHi: 'Ek documented App Store submission checklist, har item ek real requirement ya ek previously confirmed course finding se traced',
+        previewHeight: 330,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">The same binary, two genuinely different real review paths &mdash; Lesson 2 covers why Google\'s is structurally faster, not just "usually" faster.</p>' +
+          '<svg viewBox="0 0 680 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs><marker id="store-arrow" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#94a3b8"/></marker></defs>' +
+          '<text x="10" y="35" fill="#93c5fd" font-size="11.5" font-weight="700">App Store (Apple)</text>' +
+          '<rect x="10" y="45" width="130" height="65" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="2"/>' +
+          '<text x="75" y="72" fill="#f1f5f9" font-size="10.5" font-weight="700" text-anchor="middle">Binary uploaded</text>' +
+          '<text x="75" y="88" fill="#cbd5e1" font-size="9" text-anchor="middle">(Module 21 build)</text>' +
+          '<line x1="140" y1="77" x2="178" y2="77" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#store-arrow)"/>' +
+          '<rect x="180" y="45" width="220" height="65" rx="6" fill="#1d4ed8" fill-opacity="0.26" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="290" y="65" fill="#eff6ff" font-size="10.5" font-weight="700" text-anchor="middle">Human + automated review</text>' +
+          '<text x="290" y="80" fill="#bfdbfe" font-size="9" text-anchor="middle">usage-description specificity checked</text>' +
+          '<text x="290" y="94" fill="#bfdbfe" font-size="9" text-anchor="middle">typically 1&#8211;3 days</text>' +
+          '<line x1="400" y1="77" x2="438" y2="77" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#store-arrow)"/>' +
+          '<rect x="440" y="45" width="150" height="65" rx="6" fill="#166534" fill-opacity="0.28" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="515" y="83" fill="#f0fdf4" font-size="12" font-weight="700" text-anchor="middle">Live</text>' +
+          '<text x="10" y="165" fill="#86efac" font-size="11.5" font-weight="700">Play Store (Google)</text>' +
+          '<rect x="10" y="175" width="130" height="65" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="2"/>' +
+          '<text x="75" y="202" fill="#f1f5f9" font-size="10.5" font-weight="700" text-anchor="middle">Binary uploaded</text>' +
+          '<text x="75" y="218" fill="#cbd5e1" font-size="9" text-anchor="middle">(Module 21 build)</text>' +
+          '<line x1="140" y1="207" x2="178" y2="207" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#store-arrow)"/>' +
+          '<rect x="180" y="175" width="220" height="65" rx="6" fill="#166534" fill-opacity="0.26" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="290" y="195" fill="#f0fdf4" font-size="10.5" font-weight="700" text-anchor="middle">Substantially automated review</text>' +
+          '<text x="290" y="210" fill="#bbf7d0" font-size="9" text-anchor="middle">Data Safety accuracy checked</text>' +
+          '<text x="290" y="224" fill="#bbf7d0" font-size="9" text-anchor="middle">typically hours, not days</text>' +
+          '<line x1="400" y1="207" x2="438" y2="207" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#store-arrow)"/>' +
+          '<rect x="440" y="175" width="150" height="65" rx="6" fill="#166534" fill-opacity="0.28" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="515" y="213" fill="#f0fdf4" font-size="12" font-weight="700" text-anchor="middle">Live</text>' +
+          '</svg></div>',
         codeJs: `// A documented, reasoned pre-submission checklist -- not executable
 // code, but grounded in specific documented rules and confirmed
 // findings from earlier in this course.

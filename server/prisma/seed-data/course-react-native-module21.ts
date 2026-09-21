@@ -968,6 +968,41 @@ karta hai.`,
       {
         title: "The real, documented iOS and Android signing models, each explicitly connected to earlier confirmed/documented lessons in this module",
         titleHi: "Real, documented iOS aur Android signing models, har ek explicitly is module ke earlier confirmed/documented lessons se connected",
+        previewHeight: 380,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">Two structurally different identity models &mdash; iOS can always ask Apple for a replacement certificate; Android has no equivalent, since the keystore file IS the identity.</p>' +
+          '<svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs><marker id="sign-arrow" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#94a3b8"/></marker></defs>' +
+          '<text x="170" y="20" fill="#93c5fd" font-size="12.5" font-weight="700" text-anchor="middle">iOS</text>' +
+          '<rect x="30" y="30" width="130" height="75" rx="6" fill="#1d4ed8" fill-opacity="0.26" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="95" y="55" fill="#eff6ff" font-size="11" font-weight="700" text-anchor="middle">Certificate</text>' +
+          '<text x="95" y="71" fill="#bfdbfe" font-size="9" text-anchor="middle">issued by Apple,</text>' +
+          '<text x="95" y="85" fill="#bfdbfe" font-size="9" text-anchor="middle">tied to your account</text>' +
+          '<rect x="180" y="30" width="150" height="75" rx="6" fill="#1d4ed8" fill-opacity="0.26" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="255" y="53" fill="#eff6ff" font-size="10.5" font-weight="700" text-anchor="middle">Provisioning Profile</text>' +
+          '<text x="255" y="69" fill="#bfdbfe" font-size="9" text-anchor="middle">binds cert + real</text>' +
+          '<text x="255" y="83" fill="#bfdbfe" font-size="9" text-anchor="middle">bundleIdentifier (Lesson 1)</text>' +
+          '<line x1="95" y1="105" x2="150" y2="145" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#sign-arrow)"/>' +
+          '<line x1="255" y1="105" x2="180" y2="145" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#sign-arrow)"/>' +
+          '<rect x="60" y="148" width="200" height="50" rx="6" fill="#166534" fill-opacity="0.28" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="160" y="178" fill="#f0fdf4" font-size="12" font-weight="700" text-anchor="middle">signed .ipa</text>' +
+          '<text x="160" y="225" fill="#86efac" font-size="10" text-anchor="middle">lost the cert? request a NEW one</text>' +
+          '<text x="160" y="240" fill="#86efac" font-size="10" text-anchor="middle">from Apple &mdash; no data loss</text>' +
+          '<line x1="340" y1="170" x2="340" y2="170" stroke="none"/>' +
+          '<line x1="345" y1="15" x2="345" y2="320" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>' +
+          '<text x="530" y="20" fill="#86efac" font-size="12.5" font-weight="700" text-anchor="middle">Android</text>' +
+          '<rect x="420" y="30" width="220" height="75" rx="6" fill="#166534" fill-opacity="0.24" stroke="#22c55e" stroke-width="2.5"/>' +
+          '<text x="530" y="55" fill="#f0fdf4" font-size="11.5" font-weight="700" text-anchor="middle">release.keystore</text>' +
+          '<text x="530" y="71" fill="#bbf7d0" font-size="9" text-anchor="middle">ONE real file =</text>' +
+          '<text x="530" y="85" fill="#bbf7d0" font-size="9" text-anchor="middle">the app\'s ENTIRE identity</text>' +
+          '<line x1="530" y1="105" x2="530" y2="145" stroke="#94a3b8" stroke-width="1.8" marker-end="url(#sign-arrow)"/>' +
+          '<rect x="430" y="148" width="200" height="50" rx="6" fill="#7f1d1d" fill-opacity="0.28" stroke="#f87171" stroke-width="2"/>' +
+          '<text x="530" y="178" fill="#fef2f2" font-size="12" font-weight="700" text-anchor="middle">signed .aab</text>' +
+          '<text x="530" y="225" fill="#fca5a5" font-size="10" text-anchor="middle">lost the keystore? PERMANENT.</text>' +
+          '<text x="530" y="240" fill="#fca5a5" font-size="10" text-anchor="middle">no replacement exists for this app</text>' +
+          '<text x="345" y="290" fill="#64748b" font-size="10.5" text-anchor="middle">back this file up like it IS the app &mdash; secure, redundant, from the very first release</text>' +
+          '</svg></div>',
         codeJs: `// Documented iOS signing identity shape -- references the real,
 // resolved bundle identifier confirmed in Lesson 1's expo config output
 const iosSigningIdentity = {
