@@ -305,6 +305,47 @@ Agar ek naya Pod **kabhi Ready nahi hota**, rollout **stalls**. Ye **automatical
       {
         title: 'A rolling update: new ReplicaSet created, old kept at 0, undo is instant',
         titleHi: 'Ek rolling update: naya ReplicaSet banta hai, old 0 par rakha jaata hai, undo instant',
+        previewHeight: 430,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">The ownership chain during a rolling update: the Deployment keeps BOTH ReplicaSets &mdash; the old one just scaled to zero, not deleted &mdash; which is why undo is instant, not a rebuild.</p>' +
+          '<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs>' +
+          '<marker id="rs-arrow-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3b82f6"/></marker>' +
+          '<marker id="rs-arrow-grey" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker>' +
+          '<marker id="rs-arrow-amber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker>' +
+          '</defs>' +
+          '<rect x="260" y="20" width="180" height="58" rx="8" fill="#1d4ed8" fill-opacity="0.28" stroke="#3b82f6" stroke-width="2.5"/>' +
+          '<text x="350" y="45" fill="#eff6ff" font-size="13" font-weight="700" text-anchor="middle">Deployment: web</text>' +
+          '<text x="350" y="60" fill="#bfdbfe" font-size="10" text-anchor="middle">.spec.template changed &#8594; v2</text>' +
+          '<line x1="300" y1="78" x2="180" y2="118" stroke="#64748b" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#rs-arrow-grey)"/>' +
+          '<text x="150" y="100" fill="#94a3b8" font-size="9.5">owns (old)</text>' +
+          '<line x1="400" y1="78" x2="520" y2="118" stroke="#3b82f6" stroke-width="2" marker-end="url(#rs-arrow-blue)"/>' +
+          '<text x="500" y="100" fill="#93c5fd" font-size="9.5">owns (current)</text>' +
+          '<rect x="80" y="120" width="200" height="58" rx="6" fill="#334155" fill-opacity="0.35" stroke="#64748b" stroke-width="2" stroke-dasharray="4,3"/>' +
+          '<text x="180" y="143" fill="#cbd5e1" font-size="12" font-weight="700" text-anchor="middle">ReplicaSet (rev 1)</text>' +
+          '<text x="180" y="159" fill="#94a3b8" font-size="10" text-anchor="middle">replicas: 0 &mdash; kept, not deleted</text>' +
+          '<text x="180" y="205" fill="#64748b" font-size="10" text-anchor="middle">(no Pods running)</text>' +
+          '<rect x="420" y="120" width="200" height="58" rx="6" fill="#166534" fill-opacity="0.3" stroke="#22c55e" stroke-width="2.5"/>' +
+          '<text x="520" y="143" fill="#f0fdf4" font-size="12" font-weight="700" text-anchor="middle">ReplicaSet (rev 2)</text>' +
+          '<text x="520" y="159" fill="#bbf7d0" font-size="10" text-anchor="middle">replicas: 4 &mdash; current</text>' +
+          '<line x1="470" y1="178" x2="450" y2="215" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<line x1="503" y1="178" x2="497" y2="215" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<line x1="537" y1="178" x2="543" y2="215" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<line x1="570" y1="178" x2="590" y2="215" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<rect x="418" y="218" width="64" height="40" rx="5" fill="#166534" fill-opacity="0.4" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<text x="450" y="242" fill="#dcfce7" font-size="10" text-anchor="middle">Pod</text>' +
+          '<rect x="465" y="218" width="64" height="40" rx="5" fill="#166534" fill-opacity="0.4" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<text x="497" y="242" fill="#dcfce7" font-size="10" text-anchor="middle">Pod</text>' +
+          '<rect x="511" y="218" width="64" height="40" rx="5" fill="#166534" fill-opacity="0.4" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<text x="543" y="242" fill="#dcfce7" font-size="10" text-anchor="middle">Pod</text>' +
+          '<rect x="558" y="218" width="64" height="40" rx="5" fill="#166534" fill-opacity="0.4" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<text x="590" y="242" fill="#dcfce7" font-size="10" text-anchor="middle">Pod</text>' +
+          '<path d="M 420 165 C 350 300, 250 300, 178 182" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#rs-arrow-amber)"/>' +
+          '<text x="350" y="322" fill="#fbbf24" font-size="10.5" text-anchor="middle" font-family="monospace">kubectl rollout undo</text>' +
+          '<text x="350" y="338" fill="#fcd34d" font-size="10" text-anchor="middle">instant &mdash; the old ReplicaSet already exists, just re-scale it up</text>' +
+          '<text x="350" y="378" fill="#64748b" font-size="10" text-anchor="middle">this is why revisionHistoryLimit matters: it decides how many old ReplicaSets stay around to undo to</text>' +
+          '</svg></div>',
         code: `# VERIFY
 exec 2>&1
 export PATH="$HOME/bin:$PATH"
@@ -737,6 +778,49 @@ CoreDNS har Service ko ek naam deta hai: \`web\` (same namespace se), \`web.shop
       {
         title: 'ClusterIP: a stable VIP, EndpointSlice tracks ready Pods, DNS resolves the name',
         titleHi: 'ClusterIP: ek stable VIP, EndpointSlice ready Pods track karta hai, DNS naam resolve karta hai',
+        previewHeight: 400,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">A ClusterIP request, traced: DNS resolves a name to a stable virtual IP, then kube-proxy silently rewrites the destination to one of the READY Pods behind it.</p>' +
+          '<svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs>' +
+          '<marker id="svc-arrow-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#38bdf8"/></marker>' +
+          '<marker id="svc-arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#22c55e"/></marker>' +
+          '<marker id="svc-arrow-grey" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#64748b"/></marker>' +
+          '</defs>' +
+          '<rect x="20" y="150" width="140" height="65" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="2"/>' +
+          '<text x="90" y="176" fill="#f1f5f9" font-size="12" font-weight="700" text-anchor="middle">Client Pod</text>' +
+          '<text x="90" y="192" fill="#cbd5e1" font-size="10" text-anchor="middle">app: frontend</text>' +
+          '<rect x="20" y="30" width="140" height="55" rx="6" fill="#1d4ed8" fill-opacity="0.28" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="90" y="53" fill="#eff6ff" font-size="12" font-weight="700" text-anchor="middle">CoreDNS</text>' +
+          '<text x="90" y="68" fill="#bfdbfe" font-size="9.5" text-anchor="middle">in-cluster DNS</text>' +
+          '<line x1="80" y1="150" x2="80" y2="88" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#svc-arrow-blue)"/>' +
+          '<text x="4" y="120" fill="#7dd3fc" font-size="9" font-family="monospace">1. lookup</text>' +
+          '<text x="4" y="131" fill="#7dd3fc" font-size="9" font-family="monospace">web-svc</text>' +
+          '<line x1="100" y1="88" x2="100" y2="150" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#svc-arrow-blue)"/>' +
+          '<text x="103" y="120" fill="#7dd3fc" font-size="9" font-family="monospace">2. &#8594; VIP</text>' +
+          '<line x1="160" y1="182" x2="288" y2="182" stroke="#38bdf8" stroke-width="2" marker-end="url(#svc-arrow-blue)"/>' +
+          '<text x="172" y="172" fill="#7dd3fc" font-size="9.5">3. connect :80</text>' +
+          '<rect x="290" y="150" width="170" height="65" rx="6" fill="#1e293b" stroke="#a855f7" stroke-width="2.5"/>' +
+          '<text x="375" y="173" fill="#faf5ff" font-size="12" font-weight="700" text-anchor="middle">Service: web-svc</text>' +
+          '<text x="375" y="188" fill="#e9d5ff" font-size="9.5" text-anchor="middle" font-family="monospace">ClusterIP 10.96.12.34</text>' +
+          '<text x="375" y="202" fill="#e9d5ff" font-size="9.5" text-anchor="middle">stable VIP &mdash; Pods come and go</text>' +
+          '<line x1="460" y1="165" x2="560" y2="75" stroke="#22c55e" stroke-width="2" marker-end="url(#svc-arrow-green)"/>' +
+          '<line x1="460" y1="182" x2="560" y2="182" stroke="#22c55e" stroke-width="2" marker-end="url(#svc-arrow-green)"/>' +
+          '<line x1="460" y1="200" x2="560" y2="285" stroke="#64748b" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#svc-arrow-grey)"/>' +
+          '<text x="465" y="120" fill="#86efac" font-size="9.5">4. kube-proxy DNAT to</text>' +
+          '<text x="465" y="132" fill="#86efac" font-size="9.5">one READY Pod:8080</text>' +
+          '<rect x="560" y="45" width="140" height="58" rx="6" fill="#166534" fill-opacity="0.32" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="630" y="68" fill="#f0fdf4" font-size="11.5" font-weight="700" text-anchor="middle">Pod A &mdash; Ready</text>' +
+          '<text x="630" y="83" fill="#bbf7d0" font-size="9.5" text-anchor="middle">in EndpointSlice</text>' +
+          '<rect x="560" y="153" width="140" height="58" rx="6" fill="#166534" fill-opacity="0.32" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="630" y="176" fill="#f0fdf4" font-size="11.5" font-weight="700" text-anchor="middle">Pod B &mdash; Ready</text>' +
+          '<text x="630" y="191" fill="#bbf7d0" font-size="9.5" text-anchor="middle">in EndpointSlice</text>' +
+          '<rect x="560" y="256" width="140" height="58" rx="6" fill="#334155" fill-opacity="0.35" stroke="#64748b" stroke-width="2" stroke-dasharray="4,3"/>' +
+          '<text x="630" y="279" fill="#cbd5e1" font-size="11.5" font-weight="700" text-anchor="middle">Pod C &mdash; NotReady</text>' +
+          '<text x="630" y="294" fill="#94a3b8" font-size="9.5" text-anchor="middle">excluded from routing</text>' +
+          '<text x="375" y="338" fill="#64748b" font-size="10" text-anchor="middle">zero Ready Pods &rArr; the Service still exists, but every connection is refused</text>' +
+          '</svg></div>',
         code: `# VERIFY
 exec 2>&1
 export PATH="$HOME/bin:$PATH"
@@ -1198,6 +1282,46 @@ Certificate aur key ko \`kubernetes.io/tls\` type ke ek Secret mein rakho, ise \
       {
         title: 'Host-based routing: one entry point, one Host header decides the backend',
         titleHi: 'Host-based routing: ek entry point, ek Host header backend decide karta hai',
+        previewHeight: 400,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">One real LoadBalancer IP, two apps: the IngressController reads the Host header and routes to a completely different Service before the request ever touches a Pod.</p>' +
+          '<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs>' +
+          '<marker id="ing-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#38bdf8"/></marker>' +
+          '<marker id="ing-arrow-purple" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#a855f7"/></marker>' +
+          '<marker id="ing-arrow-teal" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2dd4bf"/></marker>' +
+          '</defs>' +
+          '<rect x="20" y="148" width="110" height="62" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="2"/>' +
+          '<text x="75" y="174" fill="#f1f5f9" font-size="12" font-weight="700" text-anchor="middle">Client</text>' +
+          '<text x="75" y="190" fill="#cbd5e1" font-size="9.5" text-anchor="middle">(browser)</text>' +
+          '<line x1="130" y1="160" x2="188" y2="120" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ing-arrow)"/>' +
+          '<text x="135" y="118" fill="#7dd3fc" font-size="9" font-family="monospace">Host: shop.example.com</text>' +
+          '<line x1="130" y1="200" x2="188" y2="240" stroke="#38bdf8" stroke-width="1.8" marker-end="url(#ing-arrow)"/>' +
+          '<text x="135" y="255" fill="#7dd3fc" font-size="9" font-family="monospace">Host: blog.example.com</text>' +
+          '<rect x="190" y="130" width="190" height="100" rx="8" fill="#0e7490" fill-opacity="0.28" stroke="#2dd4bf" stroke-width="2.5"/>' +
+          '<text x="285" y="155" fill="#f0fdfa" font-size="12.5" font-weight="700" text-anchor="middle">IngressController</text>' +
+          '<text x="285" y="170" fill="#99f6e4" font-size="9.5" text-anchor="middle">(nginx) &mdash; ONE entry point</text>' +
+          '<text x="285" y="184" fill="#99f6e4" font-size="9.5" text-anchor="middle">one LoadBalancer IP</text>' +
+          '<text x="285" y="200" fill="#99f6e4" font-size="9.5" text-anchor="middle">matches Host header &#8594; rule</text>' +
+          '<line x1="380" y1="150" x2="438" y2="90" stroke="#a855f7" stroke-width="2" marker-end="url(#ing-arrow-purple)"/>' +
+          '<line x1="380" y1="210" x2="438" y2="270" stroke="#f59e0b" stroke-width="2" marker-end="url(#ing-arrow-teal)"/>' +
+          '<rect x="440" y="55" width="140" height="56" rx="6" fill="#7e22ce" fill-opacity="0.28" stroke="#a855f7" stroke-width="2"/>' +
+          '<text x="510" y="78" fill="#faf5ff" font-size="12" font-weight="700" text-anchor="middle">Service: shop</text>' +
+          '<text x="510" y="93" fill="#e9d5ff" font-size="9.5" text-anchor="middle">ClusterIP</text>' +
+          '<rect x="440" y="245" width="140" height="56" rx="6" fill="#b45309" fill-opacity="0.28" stroke="#f59e0b" stroke-width="2"/>' +
+          '<text x="510" y="268" fill="#fffbeb" font-size="12" font-weight="700" text-anchor="middle">Service: blog</text>' +
+          '<text x="510" y="283" fill="#fde68a" font-size="9.5" text-anchor="middle">ClusterIP</text>' +
+          '<line x1="580" y1="83" x2="628" y2="83" stroke="#a855f7" stroke-width="2" marker-end="url(#ing-arrow-purple)"/>' +
+          '<line x1="580" y1="273" x2="628" y2="273" stroke="#f59e0b" stroke-width="2" marker-end="url(#ing-arrow-teal)"/>' +
+          '<rect x="630" y="55" width="110" height="56" rx="6" fill="#7e22ce" fill-opacity="0.18" stroke="#a855f7" stroke-width="2"/>' +
+          '<text x="685" y="78" fill="#faf5ff" font-size="11.5" font-weight="700" text-anchor="middle">shop Pods</text>' +
+          '<text x="685" y="93" fill="#e9d5ff" font-size="9" text-anchor="middle">deployment: shop</text>' +
+          '<rect x="630" y="245" width="110" height="56" rx="6" fill="#b45309" fill-opacity="0.18" stroke="#f59e0b" stroke-width="2"/>' +
+          '<text x="685" y="268" fill="#fffbeb" font-size="11.5" font-weight="700" text-anchor="middle">blog Pods</text>' +
+          '<text x="685" y="283" fill="#fde68a" font-size="9" text-anchor="middle">deployment: blog</text>' +
+          '<text x="380" y="335" fill="#64748b" font-size="10" text-anchor="middle">the client never sees two IPs &mdash; one Ingress, one controller, routing decided by the Host header alone</text>' +
+          '</svg></div>',
         code: `# VERIFY
 exec 2>&1
 export PATH="$HOME/bin:$PATH"

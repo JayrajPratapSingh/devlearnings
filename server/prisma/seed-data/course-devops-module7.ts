@@ -621,6 +621,49 @@ Jab ek node join karta hai, iska kubelet ek **\`Node\` object register** karta h
       {
         title: 'The request path: kubectl -> apiserver -> etcd, and back out via watches',
         titleHi: 'Request path: kubectl -> apiserver -> etcd, aur watches ke through wapas bahar',
+        previewHeight: 470,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">The golden rule, drawn: every component is a spoke around the API server. Nothing is peer-to-peer &mdash; each spoke only watches (reads) and writes back to the hub.</p>' +
+          '<svg viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs>' +
+          '<marker id="k8s-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#38bdf8"/></marker>' +
+          '</defs>' +
+          '<text x="380" y="26" fill="#cbd5e1" font-size="12" text-anchor="middle" font-family="monospace">$ kubectl apply -f deploy.yaml</text>' +
+          '<line x1="380" y1="60" x2="380" y2="103" stroke="#38bdf8" stroke-width="2" marker-end="url(#k8s-arrow)"/>' +
+          '<line x1="380" y1="120" x2="546" y2="196" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#k8s-arrow)" marker-end="url(#k8s-arrow)"/>' +
+          '<line x1="380" y1="120" x2="214" y2="196" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#k8s-arrow)" marker-end="url(#k8s-arrow)"/>' +
+          '<line x1="380" y1="205" x2="483" y2="362" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#k8s-arrow)" marker-end="url(#k8s-arrow)"/>' +
+          '<line x1="380" y1="205" x2="277" y2="362" stroke="#38bdf8" stroke-width="1.5" marker-start="url(#k8s-arrow)" marker-end="url(#k8s-arrow)"/>' +
+          '<text x="470" y="150" fill="#7dd3fc" font-size="9.5">watch</text>' +
+          '<text x="470" y="162" fill="#7dd3fc" font-size="9.5">+ write</text>' +
+          '<rect x="295" y="120" width="170" height="85" rx="8" fill="#1d4ed8" fill-opacity="0.3" stroke="#3b82f6" stroke-width="2.5"/>' +
+          '<text x="380" y="148" fill="#eff6ff" font-size="14" font-weight="700" text-anchor="middle">kube-apiserver</text>' +
+          '<text x="380" y="164" fill="#bfdbfe" font-size="10" text-anchor="middle">the ONLY door</text>' +
+          '<text x="380" y="178" fill="#bfdbfe" font-size="9.5" text-anchor="middle">authn &#8594; authz &#8594; admission</text>' +
+          '<rect x="330" y="188" width="100" height="20" rx="4" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>' +
+          '<text x="380" y="202" fill="#93c5fd" font-size="9.5" text-anchor="middle" font-family="monospace">etcd (datastore)</text>' +
+          '<rect x="305" y="45" width="150" height="55" rx="6" fill="#334155" fill-opacity="0.5" stroke="#94a3b8" stroke-width="2"/>' +
+          '<text x="380" y="68" fill="#f1f5f9" font-size="12" font-weight="700" text-anchor="middle">kubectl (you)</text>' +
+          '<text x="380" y="83" fill="#cbd5e1" font-size="9.5" text-anchor="middle">reads &amp; writes objects</text>' +
+          '<rect x="471" y="166" width="150" height="60" rx="6" fill="#b45309" fill-opacity="0.28" stroke="#f59e0b" stroke-width="2"/>' +
+          '<text x="546" y="189" fill="#fffbeb" font-size="12" font-weight="700" text-anchor="middle">kube-scheduler</text>' +
+          '<text x="546" y="203" fill="#fde68a" font-size="9.5" text-anchor="middle">filter &#8594; score &#8594; bind</text>' +
+          '<text x="546" y="216" fill="#fde68a" font-size="9.5" text-anchor="middle">only decides, never runs it</text>' +
+          '<rect x="139" y="166" width="150" height="60" rx="6" fill="#7e22ce" fill-opacity="0.28" stroke="#a855f7" stroke-width="2"/>' +
+          '<text x="214" y="189" fill="#faf5ff" font-size="12" font-weight="700" text-anchor="middle">controller-manager</text>' +
+          '<text x="214" y="203" fill="#e9d5ff" font-size="9.5" text-anchor="middle">~30 reconcile loops</text>' +
+          '<text x="214" y="216" fill="#e9d5ff" font-size="9.5" text-anchor="middle">Deployment, ReplicaSet, Node...</text>' +
+          '<rect x="408" y="362" width="150" height="60" rx="6" fill="#166534" fill-opacity="0.3" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="483" y="385" fill="#f0fdf4" font-size="12" font-weight="700" text-anchor="middle">kubelet</text>' +
+          '<text x="483" y="399" fill="#bbf7d0" font-size="9.5" text-anchor="middle">on the worker node</text>' +
+          '<text x="483" y="412" fill="#bbf7d0" font-size="9.5" text-anchor="middle">starts containers, reports status</text>' +
+          '<rect x="202" y="362" width="150" height="60" rx="6" fill="#9f1239" fill-opacity="0.28" stroke="#ec4899" stroke-width="2"/>' +
+          '<text x="277" y="385" fill="#fdf2f8" font-size="12" font-weight="700" text-anchor="middle">cloud-controller-mgr</text>' +
+          '<text x="277" y="399" fill="#fbcfe8" font-size="9.5" text-anchor="middle">talks to the cloud API</text>' +
+          '<text x="277" y="412" fill="#fbcfe8" font-size="9.5" text-anchor="middle">LB, disks, node labels</text>' +
+          '<text x="380" y="450" fill="#64748b" font-size="10" text-anchor="middle">every spoke only watches + writes to the hub &mdash; NO line goes spoke-to-spoke</text>' +
+          '</svg></div>',
         code: `# every actor watches the API server and writes back to it. NOTHING is peer-to-peer.
 #
 #   you:         kubectl apply -f deploy.yaml

@@ -233,6 +233,49 @@ Compose **ek host** ke liye banaya gaya hai: local development ke liye aapka lap
       {
         title: 'docker compose config: what the file really expands to',
         titleHi: 'docker compose config: file really kya expand karti hai',
+        previewHeight: 430,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">The real topology this exact compose.yaml produces &mdash; one host, one auto-created bridge network, three services reaching each other by name</p>' +
+          '<svg viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<rect x="20" y="20" width="660" height="360" rx="8" fill="none" stroke="#475569" stroke-width="2" stroke-dasharray="6,5"/>' +
+          '<text x="34" y="44" fill="#94a3b8" font-size="13" font-weight="700">Host Machine</text>' +
+          '<text x="34" y="90" fill="#cbd5e1" font-size="12" font-family="monospace">$ curl</text>' +
+          '<text x="34" y="106" fill="#cbd5e1" font-size="12" font-family="monospace">localhost:8080</text>' +
+          '<line x1="128" y1="90" x2="248" y2="185" stroke="#60a5fa" stroke-width="2" marker-end="url(#arrow-blue)"/>' +
+          '<text x="140" y="140" fill="#60a5fa" font-size="10.5">published 8080:80</text>' +
+          '<text x="140" y="153" fill="#60a5fa" font-size="10.5">(host &#8594; container)</text>' +
+          '<rect x="230" y="70" width="430" height="290" rx="8" fill="#1e293b" stroke="#334155" stroke-width="2"/>' +
+          '<text x="244" y="92" fill="#94a3b8" font-size="11.5" font-weight="700">blog_default &mdash; bridge network (auto-created)</text>' +
+          '<rect x="258" y="150" width="170" height="70" rx="6" fill="#1d4ed8" fill-opacity="0.25" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="343" y="176" fill="#eff6ff" font-size="13" font-weight="700" text-anchor="middle">web</text>' +
+          '<text x="343" y="193" fill="#bfdbfe" font-size="10.5" text-anchor="middle" font-family="monospace">caddy:2-alpine</text>' +
+          '<text x="343" y="208" fill="#bfdbfe" font-size="10.5" text-anchor="middle">listens on :80</text>' +
+          '<rect x="258" y="270" width="170" height="70" rx="6" fill="#b45309" fill-opacity="0.25" stroke="#f59e0b" stroke-width="2"/>' +
+          '<text x="343" y="296" fill="#fffbeb" font-size="13" font-weight="700" text-anchor="middle">app</text>' +
+          '<text x="343" y="313" fill="#fde68a" font-size="10.5" text-anchor="middle" font-family="monospace">build: ./app</text>' +
+          '<text x="343" y="328" fill="#fde68a" font-size="10.5" text-anchor="middle">no published port</text>' +
+          '<rect x="478" y="270" width="170" height="70" rx="6" fill="#166534" fill-opacity="0.25" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="563" y="296" fill="#f0fdf4" font-size="13" font-weight="700" text-anchor="middle">db</text>' +
+          '<text x="563" y="313" fill="#bbf7d0" font-size="10.5" text-anchor="middle" font-family="monospace">postgres:16-alpine</text>' +
+          '<text x="563" y="328" fill="#bbf7d0" font-size="10.5" text-anchor="middle">listens on :5432</text>' +
+          '<line x1="343" y1="220" x2="343" y2="270" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,4" marker-end="url(#arrow-amber)"/>' +
+          '<text x="353" y="240" fill="#f59e0b" font-size="10.5">depends_on</text>' +
+          '<text x="353" y="253" fill="#f59e0b" font-size="10.5">(start order only)</text>' +
+          '<line x1="428" y1="305" x2="478" y2="305" stroke="#22c55e" stroke-width="2" marker-end="url(#arrow-green)"/>' +
+          '<text x="432" y="345" fill="#22c55e" font-size="10.5" font-family="monospace">postgres://db:5432</text>' +
+          '<text x="432" y="358" fill="#86efac" font-size="10">service-name DNS, not an IP</text>' +
+          '<ellipse cx="563" cy="372" rx="34" ry="8" fill="#0f172a" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<rect x="529" y="372" width="68" height="16" fill="#0f172a" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<ellipse cx="563" cy="388" rx="34" ry="8" fill="#0f172a" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<text x="563" y="381" fill="#86efac" font-size="9" text-anchor="middle" font-family="monospace">pgdata</text>' +
+          '<line x1="563" y1="340" x2="563" y2="364" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<defs>' +
+          '<marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#60a5fa"/></marker>' +
+          '<marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker>' +
+          '<marker id="arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#22c55e"/></marker>' +
+          '</defs>' +
+          '</svg></div>',
         code: `# VERIFY
 exec 2>&1
 d=$(mktemp -d); cd "$d"
