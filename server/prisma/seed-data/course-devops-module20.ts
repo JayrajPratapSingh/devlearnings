@@ -164,6 +164,44 @@ Drift detection on ke saath, production par ek manual change immediately visible
       {
         title: 'Argo CD showing drift and self-healing it, then a rollback via git revert',
         titleHi: 'Argo CD drift dikhाता aur ise self-heal karता, phir git revert ke via ek rollback',
+        previewHeight: 400,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">The whole argument for GitOps, drawn: in PUSH, an outside system reaches IN with prod credentials. In PULL, nothing outside the cluster ever holds a key to it.</p>' +
+          '<svg viewBox="0 0 680 360" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs>' +
+          '<marker id="gp-arrow-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f87171"/></marker>' +
+          '<marker id="gp-arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#22c55e"/></marker>' +
+          '</defs>' +
+          '<text x="150" y="20" fill="#fca5a5" font-size="12.5" font-weight="700" text-anchor="middle">PUSH (classic CD)</text>' +
+          '<rect x="30" y="35" width="240" height="60" rx="6" fill="#7f1d1d" fill-opacity="0.3" stroke="#f87171" stroke-width="2"/>' +
+          '<text x="150" y="58" fill="#fef2f2" font-size="12" font-weight="700" text-anchor="middle">CI/CD Pipeline</text>' +
+          '<text x="150" y="74" fill="#fecaca" font-size="9.5" text-anchor="middle">holds prod kubeconfig</text>' +
+          '<rect x="30" y="150" width="240" height="150" rx="8" fill="none" stroke="#64748b" stroke-width="2" stroke-dasharray="6,5"/>' +
+          '<text x="42" y="170" fill="#94a3b8" font-size="10.5" font-weight="700">Cluster</text>' +
+          '<line x1="150" y1="95" x2="150" y2="148" stroke="#f87171" stroke-width="2.5" marker-end="url(#gp-arrow-red)"/>' +
+          '<text x="150" y="120" fill="#fca5a5" font-size="9.5" text-anchor="middle" font-family="monospace">kubectl apply</text>' +
+          '<text x="150" y="133" fill="#fca5a5" font-size="9" text-anchor="middle">(reaches IN from outside)</text>' +
+          '<rect x="60" y="210" width="180" height="60" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="1.5"/>' +
+          '<text x="150" y="235" fill="#e2e8f0" font-size="10.5" text-anchor="middle">live resources</text>' +
+          '<text x="150" y="250" fill="#94a3b8" font-size="9" text-anchor="middle">drift from a manual edit = invisible</text>' +
+          '<text x="530" y="20" fill="#86efac" font-size="12.5" font-weight="700" text-anchor="middle">PULL (GitOps)</text>' +
+          '<rect x="410" y="35" width="240" height="60" rx="6" fill="#166534" fill-opacity="0.3" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="530" y="58" fill="#f0fdf4" font-size="12" font-weight="700" text-anchor="middle">Git repo</text>' +
+          '<text x="530" y="74" fill="#bbf7d0" font-size="9.5" text-anchor="middle">desired state, versioned</text>' +
+          '<rect x="410" y="150" width="240" height="150" rx="8" fill="none" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="422" y="170" fill="#86efac" font-size="10.5" font-weight="700">Cluster</text>' +
+          '<line x1="500" y1="185" x2="470" y2="97" stroke="#22c55e" stroke-width="2.5" marker-end="url(#gp-arrow-green)"/>' +
+          '<text x="440" y="120" fill="#86efac" font-size="9.5" text-anchor="middle" font-family="monospace">pulls</text>' +
+          '<text x="450" y="133" fill="#86efac" font-size="9" text-anchor="middle">(agent reaches OUT)</text>' +
+          '<rect x="440" y="185" width="180" height="45" rx="6" fill="#166534" fill-opacity="0.35" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="530" y="212" fill="#f0fdf4" font-size="11" font-weight="700" text-anchor="middle">Argo CD / Flux agent</text>' +
+          '<line x1="530" y1="230" x2="530" y2="248" stroke="#22c55e" stroke-width="2" marker-end="url(#gp-arrow-green)"/>' +
+          '<rect x="440" y="250" width="180" height="42" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="1.5"/>' +
+          '<text x="530" y="268" fill="#e2e8f0" font-size="10" text-anchor="middle">live resources</text>' +
+          '<text x="530" y="282" fill="#94a3b8" font-size="8.5" text-anchor="middle">drift &#8594; auto-reverted</text>' +
+          '<text x="340" y="335" fill="#64748b" font-size="10.5" text-anchor="middle">no external system ever holds a write credential to the cluster &mdash; the agent pulls, nothing pushes in</text>' +
+          '</svg></div>',
         code: `# (representative argocd CLI output - GitOps operations against a synced app)
 $ argocd app get web
 Name:               web

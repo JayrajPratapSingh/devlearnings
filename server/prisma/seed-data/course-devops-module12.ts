@@ -981,6 +981,41 @@ State subcommands record par operate karते hain, infrastructure par nahi:
       {
         title: 'State holds secrets in the clear — "sensitive" only hides them from your screen',
         titleHi: 'State secrets clear mein rakhta hai — "sensitive" sirf unhe screen se chhupata hai',
+        previewHeight: 420,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">State is the connector, not a side file: plan reads it to know what already exists, apply writes to it, and a lock stops two applies from corrupting it at once.</p>' +
+          '<svg viewBox="0 0 680 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs>' +
+          '<marker id="tf-arrow-blue" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3b82f6"/></marker>' +
+          '<marker id="tf-arrow-green" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#22c55e"/></marker>' +
+          '<marker id="tf-arrow-amber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker>' +
+          '</defs>' +
+          '<rect x="20" y="30" width="230" height="75" rx="6" fill="#1d4ed8" fill-opacity="0.28" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="135" y="58" fill="#eff6ff" font-size="13" font-weight="700" text-anchor="middle">.tf config</text>' +
+          '<text x="135" y="75" fill="#bfdbfe" font-size="10" text-anchor="middle">desired state</text>' +
+          '<text x="135" y="90" fill="#bfdbfe" font-size="10" text-anchor="middle">(what you wrote)</text>' +
+          '<rect x="430" y="30" width="230" height="75" rx="6" fill="#166534" fill-opacity="0.3" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="545" y="58" fill="#f0fdf4" font-size="13" font-weight="700" text-anchor="middle">Real Infrastructure</text>' +
+          '<text x="545" y="75" fill="#bbf7d0" font-size="10" text-anchor="middle">actual resources</text>' +
+          '<text x="545" y="90" fill="#bbf7d0" font-size="10" text-anchor="middle">(AWS / Azure / GCP)</text>' +
+          '<rect x="225" y="235" width="230" height="100" rx="8" fill="#b45309" fill-opacity="0.28" stroke="#f59e0b" stroke-width="2.5"/>' +
+          '<text x="340" y="262" fill="#fffbeb" font-size="13.5" font-weight="700" text-anchor="middle">State (remote backend)</text>' +
+          '<text x="340" y="280" fill="#fde68a" font-size="10" text-anchor="middle" font-family="monospace">aws_instance.web &#8594; i-0abc..</text>' +
+          '<text x="340" y="296" fill="#fde68a" font-size="10" text-anchor="middle">the ONLY thing that connects them</text>' +
+          '<rect x="285" y="305" width="110" height="22" rx="4" fill="#0f172a" stroke="#f59e0b" stroke-width="1.5"/>' +
+          '<text x="340" y="320" fill="#fbbf24" font-size="9.5" text-anchor="middle">&#128274; locked during plan/apply</text>' +
+          '<line x1="150" y1="105" x2="270" y2="238" stroke="#3b82f6" stroke-width="2" marker-end="url(#tf-arrow-blue)"/>' +
+          '<text x="130" y="175" fill="#93c5fd" font-size="10" font-family="monospace">terraform plan</text>' +
+          '<text x="130" y="190" fill="#93c5fd" font-size="9.5">reads desired, compares</text>' +
+          '<line x1="530" y1="105" x2="410" y2="238" stroke="#22c55e" stroke-width="2" marker-end="url(#tf-arrow-green)"/>' +
+          '<text x="450" y="175" fill="#86efac" font-size="10" font-family="monospace">refresh</text>' +
+          '<text x="450" y="190" fill="#86efac" font-size="9.5">reads actual attributes</text>' +
+          '<path d="M 455 290 C 560 260, 590 150, 540 108" fill="none" stroke="#f59e0b" stroke-width="2" marker-end="url(#tf-arrow-amber)"/>' +
+          '<text x="565" y="225" fill="#fbbf24" font-size="10" font-family="monospace">apply</text>' +
+          '<text x="500" y="240" fill="#fbbf24" font-size="9.5">creates/updates to match config</text>' +
+          '<text x="340" y="360" fill="#64748b" font-size="10" text-anchor="middle">lose this file and terraform no longer knows what it owns &mdash; it plans to recreate everything</text>' +
+          '</svg></div>',
         code: `# VERIFY
 exec 2>&1
 export PATH="$HOME/bin:$PATH"
