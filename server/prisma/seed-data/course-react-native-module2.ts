@@ -361,6 +361,14 @@ console.log('b layout:', b.getComputedLayout());`,
           "This example operationalizes the lesson's complete proof directly: it confirms, via real computation against the actual Yoga engine react-native vendors internally, that the real default flex-direction is column, not row.",
         explainHi:
           "Ye example lesson ke complete proof ko directly operationalize karta hai: ye real computation se confirm karta hai react-native ke internally vendor kiye gaye actual Yoga engine ke against, ki real default flex-direction column hai, row nahi.",
+        previewHeight: 290,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 6px;line-height:1.3;">No flexDirection set &mdash; 200&times;200 parent, two 50&times;50 children</p>' +
+          '<div style="position:relative;width:220px;max-width:100%;aspect-ratio:1/1;background:#1e293b;border:2px solid #475569;box-sizing:border-box;">' +
+          '<div style="position:absolute;left:0;top:0;width:25%;height:25%;background:#3b82f6;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;text-align:center;line-height:1.2;">A<br/>top:0</div>' +
+          '<div style="position:absolute;left:0;top:25%;width:25%;height:25%;background:#22c55e;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#0f172a;font-weight:700;font-size:11px;text-align:center;line-height:1.2;">B<br/>top:50</div>' +
+          '</div></div>',
       },
     ],
 
@@ -785,6 +793,22 @@ items.forEach((item, i) => console.log('item ' + i + ' top:', item.getComputedLa
           "This example operationalizes the lesson's complete proof directly: it confirms, via real computation against the actual Yoga engine, that both alignItems centering and flexWrap wrapping produce exact, mathematically checkable pixel positions.",
         explainHi:
           "Ye example lesson ke complete proof ko directly operationalize karta hai: ye real computation se confirm karta hai actual Yoga engine ke against, ki alignItems centering aur flexWrap wrapping dono exact, mathematically checkable pixel positions produce karte hain.",
+        previewHeight: 430,
+        preview:
+          '<div style="display:flex;flex-wrap:wrap;gap:20px;padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<div style="flex:0 1 200px;min-width:160px;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 6px;line-height:1.3;">alignItems: \'center\' &mdash; 200&times;100 parent, 50&times;50 child</p>' +
+          '<div style="position:relative;width:100%;aspect-ratio:200/100;background:#1e293b;border:2px solid #475569;box-sizing:border-box;">' +
+          '<div style="position:absolute;left:37.5%;top:0;width:25%;height:50%;background:#f59e0b;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#0f172a;font-weight:700;font-size:10px;text-align:center;line-height:1.2;">left:<br/>75</div>' +
+          '</div></div>' +
+          '<div style="flex:0 1 120px;min-width:100px;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 6px;line-height:1.3;">flexWrap: \'wrap\' &mdash; 100&times;200 container, three 60&times;60 items</p>' +
+          '<div style="position:relative;width:100%;aspect-ratio:100/200;background:#1e293b;border:2px solid #475569;box-sizing:border-box;">' +
+          '<div style="position:absolute;left:0;top:0;width:60%;height:30%;background:#3b82f6;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:10px;text-align:center;line-height:1.2;">0<br/>top:0</div>' +
+          '<div style="position:absolute;left:0;top:30%;width:60%;height:30%;background:#22c55e;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#0f172a;font-weight:700;font-size:10px;text-align:center;line-height:1.2;">1<br/>top:60</div>' +
+          '<div style="position:absolute;left:0;top:60%;width:60%;height:30%;background:#ec4899;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:10px;text-align:center;line-height:1.2;">2<br/>top:120</div>' +
+          '</div></div>' +
+          '</div>',
       },
     ],
 
@@ -1296,6 +1320,21 @@ console.log('second sibling top:', second.getComputedLayout().top);`,
           "This example operationalizes the lesson's complete proof directly: it confirms StyleSheet.create()'s real, current object-based behavior (correcting the stale numeric-ID claim) and confirms padding and margin's real, distinct effects on child versus sibling positions via the same real Yoga engine.",
         explainHi:
           "Ye example lesson ke complete proof ko directly operationalize karta hai: ye StyleSheet.create() ke real, current object-based behavior ko confirm karta hai (stale numeric-ID claim ko correct karte hue) aur padding aur margin ke real, distinct effects ko child versus sibling positions pe confirm karta hai wahi real Yoga engine ke through.",
+        previewHeight: 300,
+        preview:
+          '<div style="display:flex;flex-wrap:wrap;gap:20px;padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<div style="flex:0 1 150px;min-width:130px;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 6px;line-height:1.3;">padding: 20 &mdash; pushes the CHILD in</p>' +
+          '<div style="position:relative;width:100%;aspect-ratio:1/1;background:#7c2d12;border:2px solid #f97316;box-sizing:border-box;">' +
+          '<div style="position:absolute;left:10%;top:10%;width:25%;height:25%;background:#f97316;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#0f172a;font-weight:700;font-size:10px;text-align:center;line-height:1.2;">left:20<br/>top:20</div>' +
+          '</div></div>' +
+          '<div style="flex:0 1 150px;min-width:130px;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 6px;line-height:1.3;">margin-bottom: 30 &mdash; pushes the next SIBLING down</p>' +
+          '<div style="position:relative;width:100%;aspect-ratio:1/1;background:#1e293b;border:2px solid #475569;box-sizing:border-box;">' +
+          '<div style="position:absolute;left:0;top:0;width:25%;height:25%;background:#3b82f6;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:10px;text-align:center;line-height:1.2;">1st<br/>+30 margin</div>' +
+          '<div style="position:absolute;left:0;top:40%;width:25%;height:25%;background:#22c55e;border-radius:3px;display:flex;align-items:center;justify-content:center;color:#0f172a;font-weight:700;font-size:10px;text-align:center;line-height:1.2;">2nd<br/>top:80</div>' +
+          '</div></div>' +
+          '</div>',
       },
     ],
 
