@@ -1102,6 +1102,52 @@ Iske saath wired, ek investigation ek alert se graph par exemplar se trace se sp
       {
         title: 'Validating an OTel Collector config — and catching a pipeline that references an undefined processor',
         titleHi: 'Ek OTel Collector config validate karna — aur ek pipeline catch karna jo ek undefined processor reference karता hai',
+        previewHeight: 450,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">The full stack this module wires end to end: three signals leave your app, three specialised backends store them cheaply, and Grafana is the one place that queries and correlates all three.</p>' +
+          '<svg viewBox="0 0 800 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs>' +
+          '<marker id="obs-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker>' +
+          '<marker id="obs-arrow-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f87171"/></marker>' +
+          '</defs>' +
+          '<rect x="15" y="160" width="115" height="100" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="2"/>' +
+          '<text x="72" y="195" fill="#f1f5f9" font-size="13" font-weight="700" text-anchor="middle">Your App</text>' +
+          '<text x="72" y="215" fill="#cbd5e1" font-size="9" text-anchor="middle">/metrics</text>' +
+          '<text x="72" y="230" fill="#cbd5e1" font-size="9" text-anchor="middle">stdout logs</text>' +
+          '<text x="72" y="245" fill="#cbd5e1" font-size="9" text-anchor="middle">OTLP traces</text>' +
+          '<line x1="130" y1="185" x2="188" y2="90" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#obs-arrow)"/>' +
+          '<line x1="130" y1="210" x2="188" y2="222" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#obs-arrow)"/>' +
+          '<line x1="130" y1="235" x2="188" y2="335" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#obs-arrow)"/>' +
+          '<rect x="190" y="55" width="180" height="65" rx="6" fill="#1d4ed8" fill-opacity="0.28" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="280" y="80" fill="#eff6ff" font-size="12.5" font-weight="700" text-anchor="middle">Prometheus</text>' +
+          '<text x="280" y="96" fill="#bfdbfe" font-size="9.5" text-anchor="middle">scrapes metrics, stores TSDB</text>' +
+          '<rect x="190" y="187" width="180" height="65" rx="6" fill="#7e22ce" fill-opacity="0.28" stroke="#a855f7" stroke-width="2"/>' +
+          '<text x="280" y="212" fill="#faf5ff" font-size="12.5" font-weight="700" text-anchor="middle">Loki</text>' +
+          '<text x="280" y="228" fill="#e9d5ff" font-size="9.5" text-anchor="middle">via promtail &mdash; labels only</text>' +
+          '<rect x="190" y="320" width="180" height="65" rx="6" fill="#0e7490" fill-opacity="0.3" stroke="#2dd4bf" stroke-width="2"/>' +
+          '<text x="280" y="345" fill="#f0fdfa" font-size="12.5" font-weight="700" text-anchor="middle">Tempo</text>' +
+          '<text x="280" y="361" fill="#99f6e4" font-size="9.5" text-anchor="middle">via OTel Collector</text>' +
+          '<line x1="370" y1="87" x2="465" y2="210" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#obs-arrow)"/>' +
+          '<line x1="370" y1="220" x2="465" y2="222" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#obs-arrow)"/>' +
+          '<line x1="370" y1="352" x2="465" y2="240" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#obs-arrow)"/>' +
+          '<rect x="470" y="185" width="180" height="95" rx="8" fill="#166534" fill-opacity="0.3" stroke="#22c55e" stroke-width="2.5"/>' +
+          '<text x="560" y="215" fill="#f0fdf4" font-size="13.5" font-weight="700" text-anchor="middle">Grafana</text>' +
+          '<text x="560" y="233" fill="#bbf7d0" font-size="9.5" text-anchor="middle">queries all three</text>' +
+          '<text x="560" y="248" fill="#bbf7d0" font-size="9.5" text-anchor="middle">exemplars link metric &#8594;</text>' +
+          '<text x="560" y="262" fill="#bbf7d0" font-size="9.5" text-anchor="middle">trace &#8594; logs, one click</text>' +
+          '<line x1="280" y1="55" x2="280" y2="14" stroke="#f87171" stroke-width="1.8" marker-end="url(#obs-arrow-red)"/>' +
+          '<text x="280" y="10" fill="#fca5a5" font-size="9.5" text-anchor="middle">alerting rules</text>' +
+          '<rect x="500" y="20" width="150" height="55" rx="6" fill="#7f1d1d" fill-opacity="0.3" stroke="#f87171" stroke-width="2"/>' +
+          '<text x="575" y="43" fill="#fef2f2" font-size="12" font-weight="700" text-anchor="middle">Alertmanager</text>' +
+          '<text x="575" y="58" fill="#fecaca" font-size="9" text-anchor="middle">routes, groups, silences</text>' +
+          '<line x1="370" y1="30" x2="498" y2="42" stroke="#f87171" stroke-width="1.8" marker-end="url(#obs-arrow-red)"/>' +
+          '<line x1="650" y1="47" x2="695" y2="47" stroke="#f87171" stroke-width="1.8" marker-end="url(#obs-arrow-red)"/>' +
+          '<rect x="697" y="20" width="90" height="55" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="2"/>' +
+          '<text x="742" y="43" fill="#f1f5f9" font-size="10.5" font-weight="700" text-anchor="middle">Slack /</text>' +
+          '<text x="742" y="57" fill="#f1f5f9" font-size="10.5" font-weight="700" text-anchor="middle">PagerDuty</text>' +
+          '<text x="400" y="400" fill="#64748b" font-size="10" text-anchor="middle">Loki and Tempo are cheap for the same reason: they index LABELS, never the content, and grep at query time</text>' +
+          '</svg></div>',
         code: `# VERIFY
 export PATH="$HOME/bin:$PATH"
 

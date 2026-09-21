@@ -252,6 +252,50 @@ Har layer ऊpar wali ko **encapsulate** karта hai.
       {
         title: 'curl -v: reading the whole request sequence',
         titleHi: 'curl -v: poora request sequence read karna',
+        previewHeight: 400,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">Seven real steps, in order, before your handler ever runs &mdash; and each one has its own, distinct failure signature</p>' +
+          '<svg viewBox="0 0 620 400" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs><marker id="req-arrow" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#64748b"/></marker></defs>' +
+          '<text x="310" y="18" fill="#cbd5e1" font-size="12" text-anchor="middle" font-family="monospace">https://api.example.com/orders</text>' +
+          '<rect x="8" y="55" width="140" height="85" rx="6" fill="#0e7490" fill-opacity="0.3" stroke="#2dd4bf" stroke-width="2"/>' +
+          '<text x="78" y="82" fill="#f0fdfa" font-size="13" font-weight="700" text-anchor="middle">1. DNS</text>' +
+          '<text x="78" y="99" fill="#99f6e4" font-size="10" text-anchor="middle">name &#8594; IP</text>' +
+          '<text x="78" y="114" fill="#99f6e4" font-size="10" text-anchor="middle">203.0.113.10</text>' +
+          '<rect x="163" y="55" width="140" height="85" rx="6" fill="#1d4ed8" fill-opacity="0.3" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="233" y="82" fill="#eff6ff" font-size="13" font-weight="700" text-anchor="middle">2. TCP</text>' +
+          '<text x="233" y="99" fill="#bfdbfe" font-size="10" text-anchor="middle">SYN &#8594; SYN-ACK</text>' +
+          '<text x="233" y="114" fill="#bfdbfe" font-size="10" text-anchor="middle">&#8594; ACK</text>' +
+          '<rect x="318" y="55" width="140" height="85" rx="6" fill="#7e22ce" fill-opacity="0.3" stroke="#a855f7" stroke-width="2"/>' +
+          '<text x="388" y="82" fill="#faf5ff" font-size="13" font-weight="700" text-anchor="middle">3. TLS</text>' +
+          '<text x="388" y="99" fill="#e9d5ff" font-size="10" text-anchor="middle">cert + key</text>' +
+          '<text x="388" y="114" fill="#e9d5ff" font-size="10" text-anchor="middle">exchange</text>' +
+          '<rect x="473" y="55" width="140" height="85" rx="6" fill="#0369a1" fill-opacity="0.3" stroke="#38bdf8" stroke-width="2"/>' +
+          '<text x="543" y="82" fill="#f0f9ff" font-size="13" font-weight="700" text-anchor="middle">4. HTTP</text>' +
+          '<text x="543" y="99" fill="#bae6fd" font-size="10" text-anchor="middle">GET /orders</text>' +
+          '<text x="543" y="114" fill="#bae6fd" font-size="10" text-anchor="middle">HTTP/2</text>' +
+          '<line x1="148" y1="97" x2="161" y2="97" stroke="#64748b" stroke-width="1.8" marker-end="url(#req-arrow)"/>' +
+          '<line x1="303" y1="97" x2="316" y2="97" stroke="#64748b" stroke-width="1.8" marker-end="url(#req-arrow)"/>' +
+          '<line x1="458" y1="97" x2="471" y2="97" stroke="#64748b" stroke-width="1.8" marker-end="url(#req-arrow)"/>' +
+          '<path d="M 613 130 C 613 190, 85 190, 85 218" fill="none" stroke="#64748b" stroke-width="1.8" marker-end="url(#req-arrow)"/>' +
+          '<rect x="15" y="220" width="140" height="85" rx="6" fill="#b45309" fill-opacity="0.3" stroke="#f59e0b" stroke-width="2"/>' +
+          '<text x="85" y="245" fill="#fffbeb" font-size="12" font-weight="700" text-anchor="middle">5. Load Balancer</text>' +
+          '<text x="85" y="264" fill="#fde68a" font-size="10" text-anchor="middle">picks 1 healthy</text>' +
+          '<text x="85" y="279" fill="#fde68a" font-size="10" text-anchor="middle">backend</text>' +
+          '<rect x="170" y="220" width="140" height="85" rx="6" fill="#c2410c" fill-opacity="0.3" stroke="#fb923c" stroke-width="2"/>' +
+          '<text x="240" y="245" fill="#fff7ed" font-size="12" font-weight="700" text-anchor="middle">6. Reverse Proxy</text>' +
+          '<text x="240" y="264" fill="#fed7aa" font-size="10" text-anchor="middle">terminates TLS,</text>' +
+          '<text x="240" y="279" fill="#fed7aa" font-size="10" text-anchor="middle">routes /orders</text>' +
+          '<rect x="325" y="220" width="140" height="85" rx="6" fill="#166534" fill-opacity="0.32" stroke="#22c55e" stroke-width="2.5"/>' +
+          '<text x="395" y="245" fill="#f0fdf4" font-size="12" font-weight="700" text-anchor="middle">7. Application</text>' +
+          '<text x="395" y="264" fill="#bbf7d0" font-size="10" text-anchor="middle">your handler</text>' +
+          '<text x="395" y="279" fill="#bbf7d0" font-size="10" text-anchor="middle">finally runs</text>' +
+          '<line x1="155" y1="262" x2="168" y2="262" stroke="#64748b" stroke-width="1.8" marker-end="url(#req-arrow)"/>' +
+          '<line x1="310" y1="262" x2="323" y2="262" stroke="#64748b" stroke-width="1.8" marker-end="url(#req-arrow)"/>' +
+          '<text x="310" y="335" fill="#64748b" font-size="10.5" text-anchor="middle">connection refused = step 2 (nothing listening)</text>' +
+          '<text x="310" y="352" fill="#64748b" font-size="10.5" text-anchor="middle">cert errors = step 3 &middot; 502/503/504 = step 5 or 6, not your app</text>' +
+          '</svg></div>',
         code: `$ curl -v --http2 https://api.example.com/health 2>&1
 
 * Host api.example.com:443 was resolved.

@@ -628,6 +628,29 @@ Ek job ya ek step par \`if:\` ek expression hai; job/step sirf tab chalta hai ja
       {
         title: 'The job DAG: independent jobs run in parallel, a third waits on both (needs)',
         titleHi: 'Job DAG: independent jobs parallel mein chalte hain, ek teesra dono par wait karta hai',
+        previewHeight: 330,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">Two jobs with no needs run at the SAME stage, on separate runners, at the same time &mdash; the third job\'s needs: [lint, unit] is the only thing that creates a wait.</p>' +
+          '<svg viewBox="0 0 560 290" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs><marker id="dag-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker></defs>' +
+          '<text x="140" y="22" fill="#64748b" font-size="10.5" text-anchor="middle">STAGE 0 &mdash; no needs: &mdash; run in parallel</text>' +
+          '<rect x="30" y="34" width="220" height="65" rx="6" fill="#1d4ed8" fill-opacity="0.28" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="140" y="60" fill="#eff6ff" font-size="13" font-weight="700" text-anchor="middle">lint</text>' +
+          '<text x="140" y="76" fill="#bfdbfe" font-size="9.5" text-anchor="middle">runs on its own runner</text>' +
+          '<text x="420" y="22" fill="#64748b" font-size="10.5" text-anchor="middle">STAGE 0 &mdash; no needs: &mdash; run in parallel</text>' +
+          '<rect x="310" y="34" width="220" height="65" rx="6" fill="#166534" fill-opacity="0.3" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="420" y="60" fill="#f0fdf4" font-size="13" font-weight="700" text-anchor="middle">unit</text>' +
+          '<text x="420" y="76" fill="#bbf7d0" font-size="9.5" text-anchor="middle">a DIFFERENT runner, same time</text>' +
+          '<line x1="170" y1="99" x2="245" y2="185" stroke="#f59e0b" stroke-width="2" marker-end="url(#dag-arrow)"/>' +
+          '<line x1="390" y1="99" x2="315" y2="185" stroke="#f59e0b" stroke-width="2" marker-end="url(#dag-arrow)"/>' +
+          '<text x="280" y="150" fill="#fbbf24" font-size="10" text-anchor="middle" font-family="monospace">needs: [lint, unit]</text>' +
+          '<text x="140" y="175" fill="#64748b" font-size="10.5" text-anchor="middle">STAGE 1 &mdash; waits for BOTH stage-0 jobs</text>' +
+          '<rect x="180" y="188" width="200" height="70" rx="6" fill="#b45309" fill-opacity="0.3" stroke="#f59e0b" stroke-width="2.5"/>' +
+          '<text x="280" y="215" fill="#fffbeb" font-size="13" font-weight="700" text-anchor="middle">package</text>' +
+          '<text x="280" y="232" fill="#fde68a" font-size="9.5" text-anchor="middle">starts only when BOTH</text>' +
+          '<text x="280" y="246" fill="#fde68a" font-size="9.5" text-anchor="middle">lint and unit are green</text>' +
+          '</svg></div>',
         code: `# VERIFY
 exec 2>&1
 export PATH="$HOME/bin:$PATH"
