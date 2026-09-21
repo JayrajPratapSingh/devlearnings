@@ -209,6 +209,39 @@ Ek plain HPA \`minReplicas: 1\` se neeche scale nahi kar sakta. **KEDA** ek comp
       {
         title: 'An HPA scales a Deployment out under CPU load (metrics-server → the HPA loop)',
         titleHi: 'Ek HPA CPU load ke tahat ek Deployment ko scale out karta hai',
+        previewHeight: 330,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">A real control loop, not a one-time check: every ~15s the HPA re-reads usage, recomputes the formula, and writes a new replica count &mdash; forever, while it exists.</p>' +
+          '<svg viewBox="0 0 780 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs>' +
+          '<marker id="hpa-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#3b82f6"/></marker>' +
+          '<marker id="hpa-arrow-amber" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#f59e0b"/></marker>' +
+          '</defs>' +
+          '<rect x="15" y="30" width="160" height="75" rx="6" fill="#1d4ed8" fill-opacity="0.28" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="95" y="58" fill="#eff6ff" font-size="12.5" font-weight="700" text-anchor="middle">metrics-server</text>' +
+          '<text x="95" y="75" fill="#bfdbfe" font-size="9.5" text-anchor="middle">cpu/mem Utilization %</text>' +
+          '<text x="95" y="90" fill="#bfdbfe" font-size="9.5" text-anchor="middle">(% of the Pod REQUEST)</text>' +
+          '<rect x="215" y="15" width="220" height="105" rx="8" fill="#b45309" fill-opacity="0.28" stroke="#f59e0b" stroke-width="2.5"/>' +
+          '<text x="325" y="42" fill="#fffbeb" font-size="13" font-weight="700" text-anchor="middle">HPA controller</text>' +
+          '<text x="325" y="60" fill="#fde68a" font-size="9.5" text-anchor="middle">every ~15s, recomputes:</text>' +
+          '<text x="325" y="76" fill="#fde68a" font-size="9" text-anchor="middle" font-family="monospace">desired = ceil(current &#215;</text>' +
+          '<text x="325" y="90" fill="#fde68a" font-size="9" text-anchor="middle" font-family="monospace">metric / target)</text>' +
+          '<text x="325" y="107" fill="#fde68a" font-size="9" text-anchor="middle">bounded by min/maxReplicas</text>' +
+          '<rect x="475" y="30" width="150" height="75" rx="6" fill="#166534" fill-opacity="0.3" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="550" y="55" fill="#f0fdf4" font-size="12" font-weight="700" text-anchor="middle">Deployment: web</text>' +
+          '<text x="550" y="72" fill="#bbf7d0" font-size="9.5" text-anchor="middle" font-family="monospace">.spec.replicas</text>' +
+          '<text x="550" y="87" fill="#bbf7d0" font-size="9" text-anchor="middle">(the scale subresource)</text>' +
+          '<rect x="665" y="30" width="100" height="75" rx="6" fill="#7e22ce" fill-opacity="0.28" stroke="#a855f7" stroke-width="2"/>' +
+          '<text x="715" y="60" fill="#faf5ff" font-size="12" font-weight="700" text-anchor="middle">Pods</text>' +
+          '<text x="715" y="78" fill="#e9d5ff" font-size="9" text-anchor="middle">scale out/in</text>' +
+          '<line x1="177" y1="67" x2="213" y2="67" stroke="#3b82f6" stroke-width="2" marker-end="url(#hpa-arrow)"/>' +
+          '<line x1="437" y1="67" x2="473" y2="67" stroke="#f59e0b" stroke-width="2" marker-end="url(#hpa-arrow-amber)"/>' +
+          '<line x1="627" y1="67" x2="663" y2="67" stroke="#22c55e" stroke-width="2" marker-end="url(#hpa-arrow)"/>' +
+          '<path d="M 715 105 C 715 230, 95 230, 95 107" fill="none" stroke="#64748b" stroke-width="1.8" stroke-dasharray="5,4" marker-end="url(#hpa-arrow)"/>' +
+          '<text x="405" y="235" fill="#94a3b8" font-size="10" text-anchor="middle">real Pods report real CPU usage back to metrics-server &mdash; the loop never stops</text>' +
+          '<text x="405" y="260" fill="#64748b" font-size="10" text-anchor="middle">never set .spec.replicas by hand on a Deployment an HPA targets &mdash; kubectl apply will fight it</text>' +
+          '</svg></div>',
         code: `# VERIFY
 exec 2>&1
 export PATH="$HOME/bin:$PATH"

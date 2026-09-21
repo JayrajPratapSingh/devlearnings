@@ -190,6 +190,48 @@ In teenon ka ek alternative Secrets Store CSI Driver hai, jo ek manager se secre
       {
         title: 'SOPS + age: encrypt a Secret manifest so git is safe, decrypt only with the key',
         titleHi: 'SOPS + age: ek Secret manifest encrypt karo taaki git safe ho, sirf key ke saath decrypt karo',
+        previewHeight: 400,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">Three different answers to the same question: what does git actually hold, and what has to happen before the real value exists anywhere?</p>' +
+          '<svg viewBox="0 0 700 370" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs><marker id="es-arrow" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#64748b"/></marker></defs>' +
+          '<text x="120" y="20" fill="#93c5fd" font-size="11.5" font-weight="700" text-anchor="middle">External Secrets Operator</text>' +
+          '<rect x="15" y="30" width="210" height="65" rx="6" fill="#1d4ed8" fill-opacity="0.26" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="120" y="52" fill="#eff6ff" font-size="10.5" font-weight="700" text-anchor="middle">git holds:</text>' +
+          '<text x="120" y="68" fill="#bfdbfe" font-size="9.5" text-anchor="middle" font-family="monospace">ExternalSecret CR</text>' +
+          '<text x="120" y="82" fill="#bfdbfe" font-size="9" text-anchor="middle">(just a path, no value)</text>' +
+          '<line x1="120" y1="95" x2="120" y2="130" stroke="#64748b" stroke-width="1.6" marker-end="url(#es-arrow)"/>' +
+          '<text x="120" y="115" fill="#94a3b8" font-size="9" text-anchor="middle">operator pulls the value</text>' +
+          '<rect x="15" y="133" width="210" height="65" rx="6" fill="#166534" fill-opacity="0.28" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="120" y="155" fill="#f0fdf4" font-size="10.5" font-weight="700" text-anchor="middle">real value lives:</text>' +
+          '<text x="120" y="171" fill="#bbf7d0" font-size="9.5" text-anchor="middle">Vault / cloud secret manager</text>' +
+          '<text x="120" y="185" fill="#bbf7d0" font-size="9" text-anchor="middle">re-syncs on an interval</text>' +
+          '<text x="350" y="20" fill="#fde68a" font-size="11.5" font-weight="700" text-anchor="middle">SOPS</text>' +
+          '<rect x="245" y="30" width="210" height="65" rx="6" fill="#b45309" fill-opacity="0.24" stroke="#f59e0b" stroke-width="2"/>' +
+          '<text x="350" y="52" fill="#fffbeb" font-size="10.5" font-weight="700" text-anchor="middle">git holds:</text>' +
+          '<text x="350" y="68" fill="#fde68a" font-size="9.5" text-anchor="middle" font-family="monospace">secret.enc.yaml</text>' +
+          '<text x="350" y="82" fill="#fde68a" font-size="9" text-anchor="middle">keys clear, values ENC[...]</text>' +
+          '<line x1="350" y1="95" x2="350" y2="130" stroke="#64748b" stroke-width="1.6" marker-end="url(#es-arrow)"/>' +
+          '<text x="350" y="115" fill="#94a3b8" font-size="9" text-anchor="middle">sops -d needs the key</text>' +
+          '<rect x="245" y="133" width="210" height="65" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="2"/>' +
+          '<text x="350" y="155" fill="#e2e8f0" font-size="10.5" font-weight="700" text-anchor="middle">real value lives:</text>' +
+          '<text x="350" y="171" fill="#cbd5e1" font-size="9.5" text-anchor="middle">encrypted, inside git itself</text>' +
+          '<text x="350" y="185" fill="#cbd5e1" font-size="9" text-anchor="middle">key held by age/KMS/PGP, not git</text>' +
+          '<text x="580" y="20" fill="#e9d5ff" font-size="11.5" font-weight="700" text-anchor="middle">Sealed Secrets</text>' +
+          '<rect x="475" y="30" width="210" height="65" rx="6" fill="#7e22ce" fill-opacity="0.26" stroke="#a855f7" stroke-width="2"/>' +
+          '<text x="580" y="52" fill="#faf5ff" font-size="10.5" font-weight="700" text-anchor="middle">git holds:</text>' +
+          '<text x="580" y="68" fill="#e9d5ff" font-size="9.5" text-anchor="middle" font-family="monospace">SealedSecret</text>' +
+          '<text x="580" y="82" fill="#e9d5ff" font-size="9" text-anchor="middle">encrypted to cluster pubkey</text>' +
+          '<line x1="580" y1="95" x2="580" y2="130" stroke="#64748b" stroke-width="1.6" marker-end="url(#es-arrow)"/>' +
+          '<text x="580" y="115" fill="#94a3b8" font-size="9" text-anchor="middle">controller decrypts in-cluster</text>' +
+          '<rect x="475" y="133" width="210" height="65" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="2"/>' +
+          '<text x="580" y="155" fill="#e2e8f0" font-size="10.5" font-weight="700" text-anchor="middle">real value lives:</text>' +
+          '<text x="580" y="171" fill="#cbd5e1" font-size="9.5" text-anchor="middle">encrypted, inside git itself</text>' +
+          '<text x="580" y="185" fill="#cbd5e1" font-size="9" text-anchor="middle">only THIS cluster\'s privkey opens it</text>' +
+          '<text x="350" y="235" fill="#64748b" font-size="10.5" text-anchor="middle">a plain Kubernetes Secret is base64, not encryption &mdash; readable by anyone with "get" on it</text>' +
+          '<text x="350" y="253" fill="#64748b" font-size="10.5" text-anchor="middle">all three exist to answer the same question: how does the REAL value reach the cluster without ever sitting in git in the clear?</text>' +
+          '</svg></div>',
         code: `# VERIFY
 age-keygen -o age.key 2> keygen.err
 PUB=\$(grep -oE 'age1[a-z0-9]+' keygen.err)

@@ -229,6 +229,55 @@ Azure ka model kuch differences ke saath closely map karta hai. Ek **VNet** **su
       {
         title: 'A three-tier VPC CIDR plan across three AZs',
         titleHi: 'Teen AZs ke across ek three-tier VPC CIDR plan',
+        previewHeight: 450,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">"Public" and "private" are not a setting &mdash; they are what each tier\'s route table points 0.0.0.0/0 at. The data tier has no default route at all: no internet, in or out.</p>' +
+          '<svg viewBox="0 0 660 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs><marker id="vpc-arrow" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#38bdf8"/></marker></defs>' +
+          '<rect x="240" y="10" width="180" height="42" rx="6" fill="#0369a1" fill-opacity="0.3" stroke="#38bdf8" stroke-width="2"/>' +
+          '<text x="330" y="36" fill="#f0f9ff" font-size="11.5" font-weight="700" text-anchor="middle">Internet Gateway (one per VPC)</text>' +
+          '<text x="14" y="80" fill="#64748b" font-size="10" font-weight="700">AZ-a</text>' +
+          '<text x="240" y="80" fill="#64748b" font-size="10" font-weight="700">AZ-b</text>' +
+          '<text x="466" y="80" fill="#64748b" font-size="10" font-weight="700">AZ-c</text>' +
+          '<rect x="10" y="90" width="200" height="60" rx="5" fill="#1d4ed8" fill-opacity="0.26" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="110" y="110" fill="#eff6ff" font-size="10.5" font-weight="700" text-anchor="middle">public: ALB, NAT gw</text>' +
+          '<text x="110" y="125" fill="#bfdbfe" font-size="9" text-anchor="middle" font-family="monospace">0.0.0.0/0 &#8594; igw</text>' +
+          '<rect x="235" y="90" width="200" height="60" rx="5" fill="#1d4ed8" fill-opacity="0.26" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="335" y="110" fill="#eff6ff" font-size="10.5" font-weight="700" text-anchor="middle">public: ALB, NAT gw</text>' +
+          '<text x="335" y="125" fill="#bfdbfe" font-size="9" text-anchor="middle" font-family="monospace">0.0.0.0/0 &#8594; igw</text>' +
+          '<rect x="460" y="90" width="190" height="60" rx="5" fill="#1d4ed8" fill-opacity="0.26" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="555" y="110" fill="#eff6ff" font-size="10.5" font-weight="700" text-anchor="middle">public: ALB, NAT gw</text>' +
+          '<text x="555" y="125" fill="#bfdbfe" font-size="9" text-anchor="middle" font-family="monospace">0.0.0.0/0 &#8594; igw</text>' +
+          '<line x1="330" y1="52" x2="110" y2="88" stroke="#38bdf8" stroke-width="1.6" marker-end="url(#vpc-arrow)"/>' +
+          '<line x1="330" y1="52" x2="330" y2="88" stroke="#38bdf8" stroke-width="1.6" marker-end="url(#vpc-arrow)"/>' +
+          '<line x1="330" y1="52" x2="555" y2="88" stroke="#38bdf8" stroke-width="1.6" marker-end="url(#vpc-arrow)"/>' +
+          '<rect x="10" y="180" width="200" height="60" rx="5" fill="#b45309" fill-opacity="0.24" stroke="#f59e0b" stroke-width="2"/>' +
+          '<text x="110" y="200" fill="#fffbeb" font-size="10.5" font-weight="700" text-anchor="middle">private app: EKS nodes</text>' +
+          '<text x="110" y="215" fill="#fde68a" font-size="9" text-anchor="middle" font-family="monospace">0.0.0.0/0 &#8594; nat</text>' +
+          '<rect x="235" y="180" width="200" height="60" rx="5" fill="#b45309" fill-opacity="0.24" stroke="#f59e0b" stroke-width="2"/>' +
+          '<text x="335" y="200" fill="#fffbeb" font-size="10.5" font-weight="700" text-anchor="middle">private app: EKS nodes</text>' +
+          '<text x="335" y="215" fill="#fde68a" font-size="9" text-anchor="middle" font-family="monospace">0.0.0.0/0 &#8594; nat</text>' +
+          '<rect x="460" y="180" width="190" height="60" rx="5" fill="#b45309" fill-opacity="0.24" stroke="#f59e0b" stroke-width="2"/>' +
+          '<text x="555" y="200" fill="#fffbeb" font-size="10.5" font-weight="700" text-anchor="middle">private app: EKS nodes</text>' +
+          '<text x="555" y="215" fill="#fde68a" font-size="9" text-anchor="middle" font-family="monospace">0.0.0.0/0 &#8594; nat</text>' +
+          '<line x1="110" y1="150" x2="110" y2="178" stroke="#f59e0b" stroke-width="1.6" marker-end="url(#vpc-arrow)"/>' +
+          '<line x1="335" y1="150" x2="335" y2="178" stroke="#f59e0b" stroke-width="1.6" marker-end="url(#vpc-arrow)"/>' +
+          '<line x1="555" y1="150" x2="555" y2="178" stroke="#f59e0b" stroke-width="1.6" marker-end="url(#vpc-arrow)"/>' +
+          '<text x="330" y="163" fill="#fbbf24" font-size="9" text-anchor="middle">outbound only, via NAT</text>' +
+          '<rect x="10" y="270" width="200" height="60" rx="5" fill="#334155" fill-opacity="0.4" stroke="#64748b" stroke-width="2" stroke-dasharray="4,3"/>' +
+          '<text x="110" y="290" fill="#e2e8f0" font-size="10.5" font-weight="700" text-anchor="middle">private data: RDS</text>' +
+          '<text x="110" y="305" fill="#94a3b8" font-size="9" text-anchor="middle">no default route at all</text>' +
+          '<rect x="235" y="270" width="200" height="60" rx="5" fill="#334155" fill-opacity="0.4" stroke="#64748b" stroke-width="2" stroke-dasharray="4,3"/>' +
+          '<text x="335" y="290" fill="#e2e8f0" font-size="10.5" font-weight="700" text-anchor="middle">private data: RDS</text>' +
+          '<text x="335" y="305" fill="#94a3b8" font-size="9" text-anchor="middle">no default route at all</text>' +
+          '<rect x="460" y="270" width="190" height="60" rx="5" fill="#334155" fill-opacity="0.4" stroke="#64748b" stroke-width="2" stroke-dasharray="4,3"/>' +
+          '<text x="555" y="290" fill="#e2e8f0" font-size="10.5" font-weight="700" text-anchor="middle">private data: RDS</text>' +
+          '<text x="555" y="305" fill="#94a3b8" font-size="9" text-anchor="middle">no default route at all</text>' +
+          '<text x="330" y="255" fill="#64748b" font-size="9.5" text-anchor="middle">no arrow down &mdash; no route in or out</text>' +
+          '<text x="330" y="365" fill="#64748b" font-size="10.5" text-anchor="middle">the whole VPC is 10.20.0.0/16 &mdash; each AZ gets its own /20, each tier its own /24 inside that</text>' +
+          '<text x="330" y="385" fill="#64748b" font-size="10.5" text-anchor="middle">one NAT gateway per AZ, not one for the whole VPC &mdash; losing an AZ shouldn\'t take outbound internet with it</text>' +
+          '</svg></div>',
         code: `# VPC:  10.20.0.0/16   (65,536 addresses; chosen NOT to overlap the other VPCs
 #                       10.10.0.0/16 and 10.30.0.0/16, nor on-prem 10.0.0.0/16... wait)
 #   -> on-prem is 172.16.0.0/12. good. and the EKS pod CIDR will be 100.64.0.0/16.

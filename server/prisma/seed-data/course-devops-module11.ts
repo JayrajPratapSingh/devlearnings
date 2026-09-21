@@ -238,6 +238,34 @@ Zyadaatar services ko **rolling update as the default** chalाना chahiye.`,
       {
         title: 'Blue-green: green runs beside blue with zero traffic, one selector patch is the cutover (and the rollback)',
         titleHi: 'Blue-green: green blue ke bagal zero traffic ke saath chalta hai, ek selector patch cutover hai (aur rollback)',
+        previewHeight: 380,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">Both versions are already fully running before the cutover &mdash; the switch (and the rollback) is one selector patch, not a rollout.</p>' +
+          '<svg viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs><marker id="bg-arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#94a3b8"/></marker></defs>' +
+          '<rect x="220" y="20" width="200" height="65" rx="6" fill="#334155" fill-opacity="0.4" stroke="#94a3b8" stroke-width="2"/>' +
+          '<text x="320" y="45" fill="#f1f5f9" font-size="12.5" font-weight="700" text-anchor="middle">Service: web</text>' +
+          '<text x="320" y="62" fill="#cbd5e1" font-size="9.5" text-anchor="middle" font-family="monospace">selector: version=blue</text>' +
+          '<line x1="270" y1="85" x2="150" y2="125" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#bg-arrow)"/>' +
+          '<text x="180" y="105" fill="#93c5fd" font-size="9.5" text-anchor="middle">100% traffic</text>' +
+          '<line x1="370" y1="85" x2="490" y2="125" stroke="#64748b" stroke-width="1.6" stroke-dasharray="4,4"/>' +
+          '<text x="460" y="105" fill="#64748b" font-size="9.5" text-anchor="middle">0% (not selected)</text>' +
+          '<rect x="30" y="128" width="240" height="90" rx="8" fill="#1d4ed8" fill-opacity="0.3" stroke="#3b82f6" stroke-width="3"/>' +
+          '<text x="150" y="155" fill="#eff6ff" font-size="14" font-weight="700" text-anchor="middle">web-blue (LIVE)</text>' +
+          '<text x="150" y="174" fill="#bfdbfe" font-size="10" text-anchor="middle">version=blue, v1</text>' +
+          '<text x="150" y="190" fill="#bfdbfe" font-size="10" text-anchor="middle">receiving 100% of traffic</text>' +
+          '<text x="150" y="206" fill="#bfdbfe" font-size="10" text-anchor="middle">right now</text>' +
+          '<rect x="370" y="128" width="240" height="90" rx="8" fill="#166534" fill-opacity="0.22" stroke="#22c55e" stroke-width="2" stroke-dasharray="6,4"/>' +
+          '<text x="490" y="155" fill="#f0fdf4" font-size="14" font-weight="700" text-anchor="middle">web-green (STANDBY)</text>' +
+          '<text x="490" y="174" fill="#bbf7d0" font-size="10" text-anchor="middle">version=green, v2</text>' +
+          '<text x="490" y="190" fill="#bbf7d0" font-size="10" text-anchor="middle">fully running, already</text>' +
+          '<text x="490" y="206" fill="#bbf7d0" font-size="10" text-anchor="middle">smoke-tested, 0% traffic</text>' +
+          '<path d="M 240 260 C 320 300, 320 300, 400 260" fill="none" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#bg-arrow)"/>' +
+          '<text x="320" y="248" fill="#fbbf24" font-size="10.5" text-anchor="middle" font-family="monospace">kubectl patch svc web -p selector.version=green</text>' +
+          '<text x="320" y="298" fill="#fde68a" font-size="10" text-anchor="middle">the cutover &mdash; ALL traffic moves at once, instantly</text>' +
+          '<text x="320" y="320" fill="#64748b" font-size="10" text-anchor="middle">rollback = the exact same patch pointed back to blue &mdash; blue never stopped running</text>' +
+          '</svg></div>',
         code: `# VERIFY
 exec 2>&1
 export PATH="$HOME/bin:$PATH"

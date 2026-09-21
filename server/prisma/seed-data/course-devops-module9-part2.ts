@@ -257,6 +257,37 @@ a brand-new Pod, same PVC, reads: "state written by writer"
       {
         title: 'A StatefulSet gives each Pod a stable name and its own PVC; scaling down keeps the PVCs',
         titleHi: 'Ek StatefulSet har Pod ko ek stable naam aur iska apna PVC deta hai; scale down PVCs rakhta hai',
+        previewHeight: 350,
+        preview:
+          '<div style="padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 8px;line-height:1.4;">A Deployment\'s Pods are interchangeable. A StatefulSet\'s are NOT &mdash; db-1 always gets its own PVC back, never db-0\'s, created and terminated in order.</p>' +
+          '<svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">' +
+          '<defs><marker id="sts-arrow" markerWidth="7" markerHeight="7" refX="5" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 Z" fill="#64748b"/></marker></defs>' +
+          '<text x="350" y="20" fill="#94a3b8" font-size="11" text-anchor="middle" font-family="monospace">headless Service: db (ClusterIP: None)</text>' +
+          '<rect x="30" y="45" width="180" height="95" rx="6" fill="#1d4ed8" fill-opacity="0.28" stroke="#3b82f6" stroke-width="2"/>' +
+          '<text x="120" y="68" fill="#eff6ff" font-size="13" font-weight="700" text-anchor="middle">db-0</text>' +
+          '<text x="120" y="84" fill="#bfdbfe" font-size="9" text-anchor="middle" font-family="monospace">db-0.db.ns.svc</text>' +
+          '<line x1="120" y1="93" x2="120" y2="108" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#sts-arrow)"/>' +
+          '<rect x="70" y="108" width="100" height="26" rx="4" fill="#0f172a" stroke="#3b82f6" stroke-width="1.5"/>' +
+          '<text x="120" y="125" fill="#93c5fd" font-size="9" text-anchor="middle" font-family="monospace">PVC: data-db-0</text>' +
+          '<rect x="260" y="45" width="180" height="95" rx="6" fill="#166534" fill-opacity="0.3" stroke="#22c55e" stroke-width="2"/>' +
+          '<text x="350" y="68" fill="#f0fdf4" font-size="13" font-weight="700" text-anchor="middle">db-1</text>' +
+          '<text x="350" y="84" fill="#bbf7d0" font-size="9" text-anchor="middle" font-family="monospace">db-1.db.ns.svc</text>' +
+          '<line x1="350" y1="93" x2="350" y2="108" stroke="#22c55e" stroke-width="1.5" marker-end="url(#sts-arrow)"/>' +
+          '<rect x="300" y="108" width="100" height="26" rx="4" fill="#0f172a" stroke="#22c55e" stroke-width="1.5"/>' +
+          '<text x="350" y="125" fill="#86efac" font-size="9" text-anchor="middle" font-family="monospace">PVC: data-db-1</text>' +
+          '<rect x="490" y="45" width="180" height="95" rx="6" fill="#7e22ce" fill-opacity="0.28" stroke="#a855f7" stroke-width="2"/>' +
+          '<text x="580" y="68" fill="#faf5ff" font-size="13" font-weight="700" text-anchor="middle">db-2</text>' +
+          '<text x="580" y="84" fill="#e9d5ff" font-size="9" text-anchor="middle" font-family="monospace">db-2.db.ns.svc</text>' +
+          '<line x1="580" y1="93" x2="580" y2="108" stroke="#a855f7" stroke-width="1.5" marker-end="url(#sts-arrow)"/>' +
+          '<rect x="530" y="108" width="100" height="26" rx="4" fill="#0f172a" stroke="#a855f7" stroke-width="1.5"/>' +
+          '<text x="580" y="125" fill="#e9d5ff" font-size="9" text-anchor="middle" font-family="monospace">PVC: data-db-2</text>' +
+          '<line x1="120" y1="145" x2="350" y2="145" stroke="#64748b" stroke-width="1.5" marker-end="url(#sts-arrow)"/>' +
+          '<line x1="350" y1="145" x2="580" y2="145" stroke="#64748b" stroke-width="1.5" marker-end="url(#sts-arrow)"/>' +
+          '<text x="350" y="165" fill="#94a3b8" font-size="10" text-anchor="middle">created 0 &#8594; 1 &#8594; 2, one at a time &mdash; terminated in reverse: 2, 1, 0</text>' +
+          '<text x="350" y="200" fill="#64748b" font-size="10" text-anchor="middle">scale db from 3 down to 1: db-2 and db-1 are deleted, but their PVCs are NOT</text>' +
+          '<text x="350" y="218" fill="#64748b" font-size="10" text-anchor="middle">scale back up to 3: the NEW db-1 reattaches the SAME data-db-1 PVC db-1 had before</text>' +
+          '</svg></div>',
         code: `# VERIFY
 exec 2>&1
 export PATH="$HOME/bin:$PATH"
