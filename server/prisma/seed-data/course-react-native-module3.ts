@@ -1235,6 +1235,21 @@ console.log('ScrollView: total', data2.length, 'rendered', scrollViewRenders);`,
           "This example operationalizes the lesson's complete proof directly: it confirms, via real render-call counting applied identically to both components, that FlatList genuinely virtualizes (10 of 1000) while ScrollView genuinely does not (50 of 50).",
         explainHi:
           "Ye example lesson ke complete proof ko directly operationalize karta hai: ye real render-call counting ko dono components pe identically apply karke confirm karta hai ki FlatList genuinely virtualize karta hai (1000 mein se 10) jabki ScrollView genuinely nahi karta (50 mein se 50).",
+        previewHeight: 300,
+        preview:
+          '<div style="display:flex;flex-wrap:wrap;gap:20px;padding:14px;font-family:system-ui,-apple-system,sans-serif;background:#0f172a;color:#e2e8f0;box-sizing:border-box;min-height:100%;">' +
+          '<div style="flex:0 1 140px;min-width:120px;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 6px;line-height:1.3;">FlatList &mdash; 1000 items, only 10 actually rendered</p>' +
+          '<div style="width:100%;height:240px;background:#1e293b;border:2px solid #475569;border-radius:8px;box-sizing:border-box;overflow:hidden;display:flex;flex-direction:column;">' +
+          '<div style="height:96px;background:repeating-linear-gradient(to bottom,#22c55e 0,#22c55e 8px,#16a34a 8px,#16a34a 10px);display:flex;align-items:center;justify-content:center;color:#0f172a;font-weight:700;font-size:11px;text-shadow:0 1px 0 rgba(255,255,255,.3);">10 rendered</div>' +
+          '<div style="flex:1;border-top:2px dashed #475569;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:10px;text-align:center;line-height:1.4;padding:0 8px;">990 more<br/>(not rendered)</div>' +
+          '</div></div>' +
+          '<div style="flex:0 1 140px;min-width:120px;">' +
+          '<p style="font-size:11px;color:#94a3b8;margin:0 0 6px;line-height:1.3;">ScrollView &mdash; 50 items, all 50 rendered immediately</p>' +
+          '<div style="width:100%;height:240px;background:repeating-linear-gradient(to bottom,#3b82f6 0,#3b82f6 8px,#2563eb 8px,#2563eb 10px);border:2px solid #475569;border-radius:8px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;">' +
+          '<span style="background:rgba(15,23,42,0.75);color:#fff;font-weight:700;font-size:11px;padding:6px 10px;border-radius:4px;text-align:center;line-height:1.3;">all 50<br/>rendered</span>' +
+          '</div></div>' +
+          '</div>',
       },
     ],
 
