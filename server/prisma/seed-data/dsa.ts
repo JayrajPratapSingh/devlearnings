@@ -7,6 +7,8 @@ import { dsaExtraTwoPointer } from './dsa-extra-two-pointer';
 import { dsaExtraSlidingWindow } from './dsa-extra-sliding-window';
 import { dsaExtraStack } from './dsa-extra-stack';
 import { dsaExtraQueue } from './dsa-extra-queue';
+import { dsaExtraLinkedList } from './dsa-extra-linked-list';
+import { dsaExtraBinarySearch } from './dsa-extra-binary-search';
 import type { SeedProblem } from './shared';
 
 /** All seeded DSA problems, in the order they appear in the sidebar. */
@@ -20,6 +22,8 @@ export const dsaProblems: SeedProblem[] = [
   ...dsaExtraSlidingWindow,
   ...dsaExtraStack,
   ...dsaExtraQueue,
+  ...dsaExtraLinkedList,
+  ...dsaExtraBinarySearch,
 ];
 
 /** Categories in the order the DSA page lists them. */
