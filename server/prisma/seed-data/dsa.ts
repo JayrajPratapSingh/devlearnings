@@ -16,6 +16,8 @@ import { dsaExtraTrees } from './dsa-extra-trees';
 import { dsaExtraTrees2 } from './dsa-extra-trees2';
 import { dsaExtraBst } from './dsa-extra-bst';
 import { dsaExtraBst2 } from './dsa-extra-bst2';
+import { dsaExtraHeap } from './dsa-extra-heap';
+import { dsaExtraHeap2 } from './dsa-extra-heap2';
 import type { SeedProblem } from './shared';
 
 /** All seeded DSA problems, in the order they appear in the sidebar. */
@@ -38,6 +40,8 @@ export const dsaProblems: SeedProblem[] = [
   ...dsaExtraTrees2,
   ...dsaExtraBst,
   ...dsaExtraBst2,
+  ...dsaExtraHeap,
+  ...dsaExtraHeap2,
 ];
 
 /** Categories in the order the DSA page lists them. */
