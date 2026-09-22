@@ -12,6 +12,8 @@ import { dsaExtraBinarySearch } from './dsa-extra-binary-search';
 import { dsaExtraSorting } from './dsa-extra-sorting';
 import { dsaExtraRecursion } from './dsa-extra-recursion';
 import { dsaExtraBacktracking } from './dsa-extra-backtracking';
+import { dsaExtraTrees } from './dsa-extra-trees';
+import { dsaExtraTrees2 } from './dsa-extra-trees2';
 import type { SeedProblem } from './shared';
 
 /** All seeded DSA problems, in the order they appear in the sidebar. */
@@ -30,6 +32,8 @@ export const dsaProblems: SeedProblem[] = [
   ...dsaExtraSorting,
   ...dsaExtraRecursion,
   ...dsaExtraBacktracking,
+  ...dsaExtraTrees,
+  ...dsaExtraTrees2,
 ];
 
 /** Categories in the order the DSA page lists them. */
