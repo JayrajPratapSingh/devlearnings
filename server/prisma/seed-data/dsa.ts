@@ -4,6 +4,9 @@ import { dsaExtraArrays } from './dsa-extra-arrays';
 import { dsaExtraStrings } from './dsa-extra-strings';
 import { dsaExtraHashMap } from './dsa-extra-hashmap';
 import { dsaExtraTwoPointer } from './dsa-extra-two-pointer';
+import { dsaExtraSlidingWindow } from './dsa-extra-sliding-window';
+import { dsaExtraStack } from './dsa-extra-stack';
+import { dsaExtraQueue } from './dsa-extra-queue';
 import type { SeedProblem } from './shared';
 
 /** All seeded DSA problems, in the order they appear in the sidebar. */
@@ -14,6 +17,9 @@ export const dsaProblems: SeedProblem[] = [
   ...dsaExtraStrings,
   ...dsaExtraHashMap,
   ...dsaExtraTwoPointer,
+  ...dsaExtraSlidingWindow,
+  ...dsaExtraStack,
+  ...dsaExtraQueue,
 ];
 
 /** Categories in the order the DSA page lists them. */
