@@ -22,6 +22,9 @@ import { dsaExtraGraph } from './dsa-extra-graph';
 import { dsaExtraGraph2 } from './dsa-extra-graph2';
 import { dsaExtraDp } from './dsa-extra-dp';
 import { dsaExtraDp2 } from './dsa-extra-dp2';
+import { dsaExtraTrie } from './dsa-extra-trie';
+import { dsaExtraBitManipulation } from './dsa-extra-bit-manipulation';
+import { dsaExtraDesign } from './dsa-extra-design';
 import type { SeedProblem } from './shared';
 
 /** All seeded DSA problems, in the order they appear in the sidebar. */
@@ -50,6 +53,9 @@ export const dsaProblems: SeedProblem[] = [
   ...dsaExtraGraph2,
   ...dsaExtraDp,
   ...dsaExtraDp2,
+  ...dsaExtraTrie,
+  ...dsaExtraBitManipulation,
+  ...dsaExtraDesign,
 ];
 
 /** Categories in the order the DSA page lists them. */
@@ -71,6 +77,9 @@ export const DSA_CATEGORIES = [
   'Heap',
   'Graph',
   'Dynamic Programming',
+  'Trie',
+  'Bit Manipulation',
+  'Design',
 ] as const;
 
 export type { SeedProblem };
