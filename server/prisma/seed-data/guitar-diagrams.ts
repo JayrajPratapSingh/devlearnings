@@ -267,6 +267,70 @@ export function fingerNumberingSvg(): string {
   return parts.join('');
 }
 
+export interface TabNote {
+  /** 0 = high e (top line, as real tab convention prints it) .. 5 = low E (bottom line). */
+  string: number;
+  /** Time slot, left to right. */
+  step: number;
+  fret: number;
+}
+
+/** Annotated "how to read tab" diagram: 6 lines (high e on top, matching real tab), fret numbers placed in time. */
+export function tabExplainerSvg(notes: TabNote[], steps: number): string {
+  const w = 520;
+  const h = 270;
+  const leftPad = 40;
+  const rightPad = 20;
+  const topPad = 30;
+  const lineGap = 26;
+  const stepGap = (w - leftPad - rightPad) / Math.max(steps, 1);
+  const stringLabels = ['e', 'B', 'G', 'D', 'A', 'E'];
+
+  const parts: string[] = [];
+  parts.push(
+    `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">`,
+  );
+  parts.push(`<rect x="0" y="0" width="${w}" height="${h}" fill="${DARK_BG}"/>`);
+
+  for (let i = 0; i < 6; i++) {
+    const y = topPad + i * lineGap;
+    parts.push(
+      `<text x="${leftPad - 16}" y="${y + 4}" fill="${DIAG_MUTED}" font-size="12" text-anchor="middle" font-family="monospace">${stringLabels[i]}</text>`,
+    );
+    parts.push(`<line x1="${leftPad}" y1="${y}" x2="${w - rightPad}" y2="${y}" stroke="${STRING_COLOR}" stroke-width="1.5"/>`);
+  }
+
+  for (const n of notes) {
+    const x = leftPad + (n.step + 0.5) * stepGap;
+    const y = topPad + n.string * lineGap;
+    parts.push(`<rect x="${x - 9}" y="${y - 9}" width="18" height="18" fill="${DARK_BG}"/>`);
+    parts.push(
+      `<text x="${x}" y="${y + 5}" fill="${DIAG_ACCENT}" font-size="14" font-weight="800" text-anchor="middle" font-family="monospace">${n.fret}</text>`,
+    );
+  }
+
+  const arrowY = topPad + 5 * lineGap + 30;
+  parts.push(
+    `<line x1="${leftPad}" y1="${arrowY}" x2="${w - rightPad - 20}" y2="${arrowY}" stroke="${DIAG_MUTED}" stroke-width="1.5"/>`,
+  );
+  parts.push(
+    `<path d="M ${w - rightPad - 26} ${arrowY - 5} L ${w - rightPad - 20} ${arrowY} L ${w - rightPad - 26} ${arrowY + 5}" fill="none" stroke="${DIAG_MUTED}" stroke-width="1.5"/>`,
+  );
+  parts.push(
+    `<text x="${(leftPad + w - rightPad) / 2}" y="${arrowY + 18}" fill="${DIAG_MUTED}" font-size="11" text-anchor="middle" font-family="system-ui,sans-serif">time — read left to right, in order</text>`,
+  );
+
+  parts.push(
+    `<text x="${w / 2}" y="${h - 22}" fill="${LABEL_COLOR}" font-size="12" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">A number = which fret to press on that line's string.</text>`,
+  );
+  parts.push(
+    `<text x="${w / 2}" y="${h - 6}" fill="${LABEL_COLOR}" font-size="12" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">No number on a line at that moment = don't play it.</text>`,
+  );
+
+  parts.push('</svg>');
+  return parts.join('');
+}
+
 /** Wrap any raw SVG/HTML fragment in the same dark card + optional caption as the chord helpers. */
 export function diagramPreviewHtml(svg: string, caption?: string): string {
   return darkWrap(svg, caption);
