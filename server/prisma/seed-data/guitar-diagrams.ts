@@ -406,3 +406,67 @@ export function strumPatternSvg(beats: StrumBeat[]): string {
   parts.push('</svg>');
   return parts.join('');
 }
+
+const NOTE_NAMES = ['E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B', 'C', 'C#', 'D', 'D#'];
+/** Open-string note (index 0) for each of the 6 strings, low E to high e, as an offset into NOTE_NAMES. */
+const OPEN_STRING_OFFSETS = [0, 5, 10, 3, 7, 0]; // E A D G B E
+
+function noteAt(stringIndex: number, fret: number): string {
+  const openOffset = OPEN_STRING_OFFSETS[stringIndex]!;
+  return NOTE_NAMES[(openOffset + fret) % 12]!;
+}
+
+/**
+ * A full fretboard note map: 6 strings x (frets 0..maxFret), every note
+ * named. `highlight` (optional) marks specific [stringIndex, fret] cells
+ * (e.g. every occurrence of one note name) in the accent color.
+ */
+export function fretboardMapSvg(maxFret: number, highlight?: Array<[number, number]>): string {
+  const leftPad = 46;
+  const topPad = 34;
+  const cellW = 46;
+  const cellH = 30;
+  const w = leftPad + (maxFret + 1) * cellW + 10;
+  const h = topPad + 6 * cellH + 20;
+  const stringLabels = ['E', 'A', 'D', 'G', 'B', 'e'];
+  const highlightSet = new Set((highlight ?? []).map(([s, f]) => `${s}:${f}`));
+
+  const parts: string[] = [];
+  parts.push(
+    `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">`,
+  );
+  parts.push(`<rect x="0" y="0" width="${w}" height="${h}" fill="${DARK_BG}"/>`);
+
+  for (let f = 0; f <= maxFret; f++) {
+    const x = leftPad + f * cellW + cellW / 2;
+    parts.push(
+      `<text x="${x}" y="${topPad - 12}" fill="${DIAG_MUTED}" font-size="11" text-anchor="middle" font-family="monospace">${f}</text>`,
+    );
+  }
+  const nutX = leftPad + cellW;
+  parts.push(`<line x1="${nutX}" y1="${topPad - 4}" x2="${nutX}" y2="${topPad + 6 * cellH}" stroke="${NUT_COLOR}" stroke-width="3"/>`);
+
+  for (let s = 0; s < 6; s++) {
+    const y = topPad + s * cellH + cellH / 2;
+    parts.push(
+      `<text x="${leftPad - 16}" y="${y + 4}" fill="${DIAG_MUTED}" font-size="12" text-anchor="middle" font-family="monospace">${stringLabels[s]}</text>`,
+    );
+    parts.push(
+      `<line x1="${leftPad}" y1="${y}" x2="${leftPad + (maxFret + 1) * cellW}" y2="${y}" stroke="${STRING_COLOR}" stroke-width="1"/>`,
+    );
+    for (let f = 0; f <= maxFret; f++) {
+      const x = leftPad + f * cellW + cellW / 2;
+      const note = noteAt(s, f);
+      const isHi = highlightSet.has(`${s}:${f}`);
+      if (isHi) {
+        parts.push(`<circle cx="${x}" cy="${y}" r="13" fill="${DIAG_ACCENT}"/>`);
+      }
+      parts.push(
+        `<text x="${x}" y="${y + 4}" fill="${isHi ? '#0f172a' : LABEL_COLOR}" font-size="11" font-weight="${isHi ? '800' : '500'}" text-anchor="middle" font-family="system-ui,sans-serif">${note}</text>`,
+      );
+    }
+  }
+
+  parts.push('</svg>');
+  return parts.join('');
+}
