@@ -500,6 +500,7 @@ import { ENGLISH_MODULE_19 } from './seed-data/course-english-module19';
 import { ENGLISH_MODULE_20 } from './seed-data/course-english-module20';
 import { ENGLISH_MODULE_21 } from './seed-data/course-english-module21';
 import { ENGLISH_MODULE_22 } from './seed-data/course-english-module22';
+import { GUITAR_MODULE_1 } from './seed-data/course-guitar-module1';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -6652,6 +6653,311 @@ async function seedEnglishSpeakingCourse(): Promise<{ modules: number; topics: n
   return { modules: createdModules.length, topics: createdTopics.length };
 }
 
+async function seedGuitarCourse(): Promise<{ modules: number; topics: number }> {
+  const courseData = {
+    slug: 'guitar-complete',
+    name: 'Guitar',
+    nameHi: 'Guitar - Noob Se Pro Tak',
+    description:
+      'Guitar, noob to pro, with real visuals for every hand/finger position — not just descriptions. Starts with anatomy, posture, and the physical habits that make everything later easier; builds the "campfire six" open chords fast, with anchor-finger shortcuts for changing between them quickly; covers strumming mechanics, timing, and modern evidence-based practice science (spaced repetition, chunking, why apps beat method books); moves into real songs, capo use, and fingerpicking; tackles the power-chord and barre-chord hurdle properly; then goes deep on the theory and techniques most free content skips or paywalls — the Circle of Fifths, the complete CAGED system, modes, pentatonic/blues improvisation, and advanced technique — closing with a self-teaching roadmap. Every chord and fretboard diagram is a real generated SVG (finger numbers, string names, fret position included), not a text description.',
+    descriptionHi:
+      'Guitar, noob se pro tak, har hand/finger position ke liye real visuals ke saath — sirf descriptions nahi. Anatomy, posture, aur un physical habits se shuru hota hai jo baad mein sab kuch easier banate hain; "campfire six" open chords fast banata hai, unke beech jaldi badalne ke liye anchor-finger shortcuts ke saath; strumming mechanics, timing, aur modern evidence-based practice science (spaced repetition, chunking, apps method books se better kyun hain) cover karta hai; real songs, capo use, aur fingerpicking mein jaata hai; power-chord aur barre-chord hurdle ko properly tackle karta hai; phir us theory aur techniques mein deep jaata hai jo zyadatar free content skip ya paywall kar deta hai — Circle of Fifths, poora CAGED system, modes, pentatonic/blues improvisation, aur advanced technique — ek self-teaching roadmap ke saath close karta hai. Har chord aur fretboard diagram ek real generated SVG hai (finger numbers, string names, fret position included), sirf text description nahi.',
+    icon: '🎵',
+    color: '#B45309',
+    level: 'beginner' as const,
+    totalXpReward: 9000,
+    estimatedHours: 110,
+    maxDifficulty: 'HARD' as const,
+    order: 19,
+    isPublished: true,
+  };
+
+  const course = await prisma.course.upsert({
+    where: { slug: courseData.slug },
+    create: courseData,
+    update: courseData,
+  });
+
+  const modules = [
+    {
+      slug: 'gtr-module-1-meet-the-guitar',
+      name: 'Module 1: Meet the Guitar',
+      nameHi: 'Module 1: Guitar Se Milo',
+      description: 'Anatomy, posture, pick grip, and the string/fret vocabulary every later lesson depends on.',
+      descriptionHi: 'Anatomy, posture, pick grip, aur wo string/fret vocabulary jispar har baad wala lesson depend karta hai.',
+      order: 1,
+    },
+    {
+      slug: 'gtr-module-2-tuning-and-reading',
+      name: 'Module 2: Tuning & Reading Diagrams',
+      nameHi: 'Module 2: Tuning Aur Diagrams Padhna',
+      description: 'Standard tuning, tuning by ear and by tuner, and how to read chord diagrams and tab notation fluently.',
+      descriptionHi: 'Standard tuning, kaan se aur tuner se tuning, aur chord diagrams aur tab notation fluently padhna.',
+      order: 2,
+    },
+    {
+      slug: 'gtr-module-3-fretting-hand',
+      name: 'Module 3: Your Fretting Hand',
+      nameHi: 'Module 3: Tumhari Fretting Hand',
+      description: 'Finger numbers, thumb position, pressing technique, and why fresh fingertips hurt (temporarily).',
+      descriptionHi: 'Finger numbers, thumb position, pressing technique, aur fresh fingertips (temporarily) kyun dukhte hain.',
+      order: 3,
+    },
+    {
+      slug: 'gtr-module-4-easy-chords-1',
+      name: 'Module 4: The Easy Chord Family, Part 1',
+      nameHi: 'Module 4: Easy Chord Family, Part 1',
+      description: 'Em, Em7, and G — chords that use the fewest fingers, taught first for a reason.',
+      descriptionHi: 'Em, Em7, aur G — wo chords jo sabse kam fingers use karte hain, ek reason se pehle sikhaye jaate hain.',
+      order: 4,
+    },
+    {
+      slug: 'gtr-module-5-easy-chords-2',
+      name: 'Module 5: The Easy Chord Family, Part 2',
+      nameHi: 'Module 5: Easy Chord Family, Part 2',
+      description: 'C, Am, and D — completing the six open chords that unlock hundreds of real songs.',
+      descriptionHi: 'C, Am, aur D — wo six open chords complete karte hain jo saikdon real songs unlock karte hain.',
+      order: 5,
+    },
+    {
+      slug: 'gtr-module-6-changing-chords-fast',
+      name: 'Module 6: Changing Chords Fast',
+      nameHi: 'Module 6: Chords Fast Change Karna',
+      description: 'Anchor fingers, shared-tone shortcuts, and minimal-motion drills for changing chords without a gap.',
+      descriptionHi: 'Anchor fingers, shared-tone shortcuts, aur minimal-motion drills, bina gap ke chords change karne ke liye.',
+      order: 6,
+    },
+    {
+      slug: 'gtr-module-7-strumming-hand',
+      name: 'Module 7: Your Strumming Hand',
+      nameHi: 'Module 7: Tumhari Strumming Hand',
+      description: 'Wrist vs. arm motion, pick angle, and muting the strings you are not supposed to hit.',
+      descriptionHi: 'Wrist vs arm motion, pick angle, aur un strings ko mute karna jinhe hit nahi karna.',
+      order: 7,
+    },
+    {
+      slug: 'gtr-module-8-strum-patterns',
+      name: 'Module 8: Strum Patterns That Work On Hundreds Of Songs',
+      nameHi: 'Module 8: Strum Patterns Jo Saikdon Songs Par Kaam Karte Hain',
+      description: 'The DDU/UDU pattern family, and syncing strums exactly to chord changes.',
+      descriptionHi: 'DDU/UDU pattern family, aur strums ko chord changes ke exactly saath sync karna.',
+      order: 8,
+    },
+    {
+      slug: 'gtr-module-9-timing-and-metronome',
+      name: 'Module 9: Timing & the Metronome',
+      nameHi: 'Module 9: Timing Aur Metronome',
+      description: 'Why timing beats speed, and how to practice with a click without hating it.',
+      descriptionHi: 'Timing speed se better kyun hai, aur click ke saath practice kaise karein bina use hate kiye.',
+      order: 9,
+    },
+    {
+      slug: 'gtr-module-10-how-to-practice',
+      name: 'Module 10: How To Practice, Not Just Play',
+      nameHi: 'Module 10: Kaise Practice Karein, Sirf Bajayein Nahi',
+      description: 'Spaced repetition, chunking, the slow-then-fast principle, and structuring a real practice session.',
+      descriptionHi: 'Spaced repetition, chunking, slow-then-fast principle, aur ek real practice session structure karna.',
+      order: 10,
+    },
+    {
+      slug: 'gtr-module-11-plateaus-and-habits',
+      name: 'Module 11: Breaking Plateaus & Avoiding Bad Habits',
+      nameHi: 'Module 11: Plateaus Todna Aur Bad Habits Avoid Karna',
+      description: 'Self-diagnosing stuck spots, recording yourself, and protecting your hands long-term.',
+      descriptionHi: 'Stuck spots ko self-diagnose karna, khud ko record karna, aur apne hands ko long-term protect karna.',
+      order: 11,
+    },
+    {
+      slug: 'gtr-module-12-modern-tools',
+      name: 'Module 12: Modern Tools & Apps',
+      nameHi: 'Module 12: Modern Tools Aur Apps',
+      description: 'Tuners, loopers, slow-downers, and ear-trainers — why they beat old-school method books for speed.',
+      descriptionHi: 'Tuners, loopers, slow-downers, aur ear-trainers — speed ke liye ye old-school method books se better kyun hain.',
+      order: 12,
+    },
+    {
+      slug: 'gtr-module-13-first-songs',
+      name: 'Module 13: Your First 3 Songs',
+      nameHi: 'Module 13: Tumhare Pehle 3 Songs',
+      description: 'Applying the chords and strum patterns you already know to real, complete songs.',
+      descriptionHi: 'Jo chords aur strum patterns already pata hain unhe real, complete songs par apply karna.',
+      order: 13,
+    },
+    {
+      slug: 'gtr-module-14-capo-and-transposing',
+      name: 'Module 14: The Capo & Transposing',
+      nameHi: 'Module 14: Capo Aur Transposing',
+      description: 'What a capo actually does, and how to transpose chords to sing comfortably in your own key.',
+      descriptionHi: 'Ek capo actually kya karta hai, aur apni comfortable key mein gaane ke liye chords transpose karna.',
+      order: 14,
+    },
+    {
+      slug: 'gtr-module-15-fingerpicking-basics',
+      name: 'Module 15: Fingerpicking Basics',
+      nameHi: 'Module 15: Fingerpicking Basics',
+      description: 'PIMA finger naming and simple travis-picking-style patterns for ballads.',
+      descriptionHi: 'PIMA finger naming aur ballads ke liye simple travis-picking-style patterns.',
+      order: 15,
+    },
+    {
+      slug: 'gtr-module-16-power-chords',
+      name: 'Module 16: Power Chords',
+      nameHi: 'Module 16: Power Chords',
+      description: 'The 2-3 note movable "rock" shape, and palm muting for tight, percussive riffs.',
+      descriptionHi: 'Wo 2-3 note movable "rock" shape, aur tight, percussive riffs ke liye palm muting.',
+      order: 16,
+    },
+    {
+      slug: 'gtr-module-17-barre-chords',
+      name: 'Module 17: Barre Chords',
+      nameHi: 'Module 17: Barre Chords',
+      description: 'The F-chord hurdle, correct technique to avoid pain, and movable shapes up the whole neck.',
+      descriptionHi: 'F-chord hurdle, dard se bachne ke liye correct technique, aur poori neck tak movable shapes.',
+      order: 17,
+    },
+    {
+      slug: 'gtr-module-18-fretboard-map',
+      name: 'Module 18: The Fretboard Map',
+      nameHi: 'Module 18: Fretboard Map',
+      description: 'Every note on every string, octave shapes, and fast memorization tricks.',
+      descriptionHi: 'Har string par har note, octave shapes, aur fast memorization tricks.',
+      order: 18,
+    },
+    {
+      slug: 'gtr-module-19-intervals-and-chords',
+      name: 'Module 19: Intervals & How Chords Are Built',
+      nameHi: 'Module 19: Intervals Aur Chords Kaise Bante Hain',
+      description: 'Triads, 7th chords, extensions (9/11/13), and sus/add chords — why chord shapes actually work.',
+      descriptionHi: 'Triads, 7th chords, extensions (9/11/13), aur sus/add chords — chord shapes actually kaam kyun karte hain.',
+      order: 19,
+    },
+    {
+      slug: 'gtr-module-20-circle-of-fifths',
+      name: 'Module 20: The Circle of Fifths',
+      nameHi: 'Module 20: Circle of Fifths',
+      description: 'Key relationships, which chords belong together, quick transposing, and the songwriting shortcut behind it.',
+      descriptionHi: 'Key relationships, kaunse chords saath mein aate hain, quick transposing, aur iske peeche ka songwriting shortcut.',
+      order: 20,
+    },
+    {
+      slug: 'gtr-module-21-caged-system',
+      name: 'Module 21: The CAGED System, Completely',
+      nameHi: 'Module 21: CAGED System, Poori Tarah',
+      description: 'How 5 shapes cover the entire neck, and using it to find any chord anywhere.',
+      descriptionHi: '5 shapes poori neck ko kaise cover karte hain, aur kahin bhi koi bhi chord dhoondhne ke liye use karna.',
+      order: 21,
+    },
+    {
+      slug: 'gtr-module-22-pentatonic-and-blues',
+      name: 'Module 22: Minor Pentatonic & Blues Scale',
+      nameHi: 'Module 22: Minor Pentatonic Aur Blues Scale',
+      description: 'The 5 pentatonic boxes and how to connect them across the whole neck.',
+      descriptionHi: '5 pentatonic boxes aur poori neck mein unhe connect kaise karein.',
+      order: 22,
+    },
+    {
+      slug: 'gtr-module-23-modes-explained',
+      name: 'Module 23: Modes Explained Simply',
+      nameHi: 'Module 23: Modes Simply Explain Kiye Gaye',
+      description: 'Ionian through Locrian, in plain language — when and why each one is actually used.',
+      descriptionHi: 'Ionian se Locrian tak, plain language mein — har ek actually kab aur kyun use hota hai.',
+      order: 23,
+    },
+    {
+      slug: 'gtr-module-24-improvisation',
+      name: 'Module 24: Improvisation Framework',
+      nameHi: 'Module 24: Improvisation Framework',
+      description: 'Target notes, call-and-response phrasing, backing tracks, and a real ear-training system.',
+      descriptionHi: 'Target notes, call-and-response phrasing, backing tracks, aur ek real ear-training system.',
+      order: 24,
+    },
+    {
+      slug: 'gtr-module-25-advanced-techniques',
+      name: 'Module 25: Advanced Techniques',
+      nameHi: 'Module 25: Advanced Techniques',
+      description: 'Hammer-ons, pull-offs, slides, and bends done properly, plus a sweep-picking and tapping introduction.',
+      descriptionHi: 'Hammer-ons, pull-offs, slides, aur bends properly, plus ek sweep-picking aur tapping introduction.',
+      order: 25,
+    },
+    {
+      slug: 'gtr-module-26-pros-toolkit',
+      name: "Module 26: The Pro's Toolkit & Where To Go Next",
+      nameHi: 'Module 26: Pro Ka Toolkit Aur Aage Kahan Jaayein',
+      description: 'Reading standard notation basics, recording yourself, gear/tone fundamentals, and a self-teaching roadmap.',
+      descriptionHi: 'Standard notation basics padhna, khud ko record karna, gear/tone fundamentals, aur ek self-teaching roadmap.',
+      order: 26,
+    },
+  ];
+
+  const createdModules = [];
+  for (const mod of modules) {
+    createdModules.push(
+      await prisma.courseModule.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: mod.slug } },
+        create: { courseId: course.id, ...mod },
+        update: mod,
+      }),
+    );
+  }
+
+  const topics: (CourseLesson & { moduleIndex: number })[] = [
+    ...GUITAR_MODULE_1.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 0,
+    })),
+  ];
+
+  const json = (v: unknown) => v as Prisma.InputJsonValue;
+  const createdTopics = [];
+
+  for (const lesson of topics) {
+    const fields = {
+      title: lesson.title,
+      titleHi: lesson.titleHi,
+      description: lesson.description,
+      descriptionHi: lesson.descriptionHi,
+      simple: lesson.simple,
+      simpleHi: lesson.simpleHi,
+      content: lesson.content,
+      contentHi: lesson.contentHi,
+      readingPassage: lesson.readingPassage ?? null,
+      readingPassageHi: lesson.readingPassageHi ?? null,
+      vocabulary: json(lesson.vocabulary ?? []),
+      analogy: json(lesson.analogy ?? {}),
+      examples: json(lesson.examples ?? []),
+      mistakes: json(lesson.mistakes ?? []),
+      realWorld: json(lesson.realWorld ?? []),
+      interviewQA: json(lesson.interviewQA ?? []),
+      exercises: json(lesson.exercises ?? []),
+      keyTakeaways: lesson.keyTakeaways ?? [],
+      keyTakeawaysHi: lesson.keyTakeawaysHi ?? [],
+      difficulty: lesson.difficulty,
+      duration: lesson.duration ?? 20,
+      order: lesson.order,
+    };
+
+    const parentModule = createdModules[lesson.moduleIndex];
+    if (!parentModule) throw new Error(`No module at index ${lesson.moduleIndex}`);
+
+    createdTopics.push(
+      await prisma.courseTopic.upsert({
+        where: { courseId_slug: { courseId: course.id, slug: lesson.slug } },
+        create: { courseId: course.id, moduleId: parentModule.id, slug: lesson.slug, ...fields },
+        update: fields,
+      }),
+    );
+  }
+
+  await prisma.courseTopic.deleteMany({
+    where: { courseId: course.id, slug: { notIn: topics.map((t) => t.slug) } },
+  });
+  await prisma.courseModule.deleteMany({
+    where: { courseId: course.id, slug: { notIn: modules.map((m) => m.slug) } },
+  });
+
+  return { modules: createdModules.length, topics: createdTopics.length };
+}
+
 async function main(): Promise<void> {
   console.log('Seeding DevPrep content…\n');
 
@@ -6737,6 +7043,10 @@ async function main(): Promise<void> {
   console.log('\nSeeding English Speaking course…');
   const englishStats = await seedEnglishSpeakingCourse();
   console.log(`  1 course, ${englishStats.modules} modules, ${englishStats.topics} lessons`);
+
+  console.log('\nSeeding Guitar course…');
+  const guitarStats = await seedGuitarCourse();
+  console.log(`  1 course, ${guitarStats.modules} modules, ${guitarStats.topics} lessons`);
 
   console.log('\nDone. Sign up in the app to start tracking progress.');
 }

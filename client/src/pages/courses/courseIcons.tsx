@@ -13,7 +13,7 @@ import {
   SiThreedotjs,
   SiTypescript,
 } from 'react-icons/si';
-import { Brain, Database, Infinity as InfinityIcon, Mic, Palette, Puzzle, Smartphone, Sparkles } from 'lucide-react';
+import { Brain, Database, Guitar, Infinity as InfinityIcon, Mic, Palette, Puzzle, Smartphone, Sparkles } from 'lucide-react';
 
 /**
  * Real marks, not emoji. Brand logos where the course teaches one specific
@@ -38,6 +38,7 @@ export const COURSE_ICON: Record<string, ReactNode> = {
   'threejs-r3f-complete': <SiThreedotjs />,
   'react-native-complete': <Smartphone />,
   'english-speaking-complete': <Mic />,
+  'guitar-complete': <Guitar />,
 };
 
 export function courseIcon(slug: string): ReactNode {
