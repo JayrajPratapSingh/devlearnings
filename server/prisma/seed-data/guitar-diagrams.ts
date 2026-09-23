@@ -335,3 +335,74 @@ export function tabExplainerSvg(notes: TabNote[], steps: number): string {
 export function diagramPreviewHtml(svg: string, caption?: string): string {
   return darkWrap(svg, caption);
 }
+
+export type StrumSymbol = 'D' | 'U' | 'X' | '-';
+
+export interface StrumBeat {
+  /** D = down strum, U = up strum, X = percussive chuck/mute hit, '-' = skip (no motion). */
+  symbol: StrumSymbol;
+  /** Beat label shown above, e.g. "1", "&", "2". */
+  label: string;
+  /** Slightly dims this beat's arrow — used for a "ghost strum" that doesn't hit strings. */
+  ghost?: boolean;
+}
+
+const STRUM_COLORS: Record<StrumSymbol, string> = {
+  D: '#22c55e',
+  U: '#3b82f6',
+  X: '#ef4444',
+  '-': '#475569',
+};
+
+/** A strum-pattern timeline: down/up/chuck arrows aligned under beat labels, left to right in time. */
+export function strumPatternSvg(beats: StrumBeat[]): string {
+  const cellW = 66;
+  const w = Math.max(beats.length * cellW + 40, 200);
+  const h = 185;
+  const midY = 90;
+  const parts: string[] = [];
+  parts.push(
+    `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">`,
+  );
+  parts.push(`<rect x="0" y="0" width="${w}" height="${h}" fill="${DARK_BG}"/>`);
+  parts.push(
+    `<defs>
+      <marker id="strum-down" markerWidth="10" markerHeight="10" refX="5" refY="8" orient="auto"><path d="M1,1 L9,1 L5,9 Z" fill="${STRUM_COLORS.D}"/></marker>
+      <marker id="strum-up" markerWidth="10" markerHeight="10" refX="5" refY="1" orient="auto"><path d="M1,9 L9,9 L5,1 Z" fill="${STRUM_COLORS.U}"/></marker>
+    </defs>`,
+  );
+
+  beats.forEach((beat, i) => {
+    const cx = 30 + i * cellW + cellW / 2;
+    const color = STRUM_COLORS[beat.symbol];
+    const opacity = beat.ghost ? 0.4 : 1;
+    parts.push(
+      `<text x="${cx}" y="24" fill="${DIAG_MUTED}" font-size="13" font-weight="700" text-anchor="middle" font-family="monospace">${beat.label}</text>`,
+    );
+    if (beat.symbol === 'D') {
+      parts.push(
+        `<line x1="${cx}" y1="${midY - 26}" x2="${cx}" y2="${midY + 22}" stroke="${color}" stroke-width="4" marker-end="url(#strum-down)" opacity="${opacity}"/>`,
+      );
+      parts.push(`<text x="${cx}" y="${midY + 46}" fill="${color}" font-size="11" text-anchor="middle" font-family="system-ui,sans-serif" opacity="${opacity}">down</text>`);
+    } else if (beat.symbol === 'U') {
+      parts.push(
+        `<line x1="${cx}" y1="${midY + 22}" x2="${cx}" y2="${midY - 26}" stroke="${color}" stroke-width="4" marker-end="url(#strum-up)" opacity="${opacity}"/>`,
+      );
+      parts.push(`<text x="${cx}" y="${midY + 46}" fill="${color}" font-size="11" text-anchor="middle" font-family="system-ui,sans-serif" opacity="${opacity}">up</text>`);
+    } else if (beat.symbol === 'X') {
+      parts.push(`<circle cx="${cx}" cy="${midY}" r="16" fill="none" stroke="${color}" stroke-width="4"/>`);
+      parts.push(`<text x="${cx}" y="${midY + 5}" fill="${color}" font-size="16" font-weight="800" text-anchor="middle" font-family="system-ui,sans-serif">X</text>`);
+      parts.push(`<text x="${cx}" y="${midY + 46}" fill="${color}" font-size="11" text-anchor="middle" font-family="system-ui,sans-serif">chuck</text>`);
+    } else {
+      parts.push(`<line x1="${cx - 10}" y1="${midY}" x2="${cx + 10}" y2="${midY}" stroke="${color}" stroke-width="3" stroke-dasharray="2,3"/>`);
+      parts.push(`<text x="${cx}" y="${midY + 46}" fill="${color}" font-size="11" text-anchor="middle" font-family="system-ui,sans-serif">skip</text>`);
+    }
+  });
+
+  parts.push(
+    `<text x="${w / 2}" y="${h - 10}" fill="${LABEL_COLOR}" font-size="12" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">Read left to right, one motion per beat — arrows show strum direction.</text>`,
+  );
+
+  parts.push('</svg>');
+  return parts.join('');
+}
