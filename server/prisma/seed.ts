@@ -505,6 +505,7 @@ import { GUITAR_MODULE_2 } from './seed-data/course-guitar-module2';
 import { GUITAR_MODULE_3 } from './seed-data/course-guitar-module3';
 import { GUITAR_MODULE_4 } from './seed-data/course-guitar-module4';
 import { GUITAR_MODULE_5 } from './seed-data/course-guitar-module5';
+import { GUITAR_MODULE_6 } from './seed-data/course-guitar-module6';
 import { interviewQuestions } from './seed-data/questions';
 import { basicQuestions } from './seed-data/questions-basics';
 import { extraQuestions } from './seed-data/questions-extra';
@@ -6924,6 +6925,10 @@ async function seedGuitarCourse(): Promise<{ modules: number; topics: number }> 
     ...GUITAR_MODULE_5.map((lesson) => ({
       ...lesson,
       moduleIndex: 4,
+    })),
+    ...GUITAR_MODULE_6.map((lesson) => ({
+      ...lesson,
+      moduleIndex: 5,
     })),
   ];
 
