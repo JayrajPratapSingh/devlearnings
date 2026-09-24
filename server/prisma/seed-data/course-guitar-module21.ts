@@ -110,6 +110,7 @@ Five shapes, five letters, one system.`,
       'Ye paanch shapes, ek baar movable ho jaane par, neck par har chord position ko bina gaps ke cover karti hain — yahi reason hai ki wo pehli jagah fundamental paanch ki tarah sikhaayi gayi thin.',
       'Genuinely valuable, often-gatekept hissa paanch shapes ke beech connective structure hai, shapes khud nahi — jise Lesson 2 concrete banaata hai.',
     ],
+    guitarPractice: { sequences: [{"title":"The open C shape — the \"C\" in CAGED","titleHi":"Open C shape — CAGED ka \"C\"","defaultBpm":70,"notes":[{"string":1,"fret":3,"beat":0,"finger":3},{"string":2,"fret":2,"beat":1,"finger":2},{"string":3,"fret":0,"beat":2},{"string":4,"fret":1,"beat":3,"finger":1},{"string":5,"fret":0,"beat":4}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */

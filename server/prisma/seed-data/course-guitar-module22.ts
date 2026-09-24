@@ -238,6 +238,7 @@ Same root position, two different, complementary uses of it.`,
       'Iska matlab hai ek mental map (Module 21 ki paanch CAGED positions) tumhe ye bhi bataata hai ki saare paanch pentatonic boxes kahan dhoondhne hain.',
       'Full 5-box pentatonic fluency ek genuine long-term practice project hai — ye lesson use build karne ke liye correct mental model deta hai, instant mastery nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"The shared position: Box 1 = E-shape root","titleHi":"Shared position: Box 1 = E-shape root","defaultBpm":90,"notes":[{"string":0,"fret":5,"beat":0},{"string":0,"fret":8,"beat":1},{"string":1,"fret":5,"beat":2},{"string":1,"fret":7,"beat":3},{"string":2,"fret":5,"beat":4},{"string":2,"fret":7,"beat":5},{"string":3,"fret":5,"beat":6},{"string":3,"fret":7,"beat":7},{"string":4,"fret":5,"beat":8},{"string":4,"fret":8,"beat":9},{"string":5,"fret":5,"beat":10},{"string":5,"fret":8,"beat":11}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

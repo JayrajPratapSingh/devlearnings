@@ -360,5 +360,6 @@ Only beat 1 uses the slap — the rest of the pattern is unchanged from Lesson 1
       'Ye course ki genuinely harder techniques mein se ek hai — ise ek poore pattern ke saath combine karne se pehle thumb motion ko akele isolate karo.',
       'Ek modern, contemporary solo-fingerstyle technique, Part V ko close karte hue Part VI ke barre/power chord challenges shuru hone se pehle.',
     ],
+    guitarPractice: { sequences: [{"title":"Alternating bass notes (slap-style foundation)","titleHi":"Alternating bass notes (slap-style foundation)","defaultBpm":75,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":0,"beat":1},{"string":0,"fret":0,"beat":2},{"string":1,"fret":0,"beat":3}]}] },
   },
 ];

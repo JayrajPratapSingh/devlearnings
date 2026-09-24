@@ -244,6 +244,186 @@ export default function TopicLesson() {
   // mistakes elsewhere are code snippets, where a "listen" button makes no
   // sense, so gate pronunciation playback on the same signal.
   const isLanguageLesson = !!topic.vocabulary?.length;
+  // The guitar course is a physical-skill course: a learner wants to play,
+  // not read, first. For this course only, practice/visuals move ahead of
+  // prose and the deep-theory section starts collapsed — every other course
+  // keeps its original, explanation-first order untouched.
+  const isGuitarCourse = course.slug === 'guitar-complete';
+
+  const simpleSection = (topic.simple || topic.simpleHi) && (
+    <Section id="explain" icon="📖" title={lang === 'hi' ? 'Aasaan Samjhao' : 'In Simple Words'}>
+      <Markdown content={t(topic.simple ?? '', topic.simpleHi)} />
+    </Section>
+  );
+
+  const detailSection = (topic.content || topic.contentHi) && (
+    <Section
+      id="detail"
+      icon="🔍"
+      title={lang === 'hi' ? 'Thoda Gehrai Mein' : 'Going Deeper'}
+      defaultOpen={!isGuitarCourse}
+    >
+      <Markdown content={t(topic.content ?? '', topic.contentHi)} />
+    </Section>
+  );
+
+  const guitarPracticeSection = !!topic.guitarPractice?.sequences?.length && (
+    <Section id="guitar-practice" icon="🎸" title={lang === 'hi' ? 'Practice Karo' : 'Practice This'}>
+      <GuitarPracticePlayer
+        sequences={topic.guitarPractice.sequences}
+        lang={lang}
+        hint={
+          lang === 'hi'
+            ? 'Speed slider se apni comfortable speed set karo, phir play dabao. Har note apne sahi pitch par bajega jab wo laal line cross karega.'
+            : 'Use the speed slider to set your own comfortable pace, then press play. Each note sounds at its real pitch as it crosses the red line.'
+        }
+      />
+    </Section>
+  );
+
+  const guitarHearingTestSection = !!topic.guitarPractice?.earTraining?.length && (
+    <Section id="guitar-hearing-test" icon="👂" title={lang === 'hi' ? 'Hearing Test' : 'Hearing Test'}>
+      <p className="speaking-intro">
+        {lang === 'hi'
+          ? 'Note bajega — sun kar pehchaano ki kaunsa note tha, ya wo kaunsi string/fret par hai.'
+          : 'Listen to the note, then pick which one it was — or which string and fret it lives on.'}
+      </p>
+      <GuitarHearingTest notePool={topic.guitarPractice.earTraining} lang={lang} />
+    </Section>
+  );
+
+  const readingSection = !!(topic.readingPassage || topic.readingPassageHi) && (
+    <Section id="speaking" icon="🗣️" title={lang === 'hi' ? 'Bol Kar Padho' : 'Read It Out Loud'}>
+      <p className="speaking-intro">
+        {lang === 'hi'
+          ? 'Play dabao aur zor se, saaf awaaz mein bolo — jaise text scroll ho, waise bolte jao. Muscle memory isi tarah banti hai.'
+          : 'Press play and read out loud, clearly, keeping pace with the scroll. This is how muscle memory for speaking gets built.'}
+        {topic.readingPassage && (
+          <SpeakButton text={topic.readingPassage} label="Hear this passage read aloud first" rate={0.95} />
+        )}
+      </p>
+      <Teleprompter
+        text={t(topic.readingPassage ?? '', topic.readingPassageHi) || ''}
+        label={
+          lang === 'hi'
+            ? 'Speed slider se apni comfortable speaking speed set karo.'
+            : 'Use the speed slider to match your own comfortable speaking pace.'
+        }
+        labelReset={lang === 'hi' ? 'Shuru se' : 'Restart'}
+      />
+    </Section>
+  );
+
+  const vocabSection = !!topic.vocabulary?.length && (
+    <Section
+      id="vocabulary"
+      icon="📚"
+      title={`${lang === 'hi' ? 'Naye Shabd' : 'Vocabulary'} (${topic.vocabulary.length})`}
+    >
+      <div className="vocab-grid">
+        {topic.vocabulary.map((v, i) => (
+          <article className="vocab-card" key={i}>
+            <header className="vocab-head">
+              <h3>
+                {t(v.word, v.wordHi)}
+                <SpeakButton text={v.word} label={`Listen to "${v.word}"`} />
+              </h3>
+              <span className="vocab-pronunciation">/{v.pronunciation}/</span>
+            </header>
+            <p className="vocab-meaning">{t(v.meaning, v.meaningHi)}</p>
+            <p className="vocab-example">
+              “{t(v.example, v.exampleHi)}”
+              <SpeakButton text={v.example} label="Listen to the example sentence" />
+            </p>
+          </article>
+        ))}
+      </div>
+    </Section>
+  );
+
+  const examplesSection =
+    !!topic.examples?.length &&
+    (() => {
+      const hasJsTs = topic.examples.some((ex) => ex.codeJs && ex.codeTs);
+      return (
+        <Section
+          id="examples"
+          icon="💻"
+          title={`${lang === 'hi' ? 'Code Examples' : 'Code Examples'} (${topic.examples.length})`}
+        >
+          {hasJsTs && (
+            <div className="lang-toggle" role="group" aria-label="JavaScript or TypeScript">
+              <button
+                className={`lang-toggle-btn ${codeLang === 'js' ? 'active' : ''}`}
+                onClick={() => setCodeLang('js')}
+                aria-pressed={codeLang === 'js'}
+              >
+                JavaScript
+              </button>
+              <button
+                className={`lang-toggle-btn ${codeLang === 'ts' ? 'active' : ''}`}
+                onClick={() => setCodeLang('ts')}
+                aria-pressed={codeLang === 'ts'}
+              >
+                TypeScript
+              </button>
+            </div>
+          )}
+
+          <div className="examples">
+            {topic.examples.map((ex, i) => {
+              const isPaired = !!(ex.codeJs && ex.codeTs);
+              const shownCode = isPaired ? (codeLang === 'ts' ? ex.codeTs! : ex.codeJs!) : ex.code;
+              const shownOutput = isPaired
+                ? codeLang === 'ts'
+                  ? ex.outputTs ?? ex.outputJs
+                  : ex.outputJs ?? ex.outputTs
+                : ex.output;
+
+              return (
+                <article className="example" key={i}>
+                  <header className="example-head">
+                    <span className="example-num">{i + 1}</span>
+                    <h3>{t(ex.title, ex.titleHi)}</h3>
+                    {isPaired && (
+                      <span className="example-lang-pill">{codeLang === 'ts' ? '.tsx' : '.jsx'}</span>
+                    )}
+                    {isLanguageLesson && shownCode && (
+                      <SpeakButton text={shownCode} label="Listen to this example" rate={0.95} />
+                    )}
+                  </header>
+
+                  <pre className="code-block">
+                    <code>{shownCode}</code>
+                  </pre>
+
+                  {ex.preview && (
+                    <Preview
+                      html={ex.preview}
+                      height={ex.previewHeight}
+                      label={lang === 'hi' ? 'Aisa dikhta hai' : 'What it looks like'}
+                    />
+                  )}
+
+                  {shownOutput && (
+                    <div className="output-block">
+                      <span className="output-label">Output</span>
+                      <pre>
+                        <code>{shownOutput}</code>
+                      </pre>
+                    </div>
+                  )}
+
+                  <div className="example-explain">
+                    <Markdown content={t(ex.explain, ex.explainHi)} />
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </Section>
+      );
+    })();
 
   return (
     <div className="lesson-page">
@@ -291,196 +471,28 @@ export default function TopicLesson() {
         </div>
       )}
 
-      {/* ── Beginner explanation ────────────────────────────────── */}
-      {(topic.simple || topic.simpleHi) && (
-        <Section id="explain" icon="📖" title={lang === 'hi' ? 'Aasaan Samjhao' : 'In Simple Words'}>
-          <Markdown content={t(topic.simple ?? '', topic.simpleHi)} />
-        </Section>
+      {/* ── Order: guitar course leads with practice+visuals and tucks
+           theory away collapsed; every other course keeps its original,
+           explanation-first order. ─────────────────────────────────── */}
+      {isGuitarCourse ? (
+        <>
+          {guitarPracticeSection}
+          {guitarHearingTestSection}
+          {examplesSection}
+          {simpleSection}
+          {detailSection}
+        </>
+      ) : (
+        <>
+          {simpleSection}
+          {detailSection}
+          {guitarPracticeSection}
+          {guitarHearingTestSection}
+          {readingSection}
+          {vocabSection}
+          {examplesSection}
+        </>
       )}
-
-      {/* ── Deeper detail ───────────────────────────────────────── */}
-      {(topic.content || topic.contentHi) && (
-        <Section id="detail" icon="🔍" title={lang === 'hi' ? 'Thoda Gehrai Mein' : 'Going Deeper'}>
-          <Markdown content={t(topic.content ?? '', topic.contentHi)} />
-        </Section>
-      )}
-
-      {/* ── Guitar practice player: scrolling, speed-adjustable, audible ── */}
-      {!!topic.guitarPractice?.sequences?.length && (
-        <Section
-          id="guitar-practice"
-          icon="🎸"
-          title={lang === 'hi' ? 'Practice Karo' : 'Practice This'}
-        >
-          <GuitarPracticePlayer
-            sequences={topic.guitarPractice.sequences}
-            lang={lang}
-            hint={
-              lang === 'hi'
-                ? 'Speed slider se apni comfortable speed set karo, phir play dabao. Har note apne sahi pitch par bajega jab wo laal line cross karega.'
-                : 'Use the speed slider to set your own comfortable pace, then press play. Each note sounds at its real pitch as it crosses the red line.'
-            }
-          />
-        </Section>
-      )}
-
-      {/* ── Guitar hearing test: a small ear-training quiz ──────── */}
-      {!!topic.guitarPractice?.earTraining?.length && (
-        <Section
-          id="guitar-hearing-test"
-          icon="👂"
-          title={lang === 'hi' ? 'Hearing Test' : 'Hearing Test'}
-        >
-          <p className="speaking-intro">
-            {lang === 'hi'
-              ? 'Note bajega — sun kar pehchaano ki kaunsa note tha.'
-              : "Listen to the note, then pick which one it was."}
-          </p>
-          <GuitarHearingTest notePool={topic.guitarPractice.earTraining} lang={lang} />
-        </Section>
-      )}
-
-      {/* ── Reading passage & speaking practice ─────────────────── */}
-      {!!(topic.readingPassage || topic.readingPassageHi) && (
-        <Section
-          id="speaking"
-          icon="🗣️"
-          title={lang === 'hi' ? 'Bol Kar Padho' : 'Read It Out Loud'}
-        >
-          <p className="speaking-intro">
-            {lang === 'hi'
-              ? 'Play dabao aur zor se, saaf awaaz mein bolo — jaise text scroll ho, waise bolte jao. Muscle memory isi tarah banti hai.'
-              : 'Press play and read out loud, clearly, keeping pace with the scroll. This is how muscle memory for speaking gets built.'}
-            {topic.readingPassage && (
-              <SpeakButton
-                text={topic.readingPassage}
-                label="Hear this passage read aloud first"
-                rate={0.95}
-              />
-            )}
-          </p>
-          <Teleprompter
-            text={t(topic.readingPassage ?? '', topic.readingPassageHi) || ''}
-            label={
-              lang === 'hi'
-                ? 'Speed slider se apni comfortable speaking speed set karo.'
-                : 'Use the speed slider to match your own comfortable speaking pace.'
-            }
-            labelReset={lang === 'hi' ? 'Shuru se' : 'Restart'}
-          />
-        </Section>
-      )}
-
-      {/* ── Vocabulary ───────────────────────────────────────────── */}
-      {!!topic.vocabulary?.length && (
-        <Section
-          id="vocabulary"
-          icon="📚"
-          title={`${lang === 'hi' ? 'Naye Shabd' : 'Vocabulary'} (${topic.vocabulary.length})`}
-        >
-          <div className="vocab-grid">
-            {topic.vocabulary.map((v, i) => (
-              <article className="vocab-card" key={i}>
-                <header className="vocab-head">
-                  <h3>
-                    {t(v.word, v.wordHi)}
-                    <SpeakButton text={v.word} label={`Listen to "${v.word}"`} />
-                  </h3>
-                  <span className="vocab-pronunciation">/{v.pronunciation}/</span>
-                </header>
-                <p className="vocab-meaning">{t(v.meaning, v.meaningHi)}</p>
-                <p className="vocab-example">
-                  “{t(v.example, v.exampleHi)}”
-                  <SpeakButton text={v.example} label="Listen to the example sentence" />
-                </p>
-              </article>
-            ))}
-          </div>
-        </Section>
-      )}
-
-      {/* ── Worked examples ─────────────────────────────────────── */}
-      {!!topic.examples?.length && (() => {
-        const hasJsTs = topic.examples.some((ex) => ex.codeJs && ex.codeTs);
-        return (
-          <Section
-            id="examples"
-            icon="💻"
-            title={`${lang === 'hi' ? 'Code Examples' : 'Code Examples'} (${topic.examples.length})`}
-          >
-            {hasJsTs && (
-              <div className="lang-toggle" role="group" aria-label="JavaScript or TypeScript">
-                <button
-                  className={`lang-toggle-btn ${codeLang === 'js' ? 'active' : ''}`}
-                  onClick={() => setCodeLang('js')}
-                  aria-pressed={codeLang === 'js'}
-                >
-                  JavaScript
-                </button>
-                <button
-                  className={`lang-toggle-btn ${codeLang === 'ts' ? 'active' : ''}`}
-                  onClick={() => setCodeLang('ts')}
-                  aria-pressed={codeLang === 'ts'}
-                >
-                  TypeScript
-                </button>
-              </div>
-            )}
-
-            <div className="examples">
-              {topic.examples.map((ex, i) => {
-                const isPaired = !!(ex.codeJs && ex.codeTs);
-                const shownCode = isPaired ? (codeLang === 'ts' ? ex.codeTs! : ex.codeJs!) : ex.code;
-                const shownOutput = isPaired
-                  ? codeLang === 'ts'
-                    ? ex.outputTs ?? ex.outputJs
-                    : ex.outputJs ?? ex.outputTs
-                  : ex.output;
-
-                return (
-                  <article className="example" key={i}>
-                    <header className="example-head">
-                      <span className="example-num">{i + 1}</span>
-                      <h3>{t(ex.title, ex.titleHi)}</h3>
-                      {isPaired && (
-                        <span className="example-lang-pill">{codeLang === 'ts' ? '.tsx' : '.jsx'}</span>
-                      )}
-                      {isLanguageLesson && shownCode && (
-                        <SpeakButton text={shownCode} label="Listen to this example" rate={0.95} />
-                      )}
-                    </header>
-
-                    <pre className="code-block">
-                      <code>{shownCode}</code>
-                    </pre>
-
-                    {ex.preview && (
-                      <Preview
-                        html={ex.preview}
-                        height={ex.previewHeight}
-                        label={lang === 'hi' ? 'Aisa dikhta hai' : 'What it looks like'}
-                      />
-                    )}
-
-                    {shownOutput && (
-                      <div className="output-block">
-                        <span className="output-label">Output</span>
-                        <pre>
-                          <code>{shownOutput}</code>
-                        </pre>
-                      </div>
-                    )}
-
-                    <div className="example-explain">
-                      <Markdown content={t(ex.explain, ex.explainHi)} />
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          </Section>
-        );
-      })()}
 
       {/* ── Common mistakes ─────────────────────────────────────── */}
       {!!topic.mistakes?.length && (

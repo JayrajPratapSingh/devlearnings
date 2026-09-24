@@ -336,5 +336,6 @@ Move to the next stage only when the current one feels reliably clean.`,
       'Unke beech rested short bursts strength aur clean technique ko ek lambe, strained hold se better build karte hain — Module 10 ki spaced repetition physically apply hoti hai.',
       'Real comfort ke liye weeks-long timelines normal hain — ye ek multi-week plan hai, ek single session ki checklist nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"F to B, barre chord progression drill","titleHi":"F se B, barre chord progression drill","defaultBpm":65,"notes":[{"string":0,"fret":1,"beat":0,"finger":1},{"string":1,"fret":3,"beat":1,"finger":3},{"string":2,"fret":3,"beat":2,"finger":4},{"string":3,"fret":2,"beat":3,"finger":2},{"string":4,"fret":1,"beat":4,"finger":1},{"string":5,"fret":1,"beat":5,"finger":1},{"string":1,"fret":2,"beat":6,"finger":1},{"string":2,"fret":4,"beat":7,"finger":2},{"string":3,"fret":4,"beat":8,"finger":3},{"string":4,"fret":4,"beat":9,"finger":4},{"string":5,"fret":2,"beat":10,"finger":1}]}] },
   },
 ];

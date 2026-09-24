@@ -261,6 +261,7 @@ Chord:          --- C ---|--- D ---`,
       'C se D mein natural anchor overlap kam hai (alag fingers, alag strings) — ek legitimately harder pair, personal difficulty nahi.',
       'Poora piece attempt karne se pehle loop drill ke saath specific mid-bar transition isolate karo, Module 10 ke chunking principle ke hisaab se.',
     ],
+    guitarPractice: { sequences: [{"title":"Quiet Morning — progression roots","titleHi":"Quiet Morning — progression ke roots","defaultBpm":70,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":5,"beat":1},{"string":0,"fret":8,"beat":2},{"string":0,"fret":10,"beat":3},{"string":0,"fret":3,"beat":4}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -385,5 +386,6 @@ Bar 4: Am, chuck replacing the final upstroke`,
       'Har chord capo-compatible hai (open-position, koi barre nahi) — Module 14 mein ek deliberate bridge.',
       'Is piece mein sab kuch Module 1 se chhote, separately-verified steps mein bana tha — concrete proof ki chunking approach kaam karta hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Roadside — progression roots","titleHi":"Roadside — progression ke roots","defaultBpm":70,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":8,"beat":1},{"string":0,"fret":3,"beat":2},{"string":0,"fret":10,"beat":3},{"string":0,"fret":5,"beat":4}]}] },
   },
 ];

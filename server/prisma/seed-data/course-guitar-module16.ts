@@ -348,5 +348,6 @@ Strumming hand: stays anchored at the bridge, palm muting throughout.`,
       'Power chords palm muting ke liye especially well suit karte hain — kam strings ka matlab hai ek full chord se zyada consistent, controllable muting.',
       'Palm bridge par anchored rehta hai chahe movable power-chord shape kisi bhi fret tak slide ho raha ho — dono hands independently move karte hain.',
     ],
+    guitarPractice: { sequences: [{"title":"E5 to A5, palm-muted riff shape","titleHi":"E5 se A5, palm-muted riff shape","defaultBpm":90,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":2,"beat":0},{"string":2,"fret":2,"beat":0},{"string":1,"fret":0,"beat":2},{"string":2,"fret":2,"beat":2},{"string":3,"fret":2,"beat":2}]}] },
   },
 ];

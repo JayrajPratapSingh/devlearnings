@@ -220,6 +220,7 @@ Modules 5-8's chord progressions.`,
       'Ek relative minor apne major counterpart ke saath 100% notes share karta hai, sirf isme differ karta hai ki kaunsa note "home" jaisa feel karta hai.',
       'Circle chord compatibility ka ek major source explain karta hai — ek powerful, genuinely useful tool, poori harmony ki ek complete theory nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"C and its two neighbors, G and F","titleHi":"C aur uske do neighbors, G aur F","defaultBpm":70,"notes":[{"string":0,"fret":8,"beat":0},{"string":0,"fret":3,"beat":1},{"string":0,"fret":1,"beat":2}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -328,5 +329,6 @@ Same relative shape (same distances between chords), new key.`,
       'Circle par chords kitne door hain ye genuinely predict karta hai ki unke beech ek change kitna smooth ya dramatic feel karega — ek real, usable songwriting dial.',
       'Ye Module 20 close karta hai: Circle of Fifths, ek interval se derived aur phir key relationships aur transposing ke liye used — ek intimidating poster ki tarah memorized nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"G-C-D transposed down to C-F-G","titleHi":"G-C-D neeche C-F-G mein transposed","defaultBpm":70,"notes":[{"string":0,"fret":3,"beat":0},{"string":0,"fret":8,"beat":1},{"string":0,"fret":10,"beat":2},{"string":0,"fret":8,"beat":4},{"string":0,"fret":1,"beat":5},{"string":0,"fret":3,"beat":6}]}] },
   },
 ];

@@ -242,6 +242,7 @@ Em7: finger 2 (A/2) only — finger 3 lifted`,
       '"Ek finger ek known chord se different hai" recognize karna har chord ko isolated shape ki tarah memorize karne se kahin zyada fast hai.',
       'Ye practice karna ki kaunsi finger planted rehti hai jabki doosri move karti hain Module 6 ki anchor-finger technique ka preview deta hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Em7, one string at a time","titleHi":"Em7, ek string ek baar mein","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":2,"beat":1,"finger":2},{"string":2,"fret":0,"beat":2},{"string":3,"fret":0,"beat":3},{"string":4,"fret":0,"beat":4},{"string":5,"fret":0,"beat":5}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

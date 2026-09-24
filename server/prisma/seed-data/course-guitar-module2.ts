@@ -311,6 +311,7 @@ Order: e-open, B-fret1, G-open, e-fret3, D-fret2`,
       'Same horizontal position par vertically stacked numbers matlab "saath bajao."',
       'Tab pitch/position dikhata hai, rhythm nahi — timing kaan se seekho, use padhte hue saath saath.',
     ],
+    guitarPractice: { sequences: [{"title":"Reading a real tab example","titleHi":"Ek real tab example padhna","defaultBpm":70,"notes":[{"string":5,"fret":0,"beat":0},{"string":4,"fret":1,"beat":1},{"string":3,"fret":0,"beat":2},{"string":5,"fret":3,"beat":3},{"string":2,"fret":2,"beat":3}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -444,5 +445,6 @@ The thick bar across the bottom row = one finger flat across all 6 strings at fr
       'Same chord name ke neck par alag positions par multiple valid diagrams ho sakte hain — same pitches, alag shape.',
       'Ek diagram padhna aur use physically bajaana alag skills hain — tum barre chords abhi padh sakte ho, Module 17 technique sikhaane se pehle.',
     ],
+    guitarPractice: { sequences: [{"title":"F major — read it, even before you can play it","titleHi":"F major — padho, bajaana seekhne se pehle hi","defaultBpm":60,"notes":[{"string":0,"fret":1,"beat":0,"finger":1},{"string":1,"fret":3,"beat":1,"finger":3},{"string":2,"fret":3,"beat":2,"finger":4},{"string":3,"fret":2,"beat":3,"finger":2},{"string":4,"fret":1,"beat":4,"finger":1},{"string":5,"fret":1,"beat":5,"finger":1}]}] },
   },
 ];

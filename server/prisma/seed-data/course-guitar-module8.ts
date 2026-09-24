@@ -250,6 +250,7 @@ Strum:  D  -  D  U  -  U  D  U`,
       'Underlying skeleton — strong beats par downstrokes, gaps bharte upstrokes — exact 8-symbol sequence se zyada matter karta hai.',
       'Real songs is base pattern ko constantly nudge karte hain; kaan se adapt karna seekhna hi actual transferable skill hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Em, struck on every beat","titleHi":"Em, har beat par struck","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":2,"beat":0},{"string":2,"fret":2,"beat":0},{"string":3,"fret":0,"beat":0},{"string":4,"fret":0,"beat":0},{"string":5,"fret":0,"beat":0},{"string":0,"fret":0,"beat":1},{"string":1,"fret":2,"beat":1},{"string":2,"fret":2,"beat":1},{"string":3,"fret":0,"beat":1},{"string":4,"fret":0,"beat":1},{"string":5,"fret":0,"beat":1},{"string":0,"fret":0,"beat":2},{"string":1,"fret":2,"beat":2},{"string":2,"fret":2,"beat":2},{"string":3,"fret":0,"beat":2},{"string":4,"fret":0,"beat":2},{"string":5,"fret":0,"beat":2},{"string":0,"fret":0,"beat":3},{"string":1,"fret":2,"beat":3},{"string":2,"fret":2,"beat":3},{"string":3,"fret":0,"beat":3},{"string":4,"fret":0,"beat":3},{"string":5,"fret":0,"beat":3}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

@@ -126,6 +126,7 @@ export const GUITAR_MODULE_3: CourseLesson[] = [
       'Fretting pressure exactly "buzz rokne ke liye bas itna" hai — ye threshold feel se dhoondo, ek fixed rule of thumb se nahi.',
       'Fingers ko tip-first strings par curl karna chahiye, flat lete hue accidentally paas wali string mute nahi karni chahiye.',
     ],
+    guitarPractice: { sequences: [{"title":"A simple two-fret pressure check","titleHi":"Ek simple two-fret pressure check","defaultBpm":60,"notes":[{"string":1,"fret":2,"beat":0,"finger":2},{"string":2,"fret":2,"beat":1,"finger":3}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */

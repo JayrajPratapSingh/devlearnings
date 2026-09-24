@@ -112,6 +112,7 @@ Capo at fret 2: SAME Em shape, SAME fingers — but the capo has
       'Capo on hone par har chord shape aur fingering bilkul same rehti hai — sirf resulting pitch badalti hai.',
       'Capo jitna ek fret upar move karta hai utni hi har chord ki pitch exactly ek semitone se raise hoti hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Em root, open vs. capo at fret 2","titleHi":"Em root, open vs. capo fret 2","defaultBpm":60,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":2,"beat":2}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -213,6 +214,7 @@ In every case: still Em, C, G, D, Am shapes — your hands never change.`,
       'Capo fret number = open-position sound se semitones higher — ek precise, calculable relationship.',
       'Ek real chord chart par, chord names bajaaye gaye shapes ko refer karte hain; capo annotation separately tumhe actual resulting pitch batata hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Roadside roots, no capo vs. capo 2","titleHi":"Roadside roots, no capo vs. capo 2","defaultBpm":65,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":8,"beat":1},{"string":0,"fret":2,"beat":3},{"string":0,"fret":10,"beat":4}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

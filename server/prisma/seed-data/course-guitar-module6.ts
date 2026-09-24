@@ -122,6 +122,7 @@ export const GUITAR_MODULE_6: CourseLesson[] = [
       'Current strum khatam karne se pehle agli chord shape ko dekho, taaki jab hand ko act karna ho tab tak anchor already identify ho chuka ho.',
       'Har chord pair ka clean anchor nahi hota — skill accurate recognition hai, ek ko exist karne ke liye force karna nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"Em to G — finger 2 stays anchored","titleHi":"Em se G — finger 2 anchored rehta hai","defaultBpm":70,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":2,"beat":1,"finger":2},{"string":2,"fret":2,"beat":2,"finger":3},{"string":3,"fret":0,"beat":3},{"string":4,"fret":0,"beat":4},{"string":5,"fret":0,"beat":5},{"string":0,"fret":3,"beat":6,"finger":3},{"string":1,"fret":2,"beat":7,"finger":2},{"string":2,"fret":0,"beat":8},{"string":3,"fret":0,"beat":9},{"string":4,"fret":0,"beat":10},{"string":5,"fret":3,"beat":11,"finger":4}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -223,6 +224,7 @@ Then try the same drill with a much bigger lift (several cm) and compare how eac
       'Bade lifts ek reasonable early-accuracy scaffold hain, lekin ek shape reliable feel karte hi deliberately shrink karne chahiye.',
       'Minimal motion aur anchor fingers saath kaam karte hain: anchors ko perfectly still rakho, baaki sab ko kam se kam move karo.',
     ],
+    guitarPractice: { sequences: [{"title":"Am to C — only finger 3 moves","titleHi":"Am se C — sirf finger 3 move karta hai","defaultBpm":70,"notes":[{"string":1,"fret":0,"beat":0},{"string":2,"fret":2,"beat":1,"finger":2},{"string":3,"fret":2,"beat":2,"finger":3},{"string":4,"fret":1,"beat":3,"finger":1},{"string":5,"fret":0,"beat":4},{"string":1,"fret":3,"beat":5,"finger":3},{"string":2,"fret":2,"beat":6,"finger":2},{"string":3,"fret":0,"beat":7},{"string":4,"fret":1,"beat":8,"finger":1},{"string":5,"fret":0,"beat":9}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

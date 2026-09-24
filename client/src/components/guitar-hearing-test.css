@@ -5,11 +5,47 @@
   padding: 1rem;
 }
 
+.ght-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.6rem;
+}
+
+.ght-modes {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.ght-mode {
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: transparent;
+  color: #94a3b8;
+  border-radius: 999px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.ght-mode.active {
+  border-color: #f59e0b;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.ght-mode-hint {
+  margin: 0 0 0.75rem;
+  font-size: 0.78rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
 .ght-score {
   font-size: 0.8rem;
   color: #94a3b8;
   font-variant-numeric: tabular-nums;
-  margin-bottom: 0.75rem;
 }
 
 .ght-play {

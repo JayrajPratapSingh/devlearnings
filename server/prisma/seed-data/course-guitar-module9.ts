@@ -108,6 +108,7 @@ export const GUITAR_MODULE_9: CourseLesson[] = [
       'Unsteady timing doosre musicians ke saath bajaane ki ability break karti hai, chahe individual technique kitni bhi clean ho.',
       'Us fastest tempo par practice karo jise tum PERFECTLY hold kar sako, jise tum almost hold kar sako wo nahi — speed reliable steadiness se follow karti hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Four steady clicks","titleHi":"Chaar steady clicks","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":0,"beat":1},{"string":0,"fret":0,"beat":2},{"string":0,"fret":0,"beat":3}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -324,5 +325,6 @@ export const GUITAR_MODULE_9: CourseLesson[] = [
       'Ek chord-change stumble usually ek technique problem hai (anchor/motion, Module 6) jo ek timing symptom ki tarah manifest hota hai, ek pure tempo issue nahi.',
       'Ek fix choose karne se pehle exactly ye dhoondhne ke liye ki problem kahan aur kya hai, metronome se specific sections isolate karo.',
     ],
+    guitarPractice: { sequences: [{"title":"Steady beat check","titleHi":"Steady beat check","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":0,"beat":1},{"string":0,"fret":0,"beat":2},{"string":0,"fret":0,"beat":3}]}] },
   },
 ];
