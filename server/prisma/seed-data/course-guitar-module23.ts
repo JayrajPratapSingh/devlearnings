@@ -114,6 +114,7 @@ This second version is A Aeolian — which you already know as
       'Ek mode apne parent major scale ke exact same notes use karta hai, bas ek different note se "home" ki tarah shuru hote hue.',
       'Module 20 ka relative minor literally ek mode hai (Aeolian) jo tumhe is lesson ke underlying idea ko naam dene se pehle hi pata tha.',
     ],
+    guitarPractice: { sequences: [{"title":"C major scale, first four notes","titleHi":"C major scale, pehle chaar notes","defaultBpm":70,"notes":[{"string":0,"fret":8,"beat":0},{"string":0,"fret":10,"beat":1},{"string":0,"fret":12,"beat":2},{"string":0,"fret":13,"beat":3}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -233,6 +234,7 @@ entire difference between "bright major" and "bluesy Mixolydian."`,
       'Lydian (raised 4th) aur Mixolydian (lowered 7th) major ke close hain; Dorian (raised 6th) aur Phrygian (lowered 2nd) minor ke close hain; Locrian (lowered 2nd aur 5th) unusual outlier hai, ek stable perfect 5th ki bhi kami ke saath.',
       'Har formula jaanna ek real foundation hai, lekin genuinely fluent modal playing ek separate, substantial skill hai jo practice se build hoti hai, ye lesson provide karne ka claim karta ek shortcut nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"G Mixolydian vs. G major — the one note","titleHi":"G Mixolydian vs. G major — ek note","defaultBpm":70,"notes":[{"string":0,"fret":1,"beat":0},{"string":0,"fret":2,"beat":1}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -346,5 +348,6 @@ pentatonic shape using identical physical notes.`,
       'Us music mein modal character sunna jo tumhe already pata hai ek genuinely valuable, low-effort pehla skill hai — fluent creative use se pehle recognition.',
       'Ye Part VIII ki scale/theory foundation ko honestly close karta hai: Module 24 pentatonic scale (Module 22) aur modal understanding (Module 23) ko ek practical improvisation approach mein saath tie karta hai.',
     ],
+    guitarPractice: { earTraining: [{"string":0,"fret":5},{"string":0,"fret":8},{"string":1,"fret":5},{"string":1,"fret":7},{"string":2,"fret":5}] },
   },
 ];

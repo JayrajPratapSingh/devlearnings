@@ -133,6 +133,7 @@ Only 5 distinct note names appear anywhere in this shape: A, C, D, E, G.`,
       'Ek full 7-note scale se 2 notes hataana 5 chhodta hai jo almost kisi bhi order mein safely combine hote hain — isliye ye genres ke across sabse zyada reach-for kiya jaane wala improvising scale hai.',
       '"Box 1" simply is formula ka physical layout hai, ek separate cheez memorize karne wali nahi — aur uska starting fret directly Module 18 ke note-finding method se determined hota hai.',
     ],
+    guitarPractice: { sequences: [{"title":"A minor pentatonic, Box 1","titleHi":"A minor pentatonic, Box 1","defaultBpm":90,"notes":[{"string":0,"fret":5,"beat":0},{"string":0,"fret":8,"beat":1},{"string":1,"fret":5,"beat":2},{"string":1,"fret":7,"beat":3},{"string":2,"fret":5,"beat":4},{"string":2,"fret":7,"beat":5},{"string":3,"fret":5,"beat":6},{"string":3,"fret":7,"beat":7},{"string":4,"fret":5,"beat":8},{"string":4,"fret":8,"beat":9},{"string":5,"fret":5,"beat":10},{"string":5,"fret":8,"beat":11}]}], earTraining: [{"string":0,"fret":5},{"string":0,"fret":8},{"string":1,"fret":5},{"string":1,"fret":7},{"string":2,"fret":5}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -348,5 +349,6 @@ One fret over from a note you already had — the smallest possible addition.`,
       'Us single note ki value uski deliberate instability se aati hai — ek quick, often-bent passing tone ki tarah use hota hai, ek stable note ki tarah hold nahi.',
       'Ye Module 22 ke "ek scale, deeply understood" approach ko close karta hai — Module 23 modes ke liye usi interval-formula thinking par build karta hai.',
     ],
+    guitarPractice: { sequences: [{"title":"The 4th and the blue note on the G string","titleHi":"G string par 4th aur blue note","defaultBpm":80,"notes":[{"string":3,"fret":7,"beat":0},{"string":3,"fret":8,"beat":1}]}] },
   },
 ];

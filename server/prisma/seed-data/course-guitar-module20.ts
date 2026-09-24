@@ -113,6 +113,7 @@ previous key's root note. Twelve steps later, you land back on C.`,
       'Ye ek saath teen layers encode karta hai: major keys (outer), relative minors (middle), aur sharp/flat counts (inner).',
       'Barah stacked perfect 5ths exactly 7 octaves ke barabar hain, isliye circle mathematically wapas C par close hota hai.',
     ],
+    guitarPractice: { earTraining: [{"string":0,"fret":3},{"string":0,"fret":8},{"string":0,"fret":10},{"string":0,"fret":0},{"string":0,"fret":5}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */

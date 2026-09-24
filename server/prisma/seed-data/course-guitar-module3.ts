@@ -278,6 +278,7 @@ Then move the whole pattern to the D string, and so on through all 6.`,
       'Dono ko slowly chalao, speed se zyada clean motion ko priority dete hue — motion clean hote hi speed automatically aati hai.',
       'Pehle aur baad mein gently stretch karo, kabhi pain ke point tak nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"1-2-3-4 chromatic finger exercise","titleHi":"1-2-3-4 chromatic finger exercise","defaultBpm":70,"notes":[{"string":0,"fret":1,"beat":0,"finger":1},{"string":0,"fret":2,"beat":1,"finger":2},{"string":0,"fret":3,"beat":2,"finger":3},{"string":0,"fret":4,"beat":3,"finger":4}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

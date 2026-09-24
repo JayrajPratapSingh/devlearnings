@@ -111,6 +111,7 @@ Quarter note = 1 beat. Eighth note = half a beat.`,
       'Rhythm notation (whole/half/quarter/eighth notes) directly Module 8 ke beat-counting system par map karta hai, bas numbers ke bajaye symbols ke saath.',
       'Tab aur standard notation alag problems solve karte hain aur frequently saath use hote hain — guitar ke ek pitch ko multiple fretboard positions mein allow karne ka ek direct consequence (Module 18).',
     ],
+    guitarPractice: { earTraining: [{"string":0,"fret":0},{"string":1,"fret":0},{"string":2,"fret":0},{"string":3,"fret":0},{"string":4,"fret":0},{"string":5,"fret":0}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -327,5 +328,6 @@ does it still make sense, calculated fresh, without looking it up?`,
       'Teen throughlines har module mein se guzre: mechanism samjho shape memorize karne ke bajaye, claims ko real data ke against verify karo assert karne ke bajaye, aur instant-mastery claims par honest scope.',
       'Growth wahi tareeke se continue hoti hai jaise is course ne use build kiya: ek time mein ek focused topic, fundamentals ka regular review, aur — sabse valuably — doosre musicians ke saath real playing.',
     ],
+    guitarPractice: { earTraining: [{"string":0,"fret":0},{"string":1,"fret":0},{"string":2,"fret":0},{"string":0,"fret":5},{"string":0,"fret":8},{"string":3,"fret":5},{"string":3,"fret":7},{"string":5,"fret":0}] },
   },
 ];

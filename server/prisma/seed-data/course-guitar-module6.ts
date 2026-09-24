@@ -330,5 +330,6 @@ Then try the same drill with a much bigger lift (several cm) and compare how eac
       'Sirf clean switches count hote hain — ek honest, accurate count hi drill ko meaningful banata hai.',
       'Chord pairs ke through most anchor overlap se least tak progress karo, ek time par ek pair, ek saath nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"G to C, arpeggios back to back","titleHi":"G se C, arpeggios ek ke baad ek","defaultBpm":70,"notes":[{"string":0,"fret":3,"beat":0,"finger":3},{"string":1,"fret":2,"beat":1,"finger":2},{"string":2,"fret":0,"beat":2},{"string":3,"fret":0,"beat":3},{"string":4,"fret":0,"beat":4},{"string":5,"fret":3,"beat":5,"finger":4},{"string":1,"fret":3,"beat":6,"finger":3},{"string":2,"fret":2,"beat":7,"finger":2},{"string":3,"fret":0,"beat":8},{"string":4,"fret":1,"beat":9,"finger":1},{"string":5,"fret":0,"beat":10}]}] },
   },
 ];

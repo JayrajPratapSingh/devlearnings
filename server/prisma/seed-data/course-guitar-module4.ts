@@ -122,6 +122,7 @@ export const GUITAR_MODULE_4: CourseLesson[] = [
       'Sirf 2 fingers chahiye — yahi reason hai ki Em traditionally pehla sikhaya jaane wala chord hai.',
       'Week 1 ka goal: cleanly hold karo, saari 6 strings true ring karte hue, ek relaxed 10 seconds ke liye.',
     ],
+    guitarPractice: { sequences: [{"title":"Em, one string at a time","titleHi":"Em, ek string ek baar mein","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":2,"beat":1,"finger":2},{"string":2,"fret":2,"beat":2,"finger":3},{"string":3,"fret":0,"beat":3},{"string":4,"fret":0,"beat":4},{"string":5,"fret":0,"beat":5}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -353,5 +354,6 @@ Ye genuinely widest stretch hai jo tumne is course mein ab tak try kiya hai — 
       'Ye ab tak ka widest hand-span stretch hai — initial awkwardness expect karo, ye normal hai aur consistent practice se improve hota hai.',
       'Ek finger-2-aur-3-only stepping stone poore shape tak gradually build karne ka ek legitimate tareeka hai.',
     ],
+    guitarPractice: { sequences: [{"title":"G, one string at a time","titleHi":"G, ek string ek baar mein","defaultBpm":80,"notes":[{"string":0,"fret":3,"beat":0,"finger":3},{"string":1,"fret":2,"beat":1,"finger":2},{"string":2,"fret":0,"beat":2},{"string":3,"fret":0,"beat":3},{"string":4,"fret":0,"beat":4},{"string":5,"fret":3,"beat":5,"finger":4}]}] },
   },
 ];

@@ -430,5 +430,6 @@ Only strings A and D are fretted. Everything else rings open.`,
       'Fret wire ke bilkul PEECHE dabao, kabhi gap ke beech mein ya wire ke upar nahi.',
       '"Fretting hand" aur "picking hand" is poore course mein "left/right" ke bajaye use hote hain, kyunki ye left-handed players ke liye bhi correct rehte hain.',
     ],
+    guitarPractice: { earTraining: [{"string":0,"fret":0},{"string":1,"fret":0},{"string":2,"fret":0},{"string":3,"fret":0},{"string":4,"fret":0},{"string":5,"fret":0}] },
   },
 ];

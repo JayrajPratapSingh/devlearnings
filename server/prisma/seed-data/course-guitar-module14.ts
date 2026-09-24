@@ -321,5 +321,6 @@ fingers you already have solid since Module 4.`,
       'Ye barre chords (Module 17) ko pointless nahi banata — har approach ke real trade-offs hain (repositioning delay vs instant movability).',
       'Resulting pitch acoustically identical hai regardless ki kaunsi valid technique ne use produce kiya — koi "lesser" version nahi hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Same G shape, open vs. capo 2","titleHi":"Wahi G shape, open vs. capo 2","defaultBpm":70,"notes":[{"string":0,"fret":3,"beat":0,"finger":3},{"string":0,"fret":5,"beat":2,"finger":3}]}] },
   },
 ];

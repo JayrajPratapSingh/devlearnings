@@ -80,6 +80,36 @@ export interface LessonVocabWord {
   pronunciation: string;
 }
 
+/** One note in a Guitar course practice sequence: which string/fret to play, and when. */
+export interface GuitarPracticeNote {
+  /** 0=low E .. 5=high e, the same string ordering as ChordSpec in guitar-diagrams.ts. */
+  string: number;
+  /** Fret number; 0 = open string. */
+  fret: number;
+  /** Which beat this note starts on, 0-indexed. Actual timing is beat * (60/bpm) seconds. */
+  beat: number;
+  /** How many beats this note is held before the next one starts. Defaults to 1. */
+  duration?: number;
+  /** Fretting finger (1=index..4=pinky), shown alongside the note for reference. */
+  finger?: number | null;
+}
+
+/** A playable sequence for the Guitar course's scrolling, speed-adjustable practice player. */
+export interface GuitarPracticeSequence {
+  title: string;
+  titleHi: string;
+  /** The reference tempo the sequence was written at; the player's slider starts here. */
+  defaultBpm: number;
+  notes: GuitarPracticeNote[];
+}
+
+/** Guitar course only: powers the scrolling practice player and/or the ear-training quiz on a lesson. */
+export interface GuitarPractice {
+  sequences?: GuitarPracticeSequence[];
+  /** Note pool the ear-training quiz picks from; omit to skip the quiz on this lesson. */
+  earTraining?: { string: number; fret: number }[];
+}
+
 export interface CourseLesson {
   slug: string;
   title: string;
@@ -104,6 +134,8 @@ export interface CourseLesson {
   readingPassage?: string;
   readingPassageHi?: string;
   vocabulary?: LessonVocabWord[];
+  /** Guitar course only: scrolling practice player and/or ear-training quiz data. */
+  guitarPractice?: GuitarPractice;
   examples: LessonExample[];
   mistakes: LessonMistake[];
   realWorld: { en: string; hi: string }[];

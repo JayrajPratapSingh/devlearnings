@@ -153,6 +153,7 @@ String 2 (B) --fret 5--> matches String 1 open (e)`,
       'Pegs ko slowly, chhote increments mein ghumao — bade fast turns overshoot karte hain aur string ko stress karte hain.',
       'Har practice session ke shuru mein tuning check karo, bina exception ke.',
     ],
+    guitarPractice: { earTraining: [{"string":0,"fret":0},{"string":1,"fret":0},{"string":2,"fret":0},{"string":3,"fret":0},{"string":4,"fret":0},{"string":5,"fret":0}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */

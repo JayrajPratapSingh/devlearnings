@@ -216,6 +216,7 @@ export const GUITAR_MODULE_9: CourseLesson[] = [
       'Tempo ko small increments (5-10 bpm) mein badhao sirf ek baar jab current tempo completely automatic feel kare.',
       'Early practice ke liye ek isolated click use karo (poora song nahi) — isse lock karna easier hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Steady clicks on the low E string","titleHi":"Low E string par steady clicks","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":0,"beat":1},{"string":0,"fret":0,"beat":2},{"string":0,"fret":0,"beat":3},{"string":0,"fret":0,"beat":4},{"string":0,"fret":0,"beat":5},{"string":0,"fret":0,"beat":6},{"string":0,"fret":0,"beat":7}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

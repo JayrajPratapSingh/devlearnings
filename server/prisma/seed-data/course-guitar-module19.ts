@@ -121,6 +121,7 @@ E - G# - B = the three notes of an E major chord.`,
       'Minor 3rd = 3 semitones, major 3rd = 4 semitones, perfect 5th = 7 semitones — teen intervals jo ab tak almost har chord ke peeche hain.',
       'Major vs. minor chords exactly ek semitone se alag hote hain (ek major 3rd vs. ek minor 3rd) — jo tumne ab tak sirf emotionally suna hai uska ek precise, countable cause.',
     ],
+    guitarPractice: { sequences: [{"title":"Root, major 3rd, perfect 5th on one string","titleHi":"Ek string par root, major 3rd, perfect 5th","defaultBpm":70,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":4,"beat":1},{"string":0,"fret":7,"beat":2}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -248,6 +249,7 @@ Every single note in the shape is C, E, or G. No exceptions.`,
       'Ye recipe un chords ke liye provably true hai jo tum already bajaate ho — note-by-note traced, open C, G, Em, aur Am shapes exactly ye teen-note recipes hain, kabhi kabhi notes doubled ke saath.',
       'Recipe jaanna tumhe kisi bhi triad ke notes calculate karne deta hai kisi bhi diagram dekhe bina.',
     ],
+    guitarPractice: { sequences: [{"title":"G major triad on the low E string","titleHi":"Low E string par G major triad","defaultBpm":70,"notes":[{"string":0,"fret":3,"beat":0},{"string":0,"fret":7,"beat":1},{"string":0,"fret":10,"beat":2}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -364,5 +366,6 @@ That single new note, F, is G's 7th — 10 semitones above the root.`,
       'Modules 5-6 ka har "weird-named" open chord in teen precise modifications mein se ek hai ek plain triad ka, ek separate unrelated shape nahi.',
       'Is module ki theory — intervals, triads, aur unke modifications — Module 4 se sikhaaye gaye har chord shape ke peeche ka "why" complete karti hai, aur Module 20 ke Circle of Fifths ke liye set up karti hai.',
     ],
+    guitarPractice: { sequences: [{"title":"G vs G7 — the one note that changes","titleHi":"G vs G7 — ek note jo change hota hai","defaultBpm":70,"notes":[{"string":5,"fret":3,"beat":0},{"string":5,"fret":1,"beat":1}]}] },
   },
 ];

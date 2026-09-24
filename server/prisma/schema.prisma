@@ -536,6 +536,13 @@ model CourseTopic {
   /// [{ word, wordHi, meaning, meaningHi, example, exampleHi, pronunciation }]
   vocabulary        Json       @default("[]")
 
+  /// Interactive practice data (Guitar course): a scrolling, speed-adjustable
+  /// note player plus an ear-training quiz, both driven by real Web Audio
+  /// synthesis rather than audio files.
+  /// { sequences?: [{ title, titleHi, defaultBpm, notes: [{ string, fret, beat, duration, finger }] }],
+  ///   earTraining?: [{ string, fret }] }
+  guitarPractice    Json?
+
   difficulty      Difficulty @default(EASY)
   order           Int        @default(0)
   duration        Int        @default(15) // minutes

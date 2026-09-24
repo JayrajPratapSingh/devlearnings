@@ -119,6 +119,7 @@ Resolving to A = "in A minor." Resolving to C = "in C major."`,
       'Relative major aur minor keys (Module 20) identical pentatonic note-sets share karti hain — ek seekhi hui shape do usable scales cover karti hai.',
       'Is module ka framework sirf tabhi kaam karta hai jab underlying key correctly identify ki gayi ho — baaki sab kuch is pehle decision ko sahi karne par build karta hai.',
     ],
+    guitarPractice: { earTraining: [{"string":0,"fret":5},{"string":0,"fret":8},{"string":1,"fret":5},{"string":1,"fret":7},{"string":2,"fret":5}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -233,6 +234,7 @@ the phrase is freely chosen from the A minor pentatonic scale.`,
       'Ye technique pentatonic scale (Lesson 1) ke upar layer hoti hai, use replace karne ke bajaye — phrase ka zyadatar hissa abhi bhi scale ke through freely move kar sakta hai.',
       'Module 19 ki chord-tone theory, originally chords kaise build hote hain explain karne ke liye sikhaayi gayi, yahan ek direct, practical playing target ki tarah resurface hoti hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Am-F-C-G, root notes only","titleHi":"Am-F-C-G, sirf root notes","defaultBpm":70,"notes":[{"string":0,"fret":5,"beat":0},{"string":0,"fret":1,"beat":2},{"string":0,"fret":8,"beat":4},{"string":0,"fret":3,"beat":6}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -346,5 +348,6 @@ the phrase is freely chosen from the A minor pentatonic scale.`,
       'Record karna aur critically wapas sunna ek disproportionately high-value habit hai, kyunki ye apna khud ka playing us tareeke se evaluate karne ka ek reliable tareeka hai jaise ek listener sunta hai.',
       'Ye Part VIII close karta hai: ek safe scale (Module 22), color samajhne ka ek tareeka (Module 23), aur dono use karne ke liye ek practical framework (Module 24) — ek genuine beginner ki foundation, is course se aage ongoing practice se real fluency build hoti hui.',
     ],
+    guitarPractice: { sequences: [{"title":"Am-F-C-G practice loop, root notes","titleHi":"Am-F-C-G practice loop, root notes","defaultBpm":70,"notes":[{"string":0,"fret":5,"beat":0},{"string":0,"fret":1,"beat":2},{"string":0,"fret":8,"beat":4},{"string":0,"fret":3,"beat":6}]}] },
   },
 ];

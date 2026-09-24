@@ -144,6 +144,7 @@ C
       'Ye pehla chord hai jo tumse deliberately ek string avoid karne ko kehta hai, sirf kahan press karna hai choose karne ke bajaye.',
       'Teen fingers teen alag frets ke across simultaneously spread — G ke stretch se distinct ek naya coordination challenge.',
     ],
+    guitarPractice: { sequences: [{"title":"C, one string at a time","titleHi":"C, ek string ek baar mein","defaultBpm":80,"notes":[{"string":1,"fret":3,"beat":0,"finger":3},{"string":2,"fret":2,"beat":1,"finger":2},{"string":3,"fret":0,"beat":2},{"string":4,"fret":1,"beat":3,"finger":1},{"string":5,"fret":0,"beat":4}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -274,6 +275,7 @@ Notice karo finger 1 fingers 2 aur 3 se ek fret PEECHE baithi hai — ye stagger
       'Stagger (finger 1 ek fret peeche) hi shape hai, koi imperfection nahi — ye genuinely crowding ko ek uniform row se easier banata hai.',
       'Am aur Em ek similar minor "character" share karte hain — ek resemblance jo kaan se notice karne layak hai, sirf shape se nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"Am, one string at a time","titleHi":"Am, ek string ek baar mein","defaultBpm":80,"notes":[{"string":1,"fret":0,"beat":0},{"string":2,"fret":2,"beat":1,"finger":2},{"string":3,"fret":2,"beat":2,"finger":3},{"string":4,"fret":1,"beat":3,"finger":1},{"string":5,"fret":0,"beat":4}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -418,5 +420,6 @@ Do muted strings naya hai — ab tum apna strum C ke single mute se bhi aur anda
       'D ka three-different-strings-and-frets triangle shape aksar A ki crowded same-fret row se physically easier hai.',
       'Ab tumhe saare 6 campfire chords pata hain: Em, Em7, G, C, Am, D — real functional vocabulary, partial set nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"D, one string at a time","titleHi":"D, ek string ek baar mein","defaultBpm":80,"notes":[{"string":2,"fret":0,"beat":0},{"string":3,"fret":2,"beat":1,"finger":1},{"string":4,"fret":3,"beat":2,"finger":3},{"string":5,"fret":2,"beat":3,"finger":2}]}] },
   },
 ];

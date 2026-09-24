@@ -113,6 +113,7 @@ Everything else: count up/down from the nearest anchor.`,
       'Pehle anchor points memorize karo (frets 0, 5, 7, 12), phir count karke doosri positions calculate karo — ek flat 12-item list nahi.',
       'Fret 12 hamesha open string ka note name repeat karta hai, ek octave higher — tumhe sach mein sirf frets 0-11 memorize karne ki zaroorat hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Anchor points on the low E string","titleHi":"Low E string par anchor points","defaultBpm":70,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":5,"beat":1},{"string":0,"fret":7,"beat":2},{"string":0,"fret":12,"beat":3}]}], earTraining: [{"string":0,"fret":0},{"string":0,"fret":3},{"string":0,"fret":5},{"string":0,"fret":7},{"string":0,"fret":8},{"string":0,"fret":10}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -229,6 +230,7 @@ A string fret 2 (B) -> G string fret 4 (B, one octave up)`,
       'Ye consistently kaam karta hai standard tuning ke fixed string-to-string interval ki wajah se — ek geometric shape, independent facts nahi.',
       'Octave shapes Lesson 1 ke anchor-and-count note calculations ke liye ek built-in cross-check ki tarah bhi kaam karte hain.',
     ],
+    guitarPractice: { sequences: [{"title":"G, low E to D string (2 up, 2 over)","titleHi":"G, low E se D string (2 up, 2 over)","defaultBpm":70,"notes":[{"string":0,"fret":3,"beat":0},{"string":2,"fret":5,"beat":1}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -339,5 +341,6 @@ Slide the E5 shape (Module 16) to fret 10 -> D5.`,
       'Ye Module 16-17 ke movable shapes ko mechanical tricks se genuinely usable tools mein badalta hai kisi bhi target chord ke liye.',
       'Ye independent chord-chart reading bhi complete karta hai — ab ek movable shape kahan rakhna hai jaanne ke liye ek diagram ki zaroorat nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"D5 power chord, calculated from the map","titleHi":"D5 power chord, map se calculated","defaultBpm":80,"notes":[{"string":0,"fret":10,"beat":0,"finger":1},{"string":1,"fret":12,"beat":1,"finger":3},{"string":2,"fret":12,"beat":2,"finger":4}]}] },
   },
 ];

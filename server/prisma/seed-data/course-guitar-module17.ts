@@ -124,6 +124,7 @@ export const GUITAR_MODULE_17: CourseLesson[] = [
       'Ek clean F chord develop karne mein hafte lagna bilkul normal hai, kuch fundamentally galat karne ka sign nahi.',
       'Yahan specifically Module 11 ki injury-awareness guidance respect karo — barre chords pushed-through pain ka ek common source hain.',
     ],
+    guitarPractice: { sequences: [{"title":"F, one string at a time","titleHi":"F, ek string ek baar mein","defaultBpm":70,"notes":[{"string":0,"fret":1,"beat":0,"finger":1},{"string":1,"fret":3,"beat":1,"finger":3},{"string":2,"fret":3,"beat":2,"finger":4},{"string":3,"fret":2,"beat":3,"finger":2},{"string":4,"fret":1,"beat":4,"finger":1},{"string":5,"fret":1,"beat":5,"finger":1}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -227,6 +228,7 @@ A-shape barre: B (fret 2) — a genuinely different finger arrangement.`,
       'A-shape barre generally E-shape barre se harder hai aur apni khud ki dedicated practice deserve karta hai, automatic transfer ki assumption nahi.',
       'Ye do shapes 5 shapes mein se 2 hain jinhe Module 21 ka CAGED system ek complete neck-covering framework mein organize karega.',
     ],
+    guitarPractice: { sequences: [{"title":"B (A-shape barre), one string at a time","titleHi":"B (A-shape barre), ek string ek baar mein","defaultBpm":70,"notes":[{"string":1,"fret":2,"beat":0,"finger":1},{"string":2,"fret":4,"beat":1,"finger":2},{"string":3,"fret":4,"beat":2,"finger":3},{"string":4,"fret":4,"beat":3,"finger":4},{"string":5,"fret":2,"beat":4,"finger":1}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

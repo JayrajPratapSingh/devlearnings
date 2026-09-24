@@ -114,6 +114,7 @@ sound fret 5 (A) without a second pick — the reverse motion.`,
       'Ek pull-off ko lower note ko actually clearly sound karwaane ke liye ek active sideways flick chahiye, straight lift nahi.',
       'Ye techniques ordinary rhythm playing mein constantly appear hoti hain, sirf solos mein nahi — ye ek core physical skill hain, ek exotic add-on nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"Hammer-on / pull-off, fret 5 to fret 7","titleHi":"Hammer-on / pull-off, fret 5 se fret 7","defaultBpm":70,"notes":[{"string":0,"fret":5,"beat":0},{"string":0,"fret":7,"beat":1}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -222,6 +223,7 @@ sound fret 5 (A) without a second pick — the reverse motion.`,
       'Bend accuracy check karo pehle equivalent fretted note ke against compare karke — purely feel par rely karne ke bajaye ek direct, verifiable method.',
       'Bending wo technique hai jo sabse commonly Module 22 ke blue note ko approach karne ke liye use hoti hai, directly is course ke improvisation material se connect karte hue.',
     ],
+    guitarPractice: { sequences: [{"title":"Bend target check — fret 5 vs fret 7 (G string)","titleHi":"Bend target check — fret 5 vs fret 7 (G string)","defaultBpm":60,"notes":[{"string":3,"fret":5,"beat":0},{"string":3,"fret":7,"beat":1}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

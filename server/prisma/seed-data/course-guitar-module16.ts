@@ -127,6 +127,7 @@ Same finger shape, just started from a different root string.`,
       'Ye ek full chord se mechanically easier hai: kam strings, ek compact shape, koi wide stretches ya crowded formations nahi.',
       'Sirf intended strings bajaana Module 5 ki selective-muting skill reuse karta hai, bas zyada strings tak extended.',
     ],
+    guitarPractice: { sequences: [{"title":"E5, root then 5th","titleHi":"E5, root phir 5th","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":2,"beat":1,"finger":1},{"string":2,"fret":2,"beat":2,"finger":3}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -236,6 +237,7 @@ Identical finger shape every time — only the starting fret changes.`,
       'Ye isliye kaam karta hai kyunki do notes starting fret ki parwah kiye bina ek fixed relationship maintain karte hain (Module 2 ka uniform-semitone-per-fret principle).',
       'Har fret par actual note jaanna (Module 18) hi wo hai jo ise ek mechanical trick se ek genuinely usable tool mein badalta hai.',
     ],
+    guitarPractice: { sequences: [{"title":"E5 sliding up to G5","titleHi":"E5 se G5 tak slide","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":2,"beat":1,"finger":1},{"string":2,"fret":2,"beat":2,"finger":3},{"string":0,"fret":3,"beat":4,"finger":1},{"string":1,"fret":5,"beat":5,"finger":3},{"string":2,"fret":5,"beat":6,"finger":4}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

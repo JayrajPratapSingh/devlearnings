@@ -256,6 +256,7 @@ high-e fret 8 = C   (root, octave)`,
       'Saari paanch shapes mein har single note confirmed hai ki chord ka root, 3rd, ya 5th hai — ek demonstrated fact, ek assumption nahi.',
       'Shapes end-to-end connect hoti hain bina gaps ke, ye hi hai jo "CAGED poori neck cover karta hai" concretely means karta hai.',
     ],
+    guitarPractice: { sequences: [{"title":"C — E-shape (fret 8)","titleHi":"C — E-shape (fret 8)","defaultBpm":70,"notes":[{"string":0,"fret":8,"beat":0,"finger":1},{"string":1,"fret":10,"beat":1,"finger":3},{"string":2,"fret":10,"beat":2,"finger":4},{"string":3,"fret":9,"beat":3,"finger":2},{"string":4,"fret":8,"beat":4,"finger":1},{"string":5,"fret":8,"beat":5,"finger":1}]},{"title":"C — A-shape (fret 3)","titleHi":"C — A-shape (fret 3)","defaultBpm":70,"notes":[{"string":1,"fret":3,"beat":0,"finger":1},{"string":2,"fret":5,"beat":1,"finger":2},{"string":3,"fret":5,"beat":2,"finger":3},{"string":4,"fret":5,"beat":3,"finger":4},{"string":5,"fret":3,"beat":4,"finger":1}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -361,5 +362,6 @@ Efficient: use the E-shape C (fret 8) — right where your hand already is.`,
       'Yahi "ek pattern, neck ki paanch connected positions" structure exactly wo hai jaise Module 22 ke pentatonic scale shapes organize hote hain.',
       'Ye Part VII (Music Theory) close karta hai: Modules 18-21 ne genuine fretboard understanding build ki — Part VIII ab us same foundation ko scales aur improvisation par apply karta hai.',
     ],
+    guitarPractice: { sequences: [{"title":"C — G-shape (fret 5)","titleHi":"C — G-shape (fret 5)","defaultBpm":65,"notes":[{"string":0,"fret":8,"beat":0,"finger":3},{"string":1,"fret":7,"beat":1,"finger":2},{"string":2,"fret":5,"beat":2,"finger":1},{"string":3,"fret":5,"beat":3,"finger":1},{"string":4,"fret":5,"beat":4,"finger":1},{"string":5,"fret":8,"beat":5,"finger":4}]}] },
   },
 ];

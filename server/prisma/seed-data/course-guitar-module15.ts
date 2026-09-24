@@ -143,6 +143,7 @@ Order: P, I, M, A — thumb first, then working up toward the high strings.`,
       'Fingerpicking strumming se ek genuinely alag picking-hand independence skill hai, uska variation nahi.',
       'Wahi chord shapes jo tumhe already pata hain fingerstyle bajaaye ja sakte hain — koi naye chords nahi, sirf unhe sound karne ke liye ek nayi technique.',
     ],
+    guitarPractice: { sequences: [{"title":"Am, classic p-i-m-a order","titleHi":"Am, classic p-i-m-a order","defaultBpm":70,"notes":[{"string":1,"fret":0,"beat":0},{"string":3,"fret":2,"beat":1,"finger":3},{"string":4,"fret":1,"beat":2,"finger":1},{"string":5,"fret":0,"beat":3}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -257,6 +258,7 @@ Step 2 (only once Step 1 is fully automatic):
       'Ye Lesson 1 se genuinely zyada difficult hai — true hand independence (do simultaneous rhythms), sequential finger motion nahi.',
       'Fingers add karne se pehle thumb pattern ko akele fully automatic hone tak isolate karo — ye step skip karna almost frustration guarantee karta hai.',
     ],
+    guitarPractice: { sequences: [{"title":"G, alternating-bass pattern","titleHi":"G, alternating-bass pattern","defaultBpm":75,"notes":[{"string":0,"fret":3,"beat":0,"finger":3},{"string":3,"fret":0,"beat":1},{"string":1,"fret":2,"beat":2,"finger":2},{"string":3,"fret":0,"beat":3}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

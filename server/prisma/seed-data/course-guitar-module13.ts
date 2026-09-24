@@ -132,6 +132,7 @@ Strum pattern, every bar: D _ D U _ U D U`,
       'Real songs repeated, recombined sections se bante hain — ab is structure ke saath practice karna ek transferable pattern-recognition habit banata hai.',
       'Combine karne se pehle har section ko separately loop karo, wahi chunking principle jo poore is course mein use hui hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Evening Walk — progression roots (Section A)","titleHi":"Evening Walk — progression ke roots (Section A)","defaultBpm":70,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":3,"beat":1},{"string":0,"fret":3,"beat":2},{"string":0,"fret":0,"beat":3}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */

@@ -6,7 +6,7 @@
  * safe and re-running after editing seed data updates the existing rows. It
  * never touches user data (progress, notes, submissions).
  */
-import { PrismaClient, type Prisma } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { dsaProblems } from './seed-data/dsa';
 import { JS_MODULE_1, type CourseLesson } from './seed-data/course-js-module1';
 import { JS_MODULE_1_PART2 } from './seed-data/course-js-module1-part2';
@@ -7048,6 +7048,7 @@ async function seedGuitarCourse(): Promise<{ modules: number; topics: number }> 
       readingPassage: lesson.readingPassage ?? null,
       readingPassageHi: lesson.readingPassageHi ?? null,
       vocabulary: json(lesson.vocabulary ?? []),
+      guitarPractice: lesson.guitarPractice ? json(lesson.guitarPractice) : Prisma.JsonNull,
       analogy: json(lesson.analogy ?? {}),
       examples: json(lesson.examples ?? []),
       mistakes: json(lesson.mistakes ?? []),

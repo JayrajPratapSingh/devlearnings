@@ -16,6 +16,8 @@ import { usePreferences } from '../../hooks/usePreferences';
 import { Markdown } from '../../components/Markdown';
 import { Teleprompter } from '../../components/Teleprompter';
 import { SpeakButton } from '../../components/SpeakButton';
+import { GuitarPracticePlayer, type PracticeSequence } from '../../components/GuitarPracticePlayer';
+import { GuitarHearingTest } from '../../components/GuitarHearingTest';
 import '../styles/topic-lesson.css';
 
 interface Example {
@@ -94,6 +96,10 @@ interface Topic {
   readingPassage?: string;
   readingPassageHi?: string;
   vocabulary?: VocabWord[];
+  guitarPractice?: {
+    sequences?: PracticeSequence[];
+    earTraining?: { string: number; fret: number }[];
+  };
   difficulty: string;
   duration: number;
   analogy?: { en?: string; hi?: string };
@@ -296,6 +302,41 @@ export default function TopicLesson() {
       {(topic.content || topic.contentHi) && (
         <Section id="detail" icon="🔍" title={lang === 'hi' ? 'Thoda Gehrai Mein' : 'Going Deeper'}>
           <Markdown content={t(topic.content ?? '', topic.contentHi)} />
+        </Section>
+      )}
+
+      {/* ── Guitar practice player: scrolling, speed-adjustable, audible ── */}
+      {!!topic.guitarPractice?.sequences?.length && (
+        <Section
+          id="guitar-practice"
+          icon="🎸"
+          title={lang === 'hi' ? 'Practice Karo' : 'Practice This'}
+        >
+          <GuitarPracticePlayer
+            sequences={topic.guitarPractice.sequences}
+            lang={lang}
+            hint={
+              lang === 'hi'
+                ? 'Speed slider se apni comfortable speed set karo, phir play dabao. Har note apne sahi pitch par bajega jab wo laal line cross karega.'
+                : 'Use the speed slider to set your own comfortable pace, then press play. Each note sounds at its real pitch as it crosses the red line.'
+            }
+          />
+        </Section>
+      )}
+
+      {/* ── Guitar hearing test: a small ear-training quiz ──────── */}
+      {!!topic.guitarPractice?.earTraining?.length && (
+        <Section
+          id="guitar-hearing-test"
+          icon="👂"
+          title={lang === 'hi' ? 'Hearing Test' : 'Hearing Test'}
+        >
+          <p className="speaking-intro">
+            {lang === 'hi'
+              ? 'Note bajega — sun kar pehchaano ki kaunsa note tha.'
+              : "Listen to the note, then pick which one it was."}
+          </p>
+          <GuitarHearingTest notePool={topic.guitarPractice.earTraining} lang={lang} />
         </Section>
       )}
 
