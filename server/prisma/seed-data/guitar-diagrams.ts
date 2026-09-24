@@ -107,7 +107,7 @@ export function chordSvg(spec: ChordSpec): string {
     const val = frets[i]!;
     if (val === 'x' || val === 0) continue;
     const x = stringX(i);
-    const y = fretY(val - 1) + FRET_GAP / 2;
+    const y = fretY(val - startFret) + FRET_GAP / 2;
     parts.push(`<circle cx="${x}" cy="${y}" r="12" fill="${DOT_FILL}"/>`);
     const fingerNum = fingers[i];
     if (fingerNum) {
