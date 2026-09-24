@@ -416,6 +416,79 @@ function noteAt(stringIndex: number, fret: number): string {
   return NOTE_NAMES[(openOffset + fret) % 12]!;
 }
 
+const CIRCLE_MAJORS = ['C', 'G', 'D', 'A', 'E', 'B', 'F#/Gb', 'Db', 'Ab', 'Eb', 'Bb', 'F'];
+const CIRCLE_MINORS = ['Am', 'Em', 'Bm', 'F#m', 'C#m', 'G#m', 'D#m/Ebm', 'Bbm', 'Fm', 'Cm', 'Gm', 'Dm'];
+const CIRCLE_ACCIDENTALS = ['0', '1#', '2#', '3#', '4#', '5#', '6#/6b', '5b', '4b', '3b', '2b', '1b'];
+
+/**
+ * The Circle of Fifths: 12 keys arranged clockwise by ascending perfect
+ * fifths, starting at C (12 o'clock). Three rings: major key (outer),
+ * relative minor (middle), sharp/flat count (inner). `highlight` marks
+ * specific key indices (0=C..11=F, matching CIRCLE_MAJORS order).
+ */
+export function circleOfFifthsSvg(highlight?: number[]): string {
+  const w = 460;
+  const h = 460;
+  const cx = w / 2;
+  const cy = h / 2;
+  const outerR = 185;
+  const midR = 138;
+  const innerR = 95;
+  const highlightSet = new Set(highlight ?? []);
+
+  const parts: string[] = [];
+  parts.push(
+    `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block;">`,
+  );
+  parts.push(`<rect x="0" y="0" width="${w}" height="${h}" fill="${DARK_BG}"/>`);
+  parts.push(`<circle cx="${cx}" cy="${cy}" r="${outerR + 24}" fill="none" stroke="${FRET_COLOR}" stroke-width="1"/>`);
+  parts.push(`<circle cx="${cx}" cy="${cy}" r="${midR + 20}" fill="none" stroke="${FRET_COLOR}" stroke-width="1"/>`);
+  parts.push(`<circle cx="${cx}" cy="${cy}" r="${innerR + 16}" fill="none" stroke="${FRET_COLOR}" stroke-width="1"/>`);
+
+  for (let i = 0; i < 12; i++) {
+    const angle = ((i * 30 - 90) * Math.PI) / 180;
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    const spokeInner = innerR - 16;
+    const spokeOuter = outerR + 24;
+    parts.push(
+      `<line x1="${cx + cos * spokeInner}" y1="${cy + sin * spokeInner}" x2="${cx + cos * spokeOuter}" y2="${cy + sin * spokeOuter}" stroke="${FRET_COLOR}" stroke-width="0.75"/>`,
+    );
+
+    const isHi = highlightSet.has(i);
+    const ox = cx + cos * outerR;
+    const oy = cy + sin * outerR;
+    if (isHi) {
+      parts.push(`<circle cx="${ox}" cy="${oy}" r="22" fill="${DIAG_ACCENT}" opacity="0.3"/>`);
+    }
+    parts.push(
+      `<text x="${ox}" y="${oy + 6}" fill="${isHi ? DIAG_ACCENT : LABEL_COLOR}" font-size="18" font-weight="800" text-anchor="middle" font-family="system-ui,sans-serif">${CIRCLE_MAJORS[i]}</text>`,
+    );
+
+    const mx = cx + cos * midR;
+    const my = cy + sin * midR;
+    parts.push(
+      `<text x="${mx}" y="${my + 4}" fill="${DIAG_MUTED}" font-size="13" font-weight="600" text-anchor="middle" font-family="system-ui,sans-serif">${CIRCLE_MINORS[i]}</text>`,
+    );
+
+    const ix = cx + cos * innerR;
+    const iy = cy + sin * innerR;
+    parts.push(
+      `<text x="${ix}" y="${iy + 3}" fill="#64748b" font-size="10" text-anchor="middle" font-family="monospace">${CIRCLE_ACCIDENTALS[i]}</text>`,
+    );
+  }
+
+  parts.push(
+    `<text x="${cx}" y="${cy + 4}" fill="${DIAG_MUTED}" font-size="11" text-anchor="middle" font-family="system-ui,sans-serif">outer=major</text>`,
+  );
+  parts.push(
+    `<text x="${cx}" y="${cy + 18}" fill="${DIAG_MUTED}" font-size="11" text-anchor="middle" font-family="system-ui,sans-serif">mid=rel.minor</text>`,
+  );
+
+  parts.push('</svg>');
+  return parts.join('');
+}
+
 /**
  * A full fretboard note map: 6 strings x (frets 0..maxFret), every note
  * named. `highlight` (optional) marks specific [stringIndex, fret] cells
