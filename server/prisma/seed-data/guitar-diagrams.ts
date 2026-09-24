@@ -19,6 +19,7 @@ export interface ChordSpec {
   fingers: [number | null, number | null, number | null, number | null, number | null, number | null];
   /** Which real fret the top of the diagram represents (>1 for chords up the neck). */
   startFret?: number;
+  /** `fret` is an absolute fret number (like `frets[]`), not relative to startFret. */
   barre?: { fret: number; fromString: number; toString: number };
 }
 
@@ -95,7 +96,7 @@ export function chordSvg(spec: ChordSpec): string {
   }
 
   if (barre) {
-    const y = fretY(barre.fret - 1) + FRET_GAP / 2;
+    const y = fretY(barre.fret - startFret) + FRET_GAP / 2;
     const x1 = stringX(barre.fromString);
     const x2 = stringX(barre.toString);
     parts.push(

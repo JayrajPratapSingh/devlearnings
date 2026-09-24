@@ -44,21 +44,60 @@ export const CHORDS = {
     frets: ['x', 2, 4, 4, 4, 2],
     fingers: [null, 1, 2, 3, 4, 1],
     startFret: 2,
-    barre: { fret: 1, fromString: 1, toString: 5 },
+    barre: { fret: 2, fromString: 1, toString: 5 },
   },
   Bm: {
     name: 'Bm (A-shape barre, 2nd fret)',
     frets: ['x', 2, 4, 4, 3, 2],
     fingers: [null, 1, 3, 4, 2, 1],
     startFret: 2,
-    barre: { fret: 1, fromString: 1, toString: 5 },
+    barre: { fret: 2, fromString: 1, toString: 5 },
   },
   CSharpMinor: {
     name: 'C#m (Am-shape barre, 4th fret)',
     frets: ['x', 4, 6, 6, 5, 4],
     fingers: [null, 1, 3, 4, 2, 1],
     startFret: 4,
-    barre: { fret: 1, fromString: 1, toString: 5 },
+    barre: { fret: 4, fromString: 1, toString: 5 },
+  },
+} satisfies Record<string, ChordSpec>;
+
+/**
+ * The CAGED system's 5 shapes, all producing the SAME chord (C major) at
+ * different neck positions — Module 21. Each one is the open C/A/G/E/D
+ * shape (Modules 4-5), made movable and slid to wherever C's root falls
+ * within that shape. `cShape` is simply `CHORDS.C` (open position) —
+ * repeated here so all 5 CAGED positions are available from one place.
+ */
+export const CAGED_C_SHAPES = {
+  cShape: CHORDS.C,
+  aShape: {
+    name: 'C (A-shape, 3rd fret)',
+    frets: ['x', 3, 5, 5, 5, 3],
+    fingers: [null, 1, 2, 3, 4, 1],
+    startFret: 3,
+    barre: { fret: 3, fromString: 1, toString: 5 },
+  },
+  gShape: {
+    name: 'C (G-shape, 5th fret)',
+    frets: [8, 7, 5, 5, 5, 8],
+    fingers: [3, 2, 1, 1, 1, 4],
+    startFret: 5,
+    barre: { fret: 5, fromString: 2, toString: 4 },
+  },
+  eShape: {
+    name: 'C (E-shape, 8th fret)',
+    frets: [8, 10, 10, 9, 8, 8],
+    fingers: [1, 3, 4, 2, 1, 1],
+    startFret: 8,
+    barre: { fret: 8, fromString: 0, toString: 5 },
+  },
+  dShape: {
+    name: 'C (D-shape, 10th fret)',
+    frets: ['x', 'x', 10, 12, 13, 12],
+    fingers: [null, null, 4, 1, 3, 1],
+    startFret: 10,
+    barre: { fret: 12, fromString: 3, toString: 5 },
   },
 } satisfies Record<string, ChordSpec>;
 
