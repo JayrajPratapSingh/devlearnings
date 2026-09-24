@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { cx } from './ui';
 import { useCursorSpotlight } from '../hooks/useMagnetic';
+import { api } from '../services/api';
 
 /**
  * The left half of the auth screen — a looping tour of what the app actually does.
@@ -22,12 +23,56 @@ const SOLUTION = `def two_sum(arr, target):
             return [seen[target - x], i]
         seen[x] = i`;
 
-const STATS = [
-  { value: '41', label: 'DSA problems' },
-  { value: '62', label: 'topics' },
-  { value: '34', label: 'interview Qs' },
-  { value: '3', label: 'languages' },
-];
+interface PublicStats {
+  dsaProblems: number;
+  topics: number;
+  interviewQuestions: number;
+  languages: number;
+}
+
+// Shown while the real counts are loading (and if the fetch fails) — round,
+// clearly-approximate numbers rather than a specific stale figure, so a
+// slow network never displays a wrong-but-precise-looking claim.
+const FALLBACK_STATS: PublicStats = { dsaProblems: 300, topics: 500, interviewQuestions: 200, languages: 3 };
+
+// Fetched once per page load and shared by both `AuthShowcase` and
+// `AuthStatStrip` (mounted together, one hidden by CSS per breakpoint) so
+// switching screen size never triggers a second network call.
+let statsPromise: Promise<PublicStats> | null = null;
+
+function usePublicStats(): PublicStats {
+  const [stats, setStats] = useState<PublicStats>(FALLBACK_STATS);
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!statsPromise) statsPromise = api.get<PublicStats>('/stats/public');
+    statsPromise
+      .then((s) => {
+        if (!cancelled) setStats(s);
+      })
+      .catch(() => {
+        // Don't cache a failure — a transient blip should retry on the next
+        // mount instead of showing fallback numbers for the rest of the tab's
+        // life. Fallback is already showing either way, so nothing is broken
+        // in the meantime.
+        statsPromise = null;
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  return stats;
+}
+
+function statCards(stats: PublicStats): { value: string; label: string }[] {
+  return [
+    { value: String(stats.dsaProblems), label: 'DSA problems' },
+    { value: String(stats.topics), label: 'topics' },
+    { value: String(stats.interviewQuestions), label: 'interview Qs' },
+    { value: String(stats.languages), label: 'languages' },
+  ];
+}
 
 const SCENES = [
   { id: 'solve', label: 'Solve', ms: 9000 },
@@ -338,6 +383,7 @@ function SplitWords({ text, className }: { text: string; className?: string }) {
 
 export function AuthShowcase() {
   const reduced = useReducedMotion();
+  const stats = statCards(usePublicStats());
   const [index, setIndex] = useState(0);
   const timer = useRef<number>(0);
   const headlineRef = useRef<HTMLDivElement>(null);
@@ -488,7 +534,7 @@ export function AuthShowcase() {
           ))}
 
           <div className="ml-auto flex gap-6">
-            {STATS.slice(0, 2).map((s) => (
+            {stats.slice(0, 2).map((s) => (
               <div key={s.label} className="text-right">
                 <span className="font-mono text-[15px] font-semibold tabular-nums text-content">
                   {s.value}
@@ -507,9 +553,10 @@ export function AuthShowcase() {
 
 /** Compact version for narrow screens, where the tour panel is hidden. */
 export function AuthStatStrip() {
+  const stats = statCards(usePublicStats());
   return (
     <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 lg:hidden">
-      {STATS.map((s) => (
+      {stats.map((s) => (
         <div key={s.label} className="text-center">
           <p className="font-mono text-[15px] font-semibold tabular-nums text-content">{s.value}</p>
           <p className="text-[10px] uppercase tracking-wider text-content-subtle">{s.label}</p>

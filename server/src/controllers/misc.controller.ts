@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import type { BookmarkKind, Difficulty, LearningStatus } from '@prisma/client';
 import { currentUser } from '../middleware/auth';
+import { prisma } from '../config/prisma';
 import { questionService } from '../services/question.service';
 import { noteService } from '../services/note.service';
 import { bookmarkService } from '../services/bookmark.service';
@@ -8,6 +9,33 @@ import { progressService } from '../services/progress.service';
 import { revisionService } from '../services/revision.service';
 import { mockInterviewService } from '../services/mock-interview.service';
 import { searchService } from '../services/search.service';
+
+/**
+ * Real, live platform totals for the sign-in screen's stat strip — no
+ * auth, since a visitor sees this before ever logging in. These numbers
+ * used to be hardcoded and went stale as content grew; counting the
+ * actual rows means the claim on screen can never drift from reality.
+ */
+export const statsController = {
+  async public_(_req: Request, res: Response): Promise<void> {
+    const [dsaProblems, libraryTopics, courseTopics, interviewQuestions] = await Promise.all([
+      prisma.dSAProblem.count(),
+      prisma.topic.count(),
+      prisma.courseTopic.count(),
+      prisma.interviewQuestion.count(),
+    ]);
+
+    res.json({
+      dsaProblems,
+      topics: libraryTopics + courseTopics,
+      interviewQuestions,
+      // The sandbox runs exactly 3 languages (execution-service's RUNNERS
+      // map: javascript, nodejs, python) — a fixed platform fact, not
+      // something that needs a database round trip to state correctly.
+      languages: 3,
+    });
+  },
+};
 
 export const questionController = {
   async categories(req: Request, res: Response): Promise<void> {

@@ -16,6 +16,7 @@ import {
   questionController,
   revisionController,
   searchController,
+  statsController,
 } from '../controllers/misc.controller';
 
 const router = Router();
@@ -28,6 +29,9 @@ router.use('/topics', topicRoutes);
 router.use('/dsa', dsaRoutes);
 router.use('/code', codeRoutes);
 router.use('/', courseRoutes);
+
+// Public — the sign-in screen shows this before a visitor has an account.
+router.get('/stats/public', asyncHandler(statsController.public_));
 
 /* ---------------------------------- questions --------------------------------- */
 const questions = Router();
