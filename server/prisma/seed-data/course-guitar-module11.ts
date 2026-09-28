@@ -116,6 +116,7 @@ Example B: "My chord changes are usually fine, but sometimes I completely blank.
       'Ek later skill ka plateau aksar ek earlier, under-solidified skill hoti hai jo trouble cause kar rahi hai — assume karne se pehle trace back karo ki problem wahin hai jahan wo appear hoti hai.',
       'Har slow patch ek plateau nahi hai — kuch skills (barre chords, lead guitar) ko naturally visible progress dikhane mein zyada time lagta hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Am to C — test this exact transition","titleHi":"Am se C — exactly isi transition ko test karo","defaultBpm":70,"notes":[{"string":1,"fret":0,"beat":0},{"string":2,"fret":2,"beat":1,"finger":2},{"string":3,"fret":2,"beat":2,"finger":3},{"string":4,"fret":1,"beat":3,"finger":1},{"string":5,"fret":0,"beat":4},{"string":1,"fret":3,"beat":5,"finger":3},{"string":2,"fret":2,"beat":6,"finger":2},{"string":3,"fret":0,"beat":7},{"string":4,"fret":1,"beat":8,"finger":1},{"string":5,"fret":0,"beat":9}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -216,6 +217,7 @@ That single, specific finding is this week's actionable takeaway.`,
       'Ek time par ek specific focus ke saath review karo, recording se pehle decide kiya hua — sab kuch ek saath evaluate karna attention ko overload karta hai bilkul waise jaise ek saath multiple naye skills practice karna karta hai.',
       'Zyadatar learners ke liye weekly recording kaafi hai — ye ek diagnostic tool hai, daily requirement nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"Record yourself playing this, then listen back","titleHi":"Ise bajaate hue apne aap ko record karo, phir wapas suno","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":2,"beat":1,"finger":2},{"string":2,"fret":2,"beat":2,"finger":3},{"string":3,"fret":0,"beat":3},{"string":4,"fret":0,"beat":4},{"string":5,"fret":0,"beat":5}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -331,5 +333,6 @@ Warning sign (stop, rest, reassess):
       'Full-body tension (shoulders, jaw) often hand tension ke saath correlate karta hai — ek quick full-body check ek useful proxy hai.',
       'Kuch rest days se aage persistent symptoms ek real medical opinion warrant karte hain, aur zyada guitar-specific troubleshooting nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"Light touch, two frets, no death grip","titleHi":"Light touch, do frets, death grip nahi","defaultBpm":60,"notes":[{"string":1,"fret":2,"beat":0,"finger":2},{"string":2,"fret":2,"beat":1,"finger":3}]}] },
   },
 ];

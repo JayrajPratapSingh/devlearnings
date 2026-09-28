@@ -406,5 +406,6 @@ Sun: Rest`,
       'Kabhi "catch up" karne ke liye marathon-session mat karo — short sessions ke across consistency calluses aur skill ko long infrequent ones se faster banati hai.',
       'Dull, fading soreness normal hai. Sharp ya non-improving pain matlab us din ke liye ruk jao.',
     ],
+    guitarPractice: { sequences: [{"title":"What a short daily session looks like","titleHi":"Ek chhota daily session kaisa dikhta hai","defaultBpm":70,"notes":[{"string":0,"fret":1,"beat":0,"finger":1},{"string":0,"fret":2,"beat":1,"finger":2},{"string":0,"fret":3,"beat":2,"finger":3},{"string":0,"fret":4,"beat":3,"finger":4}]}] },
   },
 ];

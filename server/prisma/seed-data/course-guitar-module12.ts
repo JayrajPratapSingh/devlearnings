@@ -127,6 +127,7 @@ Metronome app:
       'Ek metronome app ko small tempo increments, ek clear click, aur ideally ek visual beat indicator chahiye.',
       'Reputable apps ke free tiers ek beginner aur intermediate ki needs ko fully cover karte hain — options compare karne mein zyada time over-invest mat karo.',
     ],
+    guitarPractice: { sequences: [{"title":"Four steady clicks","titleHi":"Chaar steady clicks","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":0,"beat":1},{"string":0,"fret":0,"beat":2},{"string":0,"fret":0,"beat":3}]}], earTraining: [{"string":0,"fret":0},{"string":1,"fret":0},{"string":2,"fret":0},{"string":3,"fret":0},{"string":4,"fret":0},{"string":5,"fret":0}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -235,6 +236,7 @@ Metronome app:
       'Ye kaan se fast riffs/patterns seekhna dramatically zyada accessible banata hai, especially jab tumhari ear-training skill abhi bhi develop ho rahi ho.',
       'Ise ek accelerant ki tarah use karo, permanent crutch nahi — underlying ear-training skill ko exercise karte rehne ke liye periodically pehle full-speed listening attempt karo.',
     ],
+    guitarPractice: { sequences: [{"title":"A looped progression, deliberately slow","titleHi":"Ek looped progression, deliberately slow","defaultBpm":50,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":8,"beat":1},{"string":0,"fret":3,"beat":2},{"string":0,"fret":10,"beat":3}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -338,5 +340,6 @@ Recording:    weekly, for self-diagnosis (Module 11).`,
       'Ye course sequence karta hai ki KAB har tool use karna hai, options ke unguided abundance ke decision-paralysis risk ko hata dete hue.',
       'Toolkit chhota aur sufficient hai (tuner, metronome, slow-downer, self-recording) — use ki depth zyada tools collect karne se better hai.',
     ],
+    guitarPractice: { sequences: [{"title":"A modern tool in action: the click","titleHi":"Ek modern tool in action: click","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":0,"beat":1},{"string":0,"fret":0,"beat":2},{"string":0,"fret":0,"beat":3}]}] },
   },
 ];

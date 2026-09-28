@@ -112,6 +112,7 @@ Chunk it:
       'Chunking: ek time par ek saath kai juggle karne ke bajaye ek unautomated skill ko isolate karo, phir har ek solid hone par deliberately unhe recombine karo.',
       'Dono principles Module 1 se implicitly use ho rahe hain — ye lesson unhe naam deta hai taaki tum unhe kisi bhi future skill par deliberately apply kar sako.',
     ],
+    guitarPractice: { sequences: [{"title":"Em split into two small chunks","titleHi":"Em do chhote chunks mein split","defaultBpm":70,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":2,"beat":1,"finger":2},{"string":2,"fret":2,"beat":2,"finger":3},{"string":3,"fret":0,"beat":4},{"string":4,"fret":0,"beat":5},{"string":5,"fret":0,"beat":6}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -213,6 +214,7 @@ but because the error rate jumped sharply. Stay at tempo A
       '"Bahut fast" ka matlab hai meaningfully higher error rate, sirf effort ya discomfort nahi — seekhte waqt effort normal hai.',
       'Ye principle course ke baaki hisse mein recur hota hai (barre chords, lead guitar) — ise recognize karna har baar response ko re-learn karne se bachaata hai.',
     ],
+    guitarPractice: { sequences: [{"title":"The 1-2-3-4 exercise — start slow, raise the slider","titleHi":"Yahi 1-2-3-4 exercise — slow shuru karo, slider badhao","defaultBpm":50,"notes":[{"string":0,"fret":1,"beat":0,"finger":1},{"string":0,"fret":2,"beat":1,"finger":2},{"string":0,"fret":3,"beat":2,"finger":3},{"string":0,"fret":4,"beat":3,"finger":4}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -321,5 +323,6 @@ but because the error rate jumped sharply. Stay at tempo A
       'Cool-down phase optional nahi hai — ye long-term motivation aur practice habit ko khud protect karta hai.',
       'Short din par ek phase poori tarah drop karne ke bajaye proportionally compress karo.',
     ],
+    guitarPractice: { sequences: [{"title":"A warm-up minute, before the real practice","titleHi":"Ek warm-up minute, real practice se pehle","defaultBpm":60,"notes":[{"string":0,"fret":1,"beat":0,"finger":1},{"string":0,"fret":2,"beat":1,"finger":2},{"string":0,"fret":3,"beat":2,"finger":3},{"string":0,"fret":4,"beat":3,"finger":4}]}] },
   },
 ];

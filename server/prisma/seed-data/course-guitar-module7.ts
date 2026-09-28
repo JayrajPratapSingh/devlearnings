@@ -117,6 +117,7 @@ export const GUITAR_MODULE_7: CourseLesson[] = [
       'Forearm relatively still aur relaxed rehta hai, primary motion ke bajaye positioning provide karte hue.',
       'Ek tense, stiff wrist mein overcorrect karne se bacho — looseness utni hi matter karti hai jitna motion ka source.',
     ],
+    guitarPractice: { sequences: [{"title":"Em, struck on every beat","titleHi":"Em, har beat par struck","defaultBpm":75,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":2,"beat":0},{"string":2,"fret":2,"beat":0},{"string":3,"fret":0,"beat":0},{"string":4,"fret":0,"beat":0},{"string":5,"fret":0,"beat":0},{"string":0,"fret":0,"beat":1},{"string":1,"fret":2,"beat":1},{"string":2,"fret":2,"beat":1},{"string":3,"fret":0,"beat":1},{"string":4,"fret":0,"beat":1},{"string":5,"fret":0,"beat":1},{"string":0,"fret":0,"beat":2},{"string":1,"fret":2,"beat":2},{"string":2,"fret":2,"beat":2},{"string":3,"fret":0,"beat":2},{"string":4,"fret":0,"beat":2},{"string":5,"fret":0,"beat":2},{"string":0,"fret":0,"beat":3},{"string":1,"fret":2,"beat":3},{"string":2,"fret":2,"beat":3},{"string":3,"fret":0,"beat":3},{"string":4,"fret":0,"beat":3},{"string":5,"fret":0,"beat":3}]}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -215,6 +216,7 @@ export const GUITAR_MODULE_7: CourseLesson[] = [
       'Ye Lesson 1 se connect hota hai: ek natural wrist pivot automatically correct pick angle introduce karta hai.',
       'Pick thickness bhi attack sound ko affect karti hai — angle ke saath experiment karne layak.',
     ],
+    guitarPractice: { sequences: [{"title":"Consistent attack, one string, six hits","titleHi":"Consistent attack, ek string, chhah hits","defaultBpm":90,"notes":[{"string":1,"fret":0,"beat":0},{"string":1,"fret":0,"beat":1},{"string":1,"fret":0,"beat":2},{"string":1,"fret":0,"beat":3},{"string":1,"fret":0,"beat":4},{"string":1,"fret":0,"beat":5}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */
@@ -320,5 +322,6 @@ export const GUITAR_MODULE_7: CourseLesson[] = [
       'Pressure subtle warmth se tight percussive "chugging" tak ek spectrum hai, on/off setting nahi.',
       'Ye Module 8 ki percussive "chuck" strumming technique ki direct foundation hai.',
     ],
+    guitarPractice: { sequences: [{"title":"Fully muted percussive hits","titleHi":"Fully muted percussive hits","defaultBpm":80,"notes":[{"string":0,"fret":0,"beat":0,"duration":0.15},{"string":1,"fret":2,"beat":0,"duration":0.15},{"string":2,"fret":2,"beat":0,"duration":0.15},{"string":3,"fret":0,"beat":0,"duration":0.15},{"string":4,"fret":0,"beat":0,"duration":0.15},{"string":5,"fret":0,"beat":0,"duration":0.15},{"string":0,"fret":0,"beat":1,"duration":0.15},{"string":1,"fret":2,"beat":1,"duration":0.15},{"string":2,"fret":2,"beat":1,"duration":0.15},{"string":3,"fret":0,"beat":1,"duration":0.15},{"string":4,"fret":0,"beat":1,"duration":0.15},{"string":5,"fret":0,"beat":1,"duration":0.15},{"string":0,"fret":0,"beat":2,"duration":0.15},{"string":1,"fret":2,"beat":2,"duration":0.15},{"string":2,"fret":2,"beat":2,"duration":0.15},{"string":3,"fret":0,"beat":2,"duration":0.15},{"string":4,"fret":0,"beat":2,"duration":0.15},{"string":5,"fret":0,"beat":2,"duration":0.15},{"string":0,"fret":0,"beat":3,"duration":0.15},{"string":1,"fret":2,"beat":3,"duration":0.15},{"string":2,"fret":2,"beat":3,"duration":0.15},{"string":3,"fret":0,"beat":3,"duration":0.15},{"string":4,"fret":0,"beat":3,"duration":0.15},{"string":5,"fret":0,"beat":3,"duration":0.15}]}] },
   },
 ];

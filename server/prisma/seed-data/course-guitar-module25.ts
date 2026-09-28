@@ -332,5 +332,6 @@ using the exact same one-finger shape.`,
       'Drop D tuning (low-E ek whole step lowered) ek genuinely easy, high-payoff entry point hai: ye neeche ki 3 strings ko kisi bhi fret par ek-finger movable power chord shape mein badal deta hai.',
       'Ye module Part IX ke technique arc ko honestly close karta hai — real depth jahan course meaningfully sikha sakta hai, honest scope-setting jahan ek skill ko kisi bhi single lesson se pare dedicated practice chahiye.',
     ],
+    guitarPractice: { sequences: [{"title":"A quick ascending taste (standard tuning)","titleHi":"Ek quick ascending taste (standard tuning)","defaultBpm":100,"notes":[{"string":0,"fret":0,"beat":0},{"string":1,"fret":2,"beat":1},{"string":2,"fret":2,"beat":2}]}] },
   },
 ];

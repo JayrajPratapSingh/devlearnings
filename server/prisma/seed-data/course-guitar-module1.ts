@@ -178,6 +178,7 @@ T = thumb (stays behind the neck, never presses strings for now)`,
       'Frets ko metal strip ke bilkul peeche (upar nahi) dabaya jaata hai, jo vibrating string length chhoti karke pitch upar uthata hai.',
       'Acoustic vs electric ek preference hai, "better/worse" choice nahi — technique dono taraf directly transfer hoti hai.',
     ],
+    guitarPractice: { earTraining: [{"string":0,"fret":0},{"string":1,"fret":0},{"string":2,"fret":0},{"string":3,"fret":0},{"string":4,"fret":0},{"string":5,"fret":0}] },
   },
 
   /* ══════════════════════ Lesson 2 ══════════════════════ */
@@ -301,6 +302,7 @@ T = thumb (stays behind the neck, never presses strings for now)`,
       'Pick ko thumb aur index finger ke beech pakdo, sirf 3-5mm tip exposed ke saath.',
       'Week one mein bani ek bad posture ya grip habit baad mein unlearn karna expensive hai — abhi fix karo, eventually nahi.',
     ],
+    guitarPractice: { sequences: [{"title":"Steady pick attack, one string","titleHi":"Steady pick attack, ek string par","defaultBpm":70,"notes":[{"string":0,"fret":0,"beat":0},{"string":0,"fret":0,"beat":1},{"string":0,"fret":0,"beat":2},{"string":0,"fret":0,"beat":3}]}] },
   },
 
   /* ══════════════════════ Lesson 3 ══════════════════════ */

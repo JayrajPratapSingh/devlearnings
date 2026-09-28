@@ -223,6 +223,7 @@ critically listen back" practice habit — no purchase required.`,
       'Almost saara tone-shaping gear chaar categories mein aata hai: EQ, gain/distortion, time-based effects, aur modulation — inhe samajhna kisi bhi specific gear ke lifespan se zyada chalta hai.',
       'Is poore course ki har technique basic, inexpensive equipment par kaam karti hai — gear ek already-developed sound ko refine karta hai, ye kabhi fundamentals ka substitute nahi hota.',
     ],
+    guitarPractice: { sequences: [{"title":"Record yourself playing this to test your setup","titleHi":"Apne setup test karne ke liye ise record karo","defaultBpm":80,"notes":[{"string":1,"fret":3,"beat":0,"finger":3},{"string":2,"fret":2,"beat":1,"finger":2},{"string":3,"fret":0,"beat":2},{"string":4,"fret":1,"beat":3,"finger":1},{"string":5,"fret":0,"beat":4}]}] },
   },
 
   /* ══════════════════════ Lesson 3 (FINAL LESSON) ══════════════════════ */
